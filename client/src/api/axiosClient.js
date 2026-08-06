@@ -11,8 +11,10 @@ if (!apiUrl || typeof apiUrl !== "string" || !apiUrl.endsWith("/api")) {
   );
 }
 
+const resolvedBaseURL = apiUrl || "/api";
+
 const api = axios.create({
-  baseURL: apiUrl,
+  baseURL: resolvedBaseURL,
   withCredentials: true, // needed to send / receive the httpOnly refresh cookie
   // NOTE: no global Content-Type default. axios sets it per-request —
   // application/json for plain objects, multipart/form-data (with a boundary)

@@ -27,10 +27,11 @@ const createRefreshToken = (userId) =>
   });
 
 const setRefreshTokenCookie = (res, refreshToken) => {
+  const isProduction = process.env.NODE_ENV === "production";
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "strict",
     maxAge: REFRESH_COOKIE_MAX_AGE,
   });
 };
@@ -235,13 +236,14 @@ export const logout = async (req, res, next) => {
       }
     }
 
+    const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "strict",
     });
 
-        res.json({ message: "Logged out successfully" });
+    res.json({ message: "Logged out successfully" });
   } catch (error) {
     next(error);
   }
