@@ -1,6 +1,7 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
 import { interviewLimiter } from "../middleware/featureLimiters.js";
+import { checkDbConnection } from "../middleware/errorHandler.js";
 import {
   startInterview,
   answerQuestion,
@@ -10,6 +11,9 @@ import {
 } from "../controllers/interviewController.js";
 
 const router = express.Router();
+
+// Check database connection before processing any requests
+router.use(checkDbConnection);
 
 // All routes protected by verifyAccessToken and interviewLimiter
 router.use(verifyAccessToken, interviewLimiter);

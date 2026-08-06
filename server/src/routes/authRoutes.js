@@ -3,6 +3,7 @@ import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import { body } from "express-validator";
 import validate from "../middleware/validate.js";
 import { verifyAccessToken } from "../middleware/auth.js";
+import { checkDbConnection } from "../middleware/errorHandler.js";
 import {
   register,
   verifyOtp,
@@ -14,6 +15,9 @@ import {
 } from "../controllers/authController.js";
 
 const router = Router();
+
+// Check database connection before processing any auth requests
+router.use(checkDbConnection);
 
 const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,

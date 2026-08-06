@@ -9,4 +9,17 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).json({ message: "Something went wrong" });
 };
 
-export default errorHandler;
+// Check if MongoDB is connected before processing requests
+const checkDbConnection = (req, res, next) => {
+  const mongoose = req.app.locals.mongoose || (await import("mongoose")).default;
+  
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({ 
+      message: "Database temporarily unavailable. Please try again later." 
+    });
+  }
+  
+  next();
+};
+
+export { errorHandler as default, checkDbConnection };
