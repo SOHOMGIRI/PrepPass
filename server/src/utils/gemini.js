@@ -12,28 +12,42 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
  */
 export async function callGeminiJSON(prompt) {
   const executeCall = async () => {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      },
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3.1-flash-lite",
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json",
+        },
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
 
-    let text = response.text;
-    if (!text) {
-      throw new Error("Empty response from Gemini");
+      let text = response.text;
+      if (!text) {
+        throw new Error("Empty response from Gemini");
+      }
+
+      // Strip any accidental markdown code fences (```json or ```)
+      text = text.trim();
+      if (text.startsWith("```")) {
+        text = text.replace(/^```(?:json)?\s*/i, "");
+        text = text.replace(/\s*```$/, "");
+      }
+      text = text.trim();
+
+      return JSON.parse(text);
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === "AbortError") {
+        const err = new Error("Gemini request timed out after 15s");
+        err.operation = "gemini-generateContent";
+        throw err;
+      }
+      throw error;
     }
-
-    // Strip any accidental markdown code fences (```json or ```)
-    text = text.trim();
-    if (text.startsWith("```")) {
-      text = text.replace(/^```(?:json)?\s*/i, "");
-      text = text.replace(/\s*```$/, "");
-    }
-    text = text.trim();
-
-    return JSON.parse(text);
   };
 
   try {
