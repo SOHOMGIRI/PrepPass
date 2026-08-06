@@ -3,6 +3,7 @@ import NavBar from "../components/landing/NavBar.jsx";
 import Hero from "../components/landing/Hero.jsx";
 import HowItWorks from "../components/landing/HowItWorks.jsx";
 import AdmitCard from "../components/landing/AdmitCard.jsx";
+import Footer from "../components/landing/Footer.jsx";
 import { Link } from "react-router-dom";
 
 function PricingSection() {
