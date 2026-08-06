@@ -1,8 +1,18 @@
 import axios from "axios";
 import { tokenStore } from "./tokenStore.js";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
+if (!apiUrl || typeof apiUrl !== "string" || !apiUrl.endsWith("/api")) {
+  console.warn(
+    `[CONFIG] VITE_API_URL is misconfigured: "${apiUrl}". ` +
+      `It should be set to your API base URL ending with "/api", ` +
+      `e.g. "https://preppass-api.onrender.com/api".`
+  );
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: apiUrl,
   withCredentials: true, // needed to send / receive the httpOnly refresh cookie
   // NOTE: no global Content-Type default. axios sets it per-request —
   // application/json for plain objects, multipart/form-data (with a boundary)

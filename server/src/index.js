@@ -3,12 +3,12 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import mongoSanitize from "express-mongo-sanitize";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import { globalLimiter } from "./middleware/rateLimiter.js";
+import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 const REQUIRED_ENV_VARS = [
@@ -24,6 +24,15 @@ for (const envVar of REQUIRED_ENV_VARS) {
   if (!process.env[envVar]?.trim()) {
     throw new Error(`Missing required environment variable: ${envVar}`);
   }
+}
+
+// Warn loudly if CLIENT_URL is misconfigured so it's obvious in Render logs.
+const rawClientUrl = process.env.CLIENT_URL.trim();
+if (!rawClientUrl.startsWith("http")) {
+  console.warn(
+    `[CONFIG] CLIENT_URL is set to "${rawClientUrl}" but does not start with "http". ` +
+      `CORS will not match any origin. Fix CLIENT_URL in your environment variables.`
+  );
 }
 
 const app = express();
@@ -44,15 +53,18 @@ app.use(helmet({
     },
   },
 }));
-app.use(mongoSanitize());
-app.use(globalLimiter);
+
+const CLIENT_URL = rawClientUrl.replace(/\/$/, "");
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: CLIENT_URL,
     credentials: true,
   })
 );
 app.use(cookieParser());
+app.use(sanitize);
+app.use(globalLimiter);
 app.use(express.json({ limit: "10kb" }));
 
 app.get("/api/health", (req, res) => {
