@@ -1,3 +1,6 @@
+import { setDefaultResultOrder } from "node:dns";
+setDefaultResultOrder("ipv4first");
+
 import "dotenv/config";
 import express from "express";
 import helmet from "helmet";
@@ -36,6 +39,7 @@ if (!rawClientUrl.startsWith("http")) {
 }
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 5000;
 
 // Security middleware

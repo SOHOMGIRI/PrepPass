@@ -91,6 +91,16 @@ api.interceptors.response.use(
         tokenStore.set(newAccessToken);
         return newAccessToken;
       })
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          // No valid session — normal for first-time visitors, not a failure.
+          tokenStore.clear();
+          return Promise.reject(
+            Object.assign(new Error("No valid session"), { status: 401 })
+          );
+        }
+        return Promise.reject(err);
+      })
       .finally(() => {
         isRefreshing = false;
       });
@@ -101,7 +111,12 @@ api.interceptors.response.use(
       // Retry the original request once, now with the fresh token.
       return api(config);
     } catch (refreshError) {
-      // Refresh also failed → hard expire: log the user out.
+      // 401 on refresh means no valid session — treat as normal "not logged in"
+      // rather than a hard error that triggers a logout/navigation.
+      if (refreshError.status === 401) {
+        return Promise.reject(refreshError);
+      }
+      // Refresh also failed for other reasons → hard expire: log the user out.
       const handler = tokenStore.getLogoutHandler();
       if (handler) handler();
       return Promise.reject(refreshError);

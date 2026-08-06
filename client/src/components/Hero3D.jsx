@@ -64,7 +64,7 @@ function Scene() {
   const mouse = useRef({ x: 0, y: 0 });
   const { gl } = useThree();
 
-  // Pointer tracking + transparent background.
+  // Pointer tracking + transparent background + context-loss handling.
   useEffect(() => {
     gl.setClearAlpha(0);
     const el = gl.domElement;
@@ -76,13 +76,37 @@ function Scene() {
       };
     };
     const onLeave = () => (mouse.current = { x: 0, y: 0 });
+    const onContextLost = (e) => {
+      e.preventDefault();
+      console.warn("WebGL context lost. Attempting auto-restore...");
+    };
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", onLeave);
+    el.addEventListener("webglcontextlost", onContextLost);
     return () => {
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
+      el.removeEventListener("webglcontextlost", onContextLost);
     };
   }, [gl]);
+
+  // Dispose geometries and materials when Scene unmounts.
+  useEffect(() => {
+    return () => {
+      if (group.current) {
+        group.current.traverse((child) => {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach((m) => m.dispose());
+            } else {
+              child.material.dispose();
+            }
+          }
+        });
+      }
+    };
+  }, []);
 
   // Slow spin + subtle mouse parallax. Smooth and cheap at ~10 meshes.
   useFrame((state) => {
@@ -123,6 +147,16 @@ export default function Hero3D() {
         gl={{ alpha: true, antialias: true, stencil: false, depth: true }}
         dpr={[1, 1.5]}
         frameloop="always"
+        onCreated={({ gl }) => {
+          const canvas = gl.domElement;
+          const handler = (e) => {
+            e.preventDefault();
+            console.warn(
+              "WebGL context lost. Attempting auto-restore..."
+            );
+          };
+          canvas.addEventListener("webglcontextlost", handler);
+        }}
       >
         <Scene />
       </Canvas>
