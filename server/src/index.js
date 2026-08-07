@@ -1,3 +1,14 @@
+import dns from "node:dns";
+const originalLookup = dns.lookup;
+dns.lookup = (hostname, options, callback) => {
+  if (typeof options === "function") {
+    callback = options;
+    options = {};
+  }
+  options = { ...options, family: 4 };
+  return originalLookup(hostname, options, callback);
+};
+
 import { setGlobalDispatcher, Agent } from "undici";
 setGlobalDispatcher(new Agent({ connect: { family: 4 } }));
 
