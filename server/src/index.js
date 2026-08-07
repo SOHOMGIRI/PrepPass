@@ -1,3 +1,6 @@
+import { setGlobalDispatcher, Agent } from "undici";
+setGlobalDispatcher(new Agent({ connect: { family: 4 } }));
+
 import { setDefaultResultOrder } from "node:dns";
 setDefaultResultOrder("ipv4first");
 
