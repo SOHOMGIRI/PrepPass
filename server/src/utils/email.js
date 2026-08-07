@@ -1,21 +1,33 @@
 import nodemailer from "nodemailer";
-import dns from "node:dns";
+import { lookup } from "node:dns/promises";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  lookup: (hostname, options, callback) => {
-    return dns.lookup(hostname, { family: 4 }, callback);
-  },
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_APP_PASSWORD,
-  },
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
-});
+const getGmailTransporter = async () => {
+  let host = "smtp.gmail.com";
+  try {
+    const res = await lookup("smtp.gmail.com", { family: 4 });
+    if (res && res.address) {
+      host = res.address;
+    }
+  } catch (err) {
+    console.warn("[EMAIL] IPv4 lookup for smtp.gmail.com failed, falling back to domain:", err.message);
+  }
+
+  return nodemailer.createTransport({
+    host,
+    port: 587,
+    secure: false,
+    tls: {
+      servername: "smtp.gmail.com",
+    },
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_APP_PASSWORD,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+  });
+};
 
 export const sendOtpEmail = async (to, otp) => {
   const html = `
@@ -53,6 +65,8 @@ export const sendOtpEmail = async (to, otp) => {
       </body>
     </html>
   `;
+
+  const transporter = await getGmailTransporter();
 
   await transporter.sendMail({
     from: `"PrepPass" <${process.env.EMAIL_USER}>`,
