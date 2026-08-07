@@ -9,6 +9,17 @@ dns.lookup = (hostname, options, callback) => {
   return originalLookup(hostname, options, callback);
 };
 
+if (dns.promises && dns.promises.lookup) {
+  const originalPromisesLookup = dns.promises.lookup;
+  dns.promises.lookup = (hostname, options) => {
+    if (typeof options === "number") {
+      options = { family: options };
+    }
+    options = { ...options, family: 4 };
+    return originalPromisesLookup(hostname, options);
+  };
+}
+
 import { setGlobalDispatcher, Agent } from "undici";
 setGlobalDispatcher(new Agent({ connect: { family: 4 } }));
 
