@@ -1,4 +1,4 @@
-const errorHandler = async(err, req, res, next) => {
+const errorHandler = async (err, req, res, next) => {
   const statusCode = err.statusCode || err.status || 500;
   const message = err.message || "Something went wrong";
   const operation = err.operation ? ` during: ${err.operation}` : "";
