@@ -56,10 +56,12 @@ export const register = async (req, res, next) => {
       otpExpiresAt,
     });
 
-    await sendOtpEmail(user.email, otp);
-
     res.status(201).json({
       message: "Registration successful. Please check your email for the verification code.",
+    });
+
+    sendOtpEmail(user.email, otp).catch((err) => {
+      console.error(`Failed to send OTP email to ${user.email}:`, err);
     });
   } catch (error) {
     next(error);
