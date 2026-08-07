@@ -10,7 +10,7 @@ const errorHandler = async (err, req, res, next) => {
 };
 
 // Check if MongoDB is connected before processing requests
-const checkDbConnection = (req, res, next) => {
+const checkDbConnection = async (req, res, next) => {
   const mongoose = req.app.locals.mongoose || (await import("mongoose")).default;
   
   if (mongoose.connection.readyState !== 1) {
