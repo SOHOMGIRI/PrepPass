@@ -42,7 +42,7 @@ export default function Register() {
     setSubmitting(true);
     try {
       await register(values.name, values.email, values.password);
-      navigate("/verify-otp", { state: { email: values.email } });
+      navigate("/login", { state: { registered: true } });
     } catch (err) {
       setServerError(
         err?.response?.data?.message || "Could not register. Please try again."

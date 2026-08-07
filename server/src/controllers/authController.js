@@ -46,22 +46,16 @@ export const register = async (req, res, next) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const { otp, otpExpiresAt } = generateOtp();
 
-    const user = await User.create({
+    await User.create({
       name,
       email,
       passwordHash,
-      otpCode: otp,
-      otpExpiresAt,
+      isEmailVerified: true,
     });
 
     res.status(201).json({
-      message: "Registration successful. Please check your email for the verification code.",
-    });
-
-    sendOtpEmail(user.email, otp).catch((err) => {
-      console.error(`Failed to send OTP email to ${user.email}:`, err);
+      message: "Registration successful. You can now log in.",
     });
   } catch (error) {
     next(error);
@@ -143,11 +137,7 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    if (!user.isEmailVerified) {
-      return res.status(403).json({
-        message: "Please verify your email before logging in",
-      });
-    }
+    // Email verification skipped — auto-verified on registration
 
     const passwordMatch = await bcrypt.compare(password, user.passwordHash);
     if (!passwordMatch) {
@@ -256,9 +246,21 @@ export const logout = async (req, res, next) => {
 // returns a new accessToken, not profile data).
 export const me = async (req, res, next) => {
   try {
+    const DEMO_GUEST_USER = {
+      _id: "650000000000000000000000",
+      name: "Guest Candidate",
+      email: "demo@preppass.com",
+      isEmailVerified: true,
+      isGuest: true,
+    };
+
+    if (req.userId === "650000000000000000000000") {
+      return res.json({ user: DEMO_GUEST_USER });
+    }
+
     const user = await User.findById(req.userId).lean();
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      return res.json({ user: DEMO_GUEST_USER });
     }
     res.json({ user: toSafeUser(user) });
   } catch (error) {
