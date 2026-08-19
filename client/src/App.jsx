@@ -14,6 +14,12 @@ import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import GDPractice from "./pages/GDPractice.jsx";
 import CompanyPrep from "./pages/CompanyPrep.jsx";
 import History from "./pages/History.jsx";
+import HowItWorks from "./pages/HowItWorks.jsx";
+import About from "./pages/About.jsx";
+import Careers from "./pages/Careers.jsx";
+import Privacy from "./pages/Privacy.jsx";
+import Terms from "./pages/Terms.jsx";
+import Contact from "./pages/Contact.jsx";
 
 function App() {
   return (
@@ -25,6 +31,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/dashboard"
             element={

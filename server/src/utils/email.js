@@ -75,3 +75,48 @@ export const sendOtpEmail = async (to, otp) => {
     html,
   });
 };
+
+export const sendContactEmail = async ({ name, email, message }) => {
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <title>New Contact Message - PrepPass</title>
+      </head>
+      <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Arial,Helvetica,sans-serif;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="padding:40px 16px;">
+          <tr>
+            <td align="center">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background:#ffffff;border-radius:8px;padding:32px;">
+                <tr>
+                  <td>
+                    <h1 style="margin:0 0 8px;font-size:22px;color:#111827;">New Contact Message</h1>
+                    <p style="margin:0 0 16px;color:#6b7280;font-size:14px;">Received from the PrepPass contact form</p>
+                    <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
+                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Name:</strong> ${name}</p>
+                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Email:</strong> ${email}</p>
+                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Message:</strong></p>
+                    <div style="background:#f9fafb;border-left:4px solid #1e3a8a;padding:12px 16px;margin:8px 0 16px;font-size:14px;color:#1f2937;white-space:pre-wrap;">${message}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+  `;
+
+  const transporter = await getGmailTransporter();
+
+  await transporter.sendMail({
+    from: `"PrepPass Contact" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    replyTo: email,
+    subject: `PrepPass Contact: ${name} (${email})`,
+    html,
+    text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+  });
+};
+

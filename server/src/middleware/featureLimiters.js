@@ -36,3 +36,12 @@ export const resumeBuilderLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 5 : 50,
+  message: { message: "Too many contact requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+
