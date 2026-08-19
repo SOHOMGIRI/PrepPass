@@ -18,6 +18,12 @@ const cards = [
     stamp: "COMPANY PREP",
   },
   {
+    title: "Resume Builder",
+    desc: "Create an ATS-friendly resume with AI bullet points.",
+    to: "/resume-builder",
+    stamp: "RESUME BUILDER",
+  },
+  {
     title: "GD Practice",
     desc: "Rehearse group discussions with AI rebuttal.",
     to: "/gd-practice",
@@ -27,7 +33,7 @@ const cards = [
     title: "Resume Matcher",
     desc: "Match your resume to a job description.",
     to: "/resume-matcher",
-    stamp: "RESUME",
+    stamp: "RESUME MATCH",
   },
   {
     title: "View History",

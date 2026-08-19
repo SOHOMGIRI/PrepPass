@@ -28,3 +28,11 @@ export const gdLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const resumeBuilderLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 40 : 400,
+  message: { message: "Too many resume builder AI assist requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+

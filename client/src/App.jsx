@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Interview from "./pages/Interview.jsx";
 import InterviewSessionDetail from "./pages/InterviewSessionDetail.jsx";
 import ResumeMatcher from "./pages/ResumeMatcher.jsx";
+import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import GDPractice from "./pages/GDPractice.jsx";
 import CompanyPrep from "./pages/CompanyPrep.jsx";
 import History from "./pages/History.jsx";
@@ -53,6 +54,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ResumeMatcher />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/resume-builder"
+            element={
+              <ProtectedRoute>
+                <ResumeBuilder />
               </ProtectedRoute>
             }
           />
