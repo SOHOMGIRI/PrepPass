@@ -36,6 +36,7 @@ import authRoutes from "./routes/authRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import resumeAnalysisRoutes from "./routes/resumeAnalysisRoutes.js";
+import gdRoutes from "./routes/gdRoutes.js";
 import { globalLimiter } from "./middleware/rateLimiter.js";
 import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -105,6 +106,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/interview", interviewRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/resume/analyze", resumeAnalysisRoutes);
+app.use("/api/gd", gdRoutes);
 
 app.use(errorHandler);
 

@@ -20,3 +20,11 @@ export const resumeLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const gdLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 30 : 300,
+  message: { message: "Too many group discussion requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+

@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Interview from "./pages/Interview.jsx";
 import InterviewSessionDetail from "./pages/InterviewSessionDetail.jsx";
 import ResumeMatcher from "./pages/ResumeMatcher.jsx";
+import GDPractice from "./pages/GDPractice.jsx";
 import History from "./pages/History.jsx";
 
 function App() {
@@ -51,6 +52,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ResumeMatcher />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gd-practice"
+            element={
+              <ProtectedRoute>
+                <GDPractice />
               </ProtectedRoute>
             }
           />

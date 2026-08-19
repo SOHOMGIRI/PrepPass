@@ -12,6 +12,12 @@ const cards = [
     stamp: "INTERVIEW",
   },
   {
+    title: "GD Practice",
+    desc: "Rehearse group discussions with AI rebuttal.",
+    to: "/gd-practice",
+    stamp: "GD PRACTICE",
+  },
+  {
     title: "Resume Matcher",
     desc: "Match your resume to a job description.",
     to: "/resume-matcher",
