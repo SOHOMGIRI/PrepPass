@@ -88,9 +88,16 @@ export default function History() {
                       className="ticket-card p-5 text-left transition hover:border-stamp-navy/50"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
-                          {s.role}
-                        </span>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {s.companyId && (
+                            <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                              {s.companyId.toUpperCase()}
+                            </span>
+                          )}
+                          <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                            {s.role}
+                          </span>
+                        </div>
                         <span className="score font-heading text-lg text-gold">
                           {s.overallReadinessScore != null
                             ? `${s.overallReadinessScore} / 10`

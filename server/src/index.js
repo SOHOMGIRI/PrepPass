@@ -37,6 +37,7 @@ import interviewRoutes from "./routes/interviewRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
 import resumeAnalysisRoutes from "./routes/resumeAnalysisRoutes.js";
 import gdRoutes from "./routes/gdRoutes.js";
+import companyRoutes from "./routes/companyRoutes.js";
 import { globalLimiter } from "./middleware/rateLimiter.js";
 import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -107,6 +108,7 @@ app.use("/api/interview", interviewRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/resume/analyze", resumeAnalysisRoutes);
 app.use("/api/gd", gdRoutes);
+app.use("/api/companies", companyRoutes);
 
 app.use(errorHandler);
 

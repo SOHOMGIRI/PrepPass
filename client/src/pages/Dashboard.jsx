@@ -12,6 +12,12 @@ const cards = [
     stamp: "INTERVIEW",
   },
   {
+    title: "Company Prep",
+    desc: "Targeted tracks for TCS, Amazon, Google & more.",
+    to: "/company-prep",
+    stamp: "COMPANY PREP",
+  },
+  {
     title: "GD Practice",
     desc: "Rehearse group discussions with AI rebuttal.",
     to: "/gd-practice",

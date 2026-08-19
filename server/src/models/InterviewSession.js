@@ -39,6 +39,10 @@ const interviewSessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  companyId: {
+    type: String,
+    default: null,
+  },
   status: {
     type: String,
     enum: ["in-progress", "completed"],

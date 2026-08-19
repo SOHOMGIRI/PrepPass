@@ -11,6 +11,7 @@ import Interview from "./pages/Interview.jsx";
 import InterviewSessionDetail from "./pages/InterviewSessionDetail.jsx";
 import ResumeMatcher from "./pages/ResumeMatcher.jsx";
 import GDPractice from "./pages/GDPractice.jsx";
+import CompanyPrep from "./pages/CompanyPrep.jsx";
 import History from "./pages/History.jsx";
 
 function App() {
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <GDPractice />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/company-prep"
+            element={
+              <ProtectedRoute>
+                <CompanyPrep />
               </ProtectedRoute>
             }
           />

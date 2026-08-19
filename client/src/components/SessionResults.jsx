@@ -20,7 +20,7 @@ function fmtDate(iso) {
  */
 export default function SessionResults({ session }) {
   if (!session) return null;
-  const { role, overallReadinessScore, startedAt, questions = [] } = session;
+  const { role, companyId, overallReadinessScore, startedAt, questions = [] } = session;
   const scored = questions.filter(
     (q) => q && q.score && q.score.overall != null
   );
@@ -34,7 +34,7 @@ export default function SessionResults({ session }) {
         Session complete.
       </h1>
       <p className="mt-1 font-mono text-xs text-stamp-navy/60">
-        {role} · {fmtDate(startedAt)}
+        {companyId ? `${companyId.toUpperCase()} · ` : ""}{role} · {fmtDate(startedAt)}
       </p>
 
       <div className="mt-8 flex flex-col items-center">

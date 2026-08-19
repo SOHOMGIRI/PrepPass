@@ -2,13 +2,18 @@ import mongoose from "mongoose";
 import Question from "../models/Question.js";
 import InterviewSession from "../models/InterviewSession.js";
 import { callGeminiJSON } from "../utils/gemini.js";
+import companies from "../config/companies.js";
 
 /**
  * Generates questions for a role via Gemini and saves any new ones to the Question collection.
  */
-async function generateAndSaveQuestions(role, category, count) {
+async function generateAndSaveQuestions(role, category, count, company = null) {
+  let companyContext = "";
+  if (company) {
+    companyContext = `\nContext: Target company for practice is "${company.name}". Commonly reported interview rounds for practice: ${company.typicalRounds.join(", ")}. Write questions reflecting the style, depth, and focus areas typical of that company's practice-known patterns, for practice purposes.`;
+  }
   const prompt = `Generate exactly ${count} unique interview question(s) for the role: "${role}".
-Category: "${category}". Difficulty: medium.
+Category: "${category}". Difficulty: medium.${companyContext}
 Return ONLY a JSON array of objects, each with: {"category":"${category}","difficulty":"medium","questionText":"..."}.
 No markdown fences, no extra text.`;
   const generated = await callGeminiJSON(prompt);
@@ -44,11 +49,11 @@ No markdown fences, no extra text.`;
 
 /**
  * POST /api/interview/start
- * Body: { role }
+ * Body: { role, companyId? }
  */
 export const startInterview = async (req, res, next) => {
   try {
-    const { role } = req.body;
+    const { role, companyId } = req.body;
 
     if (
       !role ||
@@ -62,36 +67,91 @@ export const startInterview = async (req, res, next) => {
     }
     const cleanRole = role.trim();
 
-    const bank = await Question.find({ role: cleanRole }).lean();
-    const techQuestions = bank.filter((q) => q.category === "technical");
-    const hrQuestions = bank.filter((q) => q.category === "hr");
-
-    if (techQuestions.length < 2) {
-      await generateAndSaveQuestions(cleanRole, "technical", 2 - techQuestions.length);
-    }
-    if (hrQuestions.length < 2) {
-      await generateAndSaveQuestions(cleanRole, "hr", 2 - hrQuestions.length);
+    let company = null;
+    if (companyId && typeof companyId === "string" && companyId.trim()) {
+      company =
+        companies.find((c) => c.id === companyId.trim().toLowerCase()) || null;
     }
 
-    // Re-fetch after potential inserts
-    const freshBank = await Question.find({ role: cleanRole }).lean();
-    const techQs = freshBank.filter((q) => q.category === "technical").slice(0, 2);
-    const hrQs = freshBank.filter((q) => q.category === "hr").slice(0, 2);
+    let orderedQueue = [];
 
-    // Build a 4-question queue: T, HR, T, HR (or fallbacks)
-    const orderedQueue = [];
-    if (techQs[0]) orderedQueue.push(techQs[0]);
-    if (hrQs[0]) orderedQueue.push(hrQs[0]);
-    if (techQs[1]) orderedQueue.push(techQs[1]);
-    if (hrQs[1]) orderedQueue.push(hrQs[1]);
+    if (company) {
+      // Generate company-tailored questions
+      const techGenerated = await generateAndSaveQuestions(
+        cleanRole,
+        "technical",
+        2,
+        company
+      );
+      const hrGenerated = await generateAndSaveQuestions(
+        cleanRole,
+        "hr",
+        2,
+        company
+      );
+
+      let techQs = techGenerated.slice(0, 2);
+      let hrQs = hrGenerated.slice(0, 2);
+
+      // If duplicate questions were skipped during insert, fallback to existing bank
+      if (techQs.length < 2 || hrQs.length < 2) {
+        const freshBank = await Question.find({ role: cleanRole }).lean();
+        if (techQs.length < 2)
+          techQs = freshBank
+            .filter((q) => q.category === "technical")
+            .slice(0, 2);
+        if (hrQs.length < 2)
+          hrQs = freshBank.filter((q) => q.category === "hr").slice(0, 2);
+      }
+
+      if (techQs[0]) orderedQueue.push(techQs[0]);
+      if (hrQs[0]) orderedQueue.push(hrQs[0]);
+      if (techQs[1]) orderedQueue.push(techQs[1]);
+      if (hrQs[1]) orderedQueue.push(hrQs[1]);
+    } else {
+      const bank = await Question.find({ role: cleanRole }).lean();
+      const techQuestions = bank.filter((q) => q.category === "technical");
+      const hrQuestions = bank.filter((q) => q.category === "hr");
+
+      if (techQuestions.length < 2) {
+        await generateAndSaveQuestions(
+          cleanRole,
+          "technical",
+          2 - techQuestions.length
+        );
+      }
+      if (hrQuestions.length < 2) {
+        await generateAndSaveQuestions(
+          cleanRole,
+          "hr",
+          2 - hrQuestions.length
+        );
+      }
+
+      // Re-fetch after potential inserts
+      const freshBank = await Question.find({ role: cleanRole }).lean();
+      const techQs = freshBank
+        .filter((q) => q.category === "technical")
+        .slice(0, 2);
+      const hrQs = freshBank.filter((q) => q.category === "hr").slice(0, 2);
+
+      // Build a 4-question queue: T, HR, T, HR (or fallbacks)
+      if (techQs[0]) orderedQueue.push(techQs[0]);
+      if (hrQs[0]) orderedQueue.push(hrQs[0]);
+      if (techQs[1]) orderedQueue.push(techQs[1]);
+      if (hrQs[1]) orderedQueue.push(hrQs[1]);
+    }
 
     if (orderedQueue.length === 0) {
-      return res.status(400).json({ message: "Could not generate questions for this role" });
+      return res
+        .status(400)
+        .json({ message: "Could not generate questions for this role" });
     }
 
     const session = new InterviewSession({
       userId: req.userId,
       role: cleanRole,
+      companyId: company ? company.id : null,
       status: "in-progress",
       questions: [
         {
@@ -325,7 +385,7 @@ export const getHistory = async (req, res, next) => {
   try {
     const sessions = await InterviewSession.find({ userId: req.userId })
       .sort({ startedAt: -1 })
-      .select("role status overallReadinessScore startedAt")
+      .select("role companyId status overallReadinessScore startedAt")
       .lean();
 
     return res.json({ sessions });
