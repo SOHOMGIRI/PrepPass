@@ -2,6 +2,7 @@ import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
 import { interviewLimiter } from "../middleware/featureLimiters.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
+import roles from "../config/roles.js";
 import {
   startInterview,
   answerQuestion,
@@ -23,5 +24,6 @@ router.post("/answer", answerQuestion);
 router.post("/finish", finishInterview);
 router.get("/session/:id", getSession);
 router.get("/history", getHistory);
+router.get("/roles", (req, res) => res.json({ roles }));
 
 export default router;
