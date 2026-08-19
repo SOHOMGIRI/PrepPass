@@ -12,6 +12,12 @@ const cards = [
     stamp: "INTERVIEW",
   },
   {
+    title: "Test Mode",
+    desc: "10-min proctored MCQ test with trust scoring.",
+    to: "/test-mode",
+    stamp: "TEST MODE",
+  },
+  {
     title: "Company Prep",
     desc: "Targeted tracks for TCS, Amazon, Google & more.",
     to: "/company-prep",

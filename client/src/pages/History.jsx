@@ -17,6 +17,7 @@ function fmtDate(iso) {
 export default function History() {
   const navigate = useNavigate();
   const [interviews, setInterviews] = useState([]);
+  const [testSessions, setTestSessions] = useState([]);
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -25,11 +26,13 @@ export default function History() {
     setLoading(true);
     setError("");
     try {
-      const [iv, rm] = await Promise.all([
+      const [iv, tm, rm] = await Promise.all([
         api.get("/interview/history"),
+        api.get("/test/history"),
         api.get("/resume/history"),
       ]);
       setInterviews(iv.data?.sessions || []);
+      setTestSessions(tm.data?.sessions || []);
       setMatches(rm.data?.matches || []);
     } catch (err) {
       setError(
@@ -111,6 +114,53 @@ export default function History() {
                         {s.status}
                       </p>
                     </button>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section className="mt-10">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+                Proctored Tests
+              </h2>
+              {testSessions.length === 0 ? (
+                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                  No proctored tests taken yet. Start one from the dashboard.
+                </p>
+              ) : (
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {testSessions.map((t) => (
+                    <div key={t._id} className="ticket-card p-5">
+                      <div className="flex items-center justify-between">
+                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                          {t.subjects?.join(" • ") || "TEST"}
+                        </span>
+                        <span className="score font-heading text-lg text-gold">
+                          {t.scorePercent != null ? `${t.scorePercent}%` : "—"}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between">
+                        <span
+                          className={`rounded px-2 py-0.5 font-mono text-[10px] font-bold uppercase ${
+                            t.trustScore === 100
+                              ? "bg-green-100 text-green-800"
+                              : t.trustScore === 70
+                              ? "bg-yellow-100 text-yellow-800"
+                              : t.trustScore === 40
+                              ? "bg-orange-100 text-orange-800"
+                              : "bg-red-100 text-stamp-maroon"
+                          }`}
+                        >
+                          {t.trustScore}% Trust Score
+                        </span>
+                        <span className="font-mono text-[10px] uppercase text-stamp-navy/50">
+                          {t.status}
+                        </span>
+                      </div>
+                      <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                        {fmtDate(t.startedAt)}
+                      </p>
+                    </div>
                   ))}
                 </div>
               )}

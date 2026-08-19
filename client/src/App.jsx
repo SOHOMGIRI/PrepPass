@@ -13,6 +13,7 @@ import ResumeMatcher from "./pages/ResumeMatcher.jsx";
 import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import GDPractice from "./pages/GDPractice.jsx";
 import CompanyPrep from "./pages/CompanyPrep.jsx";
+import TestMode from "./pages/TestMode.jsx";
 import History from "./pages/History.jsx";
 import HowItWorks from "./pages/HowItWorks.jsx";
 import About from "./pages/About.jsx";
@@ -90,6 +91,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <CompanyPrep />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/test-mode"
+            element={
+              <ProtectedRoute>
+                <TestMode />
               </ProtectedRoute>
             }
           />

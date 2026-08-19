@@ -44,4 +44,13 @@ export const contactLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const testLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 30 : 300,
+  message: { message: "Too many test requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+
 
