@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+} from "recharts";
 import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
@@ -61,20 +71,60 @@ const cards = [
   },
 ];
 
+function fmtDateShort(iso) {
+  if (!iso) return "";
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  } catch {
+    return "";
+  }
+}
+
+// Custom tooltip styled like an exam ticket
+function CustomTrendTooltip({ active, payload, label }) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-lg border border-stamp-navy/20 bg-white p-3 font-mono text-xs shadow-md space-y-1">
+        <p className="font-bold text-stamp-navy">{label}</p>
+        {payload.map((entry, idx) => (
+          <p key={idx} style={{ color: entry.color }} className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
+            <span>{entry.name}:</span>
+            <span className="font-bold">{entry.value}%</span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+}
+
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const [avg, setAvg] = useState(null);
   const [count, setCount] = useState(0);
+  const [trendData, setTrendData] = useState([]);
+  const [hasInterview, setHasInterview] = useState(false);
+  const [hasTest, setHasTest] = useState(false);
+  const [hasGd, setHasGd] = useState(false);
+  const [loadingTrend, setLoadingTrend] = useState(true);
   const displayName = user?.name?.split(" ")[0] || "friend";
 
-  // Average readiness across the user's completed interview sessions.
+  // Average readiness across user's completed interview sessions & Readiness Trends
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const { data } = await api.get("/interview/history");
+        const [ivRes, trendRes] = await Promise.all([
+          api.get("/interview/history"),
+          api.get("/analytics/trend"),
+        ]);
+
         if (cancelled) return;
-        const scores = (data?.sessions || [])
+
+        // Average calculation
+        const scores = (ivRes.data?.sessions || [])
           .map((s) => s.overallReadinessScore)
           .filter((v) => typeof v === "number");
         setCount(scores.length);
@@ -84,14 +134,60 @@ export default function Dashboard() {
         } else {
           setAvg(null);
         }
+
+        // Trend formatting
+        const { interviewTrend = [], testTrend = [], gdTrend = [] } =
+          trendRes.data || {};
+
+        setHasInterview(interviewTrend.length > 0);
+        setHasTest(testTrend.length > 0);
+        setHasGd(gdTrend.length > 0);
+
+        // Combine into unified chronological dataset
+        const mergedMap = new Map();
+
+        const addPoint = (item, type, score) => {
+          if (!item.date || typeof score !== "number") return;
+          const key = new Date(item.date).toISOString().slice(0, 16); // Minute precision
+          const dateLabel = fmtDateShort(item.date);
+          const current = mergedMap.get(key) || { date: item.date, displayDate: dateLabel };
+          current[type] = score;
+          mergedMap.set(key, current);
+        };
+
+        // Interviews: 0-10 scale -> 0-100%
+        interviewTrend.forEach((i) =>
+          addPoint(i, "interview", Math.round(i.score <= 10 ? i.score * 10 : i.score))
+        );
+
+        // Tests: 0-100%
+        testTrend.forEach((t) => addPoint(t, "test", Math.round(t.score)));
+
+        // GD: 0-10 scale -> 0-100%
+        gdTrend.forEach((g) =>
+          addPoint(g, "gd", Math.round(g.score <= 10 ? g.score * 10 : g.score))
+        );
+
+        const chronological = Array.from(mergedMap.values()).sort(
+          (a, b) => new Date(a.date) - new Date(b.date)
+        );
+
+        setTrendData(chronological);
       } catch {
-        if (!cancelled) setAvg(null);
+        if (!cancelled) {
+          setAvg(null);
+          setTrendData([]);
+        }
+      } finally {
+        if (!cancelled) setLoadingTrend(false);
       }
     })();
     return () => {
       cancelled = true;
     };
   }, []);
+
+  const hasAnyTrend = hasInterview || hasTest || hasGd;
 
   return (
     <div className="min-h-screen bg-cream px-6 py-10">
@@ -145,6 +241,99 @@ export default function Dashboard() {
                 No sessions yet — your readiness score will appear here once you
                 finish an interview. Go ahead, your auditor is waiting.
               </p>
+            </div>
+          )}
+        </div>
+
+        {/* Readiness Trend Chart */}
+        <div className="ticket-card mt-6 p-6 sm:p-8 space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                PERFORMANCE ANALYTICS
+              </div>
+              <h2 className="font-heading text-xl text-stamp-navy mt-1">
+                Your Readiness Trend
+              </h2>
+            </div>
+            {hasAnyTrend && (
+              <span className="font-mono text-xs text-stamp-navy/60 hidden sm:inline">
+                Normalized Accuracy & Readiness (0–100%)
+              </span>
+            )}
+          </div>
+
+          {loadingTrend ? (
+            <div className="flex h-56 items-center justify-center font-mono text-xs text-stamp-navy/60">
+              Loading performance trends…
+            </div>
+          ) : !hasAnyTrend ? (
+            <div className="flex h-44 flex-col items-center justify-center text-center p-4">
+              <p className="font-mono text-xs text-ink/60 max-w-sm">
+                No activity trend recorded yet. Complete an interview, proctored test, or GD session to visualize your progress over time!
+              </p>
+            </div>
+          ) : (
+            <div className="h-64 w-full pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={trendData}
+                  margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#0a192f15" />
+                  <XAxis
+                    dataKey="displayDate"
+                    tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
+                    stroke="#0a192f30"
+                  />
+                  <YAxis
+                    domain={[0, 100]}
+                    tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
+                    stroke="#0a192f30"
+                    unit="%"
+                  />
+                  <Tooltip content={<CustomTrendTooltip />} />
+                  <Legend
+                    wrapperStyle={{ fontSize: "12px", fontFamily: "monospace", paddingTop: "8px" }}
+                  />
+                  {hasInterview && (
+                    <Line
+                      type="monotone"
+                      dataKey="interview"
+                      name="Interview Readiness"
+                      stroke="#d97706"
+                      strokeWidth={2.5}
+                      dot={{ r: 4, fill: "#d97706" }}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  )}
+                  {hasTest && (
+                    <Line
+                      type="monotone"
+                      dataKey="test"
+                      name="Test Accuracy"
+                      stroke="#0a192f"
+                      strokeWidth={2.5}
+                      dot={{ r: 4, fill: "#0a192f" }}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  )}
+                  {hasGd && (
+                    <Line
+                      type="monotone"
+                      dataKey="gd"
+                      name="GD Performance"
+                      stroke="#881337"
+                      strokeWidth={2.5}
+                      dot={{ r: 4, fill: "#881337" }}
+                      activeDot={{ r: 6 }}
+                      connectNulls
+                    />
+                  )}
+                </LineChart>
+              </ResponsiveContainer>
             </div>
           )}
         </div>
