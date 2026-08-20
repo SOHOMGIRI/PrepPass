@@ -44,6 +44,7 @@ import testRoutes from "./routes/testRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import revisionRoutes from "./routes/revisionRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import { globalLimiter } from "./middleware/rateLimiter.js";
 import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -121,6 +122,7 @@ app.use("/api/test", testRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/revision", revisionRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 app.use(errorHandler);
 

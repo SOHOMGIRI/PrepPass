@@ -14,12 +14,30 @@ import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
 
-const cards = [
+const section1Cards = [
   {
-    title: "Start Interview",
-    desc: "Practice with four adaptive questions.",
-    to: "/interview",
-    stamp: "INTERVIEW",
+    title: "Resume Matcher",
+    desc: "Match your resume to a job description & ATS audit.",
+    to: "/resume-matcher",
+    stamp: "RESUME MATCH",
+  },
+];
+
+const section2Cards = [
+  {
+    title: "Resume Builder",
+    desc: "Create an ATS-friendly resume with AI bullet points.",
+    to: "/resume-builder",
+    stamp: "RESUME BUILDER",
+  },
+];
+
+const section3Cards = [
+  {
+    title: "Aptitude Practice",
+    desc: "Untimed practice for Quants, Logic & Verbal.",
+    to: "/aptitude",
+    stamp: "APTITUDE",
   },
   {
     title: "Test Mode",
@@ -28,28 +46,10 @@ const cards = [
     stamp: "TEST MODE",
   },
   {
-    title: "Aptitude Practice",
-    desc: "Untimed practice for Quants, Logic & Verbal.",
-    to: "/aptitude",
-    stamp: "APTITUDE",
-  },
-  {
-    title: "Revision Deck",
-    desc: "Flashcards generated from missed questions & feedback.",
-    to: "/revision-deck",
-    stamp: "REVISION DECK",
-  },
-  {
-    title: "Company Prep",
-    desc: "Targeted tracks for TCS, Amazon, Google & more.",
-    to: "/company-prep",
-    stamp: "COMPANY PREP",
-  },
-  {
-    title: "Resume Builder",
-    desc: "Create an ATS-friendly resume with AI bullet points.",
-    to: "/resume-builder",
-    stamp: "RESUME BUILDER",
+    title: "Start Interview",
+    desc: "Practice with four adaptive questions.",
+    to: "/interview",
+    stamp: "INTERVIEW",
   },
   {
     title: "GD Practice",
@@ -58,10 +58,19 @@ const cards = [
     stamp: "GD PRACTICE",
   },
   {
-    title: "Resume Matcher",
-    desc: "Match your resume to a job description.",
-    to: "/resume-matcher",
-    stamp: "RESUME MATCH",
+    title: "Company Prep",
+    desc: "Targeted tracks for TCS, Amazon, Google & more.",
+    to: "/company-prep",
+    stamp: "COMPANY PREP",
+  },
+];
+
+const section4Cards = [
+  {
+    title: "Revision Deck",
+    desc: "Flashcards generated from missed questions & feedback.",
+    to: "/revision-deck",
+    stamp: "REVISION DECK",
   },
   {
     title: "View History",
@@ -100,6 +109,44 @@ function CustomTrendTooltip({ active, payload, label }) {
   return null;
 }
 
+function getRecommendation(summary) {
+  if (!summary) return null;
+  if (!summary.hasResumeAnalysis) {
+    return {
+      title: "Start by uploading your resume for an ATS score",
+      desc: "Upload your resume to get instant ATS feedback, identify missing keywords, and unlock personalized subject recommendations.",
+      to: "/resume-matcher",
+      buttonText: "Upload Resume →",
+      badge: "RECOMMENDED NEXT STEP",
+    };
+  }
+  if (summary.interviewCount === 0 && summary.testCount === 0) {
+    return {
+      title: "Try your first practice — Aptitude or a Mock Interview",
+      desc: "Warm up with untimed aptitude drills or jump straight into an adaptive 4-question mock interview.",
+      to: "/aptitude",
+      buttonText: "Start Practice →",
+      badge: "RECOMMENDED NEXT STEP",
+    };
+  }
+  if (summary.hasWeakAreaCards) {
+    return {
+      title: "You have weak areas to review",
+      desc: "Reinforce your concepts by going through interactive flashcards built from your missed questions and feedback.",
+      to: "/revision-deck",
+      buttonText: "Open Revision Deck →",
+      badge: "RECOMMENDED NEXT STEP",
+    };
+  }
+  return {
+    title: "Keep your streak going — try Company Prep or GD Practice",
+    desc: "Sharpen recruitment patterns for top recruiters or rehearse group discussions with AI counter-arguments.",
+    to: "/company-prep",
+    buttonText: "Explore Company Prep →",
+    badge: "RECOMMENDED NEXT STEP",
+  };
+}
+
 export default function Dashboard() {
   const { user, logout } = useAuth();
   const [avg, setAvg] = useState(null);
@@ -109,19 +156,26 @@ export default function Dashboard() {
   const [hasTest, setHasTest] = useState(false);
   const [hasGd, setHasGd] = useState(false);
   const [loadingTrend, setLoadingTrend] = useState(true);
+  const [summary, setSummary] = useState(null);
   const displayName = user?.name?.split(" ")[0] || "friend";
 
-  // Average readiness across user's completed interview sessions & Readiness Trends
+  // Average readiness across user's completed interview sessions, Trends, and Summary
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const [ivRes, trendRes] = await Promise.all([
+        const [ivRes, trendRes, summaryRes] = await Promise.all([
           api.get("/interview/history"),
           api.get("/analytics/trend"),
+          api.get("/dashboard/summary"),
         ]);
 
         if (cancelled) return;
+
+        // Summary state
+        if (summaryRes?.data) {
+          setSummary(summaryRes.data);
+        }
 
         // Average calculation
         const scores = (ivRes.data?.sessions || [])
@@ -188,17 +242,19 @@ export default function Dashboard() {
   }, []);
 
   const hasAnyTrend = hasInterview || hasTest || hasGd;
+  const recommendation = getRecommendation(summary);
 
   return (
     <div className="min-h-screen bg-cream px-6 py-10">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-4xl space-y-8">
+        {/* Header Bar */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-heading text-2xl text-stamp-navy">
               Welcome back, {displayName}.
             </h1>
             <p className="mt-1 text-ink/60">
-              Your exam passport is ready. Pick an activity below.
+              Your exam passport is ready. Follow your guided preparation path below.
             </p>
           </div>
           <button
@@ -210,7 +266,35 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="ticket-perf my-8" />
+        {/* Recommended Next Step Banner */}
+        {recommendation && (
+          <div className="ticket-card p-6 border-2 border-gold/40 bg-gradient-to-br from-ticket/90 via-cream to-ticket/60 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">🎯</span>
+                  <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-0.5 font-mono text-[9px] uppercase font-bold text-stamp-navy">
+                    {recommendation.badge}
+                  </span>
+                </div>
+                <h2 className="font-heading text-lg text-stamp-navy sm:text-xl">
+                  {recommendation.title}
+                </h2>
+                <p className="text-xs text-ink/70 max-w-xl leading-relaxed">
+                  {recommendation.desc}
+                </p>
+              </div>
+              <Link
+                to={recommendation.to}
+                className="inline-flex items-center justify-center shrink-0 rounded-lg bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark shadow-sm transition"
+              >
+                {recommendation.buttonText}
+              </Link>
+            </div>
+          </div>
+        )}
+
+        <div className="ticket-perf my-4" />
 
         {/* Summary strip */}
         <div className="ticket-card flex flex-col items-center gap-6 p-6 sm:flex-row sm:justify-between">
@@ -245,118 +329,216 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Readiness Trend Chart */}
-        <div className="ticket-card mt-6 p-6 sm:p-8 space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
-                PERFORMANCE ANALYTICS
+        {/* Section 1: Know Where You Stand */}
+        <div className="space-y-4 pt-2">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
+              01
+            </span>
+            <h2 className="font-heading text-lg text-stamp-navy">
+              1. Know Where You Stand
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {section1Cards.map((c) => (
+              <Link
+                key={c.to}
+                to={c.to}
+                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+              >
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
+                  {c.stamp}
+                </div>
+                <h3 className="font-heading text-lg text-stamp-navy">
+                  {c.title}
+                </h3>
+                <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Section 2: Build & Improve */}
+        <div className="space-y-4 pt-2">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
+              02
+            </span>
+            <h2 className="font-heading text-lg text-stamp-navy">
+              2. Build & Improve
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {section2Cards.map((c) => (
+              <Link
+                key={c.to}
+                to={c.to}
+                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+              >
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
+                  {c.stamp}
+                </div>
+                <h3 className="font-heading text-lg text-stamp-navy">
+                  {c.title}
+                </h3>
+                <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Section 3: Practice & Rehearse */}
+        <div className="space-y-4 pt-2">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
+              03
+            </span>
+            <h2 className="font-heading text-lg text-stamp-navy">
+              3. Practice & Rehearse
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {section3Cards.map((c) => (
+              <Link
+                key={c.to}
+                to={c.to}
+                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+              >
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
+                  {c.stamp}
+                </div>
+                <h3 className="font-heading text-lg text-stamp-navy">
+                  {c.title}
+                </h3>
+                <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Section 4: Review & Track */}
+        <div className="space-y-6 pt-2">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
+              04
+            </span>
+            <h2 className="font-heading text-lg text-stamp-navy">
+              4. Review & Track
+            </h2>
+          </div>
+
+          {/* Readiness Trend Chart (at the top of Section 4) */}
+          <div className="ticket-card p-6 sm:p-8 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                  PERFORMANCE ANALYTICS
+                </div>
+                <h3 className="font-heading text-xl text-stamp-navy mt-1">
+                  Your Readiness Trend
+                </h3>
               </div>
-              <h2 className="font-heading text-xl text-stamp-navy mt-1">
-                Your Readiness Trend
-              </h2>
+              {hasAnyTrend && (
+                <span className="font-mono text-xs text-stamp-navy/60 hidden sm:inline">
+                  Normalized Accuracy & Readiness (0–100%)
+                </span>
+              )}
             </div>
-            {hasAnyTrend && (
-              <span className="font-mono text-xs text-stamp-navy/60 hidden sm:inline">
-                Normalized Accuracy & Readiness (0–100%)
-              </span>
+
+            {loadingTrend ? (
+              <div className="flex h-56 items-center justify-center font-mono text-xs text-stamp-navy/60">
+                Loading performance trends…
+              </div>
+            ) : !hasAnyTrend ? (
+              <div className="flex h-44 flex-col items-center justify-center text-center p-4">
+                <p className="font-mono text-xs text-ink/60 max-w-sm">
+                  No activity trend recorded yet. Complete an interview, proctored test, or GD session to visualize your progress over time!
+                </p>
+              </div>
+            ) : (
+              <div className="h-64 w-full pt-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={trendData}
+                    margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="#0a192f15" />
+                    <XAxis
+                      dataKey="displayDate"
+                      tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
+                      stroke="#0a192f30"
+                    />
+                    <YAxis
+                      domain={[0, 100]}
+                      tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
+                      stroke="#0a192f30"
+                      unit="%"
+                    />
+                    <Tooltip content={<CustomTrendTooltip />} />
+                    <Legend
+                      wrapperStyle={{ fontSize: "12px", fontFamily: "monospace", paddingTop: "8px" }}
+                    />
+                    {hasInterview && (
+                      <Line
+                        type="monotone"
+                        dataKey="interview"
+                        name="Interview Readiness"
+                        stroke="#d97706"
+                        strokeWidth={2.5}
+                        dot={{ r: 4, fill: "#d97706" }}
+                        activeDot={{ r: 6 }}
+                        connectNulls
+                      />
+                    )}
+                    {hasTest && (
+                      <Line
+                        type="monotone"
+                        dataKey="test"
+                        name="Test Accuracy"
+                        stroke="#0a192f"
+                        strokeWidth={2.5}
+                        dot={{ r: 4, fill: "#0a192f" }}
+                        activeDot={{ r: 6 }}
+                        connectNulls
+                      />
+                    )}
+                    {hasGd && (
+                      <Line
+                        type="monotone"
+                        dataKey="gd"
+                        name="GD Performance"
+                        stroke="#881337"
+                        strokeWidth={2.5}
+                        dot={{ r: 4, fill: "#881337" }}
+                        activeDot={{ r: 6 }}
+                        connectNulls
+                      />
+                    )}
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             )}
           </div>
 
-          {loadingTrend ? (
-            <div className="flex h-56 items-center justify-center font-mono text-xs text-stamp-navy/60">
-              Loading performance trends…
-            </div>
-          ) : !hasAnyTrend ? (
-            <div className="flex h-44 flex-col items-center justify-center text-center p-4">
-              <p className="font-mono text-xs text-ink/60 max-w-sm">
-                No activity trend recorded yet. Complete an interview, proctored test, or GD session to visualize your progress over time!
-              </p>
-            </div>
-          ) : (
-            <div className="h-64 w-full pt-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={trendData}
-                  margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#0a192f15" />
-                  <XAxis
-                    dataKey="displayDate"
-                    tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
-                    stroke="#0a192f30"
-                  />
-                  <YAxis
-                    domain={[0, 100]}
-                    tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
-                    stroke="#0a192f30"
-                    unit="%"
-                  />
-                  <Tooltip content={<CustomTrendTooltip />} />
-                  <Legend
-                    wrapperStyle={{ fontSize: "12px", fontFamily: "monospace", paddingTop: "8px" }}
-                  />
-                  {hasInterview && (
-                    <Line
-                      type="monotone"
-                      dataKey="interview"
-                      name="Interview Readiness"
-                      stroke="#d97706"
-                      strokeWidth={2.5}
-                      dot={{ r: 4, fill: "#d97706" }}
-                      activeDot={{ r: 6 }}
-                      connectNulls
-                    />
-                  )}
-                  {hasTest && (
-                    <Line
-                      type="monotone"
-                      dataKey="test"
-                      name="Test Accuracy"
-                      stroke="#0a192f"
-                      strokeWidth={2.5}
-                      dot={{ r: 4, fill: "#0a192f" }}
-                      activeDot={{ r: 6 }}
-                      connectNulls
-                    />
-                  )}
-                  {hasGd && (
-                    <Line
-                      type="monotone"
-                      dataKey="gd"
-                      name="GD Performance"
-                      stroke="#881337"
-                      strokeWidth={2.5}
-                      dot={{ r: 4, fill: "#881337" }}
-                      activeDot={{ r: 6 }}
-                      connectNulls
-                    />
-                  )}
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          )}
-        </div>
-
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((c) => (
-            <Link
-              key={c.to}
-              to={c.to}
-              className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
-            >
-              <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
-                {c.stamp}
-              </div>
-              <h2 className="font-heading text-lg text-stamp-navy">
-                {c.title}
-              </h2>
-              <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
-            </Link>
-          ))}
+          <div className="grid gap-6 sm:grid-cols-2">
+            {section4Cards.map((c) => (
+              <Link
+                key={c.to}
+                to={c.to}
+                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+              >
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
+                  {c.stamp}
+                </div>
+                <h3 className="font-heading text-lg text-stamp-navy">
+                  {c.title}
+                </h3>
+                <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
-
