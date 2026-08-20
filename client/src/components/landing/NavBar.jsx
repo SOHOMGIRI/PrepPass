@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 
-const NAV = ["Features", "How it works", "Pricing", "Contact"];
+const NAV_ITEMS = [
+  { label: "Features", href: "#features", isAnchor: true },
+  { label: "How It Works", to: "/how-it-works" },
+  { label: "About", to: "/about" },
+  { label: "Careers", to: "/careers" },
+  { label: "Pricing", href: "#pricing", isAnchor: true },
+  { label: "Contact", to: "/contact" },
+];
 
 export default function NavBar({ accessToken }) {
   return (
@@ -12,16 +19,26 @@ export default function NavBar({ accessToken }) {
         >
           PREPPASS
         </Link>
-        <nav className="hidden sm:flex items-center gap-6 text-sm">
-          {NAV.map((n) => (
-            <a
-              key={n}
-              href={`#${n.toLowerCase()}`}
-              className="font-mono text-[11px] uppercase text-stamp-navy/50 hover:text-stamp-navy tracking-wider"
-            >
-              {n}
-            </a>
-          ))}
+        <nav className="hidden sm:flex items-center gap-5 md:gap-6 text-sm">
+          {NAV_ITEMS.map((item) =>
+            item.isAnchor ? (
+              <a
+                key={item.label}
+                href={item.href}
+                className="font-mono text-[11px] uppercase text-stamp-navy/50 hover:text-stamp-navy tracking-wider transition-colors"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="font-mono text-[11px] uppercase text-stamp-navy/50 hover:text-stamp-navy tracking-wider transition-colors"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
         <Link
           to={accessToken ? "/dashboard" : "/login"}
