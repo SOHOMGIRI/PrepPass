@@ -9,6 +9,7 @@ import {
   submitTest,
   getSession,
   getHistory,
+  getDetailedReport,
 } from "../controllers/testController.js";
 
 const router = express.Router();
@@ -24,6 +25,7 @@ router.post("/answer", testLimiter, recordAnswer);
 router.post("/violation", testLimiter, recordViolation);
 router.post("/submit", testLimiter, submitTest);
 router.get("/session/:id", getSession);
+router.get("/session/:id/detailed-report", getDetailedReport);
 router.get("/history", getHistory);
 
 export default router;

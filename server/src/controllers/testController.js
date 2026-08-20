@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import TestQuestion from "../models/TestQuestion.js";
 import TestSession from "../models/TestSession.js";
+import ReportUnlock from "../models/ReportUnlock.js";
 import { callGeminiJSON } from "../utils/gemini.js";
 
 /**
@@ -409,3 +410,130 @@ export const getHistory = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * GET /api/test/session/:id/detailed-report
+ * Returns full detailed performance analytics, subject-wise accuracy, and wrong-question review.
+ * Protected by ReportUnlock status: "paid" check. Returns 402 if not unlocked.
+ */
+export const getDetailedReport = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid session id" });
+    }
+
+    const session = await TestSession.findById(id).lean();
+    if (!session) {
+      return res.status(404).json({ message: "Test session not found" });
+    }
+
+    // Ownership check
+    if (session.userId.toString() !== req.userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized access to session" });
+    }
+
+    // Check if report has been unlocked via paid order
+    const unlock = await ReportUnlock.findOne({
+      userId: req.userId,
+      testSessionId: id,
+      status: "paid",
+    }).lean();
+
+    if (!unlock) {
+      return res.status(402).json({
+        message: "Detailed report requires unlock",
+        unlocked: false,
+      });
+    }
+
+    // Fetch original questions to extract correct answers and subjects
+    const questionIds = session.questions.map((q) => q.questionId);
+    const originalQuestions = await TestQuestion.find({
+      _id: { $in: questionIds },
+    }).lean();
+
+    const originalMap = new Map(
+      originalQuestions.map((oq) => [oq._id.toString(), oq])
+    );
+
+    // Subject breakdown
+    const subjectStats = {};
+    for (const sub of session.subjects || []) {
+      subjectStats[sub] = { total: 0, correct: 0 };
+    }
+
+    const questionDetails = session.questions.map((q, idx) => {
+      const oq = originalMap.get(q.questionId?.toString());
+      const sub = oq?.subject || session.subjects[0] || "General";
+      if (!subjectStats[sub]) subjectStats[sub] = { total: 0, correct: 0 };
+      subjectStats[sub].total += 1;
+      if (q.isCorrect) subjectStats[sub].correct += 1;
+
+      return {
+        index: idx + 1,
+        questionText: q.questionText,
+        options: q.options,
+        selectedIndex: q.selectedIndex,
+        selectedOptionText:
+          q.selectedIndex !== null && q.options && q.options[q.selectedIndex]
+            ? q.options[q.selectedIndex]
+            : "Not Answered",
+        correctOptionIndex: oq ? oq.correctOptionIndex : null,
+        correctOptionText:
+          oq && oq.options && oq.options[oq.correctOptionIndex]
+            ? oq.options[oq.correctOptionIndex]
+            : "",
+        isCorrect: q.isCorrect,
+        subject: sub,
+      };
+    });
+
+    const subjectBreakdown = Object.keys(subjectStats).map((sub) => {
+      const s = subjectStats[sub];
+      return {
+        subject: sub,
+        total: s.total,
+        correct: s.correct,
+        accuracyPercent:
+          s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0,
+      };
+    });
+
+    const wrongAnswers = questionDetails.filter((q) => !q.isCorrect);
+
+    const weakAreas = subjectBreakdown
+      .filter((s) => s.accuracyPercent < 70)
+      .map((s) => `Revise ${s.subject} (Accuracy: ${s.accuracyPercent}%)`);
+
+    if (weakAreas.length === 0) {
+      weakAreas.push(
+        "Strong performance across all tested subjects! Focus on speed and edge-case MCQs."
+      );
+    }
+
+    return res.json({
+      unlocked: true,
+      report: {
+        sessionId: session._id,
+        subjects: session.subjects,
+        scorePercent: session.scorePercent,
+        trustScore: session.trustScore,
+        startedAt: session.startedAt,
+        completedAt: session.completedAt,
+        totalQuestions: session.questions.length,
+        correctCount: session.questions.filter((q) => q.isCorrect).length,
+        subjectBreakdown,
+        wrongAnswers,
+        allQuestions: questionDetails,
+        weakAreas,
+        paidAt: unlock.paidAt,
+        referenceCode: unlock.referenceCode,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+

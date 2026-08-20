@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { QRCodeSVG } from "qrcode.react";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
 
@@ -18,7 +19,7 @@ const GENERAL_SUBJECTS = [
 
 export default function TestMode() {
   const [phase, setPhase] = useState("select"); // "select" | "testing" | "result"
-  const [availableSubjects, setAvailableSubjects] = useState(GENERAL_SUBJECTS);
+  const [availableSubjects] = useState(GENERAL_SUBJECTS);
   const [suggestedSubjects, setSuggestedSubjects] = useState([]);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,6 +35,14 @@ export default function TestMode() {
   const [warningModal, setWarningModal] = useState(false);
   const [result, setResult] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+
+  // Payment & Detailed Report State
+  const [detailedReport, setDetailedReport] = useState(null);
+  const [reportLoading, setReportLoading] = useState(false);
+  const [paymentOrder, setPaymentOrder] = useState(null);
+  const [upiTxnInput, setUpiTxnInput] = useState("");
+  const [paymentSubmitting, setPaymentSubmitting] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
 
   // Proctoring debounce ref
   const lastViolationTimeRef = useRef(0);
@@ -103,6 +112,8 @@ export default function TestMode() {
       setQuestions(data.questions || []);
       setCurrentIndex(0);
       setViolationCount(0);
+      setDetailedReport(null);
+      setPaymentOrder(null);
       setPhase("testing");
     } catch (err) {
       setError(
@@ -252,6 +263,81 @@ export default function TestMode() {
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
+
+  // Payment & Report Unlock Handlers
+  const handleUnlockClick = async () => {
+    if (!result?._id) return;
+    setReportLoading(true);
+    setPaymentError("");
+    try {
+      // Check if already unlocked
+      try {
+        const { data: reportData } = await api.get(
+          `/test/session/${result._id}/detailed-report`
+        );
+        if (reportData.unlocked && reportData.report) {
+          setDetailedReport(reportData.report);
+          setReportLoading(false);
+          return;
+        }
+      } catch {
+        // Not yet unlocked, proceed to create payment order
+      }
+
+      const { data } = await api.post("/payment/create-order", {
+        testSessionId: result._id,
+      });
+
+      if (data.unlocked) {
+        const { data: reportData } = await api.get(
+          `/test/session/${result._id}/detailed-report`
+        );
+        setDetailedReport(reportData.report);
+      } else {
+        setPaymentOrder(data);
+        setUpiTxnInput("");
+      }
+    } catch (err) {
+      setPaymentError(
+        err?.response?.data?.message || "Could not initiate report unlock."
+      );
+    } finally {
+      setReportLoading(false);
+    }
+  };
+
+  const handleVerifyPayment = async (e) => {
+    e.preventDefault();
+    if (!upiTxnInput.trim()) {
+      setPaymentError("Please enter your 12-digit UPI transaction ID / UTR.");
+      return;
+    }
+
+    setPaymentSubmitting(true);
+    setPaymentError("");
+    try {
+      const { data } = await api.post("/payment/submit-reference", {
+        referenceCode: paymentOrder.referenceCode,
+        upiTransactionId: upiTxnInput.trim(),
+      });
+
+      if (data.unlocked) {
+        // Fetch detailed report
+        const { data: reportData } = await api.get(
+          `/test/session/${result._id}/detailed-report`
+        );
+        setDetailedReport(reportData.report);
+        setPaymentOrder(null);
+      }
+    } catch (err) {
+      setPaymentError(
+        err?.response?.data?.message ||
+          "Failed to verify payment reference. Please check your transaction ID."
+      );
+    } finally {
+      setPaymentSubmitting(false);
+    }
   };
 
   return (
@@ -618,69 +704,318 @@ export default function TestMode() {
               </div>
             </div>
 
-            {/* Question Breakdown List */}
-            <div className="space-y-4 pt-4 border-t border-dashed border-stamp-navy/20">
-              <h3 className="font-heading text-lg text-stamp-navy">
-                Question Breakdown ({result.questions?.filter((q) => q.isCorrect).length || 0} of {result.questions?.length || 15} Correct)
-              </h3>
+            {/* Section: Unlock Detailed Report / UPI QR Payment */}
+            {!detailedReport && !paymentOrder && (
+              <div className="rounded-xl border border-gold/40 bg-ticket/80 p-6 text-center space-y-4">
+                <div className="ticket-stamp inline-block rounded bg-gold/20 px-3 py-1 font-mono text-xs uppercase font-bold text-stamp-navy">
+                  PREMIUM DIAGNOSTIC REPORT · ₹49
+                </div>
+                <div>
+                  <h3 className="font-heading text-xl text-stamp-navy">
+                    Unlock Subject-Wise Breakdown & Wrong Answers
+                  </h3>
+                  <p className="mt-1 text-xs text-ink/70 max-w-md mx-auto">
+                    Get in-depth analytics including subject accuracy bars, exact correct answers for all questions, and personalized revision recommendations.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleUnlockClick}
+                  disabled={reportLoading}
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 font-heading text-sm font-semibold text-white hover:bg-gold-dark disabled:opacity-50 shadow-sm"
+                >
+                  {reportLoading ? "Loading QR…" : "Unlock Detailed Report — ₹49 ⚡"}
+                </button>
+              </div>
+            )}
 
-              <div className="space-y-3">
-                {result.questions?.map((q, idx) => (
-                  <div
-                    key={idx}
-                    className={`rounded-lg border p-4 text-xs space-y-2 ${
-                      q.isCorrect
-                        ? "border-green-300 bg-green-50/50"
-                        : "border-red-200 bg-red-50/50"
-                    }`}
+            {/* Payment Modal / Card with UPI QR */}
+            {paymentOrder && !detailedReport && (
+              <div className="rounded-xl border-2 border-stamp-navy/20 bg-white p-6 sm:p-8 space-y-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div className="ticket-stamp inline-block rounded bg-stamp-navy/10 px-2.5 py-1 font-mono text-[10px] uppercase font-bold text-stamp-navy">
+                    UPI QR PAYMENT · ₹49
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentOrder(null)}
+                    className="font-mono text-xs text-stamp-navy/60 hover:text-stamp-navy"
                   >
-                    <div className="flex items-center justify-between font-mono">
-                      <span className="font-bold text-stamp-navy">
-                        Q{idx + 1}.
-                      </span>
-                      <span
-                        className={`rounded px-2 py-0.5 font-bold uppercase text-[10px] ${
+                    ✕ Close
+                  </button>
+                </div>
+
+                <div className="text-center">
+                  <h3 className="font-heading text-xl text-stamp-navy">
+                    Scan QR Code to Pay ₹49
+                  </h3>
+                  <p className="mt-1 text-xs text-ink/70">
+                    Scan with any UPI app (GPay, PhonePe, Paytm, BHIM), then enter your transaction ID / UTR below.
+                  </p>
+                </div>
+
+                {/* QR Code Container */}
+                <div className="flex flex-col items-center justify-center p-4 bg-cream/60 rounded-xl border border-stamp-navy/10">
+                  <div className="p-3 bg-white rounded-lg shadow-sm">
+                    <QRCodeSVG
+                      value={paymentOrder.upiUri}
+                      size={180}
+                      bgColor="#ffffff"
+                      fgColor="#0a192f"
+                      level="Q"
+                    />
+                  </div>
+                  <div className="mt-3 text-center space-y-1 font-mono text-xs text-stamp-navy/80">
+                    <p>
+                      <strong>Payee:</strong> {paymentOrder.payeeName}
+                    </p>
+                    <p>
+                      <strong>UPI ID:</strong> {paymentOrder.upiId}
+                    </p>
+                    <p className="text-gold font-bold">
+                      <strong>Ref Code:</strong> {paymentOrder.referenceCode}
+                    </p>
+                  </div>
+                  <p className="mt-2 text-[10px] font-mono text-ink/50 italic">
+                    Self-verified payment for demo purposes.
+                  </p>
+                </div>
+
+                {/* Verification Form */}
+                <form onSubmit={handleVerifyPayment} className="space-y-4">
+                  {paymentError && (
+                    <div className="rounded-lg bg-gold/10 p-3 font-mono text-xs text-stamp-maroon">
+                      {paymentError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                      UPI Transaction ID / UTR Number *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 423456789012 or UPI Ref No."
+                      value={upiTxnInput}
+                      onChange={(e) => setUpiTxnInput(e.target.value)}
+                      disabled={paymentSubmitting}
+                      className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 font-mono"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentOrder(null)}
+                      className="font-mono text-xs text-stamp-navy/70 hover:underline"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={paymentSubmitting || !upiTxnInput.trim()}
+                      className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
+                    >
+                      {paymentSubmitting ? "Verifying…" : "Submit & Unlock Report ✓"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* UNLOCKED DETAILED REPORT VIEW */}
+            {detailedReport && (
+              <div className="rounded-xl border-2 border-gold/40 bg-ticket/40 p-6 sm:p-8 space-y-6">
+                <div className="flex items-center justify-between border-b border-stamp-navy/10 pb-3">
+                  <div className="ticket-stamp inline-block rounded bg-green-100 px-3 py-1 font-mono text-xs uppercase font-bold text-green-900">
+                    ✓ DETAILED DIAGNOSTIC REPORT UNLOCKED
+                  </div>
+                  <span className="font-mono text-xs text-stamp-navy/60">
+                    Ref: {detailedReport.referenceCode}
+                  </span>
+                </div>
+
+                {/* Subject-Wise Accuracy Breakdown */}
+                <div>
+                  <h3 className="font-heading text-lg text-stamp-navy mb-3">
+                    Subject-Wise Accuracy Breakdown
+                  </h3>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {detailedReport.subjectBreakdown?.map((sb, sbIdx) => (
+                      <div
+                        key={sbIdx}
+                        className="rounded-lg border border-stamp-navy/15 bg-white p-4 space-y-2"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-heading text-xs font-bold text-stamp-navy">
+                            {sb.subject}
+                          </span>
+                          <span className="font-mono text-xs font-bold text-gold">
+                            {sb.accuracyPercent}%
+                          </span>
+                        </div>
+                        <div className="h-2 w-full rounded-full bg-stamp-navy/10 overflow-hidden">
+                          <div
+                            className="h-full bg-gold rounded-full transition-all duration-500"
+                            style={{ width: `${sb.accuracyPercent}%` }}
+                          />
+                        </div>
+                        <p className="text-[11px] font-mono text-ink/60">
+                          {sb.correct} of {sb.total} questions answered correctly
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Weak Areas & Focus Recommendations */}
+                <div className="rounded-lg border border-stamp-navy/15 bg-white p-4 space-y-2">
+                  <h4 className="font-heading text-xs uppercase tracking-wider text-stamp-navy/80">
+                    🎯 Personalized Revision Focus
+                  </h4>
+                  <ul className="list-disc pl-5 space-y-1 text-xs text-ink/80">
+                    {detailedReport.weakAreas?.map((wa, waIdx) => (
+                      <li key={waIdx}>{wa}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Wrong & Corrected Questions Review */}
+                <div className="space-y-4">
+                  <h3 className="font-heading text-lg text-stamp-navy">
+                    Comprehensive Question-by-Question Diagnostic
+                  </h3>
+                  <div className="space-y-3">
+                    {detailedReport.allQuestions?.map((q) => (
+                      <div
+                        key={q.index}
+                        className={`rounded-lg border p-4 text-xs space-y-2 ${
                           q.isCorrect
-                            ? "bg-green-200 text-green-900"
-                            : "bg-red-200 text-red-900"
+                            ? "border-green-300 bg-green-50/50"
+                            : "border-red-200 bg-red-50/60"
                         }`}
                       >
-                        {q.isCorrect ? "✓ Correct" : "✕ Incorrect"}
-                      </span>
-                    </div>
+                        <div className="flex items-center justify-between font-mono">
+                          <span className="font-bold text-stamp-navy">
+                            Q{q.index}. [{q.subject}]
+                          </span>
+                          <span
+                            className={`rounded px-2 py-0.5 font-bold uppercase text-[10px] ${
+                              q.isCorrect
+                                ? "bg-green-200 text-green-900"
+                                : "bg-red-200 text-red-900"
+                            }`}
+                          >
+                            {q.isCorrect ? "✓ Correct" : "✕ Needs Review"}
+                          </span>
+                        </div>
 
-                    <p className="font-heading text-sm text-stamp-navy">
-                      {q.questionText}
-                    </p>
+                        <p className="font-heading text-sm text-stamp-navy">
+                          {q.questionText}
+                        </p>
 
-                    <div className="grid gap-1.5 sm:grid-cols-2 pt-1 text-ink/80">
-                      {q.options?.map((opt, oIdx) => (
-                        <div
-                          key={oIdx}
-                          className={`rounded px-2.5 py-1.5 ${
-                            q.selectedIndex === oIdx
-                              ? q.isCorrect
-                                ? "bg-green-200/70 font-semibold"
-                                : "bg-red-200/70 font-semibold"
-                              : "bg-white/60"
+                        <div className="space-y-1.5 pt-1">
+                          {q.options?.map((opt, optIdx) => {
+                            const isUserPick = q.selectedIndex === optIdx;
+                            const isCorrectOpt = q.correctOptionIndex === optIdx;
+
+                            return (
+                              <div
+                                key={optIdx}
+                                className={`rounded px-3 py-1.5 flex items-center justify-between ${
+                                  isCorrectOpt
+                                    ? "bg-green-200 text-green-950 font-bold border border-green-400/50"
+                                    : isUserPick && !q.isCorrect
+                                    ? "bg-red-200/80 text-red-950 font-medium border border-red-300"
+                                    : "bg-white/70 text-ink/75"
+                                }`}
+                              >
+                                <span>
+                                  <span className="font-mono font-bold mr-1.5">
+                                    {["A", "B", "C", "D"][optIdx]}.
+                                  </span>
+                                  {opt}
+                                </span>
+                                <span className="font-mono text-[10px]">
+                                  {isCorrectOpt && "✓ Correct Answer"}
+                                  {isUserPick && !isCorrectOpt && "✕ Your Answer"}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Standard Question Breakdown (when detailed report not yet unlocked) */}
+            {!detailedReport && (
+              <div className="space-y-4 pt-4 border-t border-dashed border-stamp-navy/20">
+                <h3 className="font-heading text-lg text-stamp-navy">
+                  Question Summary ({result.questions?.filter((q) => q.isCorrect).length || 0} of {result.questions?.length || 15} Correct)
+                </h3>
+
+                <div className="space-y-3">
+                  {result.questions?.map((q, idx) => (
+                    <div
+                      key={idx}
+                      className={`rounded-lg border p-4 text-xs space-y-2 ${
+                        q.isCorrect
+                          ? "border-green-300 bg-green-50/50"
+                          : "border-red-200 bg-red-50/50"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between font-mono">
+                        <span className="font-bold text-stamp-navy">
+                          Q{idx + 1}.
+                        </span>
+                        <span
+                          className={`rounded px-2 py-0.5 font-bold uppercase text-[10px] ${
+                            q.isCorrect
+                              ? "bg-green-200 text-green-900"
+                              : "bg-red-200 text-red-900"
                           }`}
                         >
-                          <span className="font-mono font-bold mr-1">
-                            {["A", "B", "C", "D"][oIdx]}.
-                          </span>
-                          {opt}
-                          {q.selectedIndex === oIdx && (
-                            <span className="font-mono text-[10px] ml-1.5 text-stamp-navy">
-                              (Your Choice)
+                          {q.isCorrect ? "✓ Correct" : "✕ Incorrect"}
+                        </span>
+                      </div>
+
+                      <p className="font-heading text-sm text-stamp-navy">
+                        {q.questionText}
+                      </p>
+
+                      <div className="grid gap-1.5 sm:grid-cols-2 pt-1 text-ink/80">
+                        {q.options?.map((opt, oIdx) => (
+                          <div
+                            key={oIdx}
+                            className={`rounded px-2.5 py-1.5 ${
+                              q.selectedIndex === oIdx
+                                ? q.isCorrect
+                                  ? "bg-green-200/70 font-semibold"
+                                  : "bg-red-200/70 font-semibold"
+                                : "bg-white/60"
+                            }`}
+                          >
+                            <span className="font-mono font-bold mr-1">
+                              {["A", "B", "C", "D"][oIdx]}.
                             </span>
-                          )}
-                        </div>
-                      ))}
+                            {opt}
+                            {q.selectedIndex === oIdx && (
+                              <span className="font-mono text-[10px] ml-1.5 text-stamp-navy">
+                                (Your Choice)
+                              </span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-6">
@@ -689,6 +1024,8 @@ export default function TestMode() {
                 onClick={() => {
                   setPhase("select");
                   setResult(null);
+                  setDetailedReport(null);
+                  setPaymentOrder(null);
                 }}
                 className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
               >
