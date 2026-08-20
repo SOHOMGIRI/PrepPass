@@ -19,22 +19,26 @@ function PricingSection() {
             <span className="font-heading text-5xl text-stamp-navy">Free</span>
             <p className="text-sm text-ink/60 mt-2">No credit card required</p>
           </div>
-          <ul className="space-y-3 text-sm text-ink/80 font-mono mb-10 max-w-md mx-auto">
+          <ul className="space-y-3 text-sm text-ink/80 font-mono mb-8 max-w-md mx-auto">
             <li className="flex items-center gap-3">
               <span className="inline-block w-2 h-2 bg-gold rounded-full" />
-              Unlimited mock interviews
+              Unlimited mock interviews (with voice & camera)
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-block w-2 h-2 bg-gold rounded-full" />
-              Instant AI scoring
+              Aptitude practice & proctored test mode
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-block w-2 h-2 bg-gold rounded-full" />
-              Resume-to-JD matching
+              AI resume builder & ATS analysis
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-block w-2 h-2 bg-gold rounded-full" />
-              Readiness grades you can rehearse with
+              GD practice, company tracks & revision deck
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-block w-2 h-2 bg-gold rounded-full" />
+              Readiness trend charts & peer percentiles
             </li>
           </ul>
           <div className="text-center">
@@ -44,6 +48,11 @@ function PricingSection() {
             >
               Register now
             </Link>
+          </div>
+          <div className="mt-8 pt-6 border-t border-dashed border-stamp-navy/15 text-center">
+            <p className="font-mono text-xs text-ink/70">
+              ⚡ <strong>Optional Add-On:</strong> Detailed Test Reports — ₹49 per report, pay via UPI, no subscription.
+            </p>
           </div>
           <div className="ticket-perf mt-8" />
           <div className="absolute top-4 right-4 ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px]">

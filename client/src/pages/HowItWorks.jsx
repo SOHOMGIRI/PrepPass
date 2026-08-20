@@ -5,45 +5,45 @@ import Footer from "../components/landing/Footer.jsx";
 const STEPS = [
   {
     num: "01",
-    badge: "REGISTRATION",
-    title: "Create Your Placement Passport",
-    desc: "Sign up in seconds with verified email security, or explore immediately in demo mode. Your passport securely saves your rehearsal sessions, scores, and custom tracks.",
-    icon: "🎫",
-  },
-  {
-    num: "02",
-    badge: "ATS RESUME SCAN",
-    title: "Upload Your Resume for Instant ATS Auditing",
-    desc: "Upload your PDF or DOCX resume to extract text and run a comprehensive ATS compliance audit. Receive a 0–100 score, missing section warnings, and concrete formatting fixes.",
+    badge: "ATS SCAN & SUGGESTIONS",
+    title: "Upload Your Resume for an ATS Score & Suggested Prep Subjects",
+    desc: "Upload your resume in PDF or DOCX format for an instant 0–100 ATS compliance audit, section completeness check, and automated curriculum recommendations for technical and HR topics to revise.",
     icon: "📄",
   },
   {
-    num: "03",
-    badge: "AI CURRICULUM",
-    title: "Receive Targeted Subject Recommendations",
-    desc: "Based on your resume skills and gap analysis, PrepPass suggests the exact technical and HR topics you need to revise (e.g. DBMS Normalization, React State, System Design).",
-    icon: "🎯",
-  },
-  {
-    num: "04",
-    badge: "PRACTICE TRACKS",
-    title: "Practice Mock Interviews, GDs, & Company Tracks",
-    desc: "Choose from 26+ engineering/management roles or 12 top recruiters (TCS, Amazon, Google, Infosys). Answer adaptive technical & HR questions in real-time or draft GD opening statements with AI rebuttals.",
-    icon: "🎙️",
-  },
-  {
-    num: "05",
+    num: "02",
     badge: "RESUME BUILDER",
-    title: "Craft & Export ATS-Friendly Resumes",
-    desc: "Use our multi-step AI Resume Builder with inline bullet point optimization. Export a clean, recruiter-approved PDF directly from your browser with zero formatting headaches.",
+    title: "Build or Refine Your Resume with AI-Assisted Bullet Points",
+    desc: "Craft a recruiter-approved, ATS-friendly resume using our guided multi-step builder with inline AI bullet point enhancement and instant PDF export.",
     icon: "✨",
   },
   {
-    num: "06",
-    badge: "ANALYTICS",
-    title: "Review Readiness Analytics in History",
-    desc: "Track your average readiness score, per-question clarity/correctness breakdown, past GD sessions, and job match percentages all in one unified passport log.",
+    num: "03",
+    badge: "ACTIVE PRACTICE",
+    title: "Practice via Aptitude Drills, Proctored Tests, Mock Interviews & GDs",
+    desc: "Rehearse with untimed Aptitude practice (Quants, Logic, Verbal), 10-minute proctored MCQ assessments with trust scoring, adaptive mock interviews (with optional voice & camera mode), AI group discussions, and company-specific tracks (TCS, Amazon, Google).",
+    icon: "🎙️",
+  },
+  {
+    num: "04",
+    badge: "REVISION DECK",
+    title: "Review Your Weak Areas in the Revision Deck",
+    desc: "Automatically transform your incorrect test answers and low-scoring interview responses into an interactive 3D flashcard deck with explanations, flip animations, and mastery tracking.",
+    icon: "🃏",
+  },
+  {
+    num: "05",
+    badge: "PERFORMANCE ANALYTICS",
+    title: "Track Growth via Readiness Trends & Compare via Peer Percentiles",
+    desc: "Visualize your multi-session accuracy trajectory across interviews, tests, and GDs with normalized trend charts, and benchmark your subject performance against fellow candidates with anonymized peer percentiles.",
     icon: "📊",
+  },
+  {
+    num: "06",
+    badge: "DETAILED REPORTS",
+    title: "Optionally Unlock Detailed Diagnostic Reports via UPI",
+    desc: "Unlock comprehensive question-by-question answer keys, correct explanations, and subject-wise accuracy breakdowns for any completed test session for ₹49 via simple UPI QR payment.",
+    icon: "⚡",
   },
 ];
 
@@ -122,7 +122,7 @@ export default function HowItWorks() {
             Ready to test your interview readiness?
           </h3>
           <p className="mt-2 text-xs text-ink/60 max-w-md mx-auto">
-            Join hundreds of candidates practicing with adaptive AI questions and ATS-level feedback.
+            Join candidates practicing with adaptive AI questions, proctored tests, and ATS-level feedback.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link

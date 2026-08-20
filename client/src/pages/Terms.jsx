@@ -48,7 +48,7 @@ export default function Terms() {
                 PrepPass is an independent educational tool designed solely for mock interview rehearsal, resume auditing, and campus placement practice.
               </p>
               <p className="text-xs">
-                All AI-generated readiness ratings, feedback notes, ATS match percentages, and interview questions are automated simulation outputs intended for self-assessment. High scores or positive feedback within PrepPass do not guarantee job offers, interview selection, or employment outcomes with any company.
+                All AI-generated readiness ratings, feedback notes, ATS match percentages, and interview questions are automated simulation outputs intended for self-assessment. High scores or positive feedback within PrepPass do not guarantee job offers, interview selection, or employment outcomes with any company. Trust scores, violation counters, and proctoring flags in Test Mode are self-reported practice tools designed to encourage focused rehearsal, not a certified or legally binding assessment.
               </p>
             </section>
 

@@ -57,6 +57,12 @@ export default function Privacy() {
                 <li>
                   <strong>Practice Session Responses:</strong> User answers submitted during mock interviews, group discussion opening arguments, and job descriptions used for resume matching.
                 </li>
+                <li>
+                  <strong>Camera & Voice Feeds:</strong> The floating camera preview during voice interviews is rendered entirely in-browser and is never recorded, captured, or uploaded to any server.
+                </li>
+                <li>
+                  <strong>UPI Payment References:</strong> User-submitted UPI transaction references are stored solely to verify diagnostic report unlocks and are never shared with third parties.
+                </li>
               </ul>
             </section>
 
@@ -71,6 +77,7 @@ export default function Privacy() {
                 <li>Generating real-time AI scoring, feedback, and follow-up questions.</li>
                 <li>Auditing resume formatting and computing ATS compatibility scores.</li>
                 <li>Saving your personal interview logs and readiness scores in your history.</li>
+                <li>Verifying optional ₹49 report unlock requests via self-attested UPI references.</li>
                 <li>Authenticating user sessions and preventing abusive rate limits.</li>
               </ul>
             </section>
@@ -83,7 +90,7 @@ export default function Privacy() {
                 We do not sell, rent, or trade your personal data, resumes, or interview responses with third-party advertisers or recruitment agencies.
               </p>
               <p className="text-xs">
-                AI evaluation is conducted via secure API calls to Google Gemini models in stateless requests. Raw resume files and extracted text from the ATS analyzer are processed in memory and never permanently persisted to raw file storage.
+                AI evaluation is conducted via secure API calls to Google Gemini models in stateless requests. Raw resume files and extracted text from the ATS analyzer are processed in memory and never permanently persisted to raw file storage. Camera video streams run strictly in local browser memory and all media tracks are explicitly terminated when your session concludes.
               </p>
             </section>
 

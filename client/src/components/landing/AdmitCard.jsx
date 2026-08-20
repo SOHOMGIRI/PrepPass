@@ -1,55 +1,102 @@
+import { motion } from "framer-motion";
+
+const FEATURES = [
+  {
+    stamp: "INTERVIEWS",
+    title: "AI Mock Interviews",
+    desc: "Adaptive technical & HR questions, instant scoring, and optional voice-answer mode with camera preview.",
+    icon: "🎙️",
+  },
+  {
+    stamp: "ATS AUDIT",
+    title: "Resume ATS & Job-Match",
+    desc: "Instant compliance audit, missing section warnings, and job description match feedback.",
+    icon: "📄",
+  },
+  {
+    stamp: "BUILDER",
+    title: "AI Resume Builder",
+    desc: "Multi-step builder with AI bullet-point enhancement and recruiter-ready PDF export.",
+    icon: "✨",
+  },
+  {
+    stamp: "TEST MODE",
+    title: "Proctored Test Mode",
+    desc: "Timed 10-minute MCQ assessments with proctoring violation tracking and trust scoring.",
+    icon: "⏱️",
+  },
+  {
+    stamp: "APTITUDE",
+    title: "Aptitude Practice",
+    desc: "Untimed, focused drills for Quantitative Aptitude, Logical Reasoning, and Verbal Ability.",
+    icon: "🧩",
+  },
+  {
+    stamp: "COMPANY PREP",
+    title: "Company-Specific Tracks",
+    desc: "Targeted recruitment patterns and syllabus tracks for TCS, Amazon, Google, Infosys & more.",
+    icon: "🏢",
+  },
+  {
+    stamp: "GD PRACTICE",
+    title: "Group Discussion Practice",
+    desc: "Rehearse GD rounds with AI counter-arguments, rebuttal feedback, and persuasiveness scoring.",
+    icon: "💬",
+  },
+  {
+    stamp: "REVISION DECK",
+    title: "Weak-Area Revision Deck",
+    desc: "Interactive 3D flashcards automatically generated from missed test MCQs and low interview scores.",
+    icon: "🃏",
+  },
+  {
+    stamp: "ANALYTICS",
+    title: "Readiness & Peer Analytics",
+    desc: "Multi-series performance trend charts and anonymized peer percentile rankings per subject.",
+    icon: "📊",
+  },
+];
+
 export default function AdmitCard() {
   return (
     <section id="features" className="py-16 bg-cream">
       <div className="max-w-5xl mx-auto px-6">
-        <h2 className="font-heading text-stamp-navy text-center mb-10">
-          Your exam admit card
-        </h2>
-        <div className="ticket-card relative p-6 sm:p-8">
-          <div className="ticket-perf mb-6" />
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            <div className="font-mono">
-              <div className="flex items-end gap-2 mb-4">
-                <span className="text-[10px] text-stamp-navy/50">CANDIDATE</span>
-                <span className="text-sm text-stamp-navy underline decoration-2 underline-offset-2 decoration-stamp-navy/20">
-                  _ _ _ _ _ _ _
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-[12px]">
-                <div>
-                  <span className="text-stamp-navy/50">SEAT</span>
-                  <span className="text-stamp-navy ml-2">B-1</span>
-                </div>
-                <div>
-                  <span className="text-stamp-navy/50">SESSION</span>
-                  <span className="text-stamp-navy ml-2">07:30 / R2</span>
-                </div>
-                <div>
-                  <span className="text-stamp-navy/50">TEST</span>
-                  <span className="text-stamp-navy ml-2">SOFT-SKILLS</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-stamp-navy/50">SCORE</span>
-                  <span className="text-stamp-navy ml-2">—</span>
-                </div>
-              </div>
-              <div className="mt-5 h-11 bg-[repeating-linear-gradient(90,_#1a227e_0,_#1a227e_3px,_transparent_3px,_transparent_6px)]" />
-              <div className="mt-1 text-[10px] text-stamp-navy/45">
-                barcode · 004-005-012-008-301
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <div className="w-28 h-28 border-2 border-stamp-navy/20 rounded bg-ticket grid grid-cols-3 gap-[2px] p-[3px]">
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="bg-stamp-navy/70 rounded-[1px]" />
-                ))}
-              </div>
-            </div>
+        <div className="text-center mb-12">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy mb-3">
+            ALL-IN-ONE PLACEMENT TOOLKIT
           </div>
-          <div className="ticket-perf mt-6" />
-          <div className="absolute top-3 right-3 ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px]">
-            ADMIT • PREVIEW
-          </div>
+          <h2 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+            Everything you need to crack placements.
+          </h2>
+          <p className="mt-2 text-sm text-ink/60 max-w-xl mx-auto">
+            From ATS resume auditing to proctored MCQs and voice mock interviews — complete prep in one passport.
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f, i) => (
+            <motion.div
+              key={f.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" }}
+              className="ticket-card p-6 flex flex-col justify-between transition hover:border-stamp-navy/40"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-2xl">{f.icon}</span>
+                  <div className="ticket-stamp px-2 py-0.5 rounded text-stamp-navy font-mono text-[9px] uppercase">
+                    {f.stamp}
+                  </div>
+                </div>
+                <h3 className="font-heading text-lg text-stamp-navy mb-2">
+                  {f.title}
+                </h3>
+                <p className="text-xs text-ink/70 leading-relaxed">{f.desc}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
