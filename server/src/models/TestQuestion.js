@@ -31,6 +31,11 @@ const testQuestionSchema = new mongoose.Schema({
     min: 0,
     max: 3,
   },
+  explanation: {
+    type: String,
+    trim: true,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

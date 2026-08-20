@@ -42,6 +42,7 @@ import resumeBuilderRoutes from "./routes/resumeBuilderRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import testRoutes from "./routes/testRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import revisionRoutes from "./routes/revisionRoutes.js";
 import { globalLimiter } from "./middleware/rateLimiter.js";
 import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
@@ -117,6 +118,7 @@ app.use("/api/resume-builder", resumeBuilderRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/test", testRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/revision", revisionRoutes);
 
 app.use(errorHandler);
 

@@ -24,6 +24,12 @@ const cards = [
     stamp: "APTITUDE",
   },
   {
+    title: "Revision Deck",
+    desc: "Flashcards generated from missed questions & feedback.",
+    to: "/revision-deck",
+    stamp: "REVISION DECK",
+  },
+  {
     title: "Company Prep",
     desc: "Targeted tracks for TCS, Amazon, Google & more.",
     to: "/company-prep",

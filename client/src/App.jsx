@@ -15,6 +15,7 @@ import GDPractice from "./pages/GDPractice.jsx";
 import CompanyPrep from "./pages/CompanyPrep.jsx";
 import TestMode from "./pages/TestMode.jsx";
 import AptitudePractice from "./pages/AptitudePractice.jsx";
+import RevisionDeck from "./pages/RevisionDeck.jsx";
 import History from "./pages/History.jsx";
 import HowItWorks from "./pages/HowItWorks.jsx";
 import About from "./pages/About.jsx";
@@ -108,6 +109,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AptitudePractice />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/revision-deck"
+            element={
+              <ProtectedRoute>
+                <RevisionDeck />
               </ProtectedRoute>
             }
           />

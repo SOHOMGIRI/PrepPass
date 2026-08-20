@@ -10,13 +10,14 @@ import { callGeminiJSON } from "../utils/gemini.js";
 async function generateAndSaveTestQuestions(subject, count) {
   const prompt = `Generate exactly ${count} unique, high-quality multiple choice question(s) (MCQs) for the technical/academic subject: "${subject}".
 Difficulty: medium.
-Each question MUST have exactly 4 plausible option strings and a single correctOptionIndex (0, 1, 2, or 3).
+Each question MUST have exactly 4 plausible option strings, a single correctOptionIndex (0, 1, 2, or 3), and a short explanation (1-2 sentences explaining why the correct answer is correct).
 Return ONLY a JSON array of objects with this exact structure:
 [
   {
     "questionText": "...",
     "options": ["Option A", "Option B", "Option C", "Option D"],
     "correctOptionIndex": 0,
+    "explanation": "...",
     "difficulty": "medium"
   }
 ]
@@ -43,6 +44,7 @@ No markdown formatting, no code fences.`;
         questionText: item.questionText.trim(),
         options: item.options.map((opt) => String(opt).trim()),
         correctOptionIndex: item.correctOptionIndex,
+        explanation: typeof item.explanation === "string" ? item.explanation.trim() : null,
       });
     }
   }
