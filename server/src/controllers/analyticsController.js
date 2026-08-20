@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import InterviewSession from "../models/InterviewSession.js";
 import TestSession from "../models/TestSession.js";
 import GDPracticeSession from "../models/GDPracticeSession.js";
@@ -72,3 +73,96 @@ export const getReadinessTrend = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * GET /api/analytics/percentile/:testSessionId
+ * Computes anonymized peer percentile rankings per subject and blended overall.
+ */
+export const getTestPercentile = async (req, res, next) => {
+  try {
+    const { testSessionId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(testSessionId)) {
+      return res.status(400).json({ message: "Invalid session id" });
+    }
+
+    const session = await TestSession.findById(testSessionId).lean();
+    if (!session) {
+      return res.status(404).json({ message: "Test session not found" });
+    }
+
+    // Ownership check
+    if (session.userId.toString() !== req.userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized access to session" });
+    }
+
+    if (session.status === "in-progress" || session.scorePercent === null) {
+      return res.status(400).json({ message: "Session is not finalized yet" });
+    }
+
+    const subjects = session.subjects || [];
+    const userScore = session.scorePercent;
+
+    const subjectPercentiles = [];
+
+    for (const subject of subjects) {
+      // Find all completed/auto-submitted sessions across ALL users that included this subject
+      const allSessionsForSubject = await TestSession.find({
+        subjects: subject,
+        status: { $in: ["completed", "auto-submitted"] },
+        scorePercent: { $ne: null },
+      })
+        .select("scorePercent")
+        .lean();
+
+      const totalSessions = allSessionsForSubject.length;
+
+      if (totalSessions < 5) {
+        subjectPercentiles.push({
+          subject,
+          percentile: null,
+          notEnoughData: true,
+          totalSessions,
+          message: "Not enough data yet for this subject",
+        });
+      } else {
+        const countLowerOrEqual = allSessionsForSubject.filter(
+          (s) => s.scorePercent <= userScore
+        ).length;
+
+        const percentile = Math.round(
+          (countLowerOrEqual / totalSessions) * 100
+        );
+
+        subjectPercentiles.push({
+          subject,
+          percentile,
+          notEnoughData: false,
+          totalSessions,
+        });
+      }
+    }
+
+    // Blended overall percentile (simple average of valid subject percentiles)
+    const validPercentiles = subjectPercentiles
+      .filter((sp) => typeof sp.percentile === "number")
+      .map((sp) => sp.percentile);
+
+    const overallPercentile =
+      validPercentiles.length > 0
+        ? Math.round(
+            validPercentiles.reduce((a, b) => a + b, 0) / validPercentiles.length
+          )
+        : null;
+
+    return res.json({
+      testSessionId: session._id,
+      scorePercent: session.scorePercent,
+      subjectPercentiles,
+      overallPercentile,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+

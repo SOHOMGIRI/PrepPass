@@ -44,6 +44,9 @@ export default function TestMode() {
   const [paymentSubmitting, setPaymentSubmitting] = useState(false);
   const [paymentError, setPaymentError] = useState("");
 
+  // Percentile State
+  const [percentileData, setPercentileData] = useState(null);
+
   // Proctoring debounce ref
   const lastViolationTimeRef = useRef(0);
   const testContainerRef = useRef(null);
@@ -70,6 +73,28 @@ export default function TestMode() {
       cancelled = true;
     };
   }, []);
+
+  // Fetch peer percentile rankings when test result is available
+  useEffect(() => {
+    if (!result?._id) {
+      setPercentileData(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data } = await api.get(`/analytics/percentile/${result._id}`);
+        if (!cancelled) {
+          setPercentileData(data);
+        }
+      } catch (err) {
+        console.warn("Could not fetch percentile data:", err);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [result?._id]);
 
   const toggleSubject = (sub) => {
     if (selectedSubjects.includes(sub)) {
@@ -703,6 +728,52 @@ export default function TestMode() {
                 </p>
               </div>
             </div>
+
+            {/* Anonymized Peer Comparison Strip */}
+            {percentileData && percentileData.subjectPercentiles && (
+              <div className="rounded-xl border border-stamp-navy/15 bg-white/80 p-5 space-y-3 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">🏆</span>
+                    <span className="font-heading text-xs uppercase tracking-wider text-stamp-navy font-bold">
+                      Peer Percentile Ranking
+                    </span>
+                  </div>
+                  {typeof percentileData.overallPercentile === "number" && (
+                    <span className="font-mono text-xs font-bold text-stamp-navy bg-gold/20 px-2.5 py-0.5 rounded">
+                      Top {Math.max(1, 100 - percentileData.overallPercentile)}% ({percentileData.overallPercentile}th Percentile)
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid gap-2.5 sm:grid-cols-2 pt-1">
+                  {percentileData.subjectPercentiles.map((sp, idx) => (
+                    <div
+                      key={idx}
+                      className="rounded-lg border border-stamp-navy/10 bg-ticket/40 p-3 text-xs space-y-1.5"
+                    >
+                      <div className="flex items-center justify-between font-mono">
+                        <span className="font-bold text-stamp-navy">{sp.subject}</span>
+                        {sp.percentile !== null ? (
+                          <span className="rounded bg-stamp-navy/10 px-2 py-0.5 font-bold text-stamp-navy">
+                            {sp.percentile}th %ile
+                          </span>
+                        ) : (
+                          <span className="text-[10px] text-stamp-navy/50 font-medium">
+                            Gathering stats
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-ink/75 leading-relaxed">
+                        {sp.percentile !== null
+                          ? `You scored better than ${sp.percentile}% of test-takers in ${sp.subject}.`
+                          : `Not enough data yet for ${sp.subject} (minimum 5 test-takers needed).`}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Section: Unlock Detailed Report / UPI QR Payment */}
             {!detailedReport && !paymentOrder && (

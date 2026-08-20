@@ -1,7 +1,10 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
-import { getReadinessTrend } from "../controllers/analyticsController.js";
+import {
+  getReadinessTrend,
+  getTestPercentile,
+} from "../controllers/analyticsController.js";
 
 const router = express.Router();
 
@@ -12,5 +15,6 @@ router.use(checkDbConnection);
 router.use(verifyAccessToken);
 
 router.get("/trend", getReadinessTrend);
+router.get("/percentile/:testSessionId", getTestPercentile);
 
 export default router;
