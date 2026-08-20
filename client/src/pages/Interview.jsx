@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
 import SessionResults from "../components/SessionResults.jsx";
+import CameraPreview from "../components/CameraPreview.jsx";
 
 const CATEGORIES = [
   "All",
@@ -26,6 +27,13 @@ export default function Interview() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
+  // Optional Voice & Camera Preferences
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [cameraEnabled, setCameraEnabled] = useState(false);
+  const isSpeechSupported =
+    typeof window !== "undefined" &&
+    Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+
   // Role selection state
   const [roles, setRoles] = useState([]);
   const [rolesLoading, setRolesLoading] = useState(true);
@@ -45,7 +53,9 @@ export default function Interview() {
         if (!cancelled) setRolesLoading(false);
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const filteredRoles = roles.filter((r) => {
@@ -75,7 +85,7 @@ export default function Interview() {
 
   const submit = async () => {
     if (!answer.trim()) {
-      setError("Please enter an answer.");
+      setError("Please enter or speak an answer.");
       return;
     }
     setBusy(true);
@@ -146,19 +156,82 @@ export default function Interview() {
           </p>
         )}
         {phase === "select" ? (
-          <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
-              PREPPASS — INTERVIEW
+          <div className="ticket-card mt-6 p-6 sm:p-8 space-y-6">
+            <div>
+              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+                PREPPASS — INTERVIEW
+              </div>
+              <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+                Select a role to rehearse.
+              </h1>
+              <p className="mt-1 text-sm text-ink/60">
+                Four adaptive questions, scored in real time.
+              </p>
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
-              Select a role to rehearse.
-            </h1>
-            <p className="mt-1 text-sm text-ink/60">
-              Four adaptive questions, scored in real time.
-            </p>
+
+            {/* Optional Preferences: Voice & Camera Toggles */}
+            <div className="rounded-xl border border-stamp-navy/15 bg-ticket/50 p-4 sm:p-5 space-y-3">
+              <div className="font-heading text-xs uppercase tracking-wider text-stamp-navy font-bold">
+                ⚙️ Interview Preferences (Optional)
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {/* Voice Toggle */}
+                <label
+                  className={`flex items-start gap-3 rounded-lg border p-3.5 transition select-none ${
+                    !isSpeechSupported
+                      ? "opacity-50 cursor-not-allowed bg-ink/5 border-ink/10"
+                      : voiceEnabled
+                      ? "border-stamp-navy bg-white shadow-xs cursor-pointer"
+                      : "border-stamp-navy/15 bg-white/60 hover:bg-white cursor-pointer"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={voiceEnabled}
+                    onChange={(e) => isSpeechSupported && setVoiceEnabled(e.target.checked)}
+                    disabled={!isSpeechSupported}
+                    className="mt-0.5 h-4 w-4 rounded border-stamp-navy/30 text-stamp-navy focus:ring-stamp-navy"
+                  />
+                  <div>
+                    <span className="font-heading text-xs font-bold text-stamp-navy flex items-center gap-1.5">
+                      <span>🎙️</span> Answer by voice
+                    </span>
+                    <p className="mt-0.5 text-[11px] text-ink/70 leading-relaxed">
+                      {isSpeechSupported
+                        ? "Speak your answers naturally using Speech-to-Text."
+                        : "Voice input isn't supported in this browser — use Chrome or Edge, or just type your answer."}
+                    </p>
+                  </div>
+                </label>
+
+                {/* Camera Toggle */}
+                <label
+                  className={`flex items-start gap-3 rounded-lg border p-3.5 transition select-none cursor-pointer ${
+                    cameraEnabled
+                      ? "border-stamp-navy bg-white shadow-xs"
+                      : "border-stamp-navy/15 bg-white/60 hover:bg-white"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={cameraEnabled}
+                    onChange={(e) => setCameraEnabled(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-stamp-navy/30 text-stamp-navy focus:ring-stamp-navy"
+                  />
+                  <div>
+                    <span className="font-heading text-xs font-bold text-stamp-navy flex items-center gap-1.5">
+                      <span>📹</span> Show my camera
+                    </span>
+                    <p className="mt-0.5 text-[11px] text-ink/70 leading-relaxed">
+                      Mirrored video preview box. Never recorded or uploaded.
+                    </p>
+                  </div>
+                </label>
+              </div>
+            </div>
 
             {/* Search */}
-            <div className="mt-5">
+            <div>
               <input
                 type="text"
                 placeholder="Search roles…"
@@ -169,7 +242,7 @@ export default function Interview() {
             </div>
 
             {/* Category pills */}
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
@@ -192,7 +265,7 @@ export default function Interview() {
             ) : filteredRoles.length === 0 ? (
               <p className="mt-6 text-center text-sm text-ink/50">No roles found.</p>
             ) : (
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredRoles.map((r) => (
                   <button
                     key={r.id}
@@ -213,18 +286,29 @@ export default function Interview() {
             )}
           </div>
         ) : (
-          <InterviewCard
-            phase={phase}
-            role={role}
-            step={step}
-            question={question}
-            answer={answer}
-            setAnswer={setAnswer}
-            busy={busy}
-            last={last}
-            onNext={next}
-            onSubmit={submit}
-          />
+          <>
+            <InterviewCard
+              phase={phase}
+              role={role}
+              step={step}
+              question={question}
+              answer={answer}
+              setAnswer={setAnswer}
+              busy={busy}
+              last={last}
+              onNext={next}
+              onSubmit={submit}
+              voiceEnabled={voiceEnabled}
+              setVoiceEnabled={setVoiceEnabled}
+              isSpeechSupported={isSpeechSupported}
+            />
+
+            {/* Floating Camera Preview (if enabled) */}
+            <CameraPreview
+              enabled={cameraEnabled && (phase === "live" || phase === "feedback")}
+              onClose={() => setCameraEnabled(false)}
+            />
+          </>
         )}
       </div>
     </div>
