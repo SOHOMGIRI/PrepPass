@@ -45,6 +45,11 @@ const testSessionSchema = new mongoose.Schema({
     enum: ["in-progress", "completed", "auto-submitted"],
     default: "in-progress",
   },
+  mode: {
+    type: String,
+    enum: ["proctored", "practice"],
+    default: "proctored",
+  },
   questions: {
     type: [sessionQuestionSchema],
     default: [],

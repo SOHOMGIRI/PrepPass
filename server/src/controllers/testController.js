@@ -102,7 +102,7 @@ async function gradeSessionQuestions(session) {
  */
 export const startTest = async (req, res, next) => {
   try {
-    const { subjects } = req.body || {};
+    const { subjects, mode, questionCount } = req.body || {};
 
     if (
       !Array.isArray(subjects) ||
@@ -124,14 +124,30 @@ export const startTest = async (req, res, next) => {
         .json({ message: "At least one valid subject name is required." });
     }
 
-    // Determine question distribution for 15 questions total
+    const isPractice = mode === "practice";
+    const sessionMode = isPractice ? "practice" : "proctored";
+
+    // Determine question count (defaults to 15, allows 5/10/15 for practice)
+    let totalQuestions = 15;
+    if (typeof questionCount === "number" && [5, 10, 15].includes(questionCount)) {
+      totalQuestions = questionCount;
+    }
+
     let countsPerSubject = [];
     if (cleanSubjects.length === 1) {
-      countsPerSubject = [15];
+      countsPerSubject = [totalQuestions];
     } else if (cleanSubjects.length === 2) {
-      countsPerSubject = [8, 7];
+      const first = Math.ceil(totalQuestions / 2);
+      const second = totalQuestions - first;
+      countsPerSubject = [first, second];
     } else {
-      countsPerSubject = [5, 5, 5];
+      const base = Math.floor(totalQuestions / 3);
+      const remainder = totalQuestions % 3;
+      countsPerSubject = [
+        base + (remainder > 0 ? 1 : 0),
+        base + (remainder > 1 ? 1 : 0),
+        base,
+      ];
     }
 
     let assembledQuestions = [];
@@ -165,7 +181,10 @@ export const startTest = async (req, res, next) => {
     }
 
     const now = new Date();
-    const expiresAt = new Date(now.getTime() + 10 * 60 * 1000); // 10 minutes
+    // Practice mode gets 2 hours (effectively untimed), proctored gets 10 minutes
+    const expiresAt = isPractice
+      ? new Date(now.getTime() + 2 * 60 * 60 * 1000)
+      : new Date(now.getTime() + 10 * 60 * 1000);
 
     const sessionQuestions = assembledQuestions.map((q) => ({
       questionId: q._id,
@@ -178,6 +197,7 @@ export const startTest = async (req, res, next) => {
     const session = new TestSession({
       userId: req.userId,
       subjects: cleanSubjects,
+      mode: sessionMode,
       status: "in-progress",
       startedAt: now,
       expiresAt,
@@ -202,6 +222,7 @@ export const startTest = async (req, res, next) => {
       expiresAt: session.expiresAt,
       questions: clientQuestions,
       subjects: session.subjects,
+      mode: session.mode,
     });
   } catch (err) {
     next(err);
@@ -401,7 +422,7 @@ export const getHistory = async (req, res, next) => {
     const sessions = await TestSession.find({ userId: req.userId })
       .sort({ startedAt: -1 })
       .select(
-        "subjects status scorePercent trustScore violationCount autoSubmittedByTimeout startedAt completedAt"
+        "subjects mode status scorePercent trustScore violationCount autoSubmittedByTimeout startedAt completedAt"
       )
       .lean();
 

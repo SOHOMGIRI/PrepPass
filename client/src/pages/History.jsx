@@ -140,19 +140,25 @@ export default function History() {
                         </span>
                       </div>
                       <div className="mt-3 flex items-center justify-between">
-                        <span
-                          className={`rounded px-2 py-0.5 font-mono text-[10px] font-bold uppercase ${
-                            t.trustScore === 100
-                              ? "bg-green-100 text-green-800"
-                              : t.trustScore === 70
-                              ? "bg-yellow-100 text-yellow-800"
-                              : t.trustScore === 40
-                              ? "bg-orange-100 text-orange-800"
-                              : "bg-red-100 text-stamp-maroon"
-                          }`}
-                        >
-                          {t.trustScore}% Trust Score
-                        </span>
+                        {t.mode === "practice" ? (
+                          <span className="rounded bg-gold/15 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-stamp-navy">
+                            Practice Mode
+                          </span>
+                        ) : (
+                          <span
+                            className={`rounded px-2 py-0.5 font-mono text-[10px] font-bold uppercase ${
+                              t.trustScore === 100
+                                ? "bg-green-100 text-green-800"
+                                : t.trustScore === 70
+                                ? "bg-yellow-100 text-yellow-800"
+                                : t.trustScore === 40
+                                ? "bg-orange-100 text-orange-800"
+                                : "bg-red-100 text-stamp-maroon"
+                            }`}
+                          >
+                            {t.trustScore}% Trust Score
+                          </span>
+                        )}
                         <span className="font-mono text-[10px] uppercase text-stamp-navy/50">
                           {t.status}
                         </span>

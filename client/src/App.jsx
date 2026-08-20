@@ -14,6 +14,7 @@ import ResumeBuilder from "./pages/ResumeBuilder.jsx";
 import GDPractice from "./pages/GDPractice.jsx";
 import CompanyPrep from "./pages/CompanyPrep.jsx";
 import TestMode from "./pages/TestMode.jsx";
+import AptitudePractice from "./pages/AptitudePractice.jsx";
 import History from "./pages/History.jsx";
 import HowItWorks from "./pages/HowItWorks.jsx";
 import About from "./pages/About.jsx";
@@ -99,6 +100,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <TestMode />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/aptitude"
+            element={
+              <ProtectedRoute>
+                <AptitudePractice />
               </ProtectedRoute>
             }
           />

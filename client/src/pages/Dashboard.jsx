@@ -18,6 +18,12 @@ const cards = [
     stamp: "TEST MODE",
   },
   {
+    title: "Aptitude Practice",
+    desc: "Untimed practice for Quants, Logic & Verbal.",
+    to: "/aptitude",
+    stamp: "APTITUDE",
+  },
+  {
     title: "Company Prep",
     desc: "Targeted tracks for TCS, Amazon, Google & more.",
     to: "/company-prep",
