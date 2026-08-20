@@ -20,10 +20,12 @@ router.use(checkDbConnection);
 // All test routes are protected by access token
 router.use(verifyAccessToken);
 
-router.post("/start", testLimiter, startTest);
-router.post("/answer", testLimiter, recordAnswer);
-router.post("/violation", testLimiter, recordViolation);
-router.post("/submit", testLimiter, submitTest);
+router.use(testLimiter);
+
+router.post("/start", startTest);
+router.post("/answer", recordAnswer);
+router.post("/violation", recordViolation);
+router.post("/submit", submitTest);
 router.get("/session/:id", getSession);
 router.get("/session/:id/detailed-report", getDetailedReport);
 router.get("/history", getHistory);

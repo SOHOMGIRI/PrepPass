@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
+import { analyticsLimiter } from "../middleware/featureLimiters.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
 import { getDashboardSummary } from "../controllers/dashboardController.js";
 
@@ -10,6 +11,8 @@ router.use(checkDbConnection);
 
 // Protected by access token
 router.use(verifyAccessToken);
+
+router.use(analyticsLimiter);
 
 router.get("/summary", getDashboardSummary);
 

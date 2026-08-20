@@ -16,8 +16,10 @@ router.use(checkDbConnection);
 // All routes protected by verifyAccessToken
 router.use(verifyAccessToken);
 
+router.use(resumeBuilderLimiter);
+
 router.get("/", getDraft);
 router.put("/", saveDraft);
-router.post("/ai-assist", resumeBuilderLimiter, aiAssist);
+router.post("/ai-assist", aiAssist);
 
 export default router;

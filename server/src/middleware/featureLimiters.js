@@ -52,5 +52,37 @@ export const testLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const paymentLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 30 : 300,
+  message: { message: "Too many payment requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const revisionLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 60 : 500,
+  message: { message: "Too many revision requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const analyticsLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 60 : 500,
+  message: { message: "Too many analytics requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const companyLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: isProduction ? 60 : 500,
+  message: { message: "Too many company track requests, please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 
 

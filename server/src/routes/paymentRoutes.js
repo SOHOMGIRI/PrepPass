@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
+import { paymentLimiter } from "../middleware/featureLimiters.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
 import {
   createOrder,
@@ -13,6 +14,8 @@ router.use(checkDbConnection);
 
 // Protected by user access token
 router.use(verifyAccessToken);
+
+router.use(paymentLimiter);
 
 router.post("/create-order", createOrder);
 router.post("/submit-reference", submitReference);

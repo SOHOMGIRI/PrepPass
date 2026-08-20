@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
+import { analyticsLimiter } from "../middleware/featureLimiters.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
 import {
   getReadinessTrend,
@@ -13,6 +14,8 @@ router.use(checkDbConnection);
 
 // Protected by access token
 router.use(verifyAccessToken);
+
+router.use(analyticsLimiter);
 
 router.get("/trend", getReadinessTrend);
 router.get("/percentile/:testSessionId", getTestPercentile);

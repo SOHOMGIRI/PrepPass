@@ -117,7 +117,7 @@ export const startTest = async (req, res, next) => {
     }
 
     const cleanSubjects = subjects
-      .map((s) => (typeof s === "string" ? s.trim() : ""))
+      .map((s) => (typeof s === "string" ? s.trim().slice(0, 100) : ""))
       .filter((s) => s.length > 0);
 
     if (cleanSubjects.length === 0) {
@@ -241,6 +241,10 @@ export const recordAnswer = async (req, res, next) => {
 
     if (!mongoose.Types.ObjectId.isValid(sessionId)) {
       return res.status(400).json({ message: "Invalid session id" });
+    }
+
+    if (!questionId || typeof questionId !== "string" || questionId.trim().length > 100) {
+      return res.status(400).json({ message: "Invalid question id" });
     }
 
     const session = await TestSession.findById(sessionId);

@@ -94,8 +94,15 @@ export const submitReference = async (req, res, next) => {
   try {
     const { referenceCode, upiTransactionId } = req.body || {};
 
-    if (!referenceCode || typeof referenceCode !== "string") {
-      return res.status(400).json({ message: "referenceCode is required" });
+    if (
+      !referenceCode ||
+      typeof referenceCode !== "string" ||
+      referenceCode.trim().length < 3 ||
+      referenceCode.trim().length > 30
+    ) {
+      return res.status(400).json({
+        message: "A valid referenceCode (3-30 characters) is required",
+      });
     }
 
     if (

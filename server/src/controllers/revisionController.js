@@ -163,8 +163,15 @@ export const markCardStatus = async (req, res, next) => {
   try {
     const { cardKey, status } = req.body || {};
 
-    if (!cardKey || typeof cardKey !== "string") {
-      return res.status(400).json({ message: "cardKey is required" });
+    if (
+      !cardKey ||
+      typeof cardKey !== "string" ||
+      cardKey.trim().length === 0 ||
+      cardKey.trim().length > 200
+    ) {
+      return res.status(400).json({
+        message: "cardKey is required and must be between 1 and 200 characters",
+      });
     }
 
     if (!["learning", "mastered"].includes(status)) {

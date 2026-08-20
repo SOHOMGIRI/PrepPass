@@ -16,8 +16,10 @@ router.use(checkDbConnection);
 // All routes protected by verifyAccessToken
 router.use(verifyAccessToken);
 
+router.use(gdLimiter);
+
 router.get("/topics", getTopics);
-router.post("/practice", gdLimiter, submitPractice);
+router.post("/practice", submitPractice);
 router.get("/history", getHistory);
 
 export default router;
