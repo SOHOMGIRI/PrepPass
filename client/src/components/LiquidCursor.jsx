@@ -1,146 +1,101 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useMouse } from "../context/MouseContext.jsx";
-
-const NUM_BLOBS = 6;
-const BLOB = "rgba(212, 167, 44, 0.55)";
-const WIDTHS = Array.from({ length: NUM_BLOBS }, (_, i) => 54 - i * 3);
-
-const isTouchDevice = () =>
-  typeof navigator !== "undefined" &&
-  (navigator.maxTouchPoints > 0 ||
-    /Android|iPhone|iPad|iPod|Windows Phone|Touch/.test(navigator.userAgent));
+import gsap from "gsap";
 
 export default function LiquidCursor() {
   const location = useLocation();
-  const globalMouse = useMouse();
   const [enabled, setEnabled] = useState(false);
-  const mouse = useRef({ x: -200, y: -200 });
-  const blobs = useRef(
-    Array.from({ length: NUM_BLOBS }, () => ({ x: -120, y: -120 }))
-  );
-  const dots = useRef([]);
-  const solidDotRef = useRef(null);
-  const cursorScale = useRef(1);
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const isHovering = useRef(false);
 
-  // Sync global mouse to local ref
+  // Disable check
   useEffect(() => {
-    mouse.current = { x: globalMouse.x, y: globalMouse.y };
-  }, [globalMouse]);
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    const isExcluded = ["/test-mode", "/login", "/register"].includes(location.pathname);
+    
+    if (isTouch || isExcluded) {
+      setEnabled(false);
+      document.body.style.cursor = "auto";
+    } else {
+      setEnabled(true);
+      document.body.style.cursor = "none";
+    }
+    
+    return () => { document.body.style.cursor = "auto"; };
+  }, [location.pathname]);
 
-  // Cursor state detection
-  useEffect(() => {
-    const handleMouseOver = (e) => {
-      if (e.target.closest('[data-cursor="pointer"]')) {
-        cursorScale.current = 1.5;
-      } else {
-        cursorScale.current = 1;
-      }
-    };
-    window.addEventListener("mouseover", handleMouseOver);
-    return () => window.removeEventListener("mouseover", handleMouseOver);
-  }, []);
-
-  // Hide the cursor entirely on touch devices (no real mouse pointer).
-  useEffect(() => {
-    const media = window.matchMedia("(hover: none)");
-    const update = () => setEnabled(!isTouchDevice() && !media.matches);
-    update();
-    media.addEventListener?.("change", update);
-    return () => media.removeEventListener?.("change", update);
-  }, []);
-
-  // Manual rAF easing: the head snaps toward the cursor; every later blob
-  // trails the previous one with more lag, forming a flowing, gooey tail.
-  // Writes go straight to the DOM (no React re-render per frame).
+  // Mouse logic via GSAP
   useEffect(() => {
     if (!enabled) return;
-    const store = blobs.current;
-    let raf;
-    const tick = () => {
-      store[0].x += (mouse.current.x - store[0].x) * 0.4;
-      store[0].y += (mouse.current.y - store[0].y) * 0.4;
-      for (let i = 1; i < NUM_BLOBS; i++) {
-        const k = 0.16 + i * 0.02;
-        store[i].x += (store[i - 1].x - store[i].x) * k;
-        store[i].y += (store[i - 1].y - store[i].y) * k;
-      }
-      for (let i = 0; i < NUM_BLOBS; i++) {
-        const el = dots.current[i];
-        if (el) {
-          el.style.transform = `translate(${store[i].x - WIDTHS[i] / 2}px, ${
-            store[i].y - WIDTHS[i] / 2
-          }px)`;
+
+    // QuickTo for high performance
+    const xDot = gsap.quickTo(dotRef.current, "x", { duration: 0.05, ease: "power3.out" });
+    const yDot = gsap.quickTo(dotRef.current, "y", { duration: 0.05, ease: "power3.out" });
+    const xRing = gsap.quickTo(ringRef.current, "x", { duration: 0.3, ease: "power3.out" });
+    const yRing = gsap.quickTo(ringRef.current, "y", { duration: 0.3, ease: "power3.out" });
+
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      // Center dot (4px radius)
+      xDot(clientX - 4);
+      yDot(clientY - 4);
+      // Center ring (16px radius initially)
+      xRing(clientX - 16);
+      yRing(clientY - 16);
+    };
+
+    const handleMouseOver = (e) => {
+      const target = e.target;
+      if (
+        target.tagName.toLowerCase() === "a" ||
+        target.tagName.toLowerCase() === "button" ||
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest('[data-cursor="pointer"]')
+      ) {
+        if (!isHovering.current) {
+          isHovering.current = true;
+          gsap.to(ringRef.current, { scale: 1.8, backgroundColor: "rgba(212, 167, 44, 0.1)", duration: 0.2 });
+          gsap.to(dotRef.current, { opacity: 0, scale: 0, duration: 0.2 });
+        }
+      } else {
+        if (isHovering.current) {
+          isHovering.current = false;
+          gsap.to(ringRef.current, { scale: 1, backgroundColor: "transparent", duration: 0.2 });
+          gsap.to(dotRef.current, { opacity: 1, scale: 1, duration: 0.2 });
         }
       }
-      
-      if (solidDotRef.current) {
-        solidDotRef.current.style.transform = `translate(${mouse.current.x - 4}px, ${
-          mouse.current.y - 4
-        }px) scale(${cursorScale.current})`;
-      }
-
-      raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseover", handleMouseOver);
+
     return () => {
-      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseover", handleMouseOver);
     };
   }, [enabled]);
 
-  if (!enabled || location.pathname === "/test-mode") return null;
+  if (!enabled) return null;
 
   return (
     <>
-      <svg
-        className="fixed inset-0 size-full pointer-events-none"
-        aria-hidden="true"
-        style={{ zIndex: 1, overflow: "visible" }}
-      >
-        <defs>
-          <filter id="liquid-goo" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="10" result="blur" />
-            <feColorMatrix
-              in="blur"
-              type="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -7"
-              result="goo"
-            />
-          </filter>
-        </defs>
-      </svg>
-
       <div
-        className="fixed inset-0 size-full pointer-events-none"
-        style={{ zIndex: 2, filter: "url(#liquid-goo)" }}
-      >
-        {WIDTHS.map((w, i) => (
-          <span
-            key={i}
-            ref={(el) => {
-              dots.current[i] = el;
-            }}
-            className="absolute block rounded-full"
-            style={{
-              left: 0,
-              top: 0,
-              width: w,
-              height: w,
-              backgroundColor: BLOB,
-              willChange: "transform",
-            }}
-          />
-        ))}
-      </div>
-
-      <span
-        ref={solidDotRef}
-        className="fixed top-0 left-0 block rounded-full pointer-events-none transition-transform duration-100"
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-gold"
+        style={{
+          width: 32,
+          height: 32,
+          willChange: "transform",
+        }}
+      />
+      <div
+        ref={dotRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full bg-gold"
         style={{
           width: 8,
           height: 8,
-          backgroundColor: "#d4a72c",
-          zIndex: 3,
           willChange: "transform",
         }}
       />
