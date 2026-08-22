@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import SpotlightCard from "../components/landing/SpotlightCard.jsx";
 import Footer from "../components/landing/Footer.jsx";
 
 const STEPS = [
@@ -80,40 +81,37 @@ export default function HowItWorks() {
           <p className="mt-2 text-sm text-ink/70 leading-relaxed max-w-2xl">
             A complete, step-by-step walkthrough of how PrepPass helps university students and job seekers prepare, practice, and succeed in competitive campus placements.
           </p>
-        </div>
-
-        {/* Steps Grid */}
-        <div className="mt-10 space-y-6">
-          {STEPS.map((step) => (
-            <div
-              key={step.num}
-              className="ticket-card p-6 sm:p-8 transition hover:border-stamp-navy/40"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-stamp-navy/10 text-2xl">
-                    {step.icon}
-                  </span>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-gold">
-                        STEP {step.num}
-                      </span>
-                      <span className="ticket-stamp rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-stamp-navy">
-                        {step.badge}
-                      </span>
+          
+          <div className="mt-10 space-y-6">
+            {STEPS.map((step) => (
+              <SpotlightCard
+                key={step.num}
+                className="p-6 sm:p-8"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-gold/20 font-mono text-sm font-bold text-stamp-navy">
+                      {step.num}
                     </div>
-                    <h2 className="mt-1.5 font-heading text-xl text-stamp-navy">
-                      {step.title}
-                    </h2>
-                    <p className="mt-2 text-sm text-ink/75 leading-relaxed">
-                      {step.desc}
-                    </p>
+                    <div>
+                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-stamp-navy mb-2 border border-stamp-navy/10">
+                        {step.badge}
+                      </div>
+                      <h2 className="font-heading text-lg sm:text-xl text-stamp-navy mb-1.5">
+                        {step.title}
+                      </h2>
+                      <p className="text-sm text-ink/70 leading-relaxed max-w-2xl">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-3xl hidden sm:block opacity-60">
+                    {step.icon}
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </SpotlightCard>
+            ))}
+          </div>
         </div>
 
         {/* Call to Action */}
@@ -144,3 +142,8 @@ export default function HowItWorks() {
     </div>
   );
 }
+
+
+
+
+

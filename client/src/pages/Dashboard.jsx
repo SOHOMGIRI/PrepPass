@@ -16,6 +16,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
 import { Skeleton } from "../components/ui/skeleton.jsx";
+import SpotlightCard from "../components/landing/SpotlightCard.jsx";
 
 const section1Cards = [
   {
@@ -303,8 +304,8 @@ export default function Dashboard() {
               >
                 {recommendation.buttonText}
               </Link>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
         )}
 
         <motion.div variants={itemVariants} className="ticket-perf my-4" />
@@ -354,11 +355,7 @@ export default function Dashboard() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
             {section1Cards.map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
-              >
+              <SpotlightCard key={c.to} to={c.to} className="p-6">
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
                 </div>
@@ -366,7 +363,7 @@ export default function Dashboard() {
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
-              </Link>
+              </SpotlightCard>
             ))}
           </div>
         </motion.div>
@@ -382,11 +379,7 @@ export default function Dashboard() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
             {section2Cards.map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
-              >
+              <SpotlightCard key={c.to} to={c.to} className="p-6">
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
                 </div>
@@ -394,7 +387,7 @@ export default function Dashboard() {
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
-              </Link>
+              </SpotlightCard>
             ))}
           </div>
         </motion.div>
@@ -410,11 +403,7 @@ export default function Dashboard() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {section3Cards.map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
-              >
+              <SpotlightCard key={c.to} to={c.to} className="p-6">
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
                 </div>
@@ -422,7 +411,7 @@ export default function Dashboard() {
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
-              </Link>
+              </SpotlightCard>
             ))}
           </div>
         </motion.div>
@@ -537,11 +526,7 @@ export default function Dashboard() {
 
           <div className="grid gap-6 sm:grid-cols-2">
             {section4Cards.map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
-              >
+              <SpotlightCard key={c.to} to={c.to} className="p-6">
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
                 </div>
@@ -549,7 +534,7 @@ export default function Dashboard() {
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-ink/60">{c.desc}</p>
-              </Link>
+              </SpotlightCard>
             ))}
           </div>
         </motion.div>
@@ -557,3 +542,11 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+
+
+
+
+
+

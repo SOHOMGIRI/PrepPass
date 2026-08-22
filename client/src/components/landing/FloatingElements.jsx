@@ -1,90 +1,88 @@
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { GraduationCap, FileText, LineChart, BadgeCheck } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { useMouse } from "../../context/MouseContext.jsx";
+import { 
+  FileText, Briefcase, GraduationCap, Award,
+  CheckCircle2, Target, BarChart3, Clock,
+  MessageSquare, BrainCircuit, PenTool
+} from "lucide-react";
 
-const ELEMENTS = [
-  { id: "cap", Icon: GraduationCap, color: "text-[#1E1B4B]", bg: "bg-indigo-50", initialPos: { top: "20%", left: "15%" }, delay: 0, scale: 1.2, parallax: 0.04 },
-  { id: "resume", Icon: FileText, color: "text-[#F59E0B]", bg: "bg-amber-50", initialPos: { bottom: "25%", left: "20%" }, delay: 0.2, scale: 1, parallax: -0.03 },
-  { id: "chart", Icon: LineChart, color: "text-[#1E1B4B]", bg: "bg-indigo-50", initialPos: { top: "30%", right: "15%" }, delay: 0.4, scale: 1.1, parallax: 0.05 },
-  { id: "badge", Icon: BadgeCheck, color: "text-[#10B981]", bg: "bg-emerald-50", initialPos: { bottom: "35%", right: "20%" }, delay: 0.6, scale: 1.3, parallax: -0.06 },
+const ICONS = [
+  { Icon: FileText, x: 15, y: 20, scale: 1.2, speed: 0.05, color: "text-blue-500", glow: "shadow-blue-500/20" },
+  { Icon: Briefcase, x: 80, y: 15, scale: 0.9, speed: 0.08, color: "text-amber-500", glow: "shadow-amber-500/20" },
+  { Icon: GraduationCap, x: 10, y: 75, scale: 1.4, speed: 0.04, color: "text-indigo-500", glow: "shadow-indigo-500/20" },
+  { Icon: Award, x: 85, y: 80, scale: 1, speed: 0.06, color: "text-emerald-500", glow: "shadow-emerald-500/20" },
+  { Icon: CheckCircle2, x: 50, y: 10, scale: 0.8, speed: 0.09, color: "text-rose-500", glow: "shadow-rose-500/20" },
+  { Icon: Target, x: 75, y: 50, scale: 1.1, speed: 0.07, color: "text-cyan-500", glow: "shadow-cyan-500/20" },
+  { Icon: BarChart3, x: 25, y: 45, scale: 1.3, speed: 0.05, color: "text-fuchsia-500", glow: "shadow-fuchsia-500/20" },
+  { Icon: Clock, x: 40, y: 85, scale: 0.9, speed: 0.08, color: "text-orange-500", glow: "shadow-orange-500/20" },
+  { Icon: MessageSquare, x: 90, y: 35, scale: 1, speed: 0.06, color: "text-violet-500", glow: "shadow-violet-500/20" },
+  { Icon: BrainCircuit, x: 20, y: 90, scale: 1.2, speed: 0.04, color: "text-lime-500", glow: "shadow-lime-500/20" },
+  { Icon: PenTool, x: 60, y: 65, scale: 0.8, speed: 0.1, color: "text-teal-500", glow: "shadow-teal-500/20" },
 ];
 
 export default function FloatingElements() {
   const containerRef = useRef(null);
   const elementsRef = useRef([]);
   const mouse = useMouse();
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
-
-    // 1. Idle float animation (gentle vertical loop)
-    elementsRef.current.forEach((el, index) => {
-      if (!el) return;
-      gsap.to(el, {
-        y: "+=15",
-        duration: 2.5 + index * 0.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: ELEMENTS[index].delay,
-      });
-    });
-
-    return () => {
-      gsap.killTweensOf(elementsRef.current);
-    };
-  }, []);
-
-  // 2. Parallax tied to cursor (using quickTo for performance)
-  const xTos = useRef([]);
-  const yTos = useRef([]);
-
+  
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    if (prefersReduced || isTouch || elementsRef.current.length === 0) return;
+    
+    let easedX = mouse.x;
+    let easedY = mouse.y;
+    let rafId;
 
-    elementsRef.current.forEach((el, i) => {
-      if (!el) return;
-      xTos.current[i] = gsap.quickTo(el, "x", { duration: 0.8, ease: "power2.out" });
-      yTos.current[i] = gsap.quickTo(el, "y", { duration: 0.8, ease: "power2.out" });
-    });
-  }, []);
+    const render = () => {
+      easedX += (mouse.x - easedX) * 0.1;
+      easedY += (mouse.y - easedY) * 0.1;
 
-  useEffect(() => {
-    if (xTos.current.length === 0) return;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const deltaX = mouse.x - centerX;
-    const deltaY = mouse.y - centerY;
+      const ww = window.innerWidth;
+      const wh = window.innerHeight;
+      const nx = (easedX / ww - 0.5) * 2;
+      const ny = (easedY / wh - 0.5) * 2;
 
-    elementsRef.current.forEach((el, i) => {
-      if (xTos.current[i] && yTos.current[i]) {
-        xTos.current[i](deltaX * ELEMENTS[i].parallax);
-        yTos.current[i](deltaY * ELEMENTS[i].parallax);
-      }
-    });
+      elementsRef.current.forEach((el, i) => {
+        if (!el) return;
+        const conf = ICONS[i];
+        if (!conf) return;
+
+        const time = Date.now() * 0.001;
+        const floatY = prefersReduced ? 0 : Math.sin(time * 2 + i) * 8;
+        const floatX = prefersReduced ? 0 : Math.cos(time * 1.5 + i) * 8;
+
+        const parallaxX = isTouch ? 0 : nx * 50 * conf.speed * 10;
+        const parallaxY = isTouch ? 0 : ny * 50 * conf.speed * 10;
+
+        el.style.transform = `translate3d(${floatX + parallaxX}px, ${floatY + parallaxY}px, 0) scale(${conf.scale})`;
+      });
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    rafId = requestAnimationFrame(render);
+    
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
   }, [mouse]);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-      {ELEMENTS.map((item, index) => {
-        const { Icon } = item;
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {ICONS.map((conf, i) => {
+        const { Icon, x, y, color, glow } = conf;
         return (
           <div
-            key={item.id}
-            ref={(el) => (elementsRef.current[index] = el)}
-            className={`absolute flex items-center justify-center rounded-2xl shadow-lg border border-white/50 backdrop-blur-sm ${item.bg} ${item.color} hidden md:flex`}
-            style={{
-              ...item.initialPos,
-              width: `${item.scale * 3.5}rem`,
-              height: `${item.scale * 3.5}rem`,
-              transform: `scale(0)`, // Initial scale for entrance animation (handled in Hero)
+            key={i}
+            ref={(el) => (elementsRef.current[i] = el)}
+            className={`absolute flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg ${glow}`}
+            style={{ 
+              left: `${x}%`, 
+              top: `${y}%`,
+              transform: `scale(${conf.scale})`
             }}
           >
-            <Icon size={24 * item.scale} strokeWidth={1.5} />
+            <Icon size={24} className={color} strokeWidth={1.5} />
           </div>
         );
       })}
