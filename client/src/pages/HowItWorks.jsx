@@ -52,19 +52,19 @@ export default function HowItWorks() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col justify-between font-body text-ink">
+    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-white">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-stamp-navy hover:opacity-80"
+            className="font-heading text-lg font-bold text-white hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-stamp-navy hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-white hover:underline"
           >
             {accessToken ? "Go to Dashboard →" : "Sign In →"}
           </Link>
@@ -72,13 +72,13 @@ export default function HowItWorks() {
 
         {/* Hero Banner */}
         <div className="ticket-card mt-8 p-6 sm:p-10">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white">
             PREPPASS GUIDE
           </div>
-          <h1 className="mt-4 font-heading text-3xl text-stamp-navy sm:text-4xl">
+          <h1 className="mt-4 font-heading text-3xl text-white sm:text-4xl">
             How PrepPass Works
           </h1>
-          <p className="mt-2 text-sm text-ink/70 leading-relaxed max-w-2xl">
+          <p className="mt-2 text-sm text-indigo-100/80 leading-relaxed max-w-2xl">
             A complete, step-by-step walkthrough of how PrepPass helps university students and job seekers prepare, practice, and succeed in competitive campus placements.
           </p>
           
@@ -90,17 +90,17 @@ export default function HowItWorks() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-gold/20 font-mono text-sm font-bold text-stamp-navy">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-gold/20 font-mono text-sm font-bold text-white">
                       {step.num}
                     </div>
                     <div>
-                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-stamp-navy mb-2 border border-stamp-navy/10">
+                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white mb-2 border border-stamp-navy/10">
                         {step.badge}
                       </div>
-                      <h2 className="font-heading text-lg sm:text-xl text-stamp-navy mb-1.5">
+                      <h2 className="font-heading text-lg sm:text-xl text-white mb-1.5">
                         {step.title}
                       </h2>
-                      <p className="text-sm text-ink/70 leading-relaxed max-w-2xl">
+                      <p className="text-sm text-indigo-100/80 leading-relaxed max-w-2xl">
                         {step.desc}
                       </p>
                     </div>
@@ -115,11 +115,11 @@ export default function HowItWorks() {
         </div>
 
         {/* Call to Action */}
-        <div className="ticket-card mt-12 p-8 text-center bg-ticket/80">
-          <h3 className="font-heading text-2xl text-stamp-navy">
+        <div className="ticket-card mt-12 p-8 text-center bg-[#130E2E]/80 border border-white/10">
+          <h3 className="font-heading text-2xl text-white">
             Ready to test your interview readiness?
           </h3>
-          <p className="mt-2 text-xs text-ink/60 max-w-md mx-auto">
+          <p className="mt-2 text-xs text-indigo-100/80 max-w-md mx-auto">
             Join candidates practicing with adaptive AI questions, proctored tests, and ATS-level feedback.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -131,7 +131,7 @@ export default function HowItWorks() {
             </Link>
             <Link
               to="/company-prep"
-              className="inline-flex items-center justify-center rounded-lg border border-stamp-navy/30 bg-white px-5 py-3 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+              className="inline-flex items-center justify-center rounded-lg border border-stamp-navy/30 bg-transparent px-5 py-3 font-mono text-xs text-white hover:bg-white/10"
             >
               Explore Company Tracks →
             </Link>
@@ -142,6 +142,8 @@ export default function HowItWorks() {
     </div>
   );
 }
+
+
 
 
 

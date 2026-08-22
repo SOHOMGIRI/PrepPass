@@ -10,7 +10,8 @@ import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { MouseProvider } from "./context/MouseContext.jsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
-import LiquidCursor from "./components/LiquidCursor.jsx";
+
+import GlobalBackground from "./components/GlobalBackground.jsx";
 import PageTransition from "./components/PageTransition.jsx";
 import { initLenis, destroyLenis } from "./lib/lenis.js";
 
@@ -104,7 +105,8 @@ function App() {
       <AuthProvider>
         <MouseProvider>
           <LenisManager />
-          <LiquidCursor />
+          <GlobalBackground />
+          
           <AnimatedRoutes />
         </MouseProvider>
       </AuthProvider>
@@ -113,3 +115,5 @@ function App() {
 }
 
 export default App;
+
+

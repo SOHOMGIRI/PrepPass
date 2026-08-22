@@ -86,16 +86,16 @@ export default function AdmitCard() {
   }, []);
 
   return (
-    <section id="features" className="py-24 bg-cream overflow-hidden">
+    <section id="features" className="py-24 bg-transparent overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy mb-4 border border-stamp-navy/20 bg-stamp-navy/5 backdrop-blur-sm">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white mb-4 border border-stamp-navy/20 bg-stamp-navy/5 backdrop-blur-sm">
             ALL-IN-ONE PLACEMENT TOOLKIT
           </div>
-          <h2 className="font-heading text-4xl text-stamp-navy sm:text-5xl font-bold tracking-tight">
+          <h2 className="font-heading text-4xl text-white sm:text-5xl font-bold tracking-tight">
             Everything you need to crack placements.
           </h2>
-          <p className="mt-4 text-base text-ink/60 max-w-2xl mx-auto font-body">
+          <p className="mt-4 text-base text-indigo-100/80 max-w-2xl mx-auto font-body">
             From ATS resume auditing to proctored MCQs and voice mock interviews — complete prep in one passport.
           </p>
         </div>
@@ -112,23 +112,23 @@ export default function AdmitCard() {
               <div>
                 <div className="flex items-start justify-between mb-6">
                   <span className="text-4xl filter drop-shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">{f.icon}</span>
-                  <div className="ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px] uppercase border border-stamp-navy/10 bg-white/50">
+                  <div className="ticket-stamp px-2 py-1 rounded text-white font-mono text-[9px] uppercase border border-stamp-navy/10 bg-white/10 text-white border-white/20">
                     {f.stamp}
                   </div>
                 </div>
-                <h3 className="font-heading text-xl text-stamp-navy mb-3 font-semibold">
+                <h3 className="font-heading text-xl text-white mb-3 font-semibold">
                   {f.title}
                 </h3>
-                <p className="text-sm text-ink/70 leading-relaxed font-body">{f.desc}</p>
+                <p className="text-sm text-indigo-100/80 leading-relaxed font-body">{f.desc}</p>
               </div>
             </SpotlightCard>
           ))}
         </div>
         
         <div className="mt-16 overflow-hidden border-y border-stamp-navy/10 py-4 relative">
-          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-cream to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-cream to-transparent z-10" />
-          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-stamp-navy/30">
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0A061E] to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#0A061E] to-transparent z-10" />
+          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-white/30">
             <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
             <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
           </div>
@@ -137,3 +137,4 @@ export default function AdmitCard() {
     </section>
   );
 }
+

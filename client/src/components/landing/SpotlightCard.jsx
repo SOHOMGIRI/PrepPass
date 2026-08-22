@@ -40,21 +40,21 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden block rounded-2xl bg-white/70 backdrop-blur-md transition-all duration-300",
-        "border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+        "relative overflow-hidden block rounded-2xl bg-white/5 backdrop-blur-md transition-all duration-300",
+        "border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.2)]",
         "hover:-translate-y-1 hover:shadow-[0_20px_40px_rgb(37,99,235,0.1)] hover:border-blue-500/30",
         className
       )}
     >
       {/* Soft glass background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none z-0" />
       
       {/* The border glow effect */}
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition duration-500 z-0 mix-blend-overlay"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(37, 99, 235, 0.15), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(99, 102, 241, 0.4), transparent 40%)`,
         }}
       />
       
@@ -63,3 +63,6 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
     </Tag>
   );
 }
+
+
+

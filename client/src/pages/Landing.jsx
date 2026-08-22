@@ -12,18 +12,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PricingSection = forwardRef((props, ref) => {
   return (
-    <section id="pricing" className="py-16 bg-cream">
+    <section id="pricing" className="py-16 bg-transparent">
       <div className="max-w-3xl mx-auto px-6">
-        <h2 className="font-heading text-stamp-navy text-center mb-10">
+        <h2 className="font-heading text-white text-center mb-10">
           Pricing
         </h2>
         <div ref={ref} className="ticket-card relative p-8 sm:p-10">
           <div className="ticket-perf mb-8" />
           <div className="text-center mb-8">
-            <span className="font-heading text-5xl text-stamp-navy">Free</span>
-            <p className="text-sm text-ink/60 mt-2">No credit card required</p>
+            <span className="font-heading text-5xl text-white">Free</span>
+            <p className="text-sm text-indigo-100/80 mt-2">No credit card required</p>
           </div>
-          <ul className="space-y-3 text-sm text-ink/80 font-mono mb-8 max-w-md mx-auto">
+          <ul className="space-y-3 text-sm text-white/80 font-mono mb-8 max-w-md mx-auto">
             <li className="flex items-center gap-3">
               <span className="inline-block w-2 h-2 bg-gold rounded-full" />
               Unlimited mock interviews (with voice & camera)
@@ -54,12 +54,12 @@ const PricingSection = forwardRef((props, ref) => {
             </Link>
           </div>
           <div className="mt-8 pt-6 border-t border-dashed border-stamp-navy/15 text-center">
-            <p className="font-mono text-xs text-ink/70">
+            <p className="font-mono text-xs text-indigo-100/80">
               ⚡ <strong>Optional Add-On:</strong> Detailed Test Reports — ₹49 per report, pay via UPI, no subscription.
             </p>
           </div>
           <div className="ticket-perf mt-8" />
-          <div className="absolute top-4 right-4 ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px]">
+          <div className="absolute top-4 right-4 ticket-stamp px-2 py-1 rounded text-white font-mono text-[9px]">
             FREE TIER
           </div>
         </div>
@@ -72,16 +72,16 @@ const ContactSection = forwardRef((props, ref) => {
   return (
     <section id="contact" className="py-16 bg-ticket">
       <div className="max-w-3xl mx-auto px-6">
-        <h2 className="font-heading text-stamp-navy text-center mb-10">
+        <h2 className="font-heading text-white text-center mb-10">
           Contact
         </h2>
         <div ref={ref} className="ticket-card relative p-8 sm:p-10">
           <div className="ticket-perf mb-8" />
           <div className="text-center">
-            <h3 className="font-heading text-2xl text-stamp-navy mb-3">
+            <h3 className="font-heading text-2xl text-white mb-3">
               Get in touch
             </h3>
-            <p className="text-sm text-ink/60 mb-6">
+            <p className="text-sm text-indigo-100/80 mb-6">
               Questions, feedback, or partnership ideas — drop us a line and
               we&apos;ll get back to you.
             </p>
@@ -93,7 +93,7 @@ const ContactSection = forwardRef((props, ref) => {
             </a>
           </div>
           <div className="ticket-perf mt-8" />
-          <div className="absolute top-4 right-4 ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px]">
+          <div className="absolute top-4 right-4 ticket-stamp px-2 py-1 rounded text-white font-mono text-[9px]">
             SUPPORT
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <main className="w-full bg-cream text-ink font-body">
+    <main className="w-full bg-transparent text-white font-body">
       <NavBar accessToken={accessToken} />
       <Hero accessToken={accessToken} />
       <HowItWorks />
@@ -146,3 +146,4 @@ export default function Landing() {
     </main>
   );
 }
+

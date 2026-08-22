@@ -4,9 +4,9 @@
 
 /* ===== Exam admit-card / boarding-pass design system ===== */
 :root {
-  --ticket-bg: #fdfbf7;       /* warm cream page background */
-  --ticket-card: #fbf8f0;     /* ticket card fill */
-  --stamp-navy: #1a227e;      /* deep navy "official stamp" */
+  --ticket-bg: #0A061E;       /* warm cream page background */
+  --ticket-card: #130E2E;     /* ticket card fill */
+  --stamp-navy: #FFFFFF;      /* deep navy "official stamp" */
   --stamp-maroon: #7a0c0c;    /* deep maroon stamp variant */
   --gold: #d4a72c;            /* muted gold/amber for scores & CTAs */
   --gold-dark: #b79103;
@@ -24,7 +24,7 @@
   body {
     margin: 0;
     font-family: "Space Grotesk", system-ui, sans-serif;
-    color: var(--ink);
+    color: #E2E8F0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -196,3 +196,5 @@ html.lenis, html.lenis body {
     animation: none !important;
   }
 }
+
+
