@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
+import { motion } from "framer-motion";
 import {
   ResponsiveContainer,
   LineChart,
@@ -14,6 +15,7 @@ import {
 import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
+import { Skeleton } from "../components/ui/skeleton.jsx";
 
 const section1Cards = [
   {
@@ -97,7 +99,6 @@ function fmtDateShort(iso) {
   }
 }
 
-// Custom tooltip styled like an exam ticket
 function CustomTrendTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
@@ -107,7 +108,9 @@ function CustomTrendTooltip({ active, payload, label }) {
           <p key={idx} style={{ color: entry.color }} className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
             <span>{entry.name}:</span>
-            <span className="font-bold">{entry.value}%</span>
+            <span className="font-bold">
+              <CountUp end={entry.value} duration={0.5} />%
+            </span>
           </p>
         ))}
       </div>
@@ -123,7 +126,7 @@ function getRecommendation(summary) {
       title: "Start by uploading your resume for an ATS score",
       desc: "Upload your resume to get instant ATS feedback, identify missing keywords, and unlock personalized subject recommendations.",
       to: "/resume-matcher",
-      buttonText: "Upload Resume →",
+      buttonText: "Upload Resume ↗",
       badge: "RECOMMENDED NEXT STEP",
     };
   }
@@ -132,7 +135,7 @@ function getRecommendation(summary) {
       title: "Try your first practice — Aptitude or a Mock Interview",
       desc: "Warm up with untimed aptitude drills or jump straight into an adaptive 4-question mock interview.",
       to: "/aptitude",
-      buttonText: "Start Practice →",
+      buttonText: "Start Practice ↗",
       badge: "RECOMMENDED NEXT STEP",
     };
   }
@@ -141,7 +144,7 @@ function getRecommendation(summary) {
       title: "You have weak areas to review",
       desc: "Reinforce your concepts by going through interactive flashcards built from your missed questions and feedback.",
       to: "/revision-deck",
-      buttonText: "Open Revision Deck →",
+      buttonText: "Open Revision Deck ↗",
       badge: "RECOMMENDED NEXT STEP",
     };
   }
@@ -149,10 +152,27 @@ function getRecommendation(summary) {
     title: "Keep your streak going — try Company Prep or GD Practice",
     desc: "Sharpen recruitment patterns for top recruiters or rehearse group discussions with AI counter-arguments.",
     to: "/company-prep",
-    buttonText: "Explore Company Prep →",
+    buttonText: "Explore Company Prep ↗",
     badge: "RECOMMENDED NEXT STEP",
   };
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
+  },
+};
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -166,7 +186,6 @@ export default function Dashboard() {
   const [summary, setSummary] = useState(null);
   const displayName = user?.name?.split(" ")[0] || "friend";
 
-  // Average readiness across user's completed interview sessions, Trends, and Summary
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -179,12 +198,8 @@ export default function Dashboard() {
 
         if (cancelled) return;
 
-        // Summary state
-        if (summaryRes?.data) {
-          setSummary(summaryRes.data);
-        }
+        if (summaryRes?.data) setSummary(summaryRes.data);
 
-        // Average calculation
         const scores = (ivRes.data?.sessions || [])
           .map((s) => s.overallReadinessScore)
           .filter((v) => typeof v === "number");
@@ -196,35 +211,25 @@ export default function Dashboard() {
           setAvg(null);
         }
 
-        // Trend formatting
-        const { interviewTrend = [], testTrend = [], gdTrend = [] } =
-          trendRes.data || {};
-
+        const { interviewTrend = [], testTrend = [], gdTrend = [] } = trendRes.data || {};
         setHasInterview(interviewTrend.length > 0);
         setHasTest(testTrend.length > 0);
         setHasGd(gdTrend.length > 0);
 
-        // Combine into unified chronological dataset
         const mergedMap = new Map();
-
         const addPoint = (item, type, score) => {
           if (!item.date || typeof score !== "number") return;
-          const key = new Date(item.date).toISOString().slice(0, 16); // Minute precision
+          const key = new Date(item.date).toISOString().slice(0, 16);
           const dateLabel = fmtDateShort(item.date);
           const current = mergedMap.get(key) || { date: item.date, displayDate: dateLabel };
           current[type] = score;
           mergedMap.set(key, current);
         };
 
-        // Interviews: 0-10 scale -> 0-100%
         interviewTrend.forEach((i) =>
           addPoint(i, "interview", Math.round(i.score <= 10 ? i.score * 10 : i.score))
         );
-
-        // Tests: 0-100%
         testTrend.forEach((t) => addPoint(t, "test", Math.round(t.score)));
-
-        // GD: 0-10 scale -> 0-100%
         gdTrend.forEach((g) =>
           addPoint(g, "gd", Math.round(g.score <= 10 ? g.score * 10 : g.score))
         );
@@ -243,9 +248,7 @@ export default function Dashboard() {
         if (!cancelled) setLoadingTrend(false);
       }
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const hasAnyTrend = hasInterview || hasTest || hasGd;
@@ -253,9 +256,13 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-cream px-6 py-10">
-      <div className="mx-auto max-w-4xl space-y-8">
-        {/* Header Bar */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <motion.div 
+        className="mx-auto max-w-4xl space-y-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div variants={itemVariants} className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="font-heading text-2xl text-stamp-navy">
               Welcome back, {displayName}.
@@ -271,11 +278,10 @@ export default function Dashboard() {
           >
             LOG OUT
           </button>
-        </div>
+        </motion.div>
 
-        {/* Recommended Next Step Banner */}
         {recommendation && (
-          <div className="ticket-card p-6 border-2 border-gold/40 bg-gradient-to-br from-ticket/90 via-cream to-ticket/60 shadow-sm">
+          <motion.div variants={itemVariants} className="ticket-card p-6 border-2 border-gold/40 bg-gradient-to-br from-ticket/90 via-cream to-ticket/60 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
@@ -298,13 +304,12 @@ export default function Dashboard() {
                 {recommendation.buttonText}
               </Link>
             </div>
-          </div>
+          </motion.div>
         )}
 
-        <div className="ticket-perf my-4" />
+        <motion.div variants={itemVariants} className="ticket-perf my-4" />
 
-        {/* Summary strip */}
-        <div className="ticket-card flex flex-col items-center gap-6 p-6 sm:flex-row sm:justify-between">
+        <motion.div variants={itemVariants} className="ticket-card flex flex-col items-center gap-6 p-6 sm:flex-row sm:justify-between">
           {avg != null ? (
             <>
               <div>
@@ -316,7 +321,7 @@ export default function Dashboard() {
                   {count === 1 ? "" : "s"}.
                 </p>
               </div>
-              <div className="transition-transform duration-700 ease-out" style={{ transform: avg != null ? 'scale(1)' : 'scale(0.9)', opacity: avg != null ? 1 : 0 }}>
+              <div className="transition-transform duration-700 ease-out">
                 <GaugeCircle
                   value={avg}
                   max={10}
@@ -336,10 +341,9 @@ export default function Dashboard() {
               </p>
             </div>
           )}
-        </div>
+        </motion.div>
 
-        {/* Section 1: Know Where You Stand */}
-        <div className="space-y-4 pt-2">
+        <motion.div variants={itemVariants} className="space-y-4 pt-2">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               01
@@ -365,10 +369,9 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Section 2: Build & Improve */}
-        <div className="space-y-4 pt-2">
+        <motion.div variants={itemVariants} className="space-y-4 pt-2">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               02
@@ -394,10 +397,9 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Section 3: Practice & Rehearse */}
-        <div className="space-y-4 pt-2">
+        <motion.div variants={itemVariants} className="space-y-4 pt-2">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               03
@@ -423,10 +425,9 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        {/* Section 4: Review & Track */}
-        <div className="space-y-6 pt-2">
+        <motion.div variants={itemVariants} className="space-y-6 pt-2">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               04
@@ -436,7 +437,6 @@ export default function Dashboard() {
             </h2>
           </div>
 
-          {/* Readiness Trend Chart (at the top of Section 4) */}
           <div className="ticket-card p-6 sm:p-8 space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -456,12 +456,12 @@ export default function Dashboard() {
 
             {loadingTrend ? (
               <div className="space-y-4 p-4">
-                <div className="h-4 w-1/3 rounded bg-stamp-navy/10 animate-pulse" />
-                <div className="h-56 w-full rounded-lg bg-stamp-navy/[0.06] animate-pulse" />
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-56 w-full rounded-lg" />
                 <div className="flex gap-4">
-                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
-                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
-                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
+                  <Skeleton className="h-3 w-1/4" />
+                  <Skeleton className="h-3 w-1/4" />
+                  <Skeleton className="h-3 w-1/4" />
                 </div>
               </div>
             ) : !hasAnyTrend ? (
@@ -552,8 +552,8 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
