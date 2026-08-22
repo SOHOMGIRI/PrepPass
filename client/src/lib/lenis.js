@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 let lenis = null;
-let rafId = null;
 
 /**
  * Create and start a singleton Lenis smooth-scroll instance synced to GSAP's
