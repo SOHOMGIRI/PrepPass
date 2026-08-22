@@ -15,7 +15,7 @@ const BTN_OUTLINE = `${BTN} text-stamp-navy border-2 border-dashed border-stamp-
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&";
 
 function useTextScramble(text, delay = 300) {
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState(text);
   const prefersReduced = useRef(false);
 
   useEffect(() => {
@@ -53,6 +53,8 @@ function useTextScramble(text, delay = 300) {
 
       if (frame < totalFrames) {
         raf = requestAnimationFrame(tick);
+      } else {
+        setDisplay(text);
       }
     };
 
@@ -74,8 +76,17 @@ export default function Hero({ accessToken }) {
 
   return (
     <section className="relative pt-28 pb-20 min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Base background layer */}
+      <div
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{
+          background:
+            "radial-gradient(1200px 500px at 50% 30%, #ffffff 0%, #fbf8f0 100%)",
+        }}
+      />
+
       {/* Aurora gradient blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-[5]">
         <div
           className="absolute -top-1/4 -left-1/4 w-[600px] h-[600px] rounded-full opacity-30 blur-[100px]"
           style={{
@@ -113,15 +124,6 @@ export default function Hero({ accessToken }) {
 
       {/* Particle field */}
       <ParticleCanvas />
-
-      {/* Radial background gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(1200px 500px at 50% 30%, #ffffff 0%, #fbf8f0 100%)",
-        }}
-      />
 
       <Suspense fallback={null}>
         <Hero3D />
