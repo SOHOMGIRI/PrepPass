@@ -1,62 +1,72 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SpotlightCard from "./SpotlightCard.jsx";
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
   {
     stamp: "INTERVIEWS",
     title: "AI Mock Interviews",
-    desc: "Adaptive technical & HR questions, instant scoring, and optional voice-answer mode with camera preview.",
-    icon: "🎙️",
+    desc: "Adaptive technical & HR questions, instant scoring, and optional voice-answer mode with camera preview. Get real-time feedback on your pacing, confidence, and keyword usage.",
+    icon: "🗣️",
+    className: "md:col-span-2 md:row-span-2",
   },
   {
     stamp: "ATS AUDIT",
-    title: "Resume ATS & Job-Match",
-    desc: "Instant compliance audit, missing section warnings, and job description match feedback.",
+    title: "Resume ATS Match",
+    desc: "Instant compliance audit and job description match feedback.",
     icon: "📄",
+    className: "md:col-span-1",
   },
   {
     stamp: "BUILDER",
     title: "AI Resume Builder",
-    desc: "Multi-step builder with AI bullet-point enhancement and recruiter-ready PDF export.",
-    icon: "✨",
+    desc: "Multi-step builder with AI bullet-point enhancement.",
+    icon: "🛠",
+    className: "md:col-span-1",
   },
   {
     stamp: "TEST MODE",
     title: "Proctored Test Mode",
     desc: "Timed 10-minute MCQ assessments with proctoring violation tracking and trust scoring.",
     icon: "⏱️",
+    className: "md:col-span-2",
   },
   {
     stamp: "APTITUDE",
     title: "Aptitude Practice",
-    desc: "Untimed, focused drills for Quantitative Aptitude, Logical Reasoning, and Verbal Ability.",
-    icon: "🧩",
-  },
-  {
-    stamp: "COMPANY PREP",
-    title: "Company-Specific Tracks",
-    desc: "Targeted recruitment patterns and syllabus tracks for TCS, Amazon, Google, Infosys & more.",
-    icon: "🏢",
-  },
-  {
-    stamp: "GD PRACTICE",
-    title: "Group Discussion Practice",
-    desc: "Rehearse GD rounds with AI counter-arguments, rebuttal feedback, and persuasiveness scoring.",
-    icon: "💬",
-  },
-  {
-    stamp: "REVISION DECK",
-    title: "Weak-Area Revision Deck",
-    desc: "Interactive 3D flashcards automatically generated from missed test MCQs and low interview scores.",
-    icon: "🃏",
+    desc: "Untimed, focused drills for Quantitative & Logical reasoning.",
+    icon: "🧠",
+    className: "md:col-span-1",
   },
   {
     stamp: "ANALYTICS",
-    title: "Readiness & Peer Analytics",
-    desc: "Multi-series performance trend charts and anonymized peer percentile rankings per subject.",
+    title: "Readiness Analytics",
+    desc: "Multi-series performance trend charts & peer rankings.",
     icon: "📊",
+    className: "md:col-span-2",
+  },
+  {
+    stamp: "COMPANY PREP",
+    title: "Company Tracks",
+    desc: "Targeted recruitment patterns for TCS, Amazon, Google & more.",
+    icon: "🏢",
+    className: "md:col-span-1",
+  },
+  {
+    stamp: "GD PRACTICE",
+    title: "Group Discussion",
+    desc: "Rehearse GD rounds with AI counter-arguments.",
+    icon: "👥",
+    className: "md:col-span-1",
+  },
+  {
+    stamp: "REVISION DECK",
+    title: "Revision Deck",
+    desc: "Interactive flashcards generated from missed test MCQs.",
+    icon: "🃏",
+    className: "md:col-span-1",
   },
 ];
 
@@ -68,7 +78,7 @@ export default function AdmitCard() {
     const cards = gridRef.current.children;
     gsap.fromTo(cards, 
       { opacity: 0, y: 40, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+      { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)',
         scrollTrigger: { trigger: gridRef.current, start: 'top 85%', once: true }
       }
     );
@@ -76,60 +86,51 @@ export default function AdmitCard() {
   }, []);
 
   return (
-    <section id="features" className="py-16 bg-cream">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy mb-3">
+    <section id="features" className="py-24 bg-cream overflow-hidden">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy mb-4 border border-stamp-navy/20 bg-stamp-navy/5 backdrop-blur-sm">
             ALL-IN-ONE PLACEMENT TOOLKIT
           </div>
-          <h2 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+          <h2 className="font-heading text-4xl text-stamp-navy sm:text-5xl font-bold tracking-tight">
             Everything you need to crack placements.
           </h2>
-          <p className="mt-2 text-sm text-ink/60 max-w-xl mx-auto">
+          <p className="mt-4 text-base text-ink/60 max-w-2xl mx-auto font-body">
             From ATS resume auditing to proctored MCQs and voice mock interviews — complete prep in one passport.
           </p>
         </div>
 
         <div 
           ref={gridRef}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          style={{ transformStyle: 'preserve-3d', perspective: '600px' }}
+          className="grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-flow-row-dense"
         >
-          {FEATURES.map((f, i) => (
-            <div
+          {FEATURES.map((f) => (
+            <SpotlightCard
               key={f.title}
-              onMouseMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                e.currentTarget.style.transform = `rotateY(${x / 10}deg) rotateX(${-y / 10}deg)`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "rotateY(0deg) rotateX(0deg)";
-              }}
-              data-cursor="pointer"
-              className="ticket-card p-6 flex flex-col justify-between transition hover:border-stamp-navy/40"
+              className={`p-8 flex flex-col justify-between group ${f.className || ""}`}
             >
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-2xl">{f.icon}</span>
-                  <div className="ticket-stamp px-2 py-0.5 rounded text-stamp-navy font-mono text-[9px] uppercase">
+                <div className="flex items-start justify-between mb-6">
+                  <span className="text-4xl filter drop-shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">{f.icon}</span>
+                  <div className="ticket-stamp px-2 py-1 rounded text-stamp-navy font-mono text-[9px] uppercase border border-stamp-navy/10 bg-white/50">
                     {f.stamp}
                   </div>
                 </div>
-                <h3 className="font-heading text-lg text-stamp-navy mb-2">
+                <h3 className="font-heading text-xl text-stamp-navy mb-3 font-semibold">
                   {f.title}
                 </h3>
-                <p className="text-xs text-ink/70 leading-relaxed">{f.desc}</p>
+                <p className="text-sm text-ink/70 leading-relaxed font-body">{f.desc}</p>
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
         
-        <div className="mt-10 overflow-hidden">
-          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-stamp-navy/20">
-            <span>ATS READY · PROCTORED · AI-POWERED · PEER RANKINGS · RESUME BUILDER · VOICE MODE · COMPANY TRACKS · REVISION DECK · </span>
-            <span>ATS READY · PROCTORED · AI-POWERED · PEER RANKINGS · RESUME BUILDER · VOICE MODE · COMPANY TRACKS · REVISION DECK · </span>
+        <div className="mt-16 overflow-hidden border-y border-stamp-navy/10 py-4 relative">
+          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-cream to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-cream to-transparent z-10" />
+          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-stamp-navy/30">
+            <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
+            <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
           </div>
         </div>
       </div>
