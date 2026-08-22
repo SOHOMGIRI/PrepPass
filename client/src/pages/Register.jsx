@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import RippleButton from "../components/ui/RippleButton.jsx";
 
-const INPUT_CLASS =
-  "w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder-ink/40 focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-stamp-navy disabled:cursor-not-allowed disabled:opacity-60";
-const INPUT_ERR_CLASS = `${INPUT_CLASS} border-gold focus:border-gold focus:ring-gold/50`;
+const INPUT_CLASS = "w-full rounded-t-md border-b-2 border-stamp-navy/20 bg-stamp-navy/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-stamp-navy/10 focus:border-stamp-navy disabled:cursor-not-allowed disabled:opacity-60";
+const INPUT_ERR_CLASS = "w-full rounded-t-md border-b-2 border-gold bg-gold/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
 
 const PASSWORD_REQS = [
   { label: "At least 8 characters", test: (p) => p.length >= 8 },
@@ -70,7 +70,7 @@ export default function Register() {
 
         <form onSubmit={onSubmit} className="space-y-5">
           <div>
-            <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
               Full Name
             </label>
             <input
@@ -88,7 +88,7 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
               Email
             </label>
             <input
@@ -106,7 +106,7 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
               Password
             </label>
             <input
@@ -140,13 +140,7 @@ export default function Register() {
             <p className="text-gold text-xs font-mono">{serverError}</p>
           )}
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-white bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 w-full py-3"
-          >
-            {submitting ? "Creating account…" : "Create Account"}
-          </button>
+          <RippleButton type="submit" disabled={submitting} className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90">{submitting ? "Creating account..." : "Create Account"}</RippleButton>
         </form>
 
         <p className="mt-6 text-sm text-center text-ink/70">
@@ -162,3 +156,4 @@ export default function Register() {
     </div>
   );
 }
+

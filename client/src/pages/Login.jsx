@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import RippleButton from "../components/ui/RippleButton.jsx";
 
 const INPUT_CLASS =
-  "w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder-ink/40 focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-stamp-navy disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-t-md border-b-2 border-stamp-navy/20 bg-stamp-navy/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-stamp-navy/10 focus:border-stamp-navy disabled:cursor-not-allowed disabled:opacity-60";
 const INPUT_ERROR_CLASS =
-  "w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder-ink/40 focus:outline-none focus:ring-2 focus:bg-gold/10 border-gold focus:border-gold focus:ring-gold/50 disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-t-md border-b-2 border-gold bg-gold/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
 
 export default function Login() {
   const { login } = useAuth();
@@ -52,7 +53,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-cream px-4">
       <div className="ticket-card w-full max-w-md p-8">
-        <div className="ticket-stamp inline-block px-3 py-1 rounded text-stamp-navy font-mono text-xs mb-6">
+        <div className="ticket-stamp inline-block px-3 py-1 rounded text-stamp-navy font-mono text-xs mb-6 border border-stamp-navy/20">
           PREPPASS — ADMIT CARD LOGIN
         </div>
         <h1 className="text-2xl font-heading text-stamp-navy mb-1">
@@ -64,7 +65,7 @@ export default function Login() {
 
         <form onSubmit={onSubmit} className="space-y-5">
           <div>
-            <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
               Email
             </label>
             <input
@@ -82,7 +83,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
               Password
             </label>
             <input
@@ -103,20 +104,20 @@ export default function Login() {
             <p className="text-gold text-xs font-mono">{serverError}</p>
           )}
 
-          <button
+          <RippleButton
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-white bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 w-full py-3"
+            className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90"
           >
-            {submitting ? "Signing in…" : "Sign In"}
-          </button>
+            {submitting ? "Signing in..." : "Sign In"}
+          </RippleButton>
         </form>
 
         <p className="mt-6 text-sm text-center text-ink/70">
           No account?{" "}
           <Link
             to="/register"
-            className="text-stamp-navy font-medium hover:underline"
+            className="text-stamp-navy font-semibold hover:underline"
           >
             Register
           </Link>

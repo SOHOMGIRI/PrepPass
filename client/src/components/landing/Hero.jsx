@@ -6,9 +6,10 @@ import FloatingElements from "./FloatingElements.jsx";
 import Magnetic from "../Magnetic.jsx";
 import { ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils.js";
+import useRipple from "../../hooks/useRipple.js";
 
 const BTN =
-  "inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-indigo-950/50 focus:ring-offset-2 transition-all";
+  "inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-indigo-950/50 focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
 const BTN_PRIMARY = `${BTN} text-white bg-amber-500 hover:bg-amber-600 px-8 py-3.5 shine-sweep shadow-lg hover:shadow-xl`;
 const BTN_OUTLINE = `${BTN} text-indigo-950 border-2 border-dashed border-indigo-950/40 hover:bg-indigo-950/5 px-8 py-3.5`;
 
@@ -32,6 +33,8 @@ const StaggeredText = ({ text }) => {
 
 export default function Hero({ accessToken }) {
   const heroRef = useRef(null);
+  const ripple = useRipple("rgba(255, 255, 255, 0.3)");
+  const rippleDark = useRipple("rgba(30, 27, 75, 0.1)");
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -139,7 +142,7 @@ export default function Hero({ accessToken }) {
         <div className="hero-cta flex flex-col sm:flex-row gap-5 justify-center opacity-0">
           {accessToken ? (
             <Magnetic>
-              <Link to="/dashboard" className={BTN_PRIMARY} data-cursor="pointer">
+              <Link to="/dashboard" onPointerDown={ripple} className={BTN_PRIMARY} data-cursor="pointer">
                 Go to Dashboard
               </Link>
             </Magnetic>
@@ -148,6 +151,7 @@ export default function Hero({ accessToken }) {
               <Magnetic>
                 <Link
                   to="/register"
+                  onPointerDown={ripple}
                   className={cn(BTN_PRIMARY, "relative group")}
                   data-cursor="pointer"
                 >
@@ -157,7 +161,7 @@ export default function Hero({ accessToken }) {
                   GET STARTED
                 </Link>
               </Magnetic>
-              <Link to="/login" className={BTN_OUTLINE} data-cursor="pointer">
+              <Link to="/login" onPointerDown={rippleDark} className={BTN_OUTLINE} data-cursor="pointer">
                 LOG IN
               </Link>
             </>
