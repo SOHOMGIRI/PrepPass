@@ -1,4 +1,7 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
   {
@@ -58,6 +61,20 @@ const FEATURES = [
 ];
 
 export default function AdmitCard() {
+  const gridRef = useRef(null);
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || !gridRef.current) return;
+    const cards = gridRef.current.children;
+    gsap.fromTo(cards, 
+      { opacity: 0, y: 40, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: gridRef.current, start: 'top 85%', once: true }
+      }
+    );
+    return () => ScrollTrigger.getAll().forEach(st => st.kill());
+  }, []);
+
   return (
     <section id="features" className="py-16 bg-cream">
       <div className="max-w-5xl mx-auto px-6">
@@ -73,14 +90,24 @@ export default function AdmitCard() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div 
+          ref={gridRef}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          style={{ transformStyle: 'preserve-3d', perspective: '600px' }}
+        >
           {FEATURES.map((f, i) => (
-            <motion.div
+            <div
               key={f.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.45, ease: "easeOut" }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                e.currentTarget.style.transform = `rotateY(${x / 10}deg) rotateX(${-y / 10}deg)`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "rotateY(0deg) rotateX(0deg)";
+              }}
+              data-cursor="pointer"
               className="ticket-card p-6 flex flex-col justify-between transition hover:border-stamp-navy/40"
             >
               <div>
@@ -95,8 +122,15 @@ export default function AdmitCard() {
                 </h3>
                 <p className="text-xs text-ink/70 leading-relaxed">{f.desc}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
+        </div>
+        
+        <div className="mt-10 overflow-hidden">
+          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-stamp-navy/20">
+            <span>ATS READY · PROCTORED · AI-POWERED · PEER RANKINGS · RESUME BUILDER · VOICE MODE · COMPANY TRACKS · REVISION DECK · </span>
+            <span>ATS READY · PROCTORED · AI-POWERED · PEER RANKINGS · RESUME BUILDER · VOICE MODE · COMPANY TRACKS · REVISION DECK · </span>
+          </div>
         </div>
       </div>
     </section>

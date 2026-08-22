@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useMouse } from "../context/MouseContext.jsx";
 
-const NUM_BLOBS = 9;
+const NUM_BLOBS = 6;
 const BLOB = "rgba(212, 167, 44, 0.55)";
 const WIDTHS = Array.from({ length: NUM_BLOBS }, (_, i) => 54 - i * 3);
 
@@ -10,12 +12,34 @@ const isTouchDevice = () =>
     /Android|iPhone|iPad|iPod|Windows Phone|Touch/.test(navigator.userAgent));
 
 export default function LiquidCursor() {
+  const location = useLocation();
+  const globalMouse = useMouse();
   const [enabled, setEnabled] = useState(false);
   const mouse = useRef({ x: -200, y: -200 });
   const blobs = useRef(
     Array.from({ length: NUM_BLOBS }, () => ({ x: -120, y: -120 }))
   );
   const dots = useRef([]);
+  const solidDotRef = useRef(null);
+  const cursorScale = useRef(1);
+
+  // Sync global mouse to local ref
+  useEffect(() => {
+    mouse.current = { x: globalMouse.x, y: globalMouse.y };
+  }, [globalMouse]);
+
+  // Cursor state detection
+  useEffect(() => {
+    const handleMouseOver = (e) => {
+      if (e.target.closest('[data-cursor="pointer"]')) {
+        cursorScale.current = 1.5;
+      } else {
+        cursorScale.current = 1;
+      }
+    };
+    window.addEventListener("mouseover", handleMouseOver);
+    return () => window.removeEventListener("mouseover", handleMouseOver);
+  }, []);
 
   // Hide the cursor entirely on touch devices (no real mouse pointer).
   useEffect(() => {
@@ -49,20 +73,22 @@ export default function LiquidCursor() {
           }px)`;
         }
       }
+      
+      if (solidDotRef.current) {
+        solidDotRef.current.style.transform = `translate(${mouse.current.x - 4}px, ${
+          mouse.current.y - 4
+        }px) scale(${cursorScale.current})`;
+      }
+
       raf = requestAnimationFrame(tick);
     };
-    const onMove = (e) => {
-      mouse.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
     raf = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onMove);
     };
   }, [enabled]);
 
-  if (!enabled) return null;
+  if (!enabled || location.pathname === "/test-mode") return null;
 
   return (
     <>
@@ -106,6 +132,18 @@ export default function LiquidCursor() {
           />
         ))}
       </div>
+
+      <span
+        ref={solidDotRef}
+        className="fixed top-0 left-0 block rounded-full pointer-events-none transition-transform duration-100"
+        style={{
+          width: 8,
+          height: 8,
+          backgroundColor: "#d4a72c",
+          zIndex: 3,
+          willChange: "transform",
+        }}
+      />
     </>
   );
 }

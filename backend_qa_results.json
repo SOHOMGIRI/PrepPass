@@ -1,0 +1,536 @@
+[
+  {
+    "endpoint": "/health",
+    "success": true,
+    "data": {
+      "status": "ok"
+    }
+  },
+  {
+    "endpoint": "/auth/register",
+    "success": true,
+    "data": {
+      "message": "Registration successful. You can now log in."
+    }
+  },
+  {
+    "endpoint": "/auth/login",
+    "success": true,
+    "data": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTg5MmJjODRmNWJlMDBhODM5NTFiMzMiLCJpYXQiOjE3ODczNzQ1MzcsImV4cCI6MTc4NzM3NTQzN30.my75ak-2WLRkzmUZ0IrLsCcliDX4CDPBPw7ajaj5jN8",
+      "user": {
+        "id": "6a892bc84f5be00a83951b33",
+        "name": "QA User",
+        "email": "test_qa_1787374535146@example.com",
+        "isEmailVerified": true,
+        "createdAt": "2026-08-22T04:55:36.577Z"
+      }
+    }
+  },
+  {
+    "endpoint": "/interview/start",
+    "success": true,
+    "data": {
+      "sessionId": "6a892bca4f5be00a83951b34",
+      "question": "What is the difference between a stack and a queue, and where would you use each in a real-world application?"
+    }
+  },
+  {
+    "endpoint": "/interview/answer",
+    "success": false,
+    "data": "Missing session or question id from start"
+  },
+  {
+    "endpoint": "/test/start",
+    "success": false,
+    "data": {
+      "message": "Please select between 1 and 3 subjects."
+    }
+  },
+  {
+    "endpoint": "/test/answer & submit",
+    "success": false,
+    "data": "Missing test session data"
+  },
+  {
+    "endpoint": "/resume/match (GET)",
+    "success": true,
+    "data": null
+  },
+  {
+    "endpoint": "/gd/topics",
+    "success": true,
+    "data": {
+      "topics": [
+        {
+          "_id": "6a85a6f310585eea4a9ecb0b",
+          "topicText": "The Digital India mission: Inclusive progress or a widening digital divide?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:03.712Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f310585eea4a9ecb0a",
+          "topicText": "Automation in the Indian manufacturing sector: Boon for growth or threat to labor-intensive jobs?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:03.508Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f310585eea4a9ecb09",
+          "topicText": "The ethical implications of deepfakes and misinformation on democratic processes.",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:03.303Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f310585eea4a9ecb08",
+          "topicText": "Work-from-home culture: Is the erosion of work-life boundaries the new normal?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:03.110Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f210585eea4a9ecb07",
+          "topicText": "Can technology effectively bridge the urban-rural divide in Indian education?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:02.919Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f210585eea4a9ecb06",
+          "topicText": "The role of social media algorithms in deepening political and social polarization.",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:02.746Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f210585eea4a9ecb05",
+          "topicText": "Data privacy in the age of digital surveillance: Is absolute anonymity a myth?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:02.483Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6f210585eea4a9ecb04",
+          "topicText": "Artificial Intelligence in the workplace: Enhancing productivity or enabling mass unemployment?",
+          "category": "Technology & Society",
+          "createdAt": "2026-08-19T12:52:02.175Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6eb10585eea4a9ecb03",
+          "topicText": "The influence of social media and influencer marketing on consumer behavior and traditional retail models.",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:55.115Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6ea10585eea4a9ecb02",
+          "topicText": "The ethical dilemma of data monetization: Do corporations own consumer privacy?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:54.906Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6ea10585eea4a9ecb01",
+          "topicText": "Protectionism vs. Globalization: Is 'Make in India' the right strategy for the modern economic climate?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:54.703Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6ea10585eea4a9ecb00",
+          "topicText": "Digital Public Infrastructure: Is India becoming a global leader in financial inclusion?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:54.396Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6ea10585eea4a9ecaff",
+          "topicText": "Is the shift towards a gig economy beneficial for the Indian middle-class worker?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:54.194Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e910585eea4a9ecafe",
+          "topicText": "Balancing economic development with environmental sustainability: Can India achieve both simultaneously?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:53.886Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e910585eea4a9ecafd",
+          "topicText": "Is the focus on startup culture in India creating a bubble, or is it the engine of future economic growth?",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:53.709Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e910585eea4a9ecafc",
+          "topicText": "The impact of Artificial Intelligence on job stability and workforce restructuring in India.",
+          "category": "Business & Economy",
+          "createdAt": "2026-08-19T12:51:53.410Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e410585eea4a9ecafb",
+          "topicText": "Should social media influencers be held legally accountable for the products they promote?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:48.563Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e410585eea4a9ecafa",
+          "topicText": "Gig economy: Is it providing flexible opportunities or merely exploiting the workforce without labor protections?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:48.353Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e410585eea4a9ecaf9",
+          "topicText": "Data privacy vs. National Security: Should the government have the right to bypass end-to-end encryption?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:48.146Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e310585eea4a9ecaf8",
+          "topicText": "The ethics of surveillance: Is employee monitoring software a necessary security measure or an invasion of privacy?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:47.948Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e310585eea4a9ecaf7",
+          "topicText": "Should private sector companies be mandated to follow government-imposed salary caps to bridge income inequality?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:47.735Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e310585eea4a9ecaf6",
+          "topicText": "Is the reservation system in Indian higher education still relevant in a globalized, merit-based economy?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:47.524Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e310585eea4a9ecaf5",
+          "topicText": "Remote work versus Office culture: Does long-term WFH stifle innovation and professional growth?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:47.341Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e210585eea4a9ecaf4",
+          "topicText": "Should Artificial Intelligence in the workplace be regulated to prevent mass job displacement?",
+          "category": "Controversial/Debate",
+          "createdAt": "2026-08-19T12:51:46.922Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e010585eea4a9ecaf3",
+          "topicText": "The unseen cost of convenience.",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:44.451Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6e010585eea4a9ecaf2",
+          "topicText": "Echo chambers in the age of information abundance.",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:44.150Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6df10585eea4a9ecaf1",
+          "topicText": "Legacy vs. Impact: What matters more in a career?",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:43.946Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6df10585eea4a9ecaf0",
+          "topicText": "The paradox of choice: Freedom or burden?",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:43.747Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6df10585eea4a9ecaef",
+          "topicText": "Does progress have a direction or just a speed?",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:43.439Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6df10585eea4a9ecaee",
+          "topicText": "The color grey in a black and white world.",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:43.129Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6de10585eea4a9ecaed",
+          "topicText": "Is digital solitude the new form of loneliness?",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:42.798Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6de10585eea4a9ecaec",
+          "topicText": "The pursuit of perfection vs. the beauty of imperfection.",
+          "category": "Abstract",
+          "createdAt": "2026-08-19T12:51:42.304Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6db10585eea4a9ecaeb",
+          "topicText": "Universal Basic Income: A necessary safety net or a burden on India's fiscal health?",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:39.656Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6db10585eea4a9ecaea",
+          "topicText": "The influence of social media on the democratic processes and public opinion in modern India.",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:39.343Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6db10585eea4a9ecae9",
+          "topicText": "Can the gig economy be considered a sustainable model for long-term employment in India?",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:39.107Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6da10585eea4a9ecae8",
+          "topicText": "Data privacy vs. National security: Striking a balance in the age of Digital India.",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:38.933Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6da10585eea4a9ecae7",
+          "topicText": "The socio-economic implications of the increasing focus on the Semiconductor Mission in India.",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:38.615Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6da10585eea4a9ecae6",
+          "topicText": "Impact of the geopolitical shifts on India's global supply chain strategy.",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:38.313Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6d910585eea4a9ecae5",
+          "topicText": "Is India's transition to green energy moving at a pace sufficient to meet climate goals?",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:37.905Z",
+          "__v": 0
+        },
+        {
+          "_id": "6a85a6d910585eea4a9ecae4",
+          "topicText": "The role of Artificial Intelligence in reshaping the future of the Indian job market.",
+          "category": "Current Affairs",
+          "createdAt": "2026-08-19T12:51:37.715Z",
+          "__v": 0
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "/gd/practice",
+    "success": false,
+    "data": {
+      "message": "A valid topicId is required"
+    }
+  },
+  {
+    "endpoint": "/companies",
+    "success": true,
+    "data": {
+      "companies": [
+        {
+          "id": "tcs",
+          "name": "Tata Consultancy Services (TCS)",
+          "category": "IT Services",
+          "typicalRounds": [
+            "Online Aptitude & Coding Assessment (NQT)",
+            "Technical Interview (Core CS, DBMS, OOP, Projects)",
+            "Managerial & HR Discussion"
+          ]
+        },
+        {
+          "id": "infosys",
+          "name": "Infosys",
+          "category": "IT Services",
+          "typicalRounds": [
+            "Online Assessment (Reasoning, Verbal, Pseudocode)",
+            "Technical Interview (Programming Fundamentals, Data Structures, Projects)",
+            "HR Interview"
+          ]
+        },
+        {
+          "id": "wipro",
+          "name": "Wipro",
+          "category": "IT Services",
+          "typicalRounds": [
+            "National Qualifier Test (Aptitude + Basic Coding + Written Communication)",
+            "Technical Assessment Round",
+            "HR & Behavioral Interview"
+          ]
+        },
+        {
+          "id": "accenture",
+          "name": "Accenture",
+          "category": "IT Services",
+          "typicalRounds": [
+            "Cognitive & Technical Assessment",
+            "Coding Assessment Round",
+            "Communication Assessment",
+            "Technical & HR Interview"
+          ]
+        },
+        {
+          "id": "cognizant",
+          "name": "Cognizant",
+          "category": "IT Services",
+          "typicalRounds": [
+            "GenC / GenC Elevate Online Assessment",
+            "Technical Interview (Data Structures, SQL, Core Subjects)",
+            "HR Round"
+          ]
+        },
+        {
+          "id": "capgemini",
+          "name": "Capgemini",
+          "category": "IT Services",
+          "typicalRounds": [
+            "Pseudocode & Technical MCQ Assessment",
+            "English Communication Test",
+            "Game-Based Aptitude Round",
+            "Technical & HR Interview"
+          ]
+        },
+        {
+          "id": "amazon",
+          "name": "Amazon",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Online Coding Assessment & Work Style Survey",
+            "Technical Rounds (DSA, Problem Solving, Complexity Analysis)",
+            "System Design / Low-Level Object-Oriented Design",
+            "Bar Raiser & Leadership Principles Behavioral Round"
+          ]
+        },
+        {
+          "id": "google",
+          "name": "Google",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Online Coding Challenge / Screening",
+            "Technical Problem Solving (DSA, Graph/Tree/DP Optimization)",
+            "Data Structures & Algorithmic Design Discussion",
+            "Googleyness & Leadership Behavioral Interview"
+          ]
+        },
+        {
+          "id": "microsoft",
+          "name": "Microsoft",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Online Assessment (Coding & Debugging)",
+            "Technical Rounds (DSA, Arrays, Trees, Recursion)",
+            "System Architecture & Problem Solving",
+            "AA (As Appropriate) / Executive Fit Round"
+          ]
+        },
+        {
+          "id": "flipkart",
+          "name": "Flipkart",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Machine Coding Round (Clean Modular Code & Design Patterns)",
+            "Data Structures & Problem Solving",
+            "System Design (Scalability & High-Level Architecture)",
+            "Hiring Manager / Cultural Fit Round"
+          ]
+        },
+        {
+          "id": "adobe",
+          "name": "Adobe",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Online Coding & CS Fundamentals Test",
+            "Technical Rounds (DSA, C++/Java/JS Core, OS & DBMS)",
+            "System Design & Algorithmic Problem Solving",
+            "Director / HR Fit Round"
+          ]
+        },
+        {
+          "id": "swiggy",
+          "name": "Swiggy",
+          "category": "Product & Tech",
+          "typicalRounds": [
+            "Online Coding Assessment",
+            "Machine Coding / Live Implementation Round",
+            "DSA & Problem Solving Discussion",
+            "System Architecture & Cultural Values Interview"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "endpoint": "/resume-builder (GET)",
+    "success": true,
+    "data": {
+      "draft": {
+        "personalInfo": {
+          "name": "",
+          "email": "",
+          "phone": "",
+          "linkedin": "",
+          "github": ""
+        },
+        "education": [],
+        "experience": [],
+        "projects": [],
+        "skills": [],
+        "summary": "",
+        "userId": "6a892bc84f5be00a83951b33"
+      }
+    }
+  },
+  {
+    "endpoint": "/revision/deck",
+    "success": true,
+    "data": {
+      "deck": [],
+      "totalCount": 0,
+      "masteredCount": 0,
+      "learningCount": 0
+    }
+  },
+  {
+    "endpoint": "/analytics/trend",
+    "success": true,
+    "data": {
+      "interviewTrend": [],
+      "testTrend": [],
+      "gdTrend": []
+    }
+  },
+  {
+    "endpoint": "/payment/create-order",
+    "success": false,
+    "data": "No test ID to use"
+  }
+]

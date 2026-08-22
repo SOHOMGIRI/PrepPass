@@ -3,15 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axiosClient.js";
 
 function fmtDate(iso) {
-  if (!iso) return "";
-  try {
-    return new Date(iso).toLocaleString(undefined, {
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
-  } catch {
-    return "";
-  }
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
 }
 
 export default function History() {
@@ -19,6 +18,7 @@ export default function History() {
   const [interviews, setInterviews] = useState([]);
   const [testSessions, setTestSessions] = useState([]);
   const [matches, setMatches] = useState([]);
+  const [analyses, setAnalyses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -26,14 +26,16 @@ export default function History() {
     setLoading(true);
     setError("");
     try {
-      const [iv, tm, rm] = await Promise.all([
+      const [iv, tm, rm, ra] = await Promise.all([
         api.get("/interview/history"),
         api.get("/test/history"),
         api.get("/resume/history"),
+        api.get("/resume/analyze/history").catch(() => ({ data: { analyses: [] } })),
       ]);
       setInterviews(iv.data?.sessions || []);
       setTestSessions(tm.data?.sessions || []);
       setMatches(rm.data?.matches || []);
+      setAnalyses(ra.data?.analyses || []);
     } catch (err) {
       setError(
         err?.response?.data?.message || "Could not load your history."
@@ -68,8 +70,8 @@ export default function History() {
 
         {loading ? (
           <div className="ticket-card mt-6 flex items-center gap-3 px-6 py-8 text-stamp-navy/70">
-            <span className="font-mono">•••</span>
-            <span>Loading your history…</span>
+            <span className="font-mono animate-pulse">...</span>
+            <span>Loading your history...</span>
           </div>
         ) : (
           <>
@@ -173,6 +175,38 @@ export default function History() {
             </section>
 
             <section className="mt-10">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+                Resume ATS Audits
+              </h2>
+              {analyses.length === 0 ? (
+                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                  No ATS audits yet.
+                </p>
+              ) : (
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {analyses.map((a) => (
+                    <div key={a._id} className="ticket-card p-5">
+                      <div className="flex items-center justify-between">
+                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                          ATS AUDIT
+                        </span>
+                        <span className="score font-heading text-lg text-gold">
+                          {a.atsScore}%
+                        </span>
+                      </div>
+                      <p className="mt-3 line-clamp-2 text-sm text-ink/75 font-mono">
+                        {a.suggestedSubjects?.join(', ') || 'No topics identified'}
+                      </p>
+                      <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                        {fmtDate(a.createdAt)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section className="mt-10 mb-10">
               <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
                 Resume matches
               </h2>

@@ -1,6 +1,7 @@
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import { useEffect, useRef } from "react";
+import { useMouse } from "../context/MouseContext.jsx";
 
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -62,30 +63,31 @@ function Badge() {
 function Scene() {
   const group = useRef(null);
   const mouse = useRef({ x: 0, y: 0 });
+  const globalMouse = useMouse();
   const { gl } = useThree();
 
-  // Pointer tracking + transparent background + context-loss handling.
+  // Map global mouse coords to Canvas viewport normalized [-1, 1]
+  useEffect(() => {
+    const el = gl.domElement;
+    const r = el.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0) {
+      mouse.current = {
+        x: ((globalMouse.x - r.left) / r.width) * 2 - 1,
+        y: -((globalMouse.y - r.top) / r.height) * 2 - 1,
+      };
+    }
+  }, [globalMouse, gl]);
+
+  // Transparent background + context-loss handling.
   useEffect(() => {
     gl.setClearAlpha(0);
     const el = gl.domElement;
-    const onMove = (e) => {
-      const r = el.getBoundingClientRect();
-      mouse.current = {
-        x: ((e.clientX - r.left) / r.width) * 2 - 1,
-        y: -((e.clientY - r.top) / r.height) * 2 - 1,
-      };
-    };
-    const onLeave = () => (mouse.current = { x: 0, y: 0 });
     const onContextLost = (e) => {
       e.preventDefault();
       console.warn("WebGL context lost. Attempting auto-restore...");
     };
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerleave", onLeave);
     el.addEventListener("webglcontextlost", onContextLost);
     return () => {
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerleave", onLeave);
       el.removeEventListener("webglcontextlost", onContextLost);
     };
   }, [gl]);

@@ -83,3 +83,116 @@
     color: var(--gold);
   }
 }
+
+/* ===== Micro-interaction utilities ===== */
+@layer components {
+  /* Glassmorphism navbar — NOT used on test-mode violation modal */
+  .glass-nav {
+    background: rgba(251, 248, 240, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(26, 34, 126, 0.08);
+  }
+
+  /* Animated underline that grows from center on hover */
+  .animated-underline {
+    position: relative;
+  }
+  .animated-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background: var(--stamp-navy);
+    transition: width 0.3s ease, left 0.3s ease;
+  }
+  .animated-underline:hover::after {
+    width: 100%;
+    left: 0;
+  }
+
+  /* Button shine sweep on hover */
+  .shine-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine-sweep::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 100%
+    );
+    transition: left 0.5s ease;
+  }
+  .shine-sweep:hover::before {
+    left: 100%;
+  }
+}
+
+/* Marquee horizontal scroll */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee {
+  display: flex;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+/* Ripple effect for useRipple hook */
+@keyframes ripple-expand {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Aurora gradient blob drift for Hero section */
+@keyframes aurora-drift-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, -40px) scale(1.1); }
+}
+@keyframes aurora-drift-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, 30px) scale(1.05); }
+}
+@keyframes aurora-drift-3 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 50px) scale(0.95); }
+}
+
+/* Lenis smooth-scroll integration */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ===== Accessibility: disable all custom animations ===== */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+  .shine-sweep::before {
+    transition: none;
+  }
+  .animated-underline::after {
+    transition: none;
+  }
+  [style*="aurora-drift"] {
+    animation: none !important;
+  }
+}

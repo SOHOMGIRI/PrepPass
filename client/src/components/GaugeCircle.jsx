@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 /**
  * Animated SVG circular gauge. Used for readiness scores (max 10) and
@@ -16,10 +16,24 @@ export default function GaugeCircle({
   const pct = Math.max(0, Math.min(100, (value / (max || 1)) * 100));
   const target = circ - (pct / 100) * circ;
   const [offset, setOffset] = useState(circ);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setOffset(target), 80);
-    return () => clearTimeout(t);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setTimeout(() => setOffset(target), 80);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
   }, [target]);
 
   const isPercent = max === 100;
@@ -28,7 +42,7 @@ export default function GaugeCircle({
     : `${Math.round(value * 10) / 10}`;
 
   return (
-    <div className="flex flex-col items-center" style={{ width: size }}>
+    <div ref={containerRef} className="flex flex-col items-center" style={{ width: size }}>
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="block -rotate-90">
           <circle

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import CountUp from "react-countup";
 import {
   ResponsiveContainer,
   LineChart,
@@ -16,8 +17,14 @@ import GaugeCircle from "../components/GaugeCircle.jsx";
 
 const section1Cards = [
   {
+    title: "Resume Analysis",
+    desc: "Instant ATS audit and suggested prep topics.",
+    to: "/resume-analysis",
+    stamp: "ATS AUDIT",
+  },
+  {
     title: "Resume Matcher",
-    desc: "Match your resume to a job description & ATS audit.",
+    desc: "Match your resume to a job description.",
     to: "/resume-matcher",
     stamp: "RESUME MATCH",
   },
@@ -305,16 +312,18 @@ export default function Dashboard() {
                   YOUR AVERAGE
                 </div>
                 <p className="mt-2 max-w-xs text-sm text-ink/70">
-                  Average readiness across {count} completed interview session
+                  Average readiness across <CountUp end={count} duration={1} /> completed interview session
                   {count === 1 ? "" : "s"}.
                 </p>
               </div>
-              <GaugeCircle
-                value={avg}
-                max={10}
-                size={140}
-                caption="Readiness Score"
-              />
+              <div className="transition-transform duration-700 ease-out" style={{ transform: avg != null ? 'scale(1)' : 'scale(0.9)', opacity: avg != null ? 1 : 0 }}>
+                <GaugeCircle
+                  value={avg}
+                  max={10}
+                  size={140}
+                  caption="Readiness Score"
+                />
+              </div>
             </>
           ) : (
             <div className="mx-auto max-w-md text-center">
@@ -344,7 +353,7 @@ export default function Dashboard() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
@@ -373,7 +382,7 @@ export default function Dashboard() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
@@ -402,7 +411,7 @@ export default function Dashboard() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}
@@ -446,8 +455,14 @@ export default function Dashboard() {
             </div>
 
             {loadingTrend ? (
-              <div className="flex h-56 items-center justify-center font-mono text-xs text-stamp-navy/60">
-                Loading performance trends…
+              <div className="space-y-4 p-4">
+                <div className="h-4 w-1/3 rounded bg-stamp-navy/10 animate-pulse" />
+                <div className="h-56 w-full rounded-lg bg-stamp-navy/[0.06] animate-pulse" />
+                <div className="flex gap-4">
+                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
+                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
+                  <div className="h-3 w-1/4 rounded bg-stamp-navy/10 animate-pulse" />
+                </div>
               </div>
             ) : !hasAnyTrend ? (
               <div className="flex h-44 flex-col items-center justify-center text-center p-4">
@@ -525,7 +540,7 @@ export default function Dashboard() {
               <Link
                 key={c.to}
                 to={c.to}
-                className="ticket-card block p-6 transition-colors hover:border-stamp-navy/50"
+                className="ticket-card block p-6 transition-all duration-200 hover:border-stamp-navy/50 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-stamp-navy">
                   {c.stamp}

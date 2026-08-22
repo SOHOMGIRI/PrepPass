@@ -5,15 +5,19 @@ import HowItWorks from "../components/landing/HowItWorks.jsx";
 import AdmitCard from "../components/landing/AdmitCard.jsx";
 import Footer from "../components/landing/Footer.jsx";
 import { Link } from "react-router-dom";
+import { useEffect, useRef, forwardRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
-function PricingSection() {
+const PricingSection = forwardRef((props, ref) => {
   return (
     <section id="pricing" className="py-16 bg-cream">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="font-heading text-stamp-navy text-center mb-10">
           Pricing
         </h2>
-        <div className="ticket-card relative p-8 sm:p-10">
+        <div ref={ref} className="ticket-card relative p-8 sm:p-10">
           <div className="ticket-perf mb-8" />
           <div className="text-center mb-8">
             <span className="font-heading text-5xl text-stamp-navy">Free</span>
@@ -62,16 +66,16 @@ function PricingSection() {
       </div>
     </section>
   );
-}
+});
 
-function ContactSection() {
+const ContactSection = forwardRef((props, ref) => {
   return (
     <section id="contact" className="py-16 bg-ticket">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="font-heading text-stamp-navy text-center mb-10">
           Contact
         </h2>
-        <div className="ticket-card relative p-8 sm:p-10">
+        <div ref={ref} className="ticket-card relative p-8 sm:p-10">
           <div className="ticket-perf mb-8" />
           <div className="text-center">
             <h3 className="font-heading text-2xl text-stamp-navy mb-3">
@@ -96,10 +100,39 @@ function ContactSection() {
       </div>
     </section>
   );
-}
+});
 
 export default function Landing() {
   const { accessToken } = useAuth();
+  const pricingRef = useRef(null);
+  const contactRef = useRef(null);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    if (pricingRef.current) {
+      gsap.fromTo(pricingRef.current,
+        { opacity: 0, y: 40 },
+        { 
+          opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+          scrollTrigger: { trigger: pricingRef.current, start: 'top 85%', once: true }
+        }
+      );
+    }
+    
+    if (contactRef.current) {
+      gsap.fromTo(contactRef.current,
+        { opacity: 0, y: 40 },
+        { 
+          opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+          scrollTrigger: { trigger: contactRef.current, start: 'top 85%', once: true }
+        }
+      );
+    }
+
+    return () => ScrollTrigger.getAll().forEach(st => st.kill());
+  }, []);
 
   return (
     <main className="w-full bg-cream text-ink font-body">
@@ -107,8 +140,8 @@ export default function Landing() {
       <Hero accessToken={accessToken} />
       <HowItWorks />
       <AdmitCard />
-      <PricingSection />
-      <ContactSection />
+      <PricingSection ref={pricingRef} />
+      <ContactSection ref={contactRef} />
       <Footer />
     </main>
   );
