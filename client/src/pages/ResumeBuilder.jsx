@@ -317,7 +317,7 @@ export default function ResumeBuilder() {
                   onClick={() => handleStepChange(idx)}
                   className={`rounded-full px-3 py-1 font-mono text-[11px] transition ${
                     currentStep === idx
-                      ? "bg-stamp-navy text-gold font-semibold"
+                      ? "bg-stamp-navy text-white font-semibold"
                       : idx < currentStep
                       ? "bg-gold/20 text-text-primary hover:bg-gold/30"
                       : "bg-stamp-navy/10 text-text-primary/70 hover:bg-stamp-navy/15"
@@ -788,7 +788,7 @@ export default function ResumeBuilder() {
                 <button
                   type="button"
                   onClick={addSkill}
-                  className="rounded-lg bg-stamp-navy px-4 py-2 font-mono text-xs font-semibold text-gold hover:bg-stamp-navy/90"
+                  className="rounded-lg bg-stamp-navy px-4 py-2 font-mono text-xs font-semibold text-white hover:bg-stamp-navy/90"
                 >
                   Add Skills
                 </button>
@@ -861,7 +861,7 @@ export default function ResumeBuilder() {
                   <button
                     type="button"
                     onClick={() => handlePrint()}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
                   >
                     📄 Download PDF
                   </button>
@@ -897,7 +897,7 @@ export default function ResumeBuilder() {
               <button
                 type="button"
                 onClick={() => handleStepChange(currentStep + 1)}
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
               >
                 Next Step →
               </button>
@@ -905,7 +905,7 @@ export default function ResumeBuilder() {
               <button
                 type="button"
                 onClick={() => handlePrint()}
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
               >
                 Print / Download PDF
               </button>
@@ -949,7 +949,7 @@ export default function ResumeBuilder() {
                       <span className="font-mono text-[10px] font-bold text-text-primary/60">
                         Option #{sIdx + 1}
                       </span>
-                      <span className="font-mono text-[11px] text-gold group-hover:underline">
+                      <span className="font-mono text-[11px] text-white group-hover:underline">
                         Apply this suggestion →
                       </span>
                     </div>

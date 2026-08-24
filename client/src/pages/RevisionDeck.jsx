@@ -194,7 +194,7 @@ export default function RevisionDeck() {
                 }}
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "all"
-                    ? "bg-stamp-navy text-gold"
+                    ? "bg-stamp-navy text-white"
                     : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
@@ -209,7 +209,7 @@ export default function RevisionDeck() {
                 }}
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "test"
-                    ? "bg-stamp-navy text-gold"
+                    ? "bg-stamp-navy text-white"
                     : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
@@ -224,7 +224,7 @@ export default function RevisionDeck() {
                 }}
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "interview"
-                    ? "bg-stamp-navy text-gold"
+                    ? "bg-stamp-navy text-white"
                     : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
@@ -282,13 +282,13 @@ export default function RevisionDeck() {
             <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
               <Link
                 to="/test-mode"
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90"
+                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
               >
                 Take a Proctored Test ⏱️
               </Link>
               <Link
                 to="/interview"
-                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-gold-dark"
+                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark"
               >
                 Start Mock Interview 🎙️
               </Link>
@@ -441,7 +441,7 @@ export default function RevisionDeck() {
                   type="button"
                   onClick={() => handleMarkStatus("mastered")}
                   disabled={marking}
-                  className="flex-1 sm:flex-none rounded-lg bg-green-600 px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-green-700 disabled:opacity-50 shadow-sm"
+                  className="flex-1 sm:flex-none rounded-lg bg-green-600 px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-green-700 disabled:opacity-50 shadow-sm"
                 >
                   ✓ Got it! (Mastered)
                 </button>
@@ -466,7 +466,7 @@ export default function RevisionDeck() {
                         className={`font-mono text-[10px] font-bold ${
                           card.status === "mastered"
                             ? "text-green-700"
-                            : "text-gold"
+                            : "text-white"
                         }`}
                       >
                         {card.status === "mastered" ? "✓ Mastered" : "Learning"}

@@ -69,7 +69,7 @@ export default function NavBar({ accessToken }) {
                 href={location.pathname === "/" ? item.href : `/${item.href}`}
                 className={cn(
                   "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-gold font-bold" : "text-gold/60 hover:text-gold"
+                  isActive ? "text-white font-bold" : "text-white/60 hover:text-white"
                 )}
               >
                 {item.label}
@@ -80,7 +80,7 @@ export default function NavBar({ accessToken }) {
                 to={item.to}
                 className={cn(
                   "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-gold font-bold" : "text-gold/60 hover:text-gold"
+                  isActive ? "text-white font-bold" : "text-white/60 hover:text-white"
                 )}
               >
                 {item.label}
@@ -92,14 +92,14 @@ export default function NavBar({ accessToken }) {
         <div className="flex items-center gap-4">
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="hidden sm:block font-mono text-[11px] uppercase text-gold hover:underline tracking-wider"
+            className="hidden sm:block font-mono text-[11px] uppercase text-white hover:underline tracking-wider"
           >
             {accessToken ? "DASHBOARD" : "SIGN IN"}
           </Link>
 
           {/* Hamburger Menu Button */}
           <button
-            className="sm:hidden text-gold"
+            className="sm:hidden text-white"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -143,7 +143,7 @@ export default function NavBar({ accessToken }) {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-gold font-bold" : "text-gold/70 hover:text-gold"
+                    isActive ? "text-white font-bold" : "text-white/70 hover:text-white"
                   )}
                 >
                   {item.label}
@@ -155,7 +155,7 @@ export default function NavBar({ accessToken }) {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-gold font-bold" : "text-gold/70 hover:text-gold"
+                    isActive ? "text-white font-bold" : "text-white/70 hover:text-white"
                   )}
                 >
                   {item.label}
@@ -165,7 +165,7 @@ export default function NavBar({ accessToken }) {
             <Link
               to={accessToken ? "/dashboard" : "/login"}
               onClick={() => setMenuOpen(false)}
-              className="font-mono text-[11px] uppercase text-gold font-bold tracking-wider pt-2 border-t border-white/10"
+              className="font-mono text-[11px] uppercase text-white font-bold tracking-wider pt-2 border-t border-white/10"
             >
               {accessToken ? "DASHBOARD" : "SIGN IN"}
             </Link>
@@ -175,4 +175,6 @@ export default function NavBar({ accessToken }) {
     </header>
   );
 }
+
+
 

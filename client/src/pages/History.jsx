@@ -103,7 +103,7 @@ export default function History() {
                             {s.role}
                           </span>
                         </div>
-                        <span className="score font-heading text-lg text-gold">
+                        <span className="score font-heading text-lg text-white">
                           {s.overallReadinessScore != null
                             ? `${s.overallReadinessScore} / 10`
                             : "—"}
@@ -137,7 +137,7 @@ export default function History() {
                         <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           {t.subjects?.join(" • ") || "TEST"}
                         </span>
-                        <span className="score font-heading text-lg text-gold">
+                        <span className="score font-heading text-lg text-white">
                           {t.scorePercent != null ? `${t.scorePercent}%` : "—"}
                         </span>
                       </div>
@@ -154,7 +154,7 @@ export default function History() {
                                 : t.trustScore === 70
                                 ? "bg-yellow-100 text-yellow-800"
                                 : t.trustScore === 40
-                                ? "bg-gold text-gold"
+                                ? "bg-gold text-white"
                                 : "bg-red-100 text-stamp-maroon"
                             }`}
                           >
@@ -190,7 +190,7 @@ export default function History() {
                         <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           ATS AUDIT
                         </span>
-                        <span className="score font-heading text-lg text-gold">
+                        <span className="score font-heading text-lg text-white">
                           {a.atsScore}%
                         </span>
                       </div>
@@ -222,7 +222,7 @@ export default function History() {
                         <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           RESUME MATCH
                         </span>
-                        <span className="score font-heading text-lg text-gold">
+                        <span className="score font-heading text-lg text-white">
                           {m.matchScorePercent}%
                         </span>
                       </div>

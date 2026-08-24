@@ -59,7 +59,7 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden block rounded-2xl bg-gradient-to-br from-gold/10 via-[#0A061E]/80 to-gold/5 backdrop-blur-md transition-all duration-300",
+        "relative overflow-hidden block rounded-2xl bg-gradient-to-br from-gold via-[#0A061E]/90 to-gold backdrop-blur-md transition-all duration-300",
         "border border-gold/20 shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
         "hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)] hover:border-gold",
         className
@@ -86,5 +86,6 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
     </Tag>
   );
 }
+
 
 

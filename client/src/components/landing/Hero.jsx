@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import FloatingElements from "./FloatingElements.jsx";
 import Magnetic from "../Magnetic.jsx";
-import { ChevronDown, Volume2, VolumeX } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 import useRipple from "../../hooks/useRipple.js";
 import HeroIllustration from "./HeroIllustration.jsx";
@@ -11,7 +11,7 @@ import HeroIllustration from "./HeroIllustration.jsx";
 const BTN =
   "inline-flex items-center justify-center rounded-xl font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
 const BTN_PRIMARY = `${BTN} text-[#0B0A14] bg-gold hover:opacity-90 px-8 py-4 shine-sweep shadow-[0_10px_25px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_35px_rgba(212,175,55,0.4)]`;
-const BTN_OUTLINE = `${BTN} text-gold border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
+const BTN_OUTLINE = `${BTN} text-white border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
 
 const StaggeredText = ({ text }) => {
   const words = text.split(" ");
@@ -33,34 +33,6 @@ const StaggeredText = ({ text }) => {
 export default function Hero({ accessToken }) {
   
   const heroRef = useRef(null);
-  const audioRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [hasInteracted, setHasInteracted] = useState(false);
-
-  useEffect(() => {
-    const handleInteraction = () => {
-      if (!hasInteracted && audioRef.current) {
-        setHasInteracted(true);
-        audioRef.current.volume = 0.3;
-        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
-        setIsMuted(false);
-      }
-    };
-    window.addEventListener('click', handleInteraction, { once: true });
-    return () => window.removeEventListener('click', handleInteraction);
-  }, [hasInteracted]);
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-      if (isMuted && !hasInteracted) {
-        audioRef.current.play().catch(e => console.log(e));
-        setHasInteracted(true);
-      }
-      setIsMuted(!isMuted);
-    }
-  };
-
   const ripple = useRipple("rgba(255, 255, 255, 0.3)");
   const rippleDark = useRipple("rgba(255, 255, 255, 0.1)");
 
@@ -99,16 +71,7 @@ export default function Hero({ accessToken }) {
       className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-visible"
     >
       
-      <audio ref={audioRef} loop src="https://cdn.pixabay.com/audio/2022/10/25/audio_51c6c0a0c6.mp3" />
       
-      {/* Sound Toggle */}
-      <button 
-        onClick={toggleMute}
-        className="absolute top-24 right-6 z-50 p-3 rounded-full bg-surface/20 backdrop-blur-md border border-gold/20 text-gold hover:bg-gold/10 transition-all hover:scale-110"
-        title="Toggle Background Music"
-      >
-        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-      </button>
 
       <FloatingElements />
 
@@ -157,12 +120,13 @@ export default function Hero({ accessToken }) {
 
       {/* Scroll Down Cue */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-70">
-        <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-gold/50">Scroll</span>
-        <ChevronDown size={20} className="text-gold/60 animate-bounce" strokeWidth={1.5} />
+        <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/50">Scroll</span>
+        <ChevronDown size={20} className="text-white/60 animate-bounce" strokeWidth={1.5} />
       </div>
     </section>
   );
 }
+
 
 
 

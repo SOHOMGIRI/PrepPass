@@ -192,7 +192,7 @@ export default function AptitudePractice() {
                           {cat.desc}
                         </p>
                       </div>
-                      <span className="mt-3 font-mono text-[10px] font-bold text-gold">
+                      <span className="mt-3 font-mono text-[10px] font-bold text-white">
                         {isSelected ? "✓ SELECTED" : "+ ADD"}
                       </span>
                     </button>
@@ -214,7 +214,7 @@ export default function AptitudePractice() {
                     onClick={() => setQuestionCount(count)}
                     className={`rounded-lg px-5 py-2 font-mono text-xs font-bold transition ${
                       questionCount === count
-                        ? "bg-stamp-navy text-gold shadow-sm"
+                        ? "bg-stamp-navy text-white shadow-sm"
                         : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                     }`}
                   >
@@ -232,7 +232,7 @@ export default function AptitudePractice() {
                 type="button"
                 onClick={startPractice}
                 disabled={loading || selectedSubjects.length === 0}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90 disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
               >
                 {loading ? "Preparing Questions…" : "Start Practice Session →"}
               </button>
@@ -297,7 +297,7 @@ export default function AptitudePractice() {
                       <span
                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${
                           isSelected
-                            ? "bg-stamp-navy text-gold"
+                            ? "bg-stamp-navy text-white"
                             : "bg-stamp-navy/10 text-text-primary"
                         }`}
                       >
@@ -326,7 +326,7 @@ export default function AptitudePractice() {
                   <button
                     type="button"
                     onClick={() => setCurrentIndex(currentIndex + 1)}
-                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90"
+                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
                   >
                     Next Question →
                   </button>
@@ -335,7 +335,7 @@ export default function AptitudePractice() {
                     type="button"
                     onClick={submitPractice}
                     disabled={submitting}
-                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-gold-dark disabled:opacity-50"
+                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark disabled:opacity-50"
                   >
                     {submitting ? "Grading…" : "Finish & View Results ✓"}
                   </button>
@@ -359,9 +359,9 @@ export default function AptitudePractice() {
                       onClick={() => setCurrentIndex(qIdx)}
                       className={`h-8 w-8 rounded-lg font-mono text-xs font-bold transition ${
                         isCurrent
-                          ? "ring-2 ring-stamp-navy bg-stamp-navy text-gold"
+                          ? "ring-2 ring-stamp-navy bg-stamp-navy text-white"
                           : isAnswered
-                          ? "bg-gold text-gold"
+                          ? "bg-gold text-white"
                           : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                       }`}
                     >
@@ -481,7 +481,7 @@ export default function AptitudePractice() {
                   setPhase("select");
                   setResult(null);
                 }}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
               >
                 Practice Another Set 🔄
               </button>

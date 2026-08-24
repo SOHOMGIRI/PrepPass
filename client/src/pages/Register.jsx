@@ -83,7 +83,7 @@ export default function Register() {
               className={errors.name ? INPUT_ERR_CLASS : INPUT_CLASS}
             />
             {errors.name && (
-              <p className="text-gold text-xs mt-1 font-mono">{errors.name}</p>
+              <p className="text-white text-xs mt-1 font-mono">{errors.name}</p>
             )}
           </div>
 
@@ -101,7 +101,7 @@ export default function Register() {
               className={errors.email ? INPUT_ERR_CLASS : INPUT_CLASS}
             />
             {errors.email && (
-              <p className="text-gold text-xs mt-1 font-mono">{errors.email}</p>
+              <p className="text-white text-xs mt-1 font-mono">{errors.email}</p>
             )}
           </div>
 
@@ -123,7 +123,7 @@ export default function Register() {
                 const ok = pwdValid(r);
                 return (
                   <li key={r.label} className="flex items-center gap-2">
-                    <span className={ok ? "text-gold" : "text-text-secondary/30"}>
+                    <span className={ok ? "text-white" : "text-text-secondary/30"}>
                       {ok ? "✓" : "○"}
                     </span>
                     <span className="font-mono">{r.label}</span>
@@ -132,15 +132,15 @@ export default function Register() {
               })}
             </ul>
             {errors.password && (
-              <p className="text-gold text-xs mt-1 font-mono">{errors.password}</p>
+              <p className="text-white text-xs mt-1 font-mono">{errors.password}</p>
             )}
           </div>
 
           {serverError && (
-            <p className="text-gold text-xs font-mono">{serverError}</p>
+            <p className="text-white text-xs font-mono">{serverError}</p>
           )}
 
-          <RippleButton type="submit" disabled={submitting} className="w-full py-3.5 bg-stamp-navy text-gold hover:bg-stamp-navy/90">{submitting ? "Creating account..." : "Create Account"}</RippleButton>
+          <RippleButton type="submit" disabled={submitting} className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90">{submitting ? "Creating account..." : "Create Account"}</RippleButton>
         </form>
 
         <p className="mt-6 text-sm text-center text-text-secondary/70">

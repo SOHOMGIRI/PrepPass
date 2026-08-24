@@ -54,19 +54,19 @@ export default function About() {
 
           <div className="grid gap-4 sm:grid-cols-3 pt-2">
             <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
-              <span className="font-mono text-xs font-bold text-gold">01. FREE & ACCESSIBLE</span>
+              <span className="font-mono text-xs font-bold text-white">01. FREE & ACCESSIBLE</span>
               <p className="mt-1 text-xs text-text-secondary/70">
                 Built specifically for university students with zero paywalls.
               </p>
             </div>
             <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
-              <span className="font-mono text-xs font-bold text-gold">02. ADAPTIVE AI</span>
+              <span className="font-mono text-xs font-bold text-white">02. ADAPTIVE AI</span>
               <p className="mt-1 text-xs text-text-secondary/70">
                 Live scoring, real-time follow-ups, and panel rebuttals.
               </p>
             </div>
             <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
-              <span className="font-mono text-xs font-bold text-gold">03. PRIVACY FIRST</span>
+              <span className="font-mono text-xs font-bold text-white">03. PRIVACY FIRST</span>
               <p className="mt-1 text-xs text-text-secondary/70">
                 Your data is never sold or shared with external recruiters.
               </p>
@@ -76,7 +76,7 @@ export default function About() {
           <div className="pt-4 flex flex-wrap items-center gap-3">
             <Link
               to={accessToken ? "/dashboard" : "/register"}
-              className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+              className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
             >
               {accessToken ? "Go to Dashboard" : "Start Practicing Now"}
             </Link>

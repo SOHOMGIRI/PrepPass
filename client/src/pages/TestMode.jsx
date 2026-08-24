@@ -445,7 +445,7 @@ export default function TestMode() {
                         onClick={() => toggleSubject(sub)}
                         className={`rounded-full px-3.5 py-1.5 font-mono text-xs tracking-wide transition ${
                           isSelected
-                            ? "bg-gold text-gold font-semibold shadow-sm"
+                            ? "bg-gold text-white font-semibold shadow-sm"
                             : "bg-gold/15 text-text-primary hover:bg-gold/25"
                         }`}
                       >
@@ -481,7 +481,7 @@ export default function TestMode() {
                         <span className="font-heading text-xs text-text-primary">
                           {sub}
                         </span>
-                        <span className="font-mono text-xs font-bold text-gold">
+                        <span className="font-mono text-xs font-bold text-white">
                           {isSelected ? "SELECTED" : "+ ADD"}
                         </span>
                       </div>
@@ -499,7 +499,7 @@ export default function TestMode() {
                 type="button"
                 onClick={startTest}
                 disabled={loading || selectedSubjects.length === 0}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90 disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
               >
                 {loading ? "Preparing Questions…" : "Enter Fullscreen & Start Test 🚀"}
               </button>
@@ -590,7 +590,7 @@ export default function TestMode() {
                       <span
                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${
                           isSelected
-                            ? "bg-stamp-navy text-gold"
+                            ? "bg-stamp-navy text-white"
                             : "bg-stamp-navy/10 text-text-primary"
                         }`}
                       >
@@ -619,7 +619,7 @@ export default function TestMode() {
                   <button
                     type="button"
                     onClick={() => setCurrentIndex(currentIndex + 1)}
-                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90"
+                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
                   >
                     Next Question →
                   </button>
@@ -628,7 +628,7 @@ export default function TestMode() {
                     type="button"
                     onClick={() => submitTest(false)}
                     disabled={submitting}
-                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-gold-dark disabled:opacity-50"
+                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark disabled:opacity-50"
                   >
                     {submitting ? "Grading…" : "Finish & Submit Test ✓"}
                   </button>
@@ -652,9 +652,9 @@ export default function TestMode() {
                       onClick={() => setCurrentIndex(qIdx)}
                       className={`h-8 w-8 rounded-lg font-mono text-xs font-bold transition ${
                         isCurrent
-                          ? "ring-2 ring-stamp-navy bg-stamp-navy text-gold"
+                          ? "ring-2 ring-stamp-navy bg-stamp-navy text-white"
                           : isAnswered
-                          ? "bg-gold text-gold"
+                          ? "bg-gold text-white"
                           : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                       }`}
                     >
@@ -711,7 +711,7 @@ export default function TestMode() {
                       : result.trustScore === 70
                       ? "bg-yellow-100 text-yellow-800"
                       : result.trustScore === 40
-                      ? "bg-gold text-gold"
+                      ? "bg-gold text-white"
                       : "bg-red-100 text-stamp-maroon"
                   }`}
                 >
@@ -793,7 +793,7 @@ export default function TestMode() {
                   type="button"
                   onClick={handleUnlockClick}
                   disabled={reportLoading}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 font-heading text-sm font-semibold text-gold hover:bg-gold-dark disabled:opacity-50 shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 font-heading text-sm font-semibold text-white hover:bg-gold-dark disabled:opacity-50 shadow-sm"
                 >
                   {reportLoading ? "Loading QR…" : "Unlock Detailed Report — ₹49 ⚡"}
                 </button>
@@ -843,7 +843,7 @@ export default function TestMode() {
                     <p>
                       <strong>UPI ID:</strong> {paymentOrder.upiId}
                     </p>
-                    <p className="text-gold font-bold">
+                    <p className="text-white font-bold">
                       <strong>Ref Code:</strong> {paymentOrder.referenceCode}
                     </p>
                   </div>
@@ -885,7 +885,7 @@ export default function TestMode() {
                     <button
                       type="submit"
                       disabled={paymentSubmitting || !upiTxnInput.trim()}
-                      className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90 disabled:opacity-50"
+                      className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
                     >
                       {paymentSubmitting ? "Verifying…" : "Submit & Unlock Report ✓"}
                     </button>
@@ -921,7 +921,7 @@ export default function TestMode() {
                           <span className="font-heading text-xs font-bold text-text-primary">
                             {sb.subject}
                           </span>
-                          <span className="font-mono text-xs font-bold text-gold">
+                          <span className="font-mono text-xs font-bold text-white">
                             {sb.accuracyPercent}%
                           </span>
                         </div>
@@ -1098,7 +1098,7 @@ export default function TestMode() {
                   setDetailedReport(null);
                   setPaymentOrder(null);
                 }}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-gold hover:bg-stamp-navy/90"
+                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
               >
                 Take Another Test 🔄
               </button>
@@ -1137,7 +1137,7 @@ export default function TestMode() {
                 <button
                   type="button"
                   onClick={reEnterFullscreen}
-                  className="rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90"
+                  className="rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
                 >
                   Re-enter Fullscreen & Continue →
                 </button>

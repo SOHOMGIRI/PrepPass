@@ -37,11 +37,11 @@ export default function VerifyOtp() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg">
         <div className="ticket-card w-full max-w-sm p-8 text-center">
-          <p className="text-gold font-mono mb-4">No email found.</p>
+          <p className="text-white font-mono mb-4">No email found.</p>
           <button
             type="button"
             onClick={() => navigate("/register")}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-gold bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 py-2 px-4"
+            className="inline-flex items-center justify-center rounded-lg font-semibold text-white bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 py-2 px-4"
           >
             Go to Register
           </button>
@@ -170,7 +170,7 @@ export default function VerifyOtp() {
           </div>
 
           {error && (
-            <p className="text-gold text-xs font-mono text-center">{error}</p>
+            <p className="text-white text-xs font-mono text-center">{error}</p>
           )}
           {info && (
             <p className="text-text-primary/70 text-xs font-mono text-center">
@@ -181,7 +181,7 @@ export default function VerifyOtp() {
           <button
             type="submit"
             disabled={submitting || !isComplete}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-gold bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 w-full py-3"
+            className="inline-flex items-center justify-center rounded-lg font-semibold text-white bg-stamp-navy hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 w-full py-3"
           >
             {submitting ? "Verifying…" : "Verify & Continue"}
           </button>

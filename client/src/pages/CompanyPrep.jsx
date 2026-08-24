@@ -244,7 +244,7 @@ export default function CompanyPrep() {
                   onClick={() => setCompanyCategory(cat)}
                   className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
                     companyCategory === cat
-                      ? "bg-stamp-navy text-gold"
+                      ? "bg-stamp-navy text-white"
                       : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                   }`}
                 >
@@ -285,7 +285,7 @@ export default function CompanyPrep() {
                       </h2>
                     </div>
                     <div className="mt-4 flex items-center justify-between border-t border-dashed border-white/10 pt-3">
-                      <span className="font-mono text-[11px] text-gold group-hover:underline">
+                      <span className="font-mono text-[11px] text-white group-hover:underline">
                         Start Track →
                       </span>
                     </div>
@@ -379,7 +379,7 @@ export default function CompanyPrep() {
                     onClick={() => setRoleCategory(cat)}
                     className={`rounded-full px-3 py-1 font-mono text-[11px] tracking-wide transition ${
                       roleCategory === cat
-                        ? "bg-stamp-navy text-gold"
+                        ? "bg-stamp-navy text-white"
                         : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                     }`}
                   >

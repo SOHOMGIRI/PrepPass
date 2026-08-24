@@ -78,7 +78,7 @@ export default function Login() {
               className={errors.email ? INPUT_ERROR_CLASS : INPUT_CLASS}
             />
             {errors.email && (
-              <p className="text-gold text-xs mt-1 font-mono">{errors.email}</p>
+              <p className="text-white text-xs mt-1 font-mono">{errors.email}</p>
             )}
           </div>
 
@@ -96,18 +96,18 @@ export default function Login() {
               className={errors.password ? INPUT_ERROR_CLASS : INPUT_CLASS}
             />
             {errors.password && (
-              <p className="text-gold text-xs mt-1 font-mono">{errors.password}</p>
+              <p className="text-white text-xs mt-1 font-mono">{errors.password}</p>
             )}
           </div>
 
           {serverError && (
-            <p className="text-gold text-xs font-mono">{serverError}</p>
+            <p className="text-white text-xs font-mono">{serverError}</p>
           )}
 
           <RippleButton
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-stamp-navy text-gold hover:bg-stamp-navy/90"
+            className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90"
           >
             {submitting ? "Signing in..." : "Sign In"}
           </RippleButton>

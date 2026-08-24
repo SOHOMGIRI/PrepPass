@@ -1,10 +1,13 @@
-import { useMouse } from "../context/MouseContext.jsx";
+const fs = require('fs');
+let content = fs.readFileSync('client/src/components/GlobalBackground.jsx', 'utf8');
 
+const audioImports = `
 import { Volume2, VolumeX } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import ParticleCanvas from "./landing/ParticleCanvas.jsx";
+`;
+content = content.replace('import ParticleCanvas', audioImports + 'import ParticleCanvas');
 
-
+const audioState = `
 export default function GlobalBackground() {
   const audioRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
@@ -33,33 +36,10 @@ export default function GlobalBackground() {
       setIsMuted(!isMuted);
     }
   };
+`;
+content = content.replace('export default function GlobalBackground() {', audioState);
 
-  return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[#0A061E]">
-      {/* Rich Aurora Gradient Blobs */}
-      <div
-        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full opacity-30 mix-blend-screen"
-        style= {{
-          background: "radial-gradient(circle, rgba(79, 70, 229, 0.6) 0%, transparent 70%)",
-          animation: "aurora-drift-1 12s ease-in-out infinite alternate",
-        }}
-      />
-      <div
-        className="absolute -bottom-1/4 -right-1/4 w-[700px] h-[700px] rounded-full opacity-25 mix-blend-screen"
-        style= {{
-          background: "radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)",
-          animation: "aurora-drift-2 15s ease-in-out infinite alternate",
-        }}
-      />
-      <div
-        className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full opacity-20 mix-blend-screen"
-        style={{
-          background: "radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, transparent 70%)",
-          animation: "aurora-drift-3 10s ease-in-out infinite alternate",
-        }}
-      />
-
-      
+const audioJSX = `
       {/* Sitewide Background Audio */}
       <audio ref={audioRef} loop src="https://upload.wikimedia.org/wikipedia/commons/2/29/A_Journey_Through_the_Universe.ogg" />
       
@@ -72,8 +52,6 @@ export default function GlobalBackground() {
       </button>
 
       <ParticleCanvas />
-
-    </div>
-  );
-}
-
+`;
+content = content.replace('<ParticleCanvas />', audioJSX);
+fs.writeFileSync('client/src/components/GlobalBackground.jsx', content, 'utf8');
