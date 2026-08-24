@@ -41,7 +41,7 @@ export default function ParticleCanvas() {
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.parentElement.getBoundingClientRect();
+      const rect = { width: window.innerWidth, height: window.innerHeight };
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       canvas.style.width = `${rect.width}px`;

@@ -227,3 +227,14 @@ html.lenis, html.lenis body {
 }
 
 
+@keyframes flipPage {
+  0%, 20% { transform: scaleX(1) skewY(0deg); opacity: 1; }
+  50% { transform: scaleX(0) skewY(10deg); opacity: 0.8; }
+  51% { opacity: 0; }
+  100% { transform: scaleX(1) skewY(0deg); opacity: 0; }
+}
+@keyframes turnHand {
+  0%, 10% { transform: translate(30px, 30px) rotate(15deg); }
+  40%, 50% { transform: translate(-30px, -10px) rotate(-10deg); }
+  100% { transform: translate(30px, 30px) rotate(15deg); }
+}
