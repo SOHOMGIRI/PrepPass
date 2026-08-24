@@ -39,7 +39,7 @@ export default function LiquidCursor() {
     if (!isActive) return;
     
     let rafId;
-    const numBlobs = 5;
+    const numBlobs = 15;
     if (!elementsRef.current.positions) {
       elementsRef.current.positions = Array.from({ length: numBlobs }).map(() => ({ x: mouse.x, y: mouse.y }));
     }
@@ -51,7 +51,7 @@ export default function LiquidCursor() {
       positions[0].y += (mouse.y - positions[0].y) * 0.8;
       
       for (let i = 1; i < numBlobs; i++) {
-        const lag = 0.5 - (i * 0.08); 
+        const lag = 0.4 - (i * 0.02); 
         positions[i].x += (positions[i - 1].x - positions[i].x) * Math.max(0.1, lag);
         positions[i].y += (positions[i - 1].y - positions[i].y) * Math.max(0.1, lag);
       }
@@ -60,7 +60,7 @@ export default function LiquidCursor() {
       if (els && els.length) {
         for (let i = 0; i < numBlobs; i++) {
           if (els[i]) {
-            els[i].style.transform = "translate(" + positions[i].x + "px, " + positions[i].y + "px) scale(" + (1 - i * 0.1) + ")";
+            els[i].style.transform = "translate(" + positions[i].x + "px, " + positions[i].y + "px) scale(" + (1 - i * 0.05) + ")";
           }
         }
       }
@@ -75,43 +75,34 @@ export default function LiquidCursor() {
   if (!isActive) return null;
 
   return (
-    <>
-      <svg className="hidden">
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-      <div 
-        ref={containerRef}
-        className="pointer-events-none fixed inset-0 z-[9999]"
-        style={{ filter: "url(#goo)" }}
-      >
-        <div className="absolute top-0 left-0">
-          {Array.from({ length: 5 }).map((_, i) => (
+    <div 
+      ref={containerRef}
+      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden"
+    >
+      <div className="absolute top-0 left-0">
+        {Array.from({ length: 15 }).map((_, i) => {
+          // Calculate a gradient of colors for the trail
+          // From Gold (#D4AF37) to soft teal (#2DD4BF) or bright gold
+          const opacity = 1 - (i * 0.06);
+          return (
             <div
               key={i}
               ref={(el) => {
                 if (!elementsRef.current.elements) elementsRef.current.elements = [];
                 elementsRef.current.elements[i] = el;
               }}
-              className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-gold shadow-[0_0_15px_rgba(212,175,55,0.8)]"
+              className="absolute -top-3 -left-3 w-6 h-6 rounded-full mix-blend-screen"
               style={{
                 willChange: "transform",
+                backgroundColor: i < 5 ? "#F0D878" : i < 10 ? "#D4AF37" : "#2DD4BF",
+                opacity: opacity,
+                boxShadow: "0 0 " + (15 - i) + "px " + (i < 5 ? "rgba(240,216,120,0.8)" : "rgba(212,175,55,0.6)"),
+                zIndex: 100 - i
               }}
             />
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 }
-

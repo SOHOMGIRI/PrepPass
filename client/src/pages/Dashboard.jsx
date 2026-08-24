@@ -103,8 +103,8 @@ function fmtDateShort(iso) {
 function CustomTrendTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-lg border border-white/20 bg-[#130E2E] text-white p-3 font-mono text-xs shadow-md space-y-1">
-        <p className="font-bold text-white">{label}</p>
+      <div className="rounded-lg border border-white/20 bg-[#130E2E] text-gold p-3 font-mono text-xs shadow-md space-y-1">
+        <p className="font-bold text-gold">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} style={{ color: entry.color }} className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
@@ -265,7 +265,7 @@ export default function Dashboard() {
       >
         <motion.div variants={itemVariants} className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="font-heading text-2xl text-white">
+            <h1 className="font-heading text-2xl text-gold">
               Welcome back, {displayName}.
             </h1>
             <p className="mt-1 text-gold">
@@ -275,7 +275,7 @@ export default function Dashboard() {
           <button
             type="button"
             onClick={logout}
-            className="inline-flex items-center justify-center rounded-lg border border-white/20 px-4 py-2 font-mono text-xs text-white hover:bg-surface/10 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-lg border border-white/20 px-4 py-2 font-mono text-xs text-gold hover:bg-surface/10 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2"
           >
             LOG OUT
           </button>
@@ -287,11 +287,11 @@ export default function Dashboard() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm">🎯</span>
-                  <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-0.5 font-mono text-[9px] uppercase font-bold text-white">
+                  <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-0.5 font-mono text-[9px] uppercase font-bold text-gold">
                     {recommendation.badge}
                   </span>
                 </div>
-                <h2 className="font-heading text-lg text-white sm:text-xl">
+                <h2 className="font-heading text-lg text-gold sm:text-xl">
                   {recommendation.title}
                 </h2>
                 <p className="text-xs text-gold max-w-xl leading-relaxed">
@@ -300,7 +300,7 @@ export default function Dashboard() {
               </div>
               <Link
                 to={recommendation.to}
-                className="inline-flex items-center justify-center shrink-0 rounded-lg bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark shadow-sm transition"
+                className="inline-flex items-center justify-center shrink-0 rounded-lg bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-gold-dark shadow-sm transition"
               >
                 {recommendation.buttonText}
               </Link>
@@ -314,7 +314,7 @@ export default function Dashboard() {
           {avg != null ? (
             <>
               <div>
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-gold">
                   YOUR AVERAGE
                 </div>
                 <p className="mt-2 max-w-xs text-sm text-gold">
@@ -333,7 +333,7 @@ export default function Dashboard() {
             </>
           ) : (
             <div className="mx-auto max-w-md text-center">
-              <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
+              <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-gold">
                 FIRST TIME HERE?
               </div>
               <p className="mt-3 text-sm text-gold">
@@ -349,17 +349,17 @@ export default function Dashboard() {
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               01
             </span>
-            <h2 className="font-heading text-lg text-white">
+            <h2 className="font-heading text-lg text-gold">
               1. Know Where You Stand
             </h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
             {section1Cards.map((c) => (
               <SpotlightCard key={c.to} to={c.to} className="p-6">
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-gold">
                   {c.stamp}
                 </div>
-                <h3 className="font-heading text-lg text-white">
+                <h3 className="font-heading text-lg text-gold">
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-gold">{c.desc}</p>
@@ -373,17 +373,17 @@ export default function Dashboard() {
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               02
             </span>
-            <h2 className="font-heading text-lg text-white">
+            <h2 className="font-heading text-lg text-gold">
               2. Build & Improve
             </h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-2">
             {section2Cards.map((c) => (
               <SpotlightCard key={c.to} to={c.to} className="p-6">
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-gold">
                   {c.stamp}
                 </div>
-                <h3 className="font-heading text-lg text-white">
+                <h3 className="font-heading text-lg text-gold">
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-gold">{c.desc}</p>
@@ -397,17 +397,17 @@ export default function Dashboard() {
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               03
             </span>
-            <h2 className="font-heading text-lg text-white">
+            <h2 className="font-heading text-lg text-gold">
               3. Practice & Rehearse
             </h2>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {section3Cards.map((c) => (
               <SpotlightCard key={c.to} to={c.to} className="p-6">
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-gold">
                   {c.stamp}
                 </div>
-                <h3 className="font-heading text-lg text-white">
+                <h3 className="font-heading text-lg text-gold">
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-gold">{c.desc}</p>
@@ -421,7 +421,7 @@ export default function Dashboard() {
             <span className="font-mono text-xs font-bold text-gold uppercase tracking-wider">
               04
             </span>
-            <h2 className="font-heading text-lg text-white">
+            <h2 className="font-heading text-lg text-gold">
               4. Review & Track
             </h2>
           </div>
@@ -429,15 +429,15 @@ export default function Dashboard() {
           <div className="ticket-card p-6 sm:p-8 space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-gold">
                   PERFORMANCE ANALYTICS
                 </div>
-                <h3 className="font-heading text-xl text-white mt-1">
+                <h3 className="font-heading text-xl text-gold mt-1">
                   Your Readiness Trend
                 </h3>
               </div>
               {hasAnyTrend && (
-                <span className="font-mono text-xs text-white/60 hidden sm:inline">
+                <span className="font-mono text-xs text-gold/60 hidden sm:inline">
                   Normalized Accuracy & Readiness (0–100%)
                 </span>
               )}
@@ -527,10 +527,10 @@ export default function Dashboard() {
           <div className="grid gap-6 sm:grid-cols-2">
             {section4Cards.map((c) => (
               <SpotlightCard key={c.to} to={c.to} className="p-6">
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-white">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] mb-3 text-gold">
                   {c.stamp}
                 </div>
-                <h3 className="font-heading text-lg text-white">
+                <h3 className="font-heading text-lg text-gold">
                   {c.title}
                 </h3>
                 <p className="mt-1 text-sm text-gold">{c.desc}</p>
@@ -542,6 +542,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 
 

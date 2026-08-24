@@ -12,7 +12,7 @@ export default function HeroIllustration() {
       // Tree branches reveal
       gsap.fromTo(
         ".tree-branch",
-        { strokeDasharray: 1500, strokeDashoffset: 1500 },
+        { strokeDasharray: 2500, strokeDashoffset: 2500 },
         { strokeDashoffset: 0, duration: 4, ease: "power2.out", delay: 0.2 }
       );
 
@@ -27,7 +27,7 @@ export default function HeroIllustration() {
       gsap.fromTo(
         ".glow-leaf",
         { opacity: 0, scale: 0 },
-        { opacity: 1, scale: 1, duration: 2, stagger: 0.01, ease: "back.out(1.2)", delay: 1.5 }
+        { opacity: 1, scale: 1, duration: 2, stagger: 0.005, ease: "back.out(1.2)", delay: 1.5 }
       );
 
       // Floating embers
@@ -36,11 +36,11 @@ export default function HeroIllustration() {
         { opacity: 0, y: 20 },
         {
           opacity: 0.8,
-          y: -150,
+          y: -200,
           duration: "random(4, 8)",
           repeat: -1,
           yoyo: false,
-          stagger: 0.2,
+          stagger: 0.15,
           ease: "sine.inOut"
         }
       );
@@ -49,34 +49,48 @@ export default function HeroIllustration() {
     return () => ctx.revert();
   }, []);
 
-  // Define 6 branch tip points for the canopy clusters
+  // Define 8 branch tip points for the canopy clusters, spread more to the left
   const canopyCenters = [
-    { x: 150, y: 250 }, // Far left
-    { x: 220, y: 180 }, // Mid left
-    { x: 350, y: 100 }, // Top center left
-    { x: 480, y: 200 }, // Top center right
-    { x: 650, y: 300 }, // Far right
-    { x: 750, y: 200 }, // Far upper right
+    { x: -50, y: 200 },
+    { x: 50, y: 300 },
+    { x: 150, y: 150 },
+    { x: 280, y: 80 },
+    { x: 420, y: 180 },
+    { x: 600, y: 280 },
+    { x: 750, y: 180 },
+    { x: 850, y: 350 },
   ];
 
-  // Generate 180 total glow elements clustered around the branch tips
+  // Generate 250 total glow elements clustered around the branch tips for MAX density and vibrancy
   const leaves = [];
   let id = 0;
   
   canopyCenters.forEach((center) => {
-    const clusterSize = 30; // 30 leaves per cluster = 180 total
+    const clusterSize = 32;
     for (let i = 0; i < clusterSize; i++) {
-      // Spread them in a Gaussian-like distribution around the center point
-      const radius = Math.random() * 80;
+      // Gaussian-like distribution
+      const radius = Math.random() * 100;
       const angle = Math.random() * Math.PI * 2;
       const cx = center.x + Math.cos(angle) * radius;
       const cy = center.y + Math.sin(angle) * radius;
       
-      const r = 3 + Math.random() * 6; // 3-9px base radius
-      const isCool = Math.random() > 0.85; // 15% teal accent
+      const r = 4 + Math.random() * 8;
+      const colorRandom = Math.random();
       
-      const coreColor = isCool ? "#CCFBF1" : "#FFF4D6";
-      const glowColor = isCool ? "rgba(45, 212, 191, 0.6)" : "rgba(212, 175, 55, 0.6)"; // Teal or Gold
+      let coreColor, glowColor;
+      if (colorRandom > 0.85) {
+        // Teal
+        coreColor = "#CCFBF1";
+        glowColor = "rgba(45, 212, 191, 0.7)";
+      } else if (colorRandom > 0.70) {
+        // Vibrant Pink/Purple
+        coreColor = "#FAE8FF";
+        glowColor = "rgba(217, 70, 239, 0.7)";
+      } else {
+        // Gold / Yellow
+        coreColor = "#FFF4D6";
+        glowColor = "rgba(212, 175, 55, 0.7)";
+      }
       
       const swayDuration = 3 + Math.random() * 4;
       const pulseDuration = 3 + Math.random() * 3;
@@ -86,45 +100,67 @@ export default function HeroIllustration() {
     }
   });
 
-  // Generate 20 floating embers
-  const embers = Array.from({ length: 20 }).map((_, i) => ({
+  // Generate 30 floating embers
+  const embers = Array.from({ length: 30 }).map((_, i) => ({
     id: i,
-    cx: 100 + Math.random() * 600,
-    cy: 350 + Math.random() * 300,
-    r: 1 + Math.random() * 2
+    cx: -50 + Math.random() * 900,
+    cy: 250 + Math.random() * 400,
+    r: 1 + Math.random() * 3,
+    color: Math.random() > 0.5 ? "#D4AF37" : "#2DD4BF"
   }));
 
   return (
     <div ref={containerRef} className="relative w-full h-full flex items-center justify-center overflow-visible">
-      {/* Hand-built SVG Tree of Knowledge - Scaled to 40-50% of container */}
+      {/* Hand-built SVG Tree of Knowledge - Scaled up and shifted left */}
       <svg
         className="absolute inset-0 w-full h-full opacity-100 overflow-visible"
-        viewBox="0 0 1000 1000"
+        viewBox="-100 0 1100 1000"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ transform: "scale(1.2)" }}
+        style={{ transform: "scale(1.3) translateX(-5%)" }}
       >
         <defs>
-          <linearGradient id="branchGradient" x1="500" y1="900" x2="450" y2="100" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#0B0A14" />
-            <stop offset="100%" stopColor="#8B6F1F" stopOpacity="0.9" />
+          <linearGradient id="branchGradient" x1="500" y1="900" x2="400" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#8B6F1F" />
+            <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#FFF4D6" stopOpacity="1" />
           </linearGradient>
+          <filter id="trunkGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
         </defs>
 
-        {/* Tree Trunk & Branches (Thicker) */}
-        <g stroke="url(#branchGradient)" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" className="tree-branch drop-shadow-xl">
-          {/* Main Trunk */}
-          <path d="M450 900 Q 420 600, 350 450 Q 250 350, 150 250" />
+        {/* 3D Trunk Shadow */}
+        <g stroke="#000000" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" className="tree-branch opacity-50" style={{ transform: "translateX(5px) translateY(5px)" }}>
+          <path d="M450 900 Q 400 600, 280 450 Q 150 350, -50 200" />
+          <path d="M420 600 Q 550 450, 600 280" strokeWidth="18" />
+          <path d="M360 520 Q 420 350, 420 180" strokeWidth="16" />
+          <path d="M250 420 Q 150 300, 150 150" strokeWidth="14" />
+          <path d="M500 450 Q 650 250, 850 350" strokeWidth="14" />
+          <path d="M600 350 Q 700 250, 750 180" strokeWidth="12" />
+          <path d="M120 300 Q 50 250, 50 300" strokeWidth="10" />
+          <path d="M350 250 Q 320 150, 280 80" strokeWidth="10" />
+        </g>
+
+        {/* Tree Trunk & Branches - Thick and Glowing */}
+        <g stroke="url(#branchGradient)" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" className="tree-branch" filter="url(#trunkGlow)">
+          {/* Main Trunk shifted left */}
+          <path d="M450 900 Q 400 600, 280 450 Q 150 350, -50 200" />
           {/* Right main branch */}
-          <path d="M420 600 Q 550 450, 650 300" strokeWidth="14" />
+          <path d="M420 600 Q 550 450, 600 280" strokeWidth="16" />
           {/* Center branch */}
-          <path d="M380 500 Q 450 350, 480 200" strokeWidth="12" />
+          <path d="M360 520 Q 420 350, 420 180" strokeWidth="14" />
           {/* Left sub branch */}
-          <path d="M300 400 Q 200 300, 220 180" strokeWidth="10" />
-          {/* Right sub branch */}
-          <path d="M500 400 Q 600 250, 750 200" strokeWidth="10" />
-          {/* Top center left branch */}
-          <path d="M400 350 Q 380 200, 350 100" strokeWidth="8" />
+          <path d="M250 420 Q 150 300, 150 150" strokeWidth="12" />
+          {/* Far Right sub branch */}
+          <path d="M500 450 Q 650 250, 850 350" strokeWidth="12" />
+          {/* Right sub sub branch */}
+          <path d="M600 350 Q 700 250, 750 180" strokeWidth="10" />
+          {/* Leftest sub branch */}
+          <path d="M120 300 Q 50 250, 50 300" strokeWidth="8" />
+          {/* Top center left */}
+          <path d="M350 250 Q 320 150, 280 80" strokeWidth="8" />
         </g>
         
         {/* Embers */}
@@ -134,9 +170,9 @@ export default function HeroIllustration() {
             cx={ember.cx}
             cy={ember.cy}
             r={ember.r}
-            fill="#D4AF37"
+            fill={ember.color}
             className="float-particle"
-            style={{ filter: "blur(1px)" }}
+            style={{ filter: "blur(2px)", boxShadow: "0 0 10px " + ember.color }}
           />
         ))}
 
@@ -146,17 +182,17 @@ export default function HeroIllustration() {
             key={leaf.id}
             className="glow-leaf"
             style={{
-              transformOrigin: leaf.cx + 'px ' + leaf.cy + 'px',
-              animation: 'sway ' + leaf.swayDuration + 's ease-in-out infinite alternate ' + leaf.delay + 's',
+              transformOrigin: leaf.cx + "px " + leaf.cy + "px",
+              animation: "sway " + leaf.swayDuration + "s ease-in-out infinite alternate " + leaf.delay + "s",
             }}
           >
             {/* Outer Glow */}
             <circle
               cx={leaf.cx}
               cy={leaf.cy}
-              r={leaf.r * 2.5}
+              r={leaf.r * 3}
               fill={leaf.glowColor}
-              style={{ filter: "blur(8px)" }}
+              style={{ filter: "blur(10px)", mixBlendMode: "screen" }}
             />
             {/* Bright Core */}
             <circle
@@ -165,27 +201,55 @@ export default function HeroIllustration() {
               r={leaf.r}
               fill={leaf.coreColor}
               style={{
-                animation: 'pulseGlow ' + leaf.pulseDuration + 's ease-in-out infinite alternate ' + leaf.delay + 's',
-                filter: 'drop-shadow(0 0 ' + (leaf.r * 2) + 'px ' + leaf.glowColor + ')' 
+                animation: "pulseGlow " + leaf.pulseDuration + "s ease-in-out infinite alternate " + leaf.delay + "s",
+                filter: "drop-shadow(0 0 " + (leaf.r * 2.5) + "px " + leaf.glowColor + ")" 
               }}
             />
           </g>
         ))}
       </svg>
 
-      {/* unDraw Style Character - Reading */}
-      <div className="absolute bottom-[5%] right-[10%] z-10 w-80 h-80 character-fade filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] scale-110">
+      {/* 3D Student Character with Graduation Hat */}
+      <div className="absolute bottom-[2%] right-[5%] z-10 w-96 h-96 character-fade filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] scale-125">
         <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Desk / Base */}
-          <path d="M150 400 Q 150 250, 250 250 Q 350 250, 350 400 Z" fill="#8B6F1F" />
-          <path d="M120 400 L 380 400 L 380 420 L 120 420 Z" fill="#0B0A14" />
-          {/* Head */}
-          <circle cx="250" cy="180" r="50" fill="#D4AF37" />
-          {/* Book */}
-          <path d="M200 320 L 300 320 L 290 380 L 210 380 Z" fill="#F5F0E6" />
-          <path d="M250 320 L 250 380" stroke="#8B6F1F" strokeWidth="4" />
+          <defs>
+            <radialGradient id="headGlow" cx="50%" cy="30%" r="50%">
+              <stop offset="0%" stopColor="#FFF4D6" />
+              <stop offset="70%" stopColor="#D4AF37" />
+              <stop offset="100%" stopColor="#8B6F1F" />
+            </radialGradient>
+            <linearGradient id="deskGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#D4AF37" />
+              <stop offset="100%" stopColor="#8B6F1F" />
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8B6F1F" />
+              <stop offset="100%" stopColor="#0B0A14" />
+            </linearGradient>
+          </defs>
+          
+          {/* Desk / Base (3D with gradient) */}
+          <path d="M120 420 Q 120 250, 250 250 Q 380 250, 380 420 Z" fill="url(#bodyGrad)" />
+          
+          {/* Glowing Head */}
+          <circle cx="250" cy="180" r="55" fill="url(#headGlow)" filter="drop-shadow(0 0 15px rgba(212,175,55,0.6))" />
+          
+          {/* Graduation Hat */}
+          {/* Tassel */}
+          <path d="M250 115 L 310 135 L 310 160" stroke="#F0D878" strokeWidth="4" fill="none" />
+          <circle cx="310" cy="165" r="5" fill="#F0D878" />
+          {/* Cap Base */}
+          <path d="M190 125 L 310 125 L 290 155 L 210 155 Z" fill="#0B0A14" />
+          {/* Cap Top (Diamond) */}
+          <path d="M250 90 L 340 125 L 250 160 L 160 125 Z" fill="#1A162B" stroke="#D4AF37" strokeWidth="3" />
+          
+          {/* Book with 3D pages */}
+          <path d="M180 320 L 320 320 L 300 390 L 200 390 Z" fill="#FFF4D6" />
+          <path d="M190 310 L 310 310 L 320 320 L 180 320 Z" fill="#D4AF37" />
+          <path d="M250 310 L 250 390" stroke="#8B6F1F" strokeWidth="5" />
+          
           {/* Accent shadow/glow */}
-          <circle cx="250" cy="400" r="100" fill="rgba(212, 175, 55, 0.2)" filter="blur(30px)" />
+          <circle cx="250" cy="400" r="120" fill="rgba(212, 175, 55, 0.25)" filter="blur(35px)" />
         </svg>
       </div>
     </div>

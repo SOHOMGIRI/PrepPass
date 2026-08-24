@@ -115,12 +115,13 @@ export default function Hero({ accessToken }) {
 
       {/* Scroll Down Cue */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-70">
-        <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/50">Scroll</span>
-        <ChevronDown size={20} className="text-white/60 animate-bounce" strokeWidth={1.5} />
+        <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-gold/50">Scroll</span>
+        <ChevronDown size={20} className="text-gold/60 animate-bounce" strokeWidth={1.5} />
       </div>
     </section>
   );
 }
+
 
 
 
