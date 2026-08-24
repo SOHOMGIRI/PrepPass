@@ -1,279 +1,306 @@
 const fs = require('fs');
 
-const content = [
-  'import { useEffect, useRef } from "react";',
-  'import gsap from "gsap";',
-  '',
-  'export default function HeroIllustration() {',
-  '  const containerRef = useRef(null);',
-  '',
-  '  useEffect(() => {',
-  '    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;',
-  '    if (prefersReduced) return;',
-  '',
-  '    const ctx = gsap.context(() => {',
-  '      // Tree branches reveal',
-  '      gsap.fromTo(',
-  '        ".tree-branch",',
-  '        { strokeDasharray: 2500, strokeDashoffset: 2500 },',
-  '        { strokeDashoffset: 0, duration: 4, ease: "power2.out", delay: 0.2 }',
-  '      );',
-  '',
-  '      // Character fade in',
-  '      gsap.fromTo(',
-  '        ".character-fade",',
-  '        { opacity: 0, y: 30 },',
-  '        { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 1 }',
-  '      );',
-  '',
-  '      // Fade in canopy clusters (optimized stagger)',
-  '      gsap.fromTo(',
-  '        ".glow-leaf",',
-  '        { opacity: 0, scale: 0 },',
-  '        { opacity: 1, scale: 1, duration: 1.5, stagger: 0.002, ease: "back.out(1.2)", delay: 1.5 }',
-  '      );',
-  '',
-  '      // Floating embers - STORM WIND EFFECT',
-  '      gsap.fromTo(',
-  '        ".float-particle",',
-  '        { opacity: 0, y: 100, x: -100 },',
-  '        {',
-  '          opacity: 0.9,',
-  '          y: -400,',
-  '          x: 500, // Blowing hard to the right',
-  '          duration: "random(1.5, 4)", // Fast storm wind',
-  '          repeat: -1,',
-  '          yoyo: false,',
-  '          stagger: 0.1,',
-  '          ease: "power1.inOut"',
-  '        }',
-  '      );',
-  '    }, containerRef);',
-  '',
-  '    return () => ctx.revert();',
-  '  }, []);',
-  '',
-  '  const canopyCenters = [',
-  '    { x: -50, y: 200 },',
-  '    { x: 50, y: 300 },',
-  '    { x: 150, y: 150 },',
-  '    { x: 280, y: 80 },',
-  '    { x: 420, y: 180 },',
-  '    { x: 600, y: 280 },',
-  '    { x: 750, y: 180 },',
-  '    { x: 850, y: 350 },',
-  '  ];',
-  '',
-  '  const leaves = [];',
-  '  let id = 0;',
-  '  ',
-  '  canopyCenters.forEach((center) => {',
-  '    const clusterSize = 32;',
-  '    for (let i = 0; i < clusterSize; i++) {',
-  '      const radius = Math.random() * 100;',
-  '      const angle = Math.random() * Math.PI * 2;',
-  '      const cx = center.x + Math.cos(angle) * radius;',
-  '      const cy = center.y + Math.sin(angle) * radius;',
-  '      ',
-  '      const r = 4 + Math.random() * 8;',
-  '      const colorRandom = Math.random();',
-  '      ',
-  '      let gradientId, coreColor;',
-  '      if (colorRandom > 0.85) {',
-  '        gradientId = "url(#glowTeal)";',
-  '        coreColor = "#CCFBF1";',
-  '      } else if (colorRandom > 0.70) {',
-  '        gradientId = "url(#glowPink)";',
-  '        coreColor = "#FAE8FF";',
-  '      } else {',
-  '        gradientId = "url(#glowGold)";',
-  '        coreColor = "#FFF4D6";',
-  '      }',
-  '      ',
-  '      const swayDuration = 2 + Math.random() * 2; // Faster for storm effect',
-  '      const pulseDuration = 2 + Math.random() * 2;',
-  '      const delay = Math.random() * -5;',
-  '',
-  '      leaves.push({ id: id++, cx, cy, r, coreColor, gradientId, swayDuration, pulseDuration, delay });',
-  '    }',
-  '  });',
-  '',
-  '  const embers = Array.from({ length: 60 }).map((_, i) => ({', // Doubled embers for storm',
-  '    id: i,',
-  '    cx: -200 + Math.random() * 1000,',
-  '    cy: 250 + Math.random() * 600,',
-  '    r: 1 + Math.random() * 4,',
-  '    color: Math.random() > 0.5 ? "url(#glowGold)" : "url(#glowTeal)"',
-  '  }));',
-  '',
-  '  return (',
-  '    <div ref={containerRef} className="relative w-full h-full flex items-center justify-center overflow-visible">',
-  '      <svg',
-  '        className="absolute inset-0 w-full h-full opacity-100 overflow-visible"',
-  '        viewBox="-100 0 1100 1000"',
-  '        fill="none"',
-  '        xmlns="http://www.w3.org/2000/svg"',
-  '        style={{ transform: "scale(1.3) translateX(-5%)" }}',
-  '      >',
-  '        <defs>',
-  '          <linearGradient id="branchGradient" x1="500" y1="900" x2="400" y2="100" gradientUnits="userSpaceOnUse">',
-  '            <stop offset="0%" stopColor="#8B6F1F" />',
-  '            <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.9" />',
-  '            <stop offset="100%" stopColor="#FFF4D6" stopOpacity="1" />',
-  '          </linearGradient>',
-  '',
-  '          {/* High performance radial gradients */}',
-  '          <radialGradient id="glowGold" cx="50%" cy="50%" r="50%">',
-  '            <stop offset="0%" stopColor="rgba(212, 175, 55, 0.8)" />',
-  '            <stop offset="100%" stopColor="rgba(212, 175, 55, 0)" />',
-  '          </radialGradient>',
-  '          <radialGradient id="glowTeal" cx="50%" cy="50%" r="50%">',
-  '            <stop offset="0%" stopColor="rgba(45, 212, 191, 0.8)" />',
-  '            <stop offset="100%" stopColor="rgba(45, 212, 191, 0)" />',
-  '          </radialGradient>',
-  '          <radialGradient id="glowPink" cx="50%" cy="50%" r="50%">',
-  '            <stop offset="0%" stopColor="rgba(217, 70, 239, 0.8)" />',
-  '            <stop offset="100%" stopColor="rgba(217, 70, 239, 0)" />',
-  '          </radialGradient>',
-  '          <linearGradient id="textGrad" x1="0" y1="0" x2="1" y2="0">',
-  '            <stop offset="0%" stopColor="#D4AF37" />',
-  '            <stop offset="50%" stopColor="#FFF4D6" />',
-  '            <stop offset="100%" stopColor="#D4AF37" />',
-  '          </linearGradient>',
-  '        </defs>',
-  '',
-  '        {/* Dynamic Storm Trunk - Bending in the wind */}',
-  '        <g style={{ transformOrigin: "450px 900px", animation: "treeSway 6s ease-in-out infinite alternate" }}>',
-  '          {/* 3D Trunk Shadow */}',
-  '          <g stroke="#000000" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" className="tree-branch opacity-50" style={{ transform: "translateX(5px) translateY(5px)" }}>',
-  '            <path d="M450 900 Q 400 600, 280 450 Q 150 350, -50 200" />',
-  '            <path d="M420 600 Q 550 450, 600 280" strokeWidth="18" />',
-  '            <path d="M360 520 Q 420 350, 420 180" strokeWidth="16" />',
-  '            <path d="M250 420 Q 150 300, 150 150" strokeWidth="14" />',
-  '            <path d="M500 450 Q 650 250, 850 350" strokeWidth="14" />',
-  '            <path d="M600 350 Q 700 250, 750 180" strokeWidth="12" />',
-  '            <path d="M120 300 Q 50 250, 50 300" strokeWidth="10" />',
-  '            <path d="M350 250 Q 320 150, 280 80" strokeWidth="10" />',
-  '          </g>',
-  '',
-  '          {/* Tree Trunk & Branches */}',
-  '          <g stroke="url(#branchGradient)" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" className="tree-branch">',
-  '            <path d="M450 900 Q 400 600, 280 450 Q 150 350, -50 200" />',
-  '            <path d="M420 600 Q 550 450, 600 280" strokeWidth="16" />',
-  '            <path d="M360 520 Q 420 350, 420 180" strokeWidth="14" />',
-  '            <path d="M250 420 Q 150 300, 150 150" strokeWidth="12" />',
-  '            <path d="M500 450 Q 650 250, 850 350" strokeWidth="12" />',
-  '            <path d="M600 350 Q 700 250, 750 180" strokeWidth="10" />',
-  '            <path d="M120 300 Q 50 250, 50 300" strokeWidth="8" />',
-  '            <path d="M350 250 Q 320 150, 280 80" strokeWidth="8" />',
-  '          </g>',
-  '        </g>',
-  '        ',
-  '        {/* Embers */}',
-  '        {embers.map((ember) => (',
-  '          <circle',
-  '            key={"ember-" + ember.id}',
-  '            cx={ember.cx}',
-  '            cy={ember.cy}',
-  '            r={ember.r * 2.5}',
-  '            fill={ember.color}',
-  '            className="float-particle"',
-  '          />',
-  '        ))}',
-  '',
-  '        {/* Glowing Canopy Clusters - Attached to the swaying tree */}',
-  '        <g style={{ transformOrigin: "450px 900px", animation: "treeSway 6s ease-in-out infinite alternate" }}>',
-  '          {leaves.map((leaf) => (',
-  '            <g',
-  '              key={leaf.id}',
-  '              className="glow-leaf"',
-  '              style={{',
-  '                transformOrigin: leaf.cx + "px " + leaf.cy + "px",',
-  '                animation: "stormSway " + leaf.swayDuration + "s ease-in-out infinite alternate " + leaf.delay + "s",',
-  '              }}',
-  '            >',
-  '              <circle cx={leaf.cx} cy={leaf.cy} r={leaf.r * 4.5} fill={leaf.gradientId} />',
-  '              <circle',
-  '                cx={leaf.cx}',
-  '                cy={leaf.cy}',
-  '                r={leaf.r}',
-  '                fill={leaf.coreColor}',
-  '                style={{',
-  '                  animation: "pulseGlow " + leaf.pulseDuration + "s ease-in-out infinite alternate " + leaf.delay + "s"',
-  '                }}',
-  '              />',
-  '            </g>',
-  '          ))}',
-  '        </g>',
-  '',
-  '        {/* Requested Quote: WISDOM WITH KNOWLEDGE AND TREE OF WISDOM */}',
-  '        <text x="350" y="800" fontFamily="Space Grotesk, sans-serif" fontSize="24" fontWeight="bold" fill="url(#textGrad)" letterSpacing="4" style={{ animation: "pulseGlow 4s infinite alternate" }}>',
-  '          WISDOM WITH KNOWLEDGE ? TREE OF WISDOM',
-  '        </text>',
-  '      </svg>',
-  '',
-  '      {/* Highly Realistic 3D Student Character */}',
-  '      <div className="absolute bottom-[2%] right-[5%] z-10 w-[450px] h-[450px] character-fade scale-125">',
-  '        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">',
-  '          <defs>',
-  '            <radialGradient id="headGlow" cx="30%" cy="30%" r="60%">',
-  '              <stop offset="0%" stopColor="#FFF4D6" />',
-  '              <stop offset="50%" stopColor="#D4AF37" />',
-  '              <stop offset="90%" stopColor="#8B6F1F" />',
-  '              <stop offset="100%" stopColor="#3A2800" />',
-  '            </radialGradient>',
-  '            <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">',
-  '              <stop offset="0%" stopColor="#D4AF37" />',
-  '              <stop offset="40%" stopColor="#8B6F1F" />',
-  '              <stop offset="100%" stopColor="#0B0A14" />',
-  '            </linearGradient>',
-  '            <linearGradient id="bookGrad" x1="0" y1="0" x2="1" y2="0">',
-  '              <stop offset="0%" stopColor="#FFFFFF" />',
-  '              <stop offset="50%" stopColor="#FFF4D6" />',
-  '              <stop offset="100%" stopColor="#D4AF37" />',
-  '            </linearGradient>',
-  '            <radialGradient id="shadowGlow" cx="50%" cy="50%" r="50%">',
-  '              <stop offset="0%" stopColor="rgba(212, 175, 55, 0.4)" />',
-  '              <stop offset="100%" stopColor="rgba(212, 175, 55, 0)" />',
-  '            </radialGradient>',
-  '          </defs>',
-  '          ',
-  '          {/* Fast Shadow */}',
-  '          <ellipse cx="250" cy="420" rx="160" ry="30" fill="rgba(0,0,0,0.8)" />',
-  '          <circle cx="250" cy="400" r="160" fill="url(#shadowGlow)" />',
-  '          ',
-  '          {/* Desk / Base - 3D Cylinder Shape */}',
-  '          <path d="M100 420 Q 100 240, 250 240 Q 400 240, 400 420 Z" fill="url(#bodyGrad)" />',
-  '          <path d="M120 280 L 100 420 L 400 420 L 380 280 Z" fill="rgba(0,0,0,0.3)" />',
-  '          ',
-  '          {/* Arms/Shoulders */}',
-  '          <path d="M160 290 Q 130 350, 160 400" stroke="#8B6F1F" strokeWidth="25" strokeLinecap="round" />',
-  '          <path d="M340 290 Q 370 350, 340 400" stroke="#8B6F1F" strokeWidth="25" strokeLinecap="round" />',
-  '          ',
-  '          {/* Glowing Head - High 3D Depth */}',
-  '          <circle cx="250" cy="175" r="60" fill="url(#headGlow)" />',
-  '          ',
-  '          {/* Graduation Hat - 3D */}',
-  '          {/* Tassel */}',
-  '          <path d="M250 100 Q 330 120, 330 160" stroke="#FFF4D6" strokeWidth="5" fill="none" />',
-  '          <circle cx="330" cy="165" r="7" fill="#F0D878" />',
-  '          {/* Cap Base */}',
-  '          <path d="M190 125 Q 250 135, 310 125 L 290 160 Q 250 170, 210 160 Z" fill="#0B0A14" />',
-  '          {/* Cap Top (Diamond) with 3D edge */}',
-  '          <path d="M250 85 L 355 125 L 250 165 L 145 125 Z" fill="#130E2E" stroke="#D4AF37" strokeWidth="4" strokeLinejoin="round" />',
-  '          <path d="M250 90 L 340 125 L 250 160 L 160 125 Z" fill="#1A162B" />',
-  '          ',
-  '          {/* 3D Open Book */}',
-  '          <path d="M150 340 L 350 340 L 320 410 L 180 410 Z" fill="url(#bookGrad)" />',
-  '          {/* Pages Edge */}',
-  '          <path d="M150 340 L 160 330 L 360 330 L 350 340 Z" fill="#D4AF37" />',
-  '          {/* Book Spine */}',
-  '          <path d="M250 330 L 250 410" stroke="#8B6F1F" strokeWidth="8" strokeLinecap="round" />',
-  '        </svg>',
-  '      </div>',
-  '    </div>',
-  '  );',
-  '}',
-].join('\n');
+const content = `
+import React, { useEffect, useRef, useState } from "react";
 
+export default function HeroIllustration() {
+  const containerRef = useRef(null);
+  const [leaves, setLeaves] = useState([]);
+  const [embers, setEmbers] = useState([]);
+
+  useEffect(() => {
+    // Generate beautiful thick canopy
+    const generatedLeaves = [];
+    // Tree center around (350, 250) due to new bend
+    // We'll create several clusters to form a dense canopy
+    const clusters = [
+      { cx: 350, cy: 150, r: 180, count: 50 },
+      { cx: 200, cy: 250, r: 120, count: 40 },
+      { cx: 500, cy: 200, r: 140, count: 40 },
+      { cx: 650, cy: 300, r: 100, count: 30 },
+      { cx: 100, cy: 350, r: 100, count: 30 },
+      { cx: 400, cy: 50, r: 120, count: 30 },
+      { cx: 800, cy: 350, r: 80, count: 20 }
+    ];
+
+    const gradients = ["url(#glowGold)", "url(#glowTeal)", "url(#glowPink)", "url(#glowAmber)"];
+    const cores = ["#FFF4D6", "#E0F2FE", "#FCE7F3", "#FEF3C7"];
+
+    let idCounter = 0;
+    clusters.forEach(cluster => {
+      for (let i = 0; i < cluster.count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.random() * cluster.r;
+        const cx = cluster.cx + Math.cos(angle) * radius;
+        const cy = cluster.cy + Math.sin(angle) * radius;
+        
+        const gIdx = Math.floor(Math.random() * gradients.length);
+        
+        generatedLeaves.push({
+          id: idCounter++,
+          cx,
+          cy,
+          r: Math.random() * 4 + 2,
+          gradientId: gradients[gIdx],
+          coreColor: cores[gIdx],
+          delay: Math.random() * 2,
+          swayDuration: Math.random() * 2 + 3,
+          pulseDuration: Math.random() * 2 + 2,
+        });
+      }
+    });
+    setLeaves(generatedLeaves);
+
+    // Generate blowing embers
+    const genEmbers = [];
+    for (let i = 0; i < 40; i++) {
+      genEmbers.push({
+        id: i,
+        cx: Math.random() * 1000,
+        cy: Math.random() * 1000,
+        r: Math.random() * 2 + 1,
+        color: Math.random() > 0.5 ? "#D4AF37" : "#F0D878",
+      });
+    }
+    setEmbers(genEmbers);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative w-full h-full flex items-center justify-center overflow-visible">
+      {/* Dynamic CSS animations injected for the hero */}
+      <style>{`
+        @keyframes treeSwayBase {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(4deg); }
+        }
+        @keyframes leafFlutter {
+          0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+          100% { transform: translate(8px, -15px) scale(1.1); opacity: 1; }
+        }
+        @keyframes tasselSwing {
+          0% { transform: rotate(-10deg); }
+          100% { transform: rotate(15deg); }
+        }
+        @keyframes headBob {
+          0% { transform: translateY(0px) rotate(0deg); }
+          100% { transform: translateY(5px) rotate(2deg); }
+        }
+        @keyframes pulseCore {
+          0% { opacity: 0.7; transform: scale(0.9); }
+          100% { opacity: 1; transform: scale(1.4); }
+        }
+      `}</style>
+
+      <svg
+        viewBox="-100 0 1100 1000"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="absolute inset-0 w-full h-full opacity-100 overflow-visible transform scale-110 sm:scale-[1.3] -translate-x-4 sm:-translate-x-[5%]"
+      >
+        <defs>
+          <linearGradient id="branchGradient" x1="500" y1="900" x2="350" y2="50" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#8B6F1F" />
+            <stop offset="50%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#F0D878" />
+          </linearGradient>
+
+          {/* Ultra-rich radial gradients for the canopy */}
+          <radialGradient id="glowGold" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(255, 215, 0, 0.9)" />
+            <stop offset="60%" stopColor="rgba(212, 175, 55, 0.4)" />
+            <stop offset="100%" stopColor="rgba(212, 175, 55, 0)" />
+          </radialGradient>
+          <radialGradient id="glowTeal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(45, 212, 191, 0.9)" />
+            <stop offset="60%" stopColor="rgba(20, 184, 166, 0.4)" />
+            <stop offset="100%" stopColor="rgba(15, 118, 110, 0)" />
+          </radialGradient>
+          <radialGradient id="glowPink" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(236, 72, 153, 0.9)" />
+            <stop offset="60%" stopColor="rgba(219, 39, 119, 0.4)" />
+            <stop offset="100%" stopColor="rgba(190, 24, 93, 0)" />
+          </radialGradient>
+          <radialGradient id="glowAmber" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(245, 158, 11, 0.9)" />
+            <stop offset="60%" stopColor="rgba(217, 119, 6, 0.4)" />
+            <stop offset="100%" stopColor="rgba(180, 83, 9, 0)" />
+          </radialGradient>
+
+          <linearGradient id="textGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#F0D878" />
+            <stop offset="50%" stopColor="#FFFFFF" />
+            <stop offset="100%" stopColor="#D4AF37" />
+          </linearGradient>
+        </defs>
+
+        {/* Dynamic Bent Trunk */}
+        <g style={{ transformOrigin: "500px 900px", animation: "treeSwayBase 7s ease-in-out infinite alternate" }}>
+          
+          {/* Shadow/Backdrop of Trunk for 3D depth */}
+          <g stroke="rgba(0,0,0,0.6)" strokeWidth="26" strokeLinecap="round" strokeLinejoin="round" style={{ transform: "translateX(8px) translateY(8px)" }}>
+            {/* Main bent trunk */}
+            <path d="M500 900 Q 650 500, 350 50" />
+            {/* Thick Branches */}
+            <path d="M530 650 Q 750 500, 850 350" strokeWidth="18" />
+            <path d="M480 500 Q 200 400, 100 250" strokeWidth="16" />
+            <path d="M420 350 Q 600 250, 650 150" strokeWidth="14" />
+            <path d="M380 200 Q 250 150, 200 50" strokeWidth="12" />
+          </g>
+
+          {/* Foreground Golden Trunk & Branches */}
+          <g stroke="url(#branchGradient)" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round">
+            {/* Main bent trunk */}
+            <path d="M500 900 Q 650 500, 350 50" />
+            {/* Thick Branches */}
+            <path d="M530 650 Q 750 500, 850 350" strokeWidth="16" />
+            <path d="M480 500 Q 200 400, 100 250" strokeWidth="14" />
+            <path d="M420 350 Q 600 250, 650 150" strokeWidth="12" />
+            <path d="M380 200 Q 250 150, 200 50" strokeWidth="10" />
+            
+            {/* Secondary intricate branches */}
+            <path d="M640 570 Q 700 450, 650 350" strokeWidth="8" />
+            <path d="M340 450 Q 250 350, 300 250" strokeWidth="8" />
+            <path d="M510 300 Q 550 200, 480 120" strokeWidth="6" />
+            <path d="M750 425 Q 850 400, 950 300" strokeWidth="6" />
+            <path d="M150 325 Q 50 250, 20 150" strokeWidth="6" />
+          </g>
+        </g>
+        
+        {/* Embers */}
+        {embers.map((ember) => (
+          <circle
+            key={"ember-" + ember.id}
+            cx={ember.cx}
+            cy={ember.cy}
+            r={ember.r * 2.5}
+            fill={ember.color}
+            style={{ animation: `pulseCore ${Math.random() * 2 + 1}s infinite alternate` }}
+          />
+        ))}
+
+        {/* Hyper-Dense Glowing Canopy */}
+        <g style={{ transformOrigin: "500px 900px", animation: "treeSwayBase 7s ease-in-out infinite alternate" }}>
+          {leaves.map((leaf) => (
+            <g
+              key={leaf.id}
+              style={{
+                transformOrigin: leaf.cx + "px " + leaf.cy + "px",
+                animation: `leafFlutter ${leaf.swayDuration}s ease-in-out infinite alternate ${leaf.delay}s`,
+              }}
+            >
+              <circle cx={leaf.cx} cy={leaf.cy} r={leaf.r * 6} fill={leaf.gradientId} />
+              <circle
+                cx={leaf.cx}
+                cy={leaf.cy}
+                r={leaf.r * 1.5}
+                fill={leaf.coreColor}
+                style={{
+                  animation: `pulseCore ${leaf.pulseDuration}s ease-in-out infinite alternate ${leaf.delay}s`
+                }}
+              />
+            </g>
+          ))}
+        </g>
+
+        {/* Requested Quote */}
+        <text x="350" y="850" fontFamily="Space Grotesk, sans-serif" fontSize="28" fontWeight="900" fill="url(#textGrad)" letterSpacing="5" style={{ animation: "pulseCore 4s infinite alternate", filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.8))" }}>
+          WISDOM WITH KNOWLEDGE AND TREE OF WISDOM
+        </text>
+      </svg>
+
+      {/* Highly Realistic 3D Student Character */}
+      <div className="absolute -bottom-10 right-0 sm:right-[5%] z-10 w-[280px] h-[280px] sm:w-[450px] sm:h-[450px] character-fade sm:scale-125">
+        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="headGlow" cx="30%" cy="30%" r="60%">
+              <stop offset="0%" stopColor="#FFF4D6" />
+              <stop offset="30%" stopColor="#D4AF37" />
+              <stop offset="80%" stopColor="#8B6F1F" />
+              <stop offset="100%" stopColor="#2A1D00" />
+            </radialGradient>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#D4AF37" />
+              <stop offset="50%" stopColor="#8B6F1F" />
+              <stop offset="100%" stopColor="#0B0A14" />
+            </linearGradient>
+            <linearGradient id="bookGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#FFFFFF" />
+              <stop offset="50%" stopColor="#FFF4D6" />
+              <stop offset="100%" stopColor="#D4AF37" />
+            </linearGradient>
+            <radialGradient id="shadowGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="rgba(212, 175, 55, 0.5)" />
+              <stop offset="100%" stopColor="rgba(212, 175, 55, 0)" />
+            </radialGradient>
+            <linearGradient id="visorGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#0EA5E9" />
+              <stop offset="50%" stopColor="#2DD4BF" />
+              <stop offset="100%" stopColor="#D946EF" />
+            </linearGradient>
+          </defs>
+          
+          {/* Fast Shadow */}
+          <ellipse cx="250" cy="420" rx="170" ry="35" fill="rgba(0,0,0,0.8)" />
+          <circle cx="250" cy="400" r="170" fill="url(#shadowGlow)" />
+          
+          {/* Desk / Base - 3D Cylinder Shape */}
+          <path d="M100 420 Q 100 240, 250 240 Q 400 240, 400 420 Z" fill="url(#bodyGrad)" />
+          {/* Shading for robes */}
+          <path d="M120 280 L 100 420 L 400 420 L 380 280 Z" fill="rgba(0,0,0,0.4)" />
+          <path d="M250 240 L 250 420" stroke="rgba(0,0,0,0.3)" strokeWidth="15" />
+          
+          {/* Arms/Shoulders */}
+          <path d="M150 290 Q 110 350, 140 420" stroke="#8B6F1F" strokeWidth="30" strokeLinecap="round" />
+          <path d="M350 290 Q 390 350, 360 420" stroke="#8B6F1F" strokeWidth="30" strokeLinecap="round" />
+          
+          {/* Head & Hat - Animated Bobbing */}
+          <g style={{ transformOrigin: "250px 240px", animation: "headBob 3s ease-in-out infinite alternate" }}>
+            {/* Glowing Head - High 3D Depth */}
+            <circle cx="250" cy="175" r="65" fill="url(#headGlow)" />
+            
+            {/* High-Tech Glowing Visor/Glasses (Wisdom/Focus) */}
+            <rect x="200" y="155" width="100" height="25" rx="10" fill="rgba(10,6,30,0.9)" stroke="url(#visorGrad)" strokeWidth="3" />
+            <circle cx="225" cy="167.5" r="6" fill="#2DD4BF" style={{ animation: "pulseCore 2s infinite alternate" }} />
+            <circle cx="275" cy="167.5" r="6" fill="#2DD4BF" style={{ animation: "pulseCore 2s infinite alternate 1s" }} />
+
+            {/* Graduation Hat - 3D */}
+            {/* Tassel Base */}
+            <circle cx="250" cy="125" r="8" fill="#F0D878" />
+            {/* Animated Tassel */}
+            <g style={{ transformOrigin: "250px 125px", animation: "tasselSwing 2.5s ease-in-out infinite alternate" }}>
+              <path d="M250 125 Q 260 150, 270 190" stroke="#FFF4D6" strokeWidth="4" fill="none" />
+              <path d="M265 190 L 275 190 L 270 210 Z" fill="#F0D878" />
+            </g>
+
+            {/* Cap Base */}
+            <path d="M190 125 Q 250 135, 310 125 L 290 165 Q 250 175, 210 165 Z" fill="#050314" />
+            {/* Cap Top (Diamond) with 3D edge */}
+            <path d="M250 80 L 360 125 L 250 170 L 140 125 Z" fill="#130E2E" stroke="#D4AF37" strokeWidth="5" strokeLinejoin="round" />
+            <path d="M250 85 L 345 125 L 250 165 L 155 125 Z" fill="#1A162B" />
+          </g>
+
+          {/* 3D Open Book */}
+          <path d="M120 340 L 380 340 L 340 420 L 160 420 Z" fill="url(#bookGrad)" />
+          {/* Pages Edge */}
+          <path d="M120 340 L 130 330 L 390 330 L 380 340 Z" fill="#F0D878" />
+          
+          {/* Right Page (Flipping) */}
+          <path d="M250 330 L 390 330 L 380 340 L 250 420 Z" fill="#FFF4D6" style={{ transformOrigin: '250px 420px', animation: 'flipPage 4s ease-in-out infinite' }} />
+          
+          {/* Book Spine */}
+          <path d="M250 330 L 250 420" stroke="#8B6F1F" strokeWidth="10" strokeLinecap="round" />
+          
+          {/* Hand Turning Page */}
+          <g style={{ animation: 'turnHand 4s ease-in-out infinite', transformOrigin: '340px 420px' }}>
+            <path d="M280 420 C 260 380, 310 360, 320 390 L 350 470 L 290 470 Z" fill="url(#headGlow)" />
+            {/* Fingers shading */}
+            <path d="M290 390 L 310 405" stroke="rgba(0,0,0,0.3)" strokeWidth="3" />
+            <path d="M305 380 L 320 395" stroke="rgba(0,0,0,0.3)" strokeWidth="3" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  );
+}
+`
 fs.writeFileSync('client/src/components/landing/HeroIllustration.jsx', content, 'utf8');
