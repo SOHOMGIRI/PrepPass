@@ -153,7 +153,7 @@ export default function GDPractice() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
                     selectedCategory === cat
-                      ? "bg-stamp-navy text-white"
+                      ? "bg-stamp-navy text-gold"
                       : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                   }`}
                 >
@@ -255,7 +255,7 @@ export default function GDPractice() {
                 <button
                   type="submit"
                   disabled={busy || userArgument.trim().length < 20}
-                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-white hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 disabled:opacity-50"
+                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-gold hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 disabled:opacity-50"
                 >
                   {busy ? "Evaluating with AI…" : "Submit Argument for Evaluation"}
                 </button>
@@ -392,7 +392,7 @@ export default function GDPractice() {
                 </button>
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-white hover:bg-stamp-navy/90"
+                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-gold hover:bg-stamp-navy/90"
                 >
                   Back to Dashboard
                 </Link>

@@ -151,7 +151,7 @@ export default function ResumeAnalysis() {
                 <button
                   type="submit"
                   disabled={busy}
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-lg bg-stamp-navy px-6 py-3 font-heading font-semibold tracking-wider text-white hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 disabled:opacity-60 sm:w-auto"
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-lg bg-stamp-navy px-6 py-3 font-heading font-semibold tracking-wider text-gold hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 disabled:opacity-60 sm:w-auto"
                 >
                   {busy ? "Analyzing your resume..." : "Analyze Resume"}
                 </button>

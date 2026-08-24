@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
  */
 export default function PageTransition({ children }) {
   return (
-    <motion.div
+    <motion.div className="relative z-10"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
@@ -16,3 +16,4 @@ export default function PageTransition({ children }) {
     </motion.div>
   );
 }
+

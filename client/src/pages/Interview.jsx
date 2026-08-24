@@ -250,7 +250,7 @@ export default function Interview() {
                   onClick={() => setCategory(cat)}
                   className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
                     category === cat
-                      ? "bg-stamp-navy text-white"
+                      ? "bg-stamp-navy text-gold"
                       : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                   }`}
                 >

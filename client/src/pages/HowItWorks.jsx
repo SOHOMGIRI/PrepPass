@@ -52,19 +52,19 @@ export default function HowItWorks() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-white">
+    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-gold">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-white hover:opacity-80"
+            className="font-heading text-lg font-bold text-gold hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-white hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-gold hover:underline"
           >
             {accessToken ? "Go to Dashboard →" : "Sign In →"}
           </Link>
@@ -72,10 +72,10 @@ export default function HowItWorks() {
 
         {/* Hero Banner */}
         <div className="ticket-card mt-8 p-6 sm:p-10">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-gold">
             PREPPASS GUIDE
           </div>
-          <h1 className="mt-4 font-heading text-3xl text-white sm:text-4xl">
+          <h1 className="mt-4 font-heading text-3xl text-gold sm:text-4xl">
             How PrepPass Works
           </h1>
           <p className="mt-2 text-sm text-gold leading-relaxed max-w-2xl">
@@ -90,14 +90,14 @@ export default function HowItWorks() {
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-gold/20 font-mono text-sm font-bold text-white">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-gold/20 font-mono text-sm font-bold text-gold">
                       {step.num}
                     </div>
                     <div>
-                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white mb-2 border border-white/10">
+                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-gold mb-2 border border-white/10">
                         {step.badge}
                       </div>
-                      <h2 className="font-heading text-lg sm:text-xl text-white mb-1.5">
+                      <h2 className="font-heading text-lg sm:text-xl text-gold mb-1.5">
                         {step.title}
                       </h2>
                       <p className="text-sm text-gold leading-relaxed max-w-2xl">
@@ -116,7 +116,7 @@ export default function HowItWorks() {
 
         {/* Call to Action */}
         <div className="ticket-card mt-12 p-8 text-center bg-[#130E2E]/80 border border-white/10">
-          <h3 className="font-heading text-2xl text-white">
+          <h3 className="font-heading text-2xl text-gold">
             Ready to test your interview readiness?
           </h3>
           <p className="mt-2 text-xs text-gold max-w-md mx-auto">
@@ -125,13 +125,13 @@ export default function HowItWorks() {
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link
               to={accessToken ? "/dashboard" : "/register"}
-              className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-3 font-heading font-semibold text-white hover:bg-gold-dark"
+              className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-3 font-heading font-semibold text-gold hover:bg-gold-dark"
             >
               {accessToken ? "Open Your Dashboard" : "Get Started for Free"}
             </Link>
             <Link
               to="/company-prep"
-              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-transparent px-5 py-3 font-mono text-xs text-white hover:bg-surface/10"
+              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-transparent px-5 py-3 font-mono text-xs text-gold hover:bg-surface/10"
             >
               Explore Company Tracks →
             </Link>

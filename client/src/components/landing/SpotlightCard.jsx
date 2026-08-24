@@ -66,7 +66,7 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       )}
       style={{
         transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${opacity ? 1.02 : 1})`,
-        transformStyle: "preserve-3d",
+        
       }}
     >
       {/* Soft glass background */}
@@ -82,7 +82,8 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       />
 
       {/* Content wrapper */}
-      <div className="relative z-10 h-full" style={{ transform: "translateZ(30px)" }}>{children}</div>
+      <div className="relative z-10 h-full" >{children}</div>
     </Tag>
   );
 }
+

@@ -140,7 +140,7 @@ export default function Register() {
             <p className="text-gold text-xs font-mono">{serverError}</p>
           )}
 
-          <RippleButton type="submit" disabled={submitting} className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90">{submitting ? "Creating account..." : "Create Account"}</RippleButton>
+          <RippleButton type="submit" disabled={submitting} className="w-full py-3.5 bg-stamp-navy text-gold hover:bg-stamp-navy/90">{submitting ? "Creating account..." : "Create Account"}</RippleButton>
         </form>
 
         <p className="mt-6 text-sm text-center text-text-secondary/70">

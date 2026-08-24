@@ -91,7 +91,7 @@ export default function LiquidCursor() {
                 if (!elementsRef.current.elements) elementsRef.current.elements = [];
                 elementsRef.current.elements[i] = el;
               }}
-              className="absolute -top-3 -left-3 w-6 h-6 rounded-full mix-blend-screen"
+              className="absolute -top-3 -left-3 w-6 h-6 rounded-full "
               style={{
                 willChange: "transform",
                 backgroundColor: i < 5 ? "#F0D878" : i < 10 ? "#D4AF37" : "#2DD4BF",
@@ -106,3 +106,4 @@ export default function LiquidCursor() {
     </div>
   );
 }
+

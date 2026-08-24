@@ -50,7 +50,7 @@ export default function Careers() {
             <div className="pt-2">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-xs font-semibold text-gold hover:bg-stamp-navy/90"
               >
                 Send Us a Message →
               </Link>
