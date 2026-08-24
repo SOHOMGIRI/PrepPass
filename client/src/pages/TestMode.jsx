@@ -445,7 +445,7 @@ export default function TestMode() {
                         onClick={() => toggleSubject(sub)}
                         className={`rounded-full px-3.5 py-1.5 font-mono text-xs tracking-wide transition ${
                           isSelected
-                            ? "bg-gold text-white font-semibold shadow-sm"
+                            ? "bg-gold text-[#0B0A14] font-semibold shadow-sm"
                             : "bg-gold/15 text-text-primary hover:bg-gold/25"
                         }`}
                       >
@@ -628,7 +628,7 @@ export default function TestMode() {
                     type="button"
                     onClick={() => submitTest(false)}
                     disabled={submitting}
-                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark disabled:opacity-50"
+                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
                   >
                     {submitting ? "Grading…" : "Finish & Submit Test ✓"}
                   </button>
@@ -654,7 +654,7 @@ export default function TestMode() {
                         isCurrent
                           ? "ring-2 ring-stamp-navy bg-stamp-navy text-white"
                           : isAnswered
-                          ? "bg-gold text-white"
+                          ? "bg-gold text-[#0B0A14]"
                           : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                       }`}
                     >
@@ -711,7 +711,7 @@ export default function TestMode() {
                       : result.trustScore === 70
                       ? "bg-yellow-100 text-yellow-800"
                       : result.trustScore === 40
-                      ? "bg-gold text-white"
+                      ? "bg-gold text-[#0B0A14]"
                       : "bg-red-100 text-stamp-maroon"
                   }`}
                 >
@@ -793,7 +793,7 @@ export default function TestMode() {
                   type="button"
                   onClick={handleUnlockClick}
                   disabled={reportLoading}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 font-heading text-sm font-semibold text-white hover:bg-gold-dark disabled:opacity-50 shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-7 py-3 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50 shadow-sm"
                 >
                   {reportLoading ? "Loading QR…" : "Unlock Detailed Report — ₹49 ⚡"}
                 </button>

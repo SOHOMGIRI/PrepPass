@@ -52,7 +52,7 @@ export default function ResumeMatchResult({ result, onReset }) {
               result.missingSkills.map((s) => (
                 <span
                   key={s}
-                  className="inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-medium text-gold"
+                  className="inline-flex items-center rounded-full bg-gold px-3 py-1 text-xs font-medium text-[#0B0A14]"
                 >
                   {s}
                 </span>
@@ -97,3 +97,4 @@ export default function ResumeMatchResult({ result, onReset }) {
     </div>
   );
 }
+

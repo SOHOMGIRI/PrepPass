@@ -335,7 +335,7 @@ export default function AptitudePractice() {
                     type="button"
                     onClick={submitPractice}
                     disabled={submitting}
-                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark disabled:opacity-50"
+                    className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
                   >
                     {submitting ? "Grading…" : "Finish & View Results ✓"}
                   </button>
@@ -361,7 +361,7 @@ export default function AptitudePractice() {
                         isCurrent
                           ? "ring-2 ring-stamp-navy bg-stamp-navy text-white"
                           : isAnswered
-                          ? "bg-gold text-white"
+                          ? "bg-gold text-[#0B0A14]"
                           : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                       }`}
                     >

@@ -11,7 +11,7 @@ import HeroIllustration from "./HeroIllustration.jsx";
 const BTN =
   "inline-flex items-center justify-center rounded-xl font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
 const BTN_PRIMARY = `${BTN} text-[#0B0A14] bg-gold hover:opacity-90 px-8 py-4 shine-sweep shadow-[0_10px_25px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_35px_rgba(212,175,55,0.4)]`;
-const BTN_OUTLINE = `${BTN} text-white border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
+const BTN_OUTLINE = `${BTN} text-[#0B0A14] border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
 
 const StaggeredText = ({ text }) => {
   const words = text.split(" ");

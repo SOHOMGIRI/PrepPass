@@ -92,7 +92,7 @@ export default function InterviewCard({
           <button
             type="button"
             onClick={onNext}
-            className={`${BTN} mt-6 bg-gold text-white hover:bg-gold-dark`}
+            className={`${BTN} mt-6 bg-gold text-[#0B0A14] hover:bg-gold-dark`}
           >
             Next Question →
           </button>

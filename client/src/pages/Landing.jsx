@@ -48,7 +48,7 @@ const PricingSection = forwardRef((props, ref) => {
           <div className="text-center">
             <Link
               to="/register"
-              className="inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 text-white bg-gold hover:bg-gold-dark px-8 py-3.5"
+              className="inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 text-[#0B0A14] bg-gold hover:bg-gold-dark px-8 py-3.5"
             >
               Register now
             </Link>
@@ -87,7 +87,7 @@ const ContactSection = forwardRef((props, ref) => {
             </p>
             <a
               href="mailto:contact@preppass.app"
-              className="inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 text-white bg-gold hover:bg-gold-dark px-8 py-3.5"
+              className="inline-flex items-center justify-center rounded-lg font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 text-[#0B0A14] bg-gold hover:bg-gold-dark px-8 py-3.5"
             >
               contact@preppass.app
             </a>

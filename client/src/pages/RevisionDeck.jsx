@@ -288,7 +288,7 @@ export default function RevisionDeck() {
               </Link>
               <Link
                 to="/interview"
-                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-gold-dark"
+                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Start Mock Interview 🎙️
               </Link>
