@@ -53,7 +53,7 @@ const PricingSection = forwardRef((props, ref) => {
               Register now
             </Link>
           </div>
-          <div className="mt-8 pt-6 border-t border-dashed border-stamp-navy/15 text-center">
+          <div className="mt-8 pt-6 border-t border-dashed border-white/10 text-center">
             <p className="font-mono text-xs text-indigo-100/80">
               ⚡ <strong>Optional Add-On:</strong> Detailed Test Reports — ₹49 per report, pay via UPI, no subscription.
             </p>
@@ -70,7 +70,7 @@ const PricingSection = forwardRef((props, ref) => {
 
 const ContactSection = forwardRef((props, ref) => {
   return (
-    <section id="contact" className="py-16 bg-ticket">
+    <section id="contact" className="py-16 bg-surface">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="font-heading text-white text-center mb-10">
           Contact

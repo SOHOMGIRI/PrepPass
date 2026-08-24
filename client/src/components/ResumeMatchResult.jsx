@@ -2,15 +2,15 @@ import { Link } from "react-router-dom";
 import GaugeCircle from "./GaugeCircle.jsx";
 
 const TS =
-  "ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy";
+  "ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary";
 
 export default function ResumeMatchResult({ result, onReset }) {
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-stamp-navy/70 hover:underline"
+          className="font-mono text-xs text-text-primary/70 hover:underline"
         >
           ← Back to Dashboard
         </Link>
@@ -26,7 +26,7 @@ export default function ResumeMatchResult({ result, onReset }) {
           </div>
           <div className="ticket-perf my-8" />
 
-          <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+          <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
             Matched skills
           </h2>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -40,11 +40,11 @@ export default function ResumeMatchResult({ result, onReset }) {
                 </span>
               ))
             ) : (
-              <p className="text-sm text-ink/60">No matched skills reported.</p>
+              <p className="text-sm text-text-secondary/60">No matched skills reported.</p>
             )}
           </div>
 
-          <h2 className="mt-6 font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+          <h2 className="mt-6 font-heading text-sm uppercase tracking-wider text-text-primary/70">
             Missing skills
           </h2>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -58,13 +58,13 @@ export default function ResumeMatchResult({ result, onReset }) {
                 </span>
               ))
             ) : (
-              <p className="text-sm text-ink/60">
+              <p className="text-sm text-text-secondary/60">
                 No missing skills found — great fit!
               </p>
             )}
           </div>
 
-          <h2 className="mt-6 font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+          <h2 className="mt-6 font-heading text-sm uppercase tracking-wider text-text-primary/70">
             Recommendations
           </h2>
           <ol className="mt-3 space-y-3">
@@ -72,7 +72,7 @@ export default function ResumeMatchResult({ result, onReset }) {
               result.recommendations.map((r, i) => (
                 <li
                   key={i}
-                  className="ticket-card flex gap-3 rounded-lg p-3 text-sm text-ink/80"
+                  className="ticket-card flex gap-3 rounded-lg p-3 text-sm text-text-secondary/80"
                 >
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-stamp-navy font-mono text-xs text-white">
                     {i + 1}
@@ -81,7 +81,7 @@ export default function ResumeMatchResult({ result, onReset }) {
                 </li>
               ))
             ) : (
-              <li className="text-sm text-ink/60">No recommendations.</li>
+              <li className="text-sm text-text-secondary/60">No recommendations.</li>
             )}
           </ol>
 

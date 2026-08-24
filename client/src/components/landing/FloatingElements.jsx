@@ -75,7 +75,7 @@ export default function FloatingElements() {
           <div
             key={i}
             ref={(el) => (elementsRef.current[i] = el)}
-            className={`absolute flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg ${glow}`}
+            className={`absolute flex items-center justify-center p-3 sm:p-4 rounded-2xl bg-surface/10 backdrop-blur-md border border-white/20 shadow-lg ${glow}`}
             style={{ 
               left: `${x}%`, 
               top: `${y}%`,

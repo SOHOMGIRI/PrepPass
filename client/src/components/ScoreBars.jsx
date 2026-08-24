@@ -15,7 +15,7 @@ export default function ScoreBars({ score }) {
         const width = Math.max(0, Math.min(100, (val / 10) * 100));
         return (
           <div key={key} className="flex items-center gap-3">
-            <span className="w-24 shrink-0 font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+            <span className="w-24 shrink-0 font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
               {label}
             </span>
             <div className="h-2 flex-1 overflow-hidden rounded-full bg-stamp-navy/10">
@@ -24,7 +24,7 @@ export default function ScoreBars({ score }) {
                 style={{ width: `${width}%`, transition: "width 0.7s ease" }}
               />
             </div>
-            <span className="w-7 shrink-0 text-right font-mono text-xs text-stamp-navy">
+            <span className="w-7 shrink-0 text-right font-mono text-xs text-text-primary">
               {Math.round(val * 10) / 10}
             </span>
           </div>

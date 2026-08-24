@@ -4,18 +4,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        /* Exam admit-card / boarding-pass identity */
-        cream: "#fdfbf7", // warm cream page background
-        ticket: "#fbf8f0", // ticket-card fill
+        bg: "var(--color-bg)",
+        surface: "var(--color-surface)",
+        text: {
+          primary: "var(--color-text-primary)",
+          secondary: "var(--color-text-secondary)",
+        },
+        cream: "var(--color-bg)", // legacy support, mapped to dark
+        ticket: "var(--color-surface)", // legacy support, mapped to dark surface
         stamp: {
-          navy: "#1a227e", // deep "official stamp" color
-          maroon: "#7a0c0c", // alternate stamp color
+          navy: "var(--color-text-primary)", 
+          maroon: "var(--stamp-maroon)",
         },
         gold: {
-          DEFAULT: "#d4a72c", // muted gold/amber for scores & CTAs
-          dark: "#b79103",
+          light: "var(--color-accent-light)",
+          DEFAULT: "var(--color-accent)",
+          dark: "var(--color-accent-dark)",
         },
-        ink: "#2c2a33", // primary text
+        ink: "var(--color-text-secondary)",
       },
       fontFamily: {
         heading: ["Space Grotesk", "system-ui", "sans-serif"],

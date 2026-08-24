@@ -83,22 +83,22 @@ export default function ResumeMatcher() {
   if (result) return <ResumeMatchResult result={result} onReset={reset} />;
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-stamp-navy/70 hover:underline"
+          className="font-mono text-xs text-text-primary/70 hover:underline"
         >
           ← Back to Dashboard
         </Link>
         <div className="ticket-card mt-6 p-6 sm:p-8">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
             PREPPASS — RESUME MATCHER
           </div>
-          <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+          <h1 className="mt-3 font-heading text-2xl text-text-primary">
             Match your resume to a role.
           </h1>
-          <p className="mt-1 text-sm text-ink/60">
+          <p className="mt-1 text-sm text-text-secondary/60">
             Upload a PDF/DOCX and paste the job description.
           </p>
 
@@ -121,7 +121,7 @@ export default function ResumeMatcher() {
                 handleFile(e.dataTransfer?.files?.[0]);
               }}
               onClick={() => inputRef.current?.click()}
-              className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-stamp-navy/25 px-6 py-10 text-center transition-colors ${
+              className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 px-6 py-10 text-center transition-colors ${
                 drag ? "bg-stamp-navy/5" : ""
               }`}
             >
@@ -132,20 +132,20 @@ export default function ResumeMatcher() {
                 className="hidden"
                 onChange={(e) => handleFile(e.target.files?.[0])}
               />
-              <span className="font-heading text-stamp-navy">
+              <span className="font-heading text-text-primary">
                 Drop resume here
               </span>
-              <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy/50">
+              <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
                 click or drop · .pdf / .docx · ≤ 5 MB
               </span>
               {file && (
-                <span className="mt-3 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-stamp-navy">
+                <span className="mt-3 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-text-primary">
                   ✓ {file.name}
                 </span>
               )}
             </div>
 
-            <label className="mt-6 block font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+            <label className="mt-6 block font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
               Job Description
             </label>
             <textarea
@@ -153,7 +153,7 @@ export default function ResumeMatcher() {
               onChange={(e) => setJobDesc(e.target.value)}
               rows={7}
               placeholder="Paste the job description here…"
-              className="mt-2 w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-ink placeholder-ink/40 focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
+              className="mt-2 w-full rounded-lg border border-white/10 bg-surface px-4 py-3 text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
             />
 
             <button
@@ -164,7 +164,7 @@ export default function ResumeMatcher() {
               {busy ? "Analyzing your resume…" : "Match Resume"}
             </button>
             {busy && (
-              <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+              <p className="mt-2 font-mono text-[10px] text-text-primary/50">
                 This can take a few seconds.
               </p>
             )}

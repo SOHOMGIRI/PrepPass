@@ -50,15 +50,15 @@ export default function History() {
   }, [load]);
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-stamp-navy/70 hover:underline"
+          className="font-mono text-xs text-text-primary/70 hover:underline"
         >
           ← Back to Dashboard
         </Link>
-        <h1 className="mt-4 font-heading text-2xl text-stamp-navy">
+        <h1 className="mt-4 font-heading text-2xl text-text-primary">
           Your history
         </h1>
 
@@ -69,18 +69,18 @@ export default function History() {
         )}
 
         {loading ? (
-          <div className="ticket-card mt-6 flex items-center gap-3 px-6 py-8 text-stamp-navy/70">
+          <div className="ticket-card mt-6 flex items-center gap-3 px-6 py-8 text-text-primary/70">
             <span className="font-mono animate-pulse">...</span>
             <span>Loading your history...</span>
           </div>
         ) : (
           <>
             <section className="mt-8">
-              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
                 Interviews
               </h2>
               {interviews.length === 0 ? (
-                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                <p className="ticket-card mt-3 p-6 text-sm text-text-secondary/60">
                   No interviews yet. Start one from the dashboard.
                 </p>
               ) : (
@@ -90,16 +90,16 @@ export default function History() {
                       key={s._id}
                       type="button"
                       onClick={() => navigate(`/interview/session/${s._id}`)}
-                      className="ticket-card p-5 text-left transition hover:border-stamp-navy/50"
+                      className="ticket-card p-5 text-left transition hover:border-white/10"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex flex-wrap items-center gap-1.5">
                           {s.companyId && (
-                            <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                            <span className="ticket-stamp inline-block rounded bg-gold/20 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                               {s.companyId.toUpperCase()}
                             </span>
                           )}
-                          <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                          <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                             {s.role}
                           </span>
                         </div>
@@ -109,10 +109,10 @@ export default function History() {
                             : "—"}
                         </span>
                       </div>
-                      <p className="mt-3 font-mono text-[10px] text-stamp-navy/50">
+                      <p className="mt-3 font-mono text-[10px] text-text-primary/50">
                         {fmtDate(s.startedAt)}
                       </p>
-                      <p className="mt-1 font-mono text-[10px] uppercase text-stamp-navy/50">
+                      <p className="mt-1 font-mono text-[10px] uppercase text-text-primary/50">
                         {s.status}
                       </p>
                     </button>
@@ -122,11 +122,11 @@ export default function History() {
             </section>
 
             <section className="mt-10">
-              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
                 Proctored Tests
               </h2>
               {testSessions.length === 0 ? (
-                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                <p className="ticket-card mt-3 p-6 text-sm text-text-secondary/60">
                   No proctored tests taken yet. Start one from the dashboard.
                 </p>
               ) : (
@@ -134,7 +134,7 @@ export default function History() {
                   {testSessions.map((t) => (
                     <div key={t._id} className="ticket-card p-5">
                       <div className="flex items-center justify-between">
-                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           {t.subjects?.join(" • ") || "TEST"}
                         </span>
                         <span className="score font-heading text-lg text-gold">
@@ -143,7 +143,7 @@ export default function History() {
                       </div>
                       <div className="mt-3 flex items-center justify-between">
                         {t.mode === "practice" ? (
-                          <span className="rounded bg-gold/15 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-stamp-navy">
+                          <span className="rounded bg-gold/15 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-text-primary">
                             Practice Mode
                           </span>
                         ) : (
@@ -161,11 +161,11 @@ export default function History() {
                             {t.trustScore}% Trust Score
                           </span>
                         )}
-                        <span className="font-mono text-[10px] uppercase text-stamp-navy/50">
+                        <span className="font-mono text-[10px] uppercase text-text-primary/50">
                           {t.status}
                         </span>
                       </div>
-                      <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                      <p className="mt-2 font-mono text-[10px] text-text-primary/50">
                         {fmtDate(t.startedAt)}
                       </p>
                     </div>
@@ -175,11 +175,11 @@ export default function History() {
             </section>
 
             <section className="mt-10">
-              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
                 Resume ATS Audits
               </h2>
               {analyses.length === 0 ? (
-                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                <p className="ticket-card mt-3 p-6 text-sm text-text-secondary/60">
                   No ATS audits yet.
                 </p>
               ) : (
@@ -187,17 +187,17 @@ export default function History() {
                   {analyses.map((a) => (
                     <div key={a._id} className="ticket-card p-5">
                       <div className="flex items-center justify-between">
-                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           ATS AUDIT
                         </span>
                         <span className="score font-heading text-lg text-gold">
                           {a.atsScore}%
                         </span>
                       </div>
-                      <p className="mt-3 line-clamp-2 text-sm text-ink/75 font-mono">
+                      <p className="mt-3 line-clamp-2 text-sm text-text-secondary/75 font-mono">
                         {a.suggestedSubjects?.join(', ') || 'No topics identified'}
                       </p>
-                      <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                      <p className="mt-2 font-mono text-[10px] text-text-primary/50">
                         {fmtDate(a.createdAt)}
                       </p>
                     </div>
@@ -207,11 +207,11 @@ export default function History() {
             </section>
 
             <section className="mt-10 mb-10">
-              <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
                 Resume matches
               </h2>
               {matches.length === 0 ? (
-                <p className="ticket-card mt-3 p-6 text-sm text-ink/60">
+                <p className="ticket-card mt-3 p-6 text-sm text-text-secondary/60">
                   No resume matches yet.
                 </p>
               ) : (
@@ -219,17 +219,17 @@ export default function History() {
                   {matches.map((m) => (
                     <div key={m._id} className="ticket-card p-5">
                       <div className="flex items-center justify-between">
-                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy">
+                        <span className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-text-primary">
                           RESUME MATCH
                         </span>
                         <span className="score font-heading text-lg text-gold">
                           {m.matchScorePercent}%
                         </span>
                       </div>
-                      <p className="mt-3 line-clamp-2 text-sm text-ink/75">
+                      <p className="mt-3 line-clamp-2 text-sm text-text-secondary/75">
                         {m.jobDescription}
                       </p>
-                      <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                      <p className="mt-2 font-mono text-[10px] text-text-primary/50">
                         {fmtDate(m.createdAt)}
                       </p>
                     </div>

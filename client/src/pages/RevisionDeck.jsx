@@ -118,26 +118,26 @@ export default function RevisionDeck() {
   };
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10 font-body text-ink">
+    <div className="min-h-screen bg-bg px-4 py-10 font-body text-text-secondary">
       <div className="mx-auto w-full max-w-3xl space-y-6">
         {/* Top Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/dashboard"
-            className="font-mono text-xs text-stamp-navy/70 hover:underline"
+            className="font-mono text-xs text-text-primary/70 hover:underline"
           >
             ← Back to Dashboard
           </Link>
           <div className="flex items-center gap-3">
             <Link
               to="/test-mode"
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               Test Mode →
             </Link>
             <Link
               to="/interview"
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               Mock Interview →
             </Link>
@@ -147,11 +147,11 @@ export default function RevisionDeck() {
         {/* Title & Stats Card */}
         <div className="ticket-card p-6 sm:p-8 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
               SMART REVISION DECK
             </div>
             <div className="flex items-center gap-3 font-mono text-xs">
-              <span className="rounded bg-gold/15 px-2.5 py-1 text-stamp-navy font-bold">
+              <span className="rounded bg-gold/15 px-2.5 py-1 text-text-primary font-bold">
                 {learningCount} Learning
               </span>
               <span className="rounded bg-green-100 px-2.5 py-1 text-green-900 font-bold">
@@ -162,28 +162,28 @@ export default function RevisionDeck() {
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="font-heading text-2xl text-stamp-navy sm:text-3xl">
+              <h1 className="font-heading text-2xl text-text-primary sm:text-3xl">
                 Weak-Area Revision Deck
               </h1>
-              <p className="mt-1 text-xs text-ink/70 max-w-md">
+              <p className="mt-1 text-xs text-text-secondary/70 max-w-md">
                 Flashcards automatically generated from incorrect test MCQs and low-scoring interview questions.
               </p>
             </div>
 
             {/* Toggle: Include Mastered */}
-            <label className="flex items-center gap-2 cursor-pointer font-mono text-xs text-stamp-navy/80 select-none bg-white p-2.5 rounded-lg border border-stamp-navy/15 hover:bg-ticket/30 transition">
+            <label className="flex items-center gap-2 cursor-pointer font-mono text-xs text-text-primary/80 select-none bg-surface p-2.5 rounded-lg border border-white/10 hover:bg-surface/30 transition">
               <input
                 type="checkbox"
                 checked={includeMastered}
                 onChange={(e) => setIncludeMastered(e.target.checked)}
-                className="h-4 w-4 rounded border-stamp-navy/30 text-stamp-navy focus:ring-stamp-navy"
+                className="h-4 w-4 rounded border-white/10 text-text-primary focus:ring-stamp-navy"
               />
               <span>Show Mastered Cards</span>
             </label>
           </div>
 
           {/* Type Filter & View Mode Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-dashed border-stamp-navy/15">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-dashed border-white/10">
             <div className="flex gap-2">
               <button
                 type="button"
@@ -195,7 +195,7 @@ export default function RevisionDeck() {
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "all"
                     ? "bg-stamp-navy text-white"
-                    : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                    : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
                 All ({deck.length})
@@ -210,7 +210,7 @@ export default function RevisionDeck() {
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "test"
                     ? "bg-stamp-navy text-white"
-                    : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                    : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
                 Tests ({deck.filter((c) => c.type === "test").length})
@@ -225,7 +225,7 @@ export default function RevisionDeck() {
                 className={`rounded-lg px-3 py-1.5 font-mono text-xs font-bold transition ${
                   activeTab === "interview"
                     ? "bg-stamp-navy text-white"
-                    : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                    : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                 }`}
               >
                 Interviews ({deck.filter((c) => c.type === "interview").length})
@@ -237,14 +237,14 @@ export default function RevisionDeck() {
                 type="button"
                 onClick={shuffleDeck}
                 disabled={deck.length <= 1}
-                className="rounded-lg border border-stamp-navy/20 bg-white px-3 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-40"
+                className="rounded-lg border border-white/10 bg-surface px-3 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-40"
               >
                 🔀 Shuffle
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode(viewMode === "flashcard" ? "grid" : "flashcard")}
-                className="rounded-lg border border-stamp-navy/20 bg-white px-3 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                className="rounded-lg border border-white/10 bg-surface px-3 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
               >
                 {viewMode === "flashcard" ? "📋 Grid View" : "🗂️ Flashcard View"}
               </button>
@@ -259,7 +259,7 @@ export default function RevisionDeck() {
         )}
 
         {loading ? (
-          <div className="ticket-card flex items-center justify-center gap-3 py-16 text-stamp-navy/70">
+          <div className="ticket-card flex items-center justify-center gap-3 py-16 text-text-primary/70">
             <span className="font-mono animate-pulse text-lg">•••</span>
             <span className="font-heading">Loading your revision deck…</span>
           </div>
@@ -270,10 +270,10 @@ export default function RevisionDeck() {
               🎉
             </div>
             <div>
-              <h2 className="font-heading text-2xl text-stamp-navy">
+              <h2 className="font-heading text-2xl text-text-primary">
                 No Weak Areas in Deck!
               </h2>
-              <p className="mt-1 text-xs text-ink/70 max-w-md mx-auto leading-relaxed">
+              <p className="mt-1 text-xs text-text-secondary/70 max-w-md mx-auto leading-relaxed">
                 {includeMastered
                   ? "You haven't missed any questions across your tests and interviews yet."
                   : "Great job! You have mastered all your weak areas. Take more tests or interviews to generate new revision cards."}
@@ -294,7 +294,7 @@ export default function RevisionDeck() {
               </Link>
               <Link
                 to="/aptitude"
-                className="rounded-lg border border-stamp-navy/30 bg-white px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                className="rounded-lg border border-white/10 bg-surface px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
               >
                 Aptitude Practice 📐
               </Link>
@@ -304,7 +304,7 @@ export default function RevisionDeck() {
           /* Flashcard View */
           <div className="space-y-4">
             {/* Card Position & Navigation Counter */}
-            <div className="flex items-center justify-between text-xs font-mono text-stamp-navy/60 px-1">
+            <div className="flex items-center justify-between text-xs font-mono text-text-primary/60 px-1">
               <span>
                 CARD {currentIndex + 1} OF {filteredDeck.length}
               </span>
@@ -316,7 +316,7 @@ export default function RevisionDeck() {
             {/* Interactive Flashcard Container */}
             <div
               onClick={() => setIsFlipped(!isFlipped)}
-              className="ticket-card min-h-[340px] p-6 sm:p-10 cursor-pointer transition-all duration-300 hover:border-stamp-navy/50 bg-white flex flex-col justify-between shadow-sm relative group"
+              className="ticket-card min-h-[340px] p-6 sm:p-10 cursor-pointer transition-all duration-300 hover:border-white/10 bg-surface flex flex-col justify-between shadow-sm relative group"
             >
               {/* Top Card Meta */}
               <div className="flex items-center justify-between">
@@ -324,17 +324,17 @@ export default function RevisionDeck() {
                   <span
                     className={`rounded px-2.5 py-0.5 font-mono text-[10px] uppercase font-bold ${
                       currentCard.type === "test"
-                        ? "bg-gold/20 text-stamp-navy"
-                        : "bg-stamp-navy/10 text-stamp-navy"
+                        ? "bg-gold/20 text-text-primary"
+                        : "bg-stamp-navy/10 text-text-primary"
                     }`}
                   >
                     {currentCard.type === "test" ? "TEST MCQ" : "INTERVIEW QUESTION"}
                   </span>
-                  <span className="font-mono text-xs text-stamp-navy/70 font-semibold">
+                  <span className="font-mono text-xs text-text-primary/70 font-semibold">
                     {currentCard.subjectOrRole}
                   </span>
                 </div>
-                <span className="font-mono text-[10px] text-stamp-navy/40">
+                <span className="font-mono text-[10px] text-text-primary/40">
                   {fmtDate(currentCard.sourceDate)}
                 </span>
               </div>
@@ -344,7 +344,7 @@ export default function RevisionDeck() {
                 {!isFlipped ? (
                   /* FRONT: Question */
                   <div className="space-y-4">
-                    <h2 className="font-heading text-xl sm:text-2xl text-stamp-navy leading-snug">
+                    <h2 className="font-heading text-xl sm:text-2xl text-text-primary leading-snug">
                       {currentCard.front}
                     </h2>
 
@@ -353,9 +353,9 @@ export default function RevisionDeck() {
                         {currentCard.options.map((opt, oIdx) => (
                           <div
                             key={oIdx}
-                            className="rounded-lg border border-ink/15 bg-ticket/40 p-3 text-xs text-ink/80 flex items-start gap-2"
+                            className="rounded-lg border border-white/10 bg-surface/40 p-3 text-xs text-text-secondary/80 flex items-start gap-2"
                           >
-                            <span className="font-mono font-bold text-stamp-navy">
+                            <span className="font-mono font-bold text-text-primary">
                               {["A", "B", "C", "D"][oIdx]}.
                             </span>
                             <span>{opt}</span>
@@ -381,8 +381,8 @@ export default function RevisionDeck() {
                     </div>
 
                     {currentCard.explanation && (
-                      <div className="rounded-lg border border-stamp-navy/10 bg-ticket/50 p-4 text-xs text-ink/80 space-y-1">
-                        <div className="font-mono text-[10px] uppercase font-bold text-stamp-navy">
+                      <div className="rounded-lg border border-white/10 bg-surface/50 p-4 text-xs text-text-secondary/80 space-y-1">
+                        <div className="font-mono text-[10px] uppercase font-bold text-text-primary">
                           💡 Explanation:
                         </div>
                         <p className="leading-relaxed">{currentCard.explanation}</p>
@@ -393,9 +393,9 @@ export default function RevisionDeck() {
               </div>
 
               {/* Bottom Flip Hint */}
-              <div className="pt-4 border-t border-dashed border-stamp-navy/15 flex items-center justify-between text-xs font-mono text-stamp-navy/60">
+              <div className="pt-4 border-t border-dashed border-white/10 flex items-center justify-between text-xs font-mono text-text-primary/60">
                 <span>{isFlipped ? "↩️ Click anywhere to flip back" : "💡 Click to reveal answer & explanation"}</span>
-                <span className="group-hover:text-stamp-navy font-bold">
+                <span className="group-hover:text-text-primary font-bold">
                   {isFlipped ? "BACK" : "FRONT"}
                 </span>
               </div>
@@ -411,7 +411,7 @@ export default function RevisionDeck() {
                     setIsFlipped(false);
                   }}
                   disabled={currentIndex === 0}
-                  className="rounded-lg border border-stamp-navy/30 bg-white px-4 py-2 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-40"
+                  className="rounded-lg border border-white/10 bg-surface px-4 py-2 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-40"
                 >
                   ← Previous
                 </button>
@@ -422,7 +422,7 @@ export default function RevisionDeck() {
                     setIsFlipped(false);
                   }}
                   disabled={currentIndex >= filteredDeck.length - 1}
-                  className="rounded-lg border border-stamp-navy/30 bg-white px-4 py-2 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-40"
+                  className="rounded-lg border border-white/10 bg-surface px-4 py-2 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-40"
                 >
                   Next →
                 </button>
@@ -433,7 +433,7 @@ export default function RevisionDeck() {
                   type="button"
                   onClick={() => handleMarkStatus("learning")}
                   disabled={marking}
-                  className="flex-1 sm:flex-none rounded-lg bg-gold/20 border border-gold/50 px-5 py-2.5 font-heading text-xs font-semibold text-stamp-navy hover:bg-gold/30 disabled:opacity-50"
+                  className="flex-1 sm:flex-none rounded-lg bg-gold/20 border border-gold/50 px-5 py-2.5 font-heading text-xs font-semibold text-text-primary hover:bg-gold/30 disabled:opacity-50"
                 >
                   ⏳ Still Learning
                 </button>
@@ -455,11 +455,11 @@ export default function RevisionDeck() {
               {filteredDeck.map((card, idx) => (
                 <div
                   key={card.cardKey || idx}
-                  className="ticket-card p-5 space-y-3 bg-white flex flex-col justify-between"
+                  className="ticket-card p-5 space-y-3 bg-surface flex flex-col justify-between"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="ticket-stamp rounded px-2 py-0.5 font-mono text-[9px] uppercase text-stamp-navy">
+                      <span className="ticket-stamp rounded px-2 py-0.5 font-mono text-[9px] uppercase text-text-primary">
                         {card.type === "test" ? "TEST" : "INTERVIEW"} · {card.subjectOrRole}
                       </span>
                       <span
@@ -472,12 +472,12 @@ export default function RevisionDeck() {
                         {card.status === "mastered" ? "✓ Mastered" : "Learning"}
                       </span>
                     </div>
-                    <h3 className="font-heading text-sm text-stamp-navy line-clamp-3">
+                    <h3 className="font-heading text-sm text-text-primary line-clamp-3">
                       {card.front}
                     </h3>
                   </div>
 
-                  <div className="pt-3 border-t border-dashed border-stamp-navy/15 text-xs text-ink/75 space-y-1">
+                  <div className="pt-3 border-t border-dashed border-white/10 text-xs text-text-secondary/75 space-y-1">
                     <div className="font-mono text-[10px] text-green-900 font-bold">
                       {card.type === "test" ? "Answer:" : "Key Takeaway:"}
                     </div>

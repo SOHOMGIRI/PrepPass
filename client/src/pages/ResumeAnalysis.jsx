@@ -74,22 +74,22 @@ export default function ResumeAnalysis() {
   };
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-stamp-navy/70 hover:underline"
+          className="font-mono text-xs text-text-primary/70 hover:underline"
         >
           ← Back to Dashboard
         </Link>
         <div className="ticket-card mt-6 p-6 sm:p-8">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
             PREPPASS • ATS AUDIT
           </div>
-          <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+          <h1 className="mt-3 font-heading text-2xl text-text-primary">
             Resume Analysis
           </h1>
-          <p className="mt-1 text-sm text-ink/60">
+          <p className="mt-1 text-sm text-text-secondary/60">
             Upload your resume to get an instant ATS compatibility score, identify missing sections, and discover suggested preparation topics.
           </p>
 
@@ -124,7 +124,7 @@ export default function ResumeAnalysis() {
                     handleFile(e.dataTransfer?.files?.[0]);
                   }}
                   onClick={() => inputRef.current?.click()}
-                  className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-stamp-navy/25 px-6 py-10 text-center transition-colors ${
+                  className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 px-6 py-10 text-center transition-colors ${
                     drag ? "bg-stamp-navy/5" : ""
                   }`}
                 >
@@ -135,14 +135,14 @@ export default function ResumeAnalysis() {
                     className="hidden"
                     onChange={(e) => handleFile(e.target.files?.[0])}
                   />
-                  <span className="font-heading text-stamp-navy">
+                  <span className="font-heading text-text-primary">
                     Drop resume here
                   </span>
-                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-stamp-navy/50">
+                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
                     click or drop • .pdf / .docx • ≤ 5 MB
                   </span>
                   {file && (
-                    <span className="mt-3 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-stamp-navy">
+                    <span className="mt-3 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-text-primary">
                       📄 {file.name}
                     </span>
                   )}
@@ -156,7 +156,7 @@ export default function ResumeAnalysis() {
                   {busy ? "Analyzing your resume..." : "Analyze Resume"}
                 </button>
                 {busy && (
-                  <p className="mt-2 font-mono text-[10px] text-stamp-navy/50">
+                  <p className="mt-2 font-mono text-[10px] text-text-primary/50">
                     This can take up to 20 seconds. We're parsing and scoring your document.
                   </p>
                 )}
@@ -179,13 +179,13 @@ export default function ResumeAnalysis() {
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-heading text-xl text-stamp-navy border-b border-stamp-navy/10 pb-2 mb-4">
+                    <h3 className="font-heading text-xl text-text-primary border-b border-white/10 pb-2 mb-4">
                       Overview
                     </h3>
                     
                     {result.analysis.suggestedSubjects?.length > 0 && (
                       <div className="mb-4">
-                        <h4 className="font-mono text-xs uppercase tracking-wider text-stamp-navy/60 mb-2">Suggested Subjects</h4>
+                        <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Suggested Subjects</h4>
                         <div className="flex flex-wrap gap-2">
                           {result.analysis.suggestedSubjects.map((subject, idx) => (
                             <span key={idx} className="bg-gold/20 text-gold-dark px-2.5 py-1 rounded-full font-mono text-xs">
@@ -198,7 +198,7 @@ export default function ResumeAnalysis() {
                     
                     {result.analysis.missingSections?.length > 0 && (
                       <div className="mb-4">
-                        <h4 className="font-mono text-xs uppercase tracking-wider text-stamp-navy/60 mb-2">Missing Sections</h4>
+                        <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Missing Sections</h4>
                         <ul className="list-disc pl-4 text-sm text-stamp-maroon space-y-1">
                           {result.analysis.missingSections.map((sec, idx) => (
                             <li key={idx}>{sec}</li>
@@ -211,10 +211,10 @@ export default function ResumeAnalysis() {
 
                 {result.analysis.formattingIssues?.length > 0 && (
                   <div>
-                    <h4 className="font-mono text-xs uppercase tracking-wider text-stamp-navy/60 mb-2 border-b border-stamp-navy/10 pb-2">
+                    <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
                       Formatting Issues
                     </h4>
-                    <ul className="list-disc pl-5 mt-3 text-sm text-ink/80 space-y-2">
+                    <ul className="list-disc pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
                       {result.analysis.formattingIssues.map((issue, idx) => (
                         <li key={idx}>{issue}</li>
                       ))}
@@ -224,10 +224,10 @@ export default function ResumeAnalysis() {
 
                 {result.analysis.improvementTips?.length > 0 && (
                   <div>
-                    <h4 className="font-mono text-xs uppercase tracking-wider text-stamp-navy/60 mb-2 border-b border-stamp-navy/10 pb-2">
+                    <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
                       Improvement Tips
                     </h4>
-                    <ol className="list-decimal pl-5 mt-3 text-sm text-ink/80 space-y-2">
+                    <ol className="list-decimal pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
                       {result.analysis.improvementTips.map((tip, idx) => (
                         <li key={idx}>{tip}</li>
                       ))}
@@ -238,7 +238,7 @@ export default function ResumeAnalysis() {
                 <div className="pt-6">
                   <button
                     onClick={reset}
-                    className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-stamp-navy/40 px-6 py-2.5 font-heading font-semibold tracking-wider text-stamp-navy hover:bg-stamp-navy/10 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2"
+                    className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-white/10 px-6 py-2.5 font-heading font-semibold tracking-wider text-text-primary hover:bg-stamp-navy/10 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2"
                   >
                     Analyze Another Resume
                   </button>

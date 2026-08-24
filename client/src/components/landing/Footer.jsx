@@ -11,9 +11,9 @@ const FOOTER_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="py-10 border-t border-stamp-navy/10 bg-cream/50">
+    <footer className="py-10 border-t border-white/10 bg-bg/50">
       <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-        <div className="font-mono text-[11px] text-stamp-navy/50">
+        <div className="font-mono text-[11px] text-text-primary/50">
           © 2026 PREPPASS
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
@@ -21,7 +21,7 @@ export default function Footer() {
             <Link
               key={link.to}
               to={link.to}
-              className="font-mono text-[11px] uppercase text-stamp-navy/60 hover:text-stamp-navy tracking-wider transition"
+              className="font-mono text-[11px] uppercase text-text-primary/60 hover:text-text-primary tracking-wider transition"
             >
               {link.label}
             </Link>

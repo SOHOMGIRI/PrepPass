@@ -173,7 +173,7 @@ export default function CompanyPrep() {
 
   if (phase === "complete") {
     return (
-      <div className="min-h-screen bg-cream px-4 py-10">
+      <div className="min-h-screen bg-bg px-4 py-10">
         <div className="mx-auto flex max-w-2xl flex-col items-center">
           <SessionResults session={full} />
         </div>
@@ -182,12 +182,12 @@ export default function CompanyPrep() {
   }
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-4xl">
         <div className="flex items-center justify-between">
           <Link
             to="/dashboard"
-            className="font-mono text-xs text-stamp-navy/70 hover:underline"
+            className="font-mono text-xs text-text-primary/70 hover:underline"
           >
             ← Back to Dashboard
           </Link>
@@ -198,7 +198,7 @@ export default function CompanyPrep() {
                 setSelectedCompany(null);
                 setPhase("company-select");
               }}
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               Browse All Companies
             </button>
@@ -214,13 +214,13 @@ export default function CompanyPrep() {
         {/* Phase 1: Select Company */}
         {phase === "company-select" && (
           <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
               PREPPASS — COMPANY TRACKS
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+            <h1 className="mt-3 font-heading text-2xl text-text-primary">
               Select a company to practice for.
             </h1>
-            <p className="mt-1 text-sm text-ink/60">
+            <p className="mt-1 text-sm text-text-secondary/60">
               Practice interviews tailored to the interview patterns, rounds, and technical depth of top recruiters.
             </p>
 
@@ -231,7 +231,7 @@ export default function CompanyPrep() {
                 placeholder="Search companies (e.g. TCS, Amazon, Google, Infosys)…"
                 value={companySearch}
                 onChange={(e) => setCompanySearch(e.target.value)}
-                className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink placeholder-ink/40 focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
+                className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
               />
             </div>
 
@@ -245,7 +245,7 @@ export default function CompanyPrep() {
                   className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
                     companyCategory === cat
                       ? "bg-stamp-navy text-white"
-                      : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                      : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                   }`}
                 >
                   {cat}
@@ -255,11 +255,11 @@ export default function CompanyPrep() {
 
             {/* Company Grid */}
             {companiesLoading ? (
-              <p className="mt-8 text-center text-sm text-ink/50">
+              <p className="mt-8 text-center text-sm text-text-secondary/50">
                 Loading company profiles…
               </p>
             ) : filteredCompanies.length === 0 ? (
-              <p className="mt-8 text-center text-sm text-ink/50">
+              <p className="mt-8 text-center text-sm text-text-secondary/50">
                 No companies found matching your search.
               </p>
             ) : (
@@ -269,22 +269,22 @@ export default function CompanyPrep() {
                     key={c.id}
                     type="button"
                     onClick={() => handleSelectCompany(c)}
-                    className="ticket-card group flex flex-col justify-between p-5 text-left transition hover:border-stamp-navy/50"
+                    className="ticket-card group flex flex-col justify-between p-5 text-left transition hover:border-white/10"
                   >
                     <div>
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
                           {c.category}
                         </span>
-                        <span className="font-mono text-[10px] text-stamp-navy/40">
+                        <span className="font-mono text-[10px] text-text-primary/40">
                           {c.typicalRounds?.length || 0} rounds
                         </span>
                       </div>
-                      <h2 className="mt-2 font-heading text-base text-stamp-navy">
+                      <h2 className="mt-2 font-heading text-base text-text-primary">
                         {c.name}
                       </h2>
                     </div>
-                    <div className="mt-4 flex items-center justify-between border-t border-dashed border-stamp-navy/10 pt-3">
+                    <div className="mt-4 flex items-center justify-between border-t border-dashed border-white/10 pt-3">
                       <span className="font-mono text-[11px] text-gold group-hover:underline">
                         Start Track →
                       </span>
@@ -302,7 +302,7 @@ export default function CompanyPrep() {
             {/* Company Summary Ticket */}
             <div className="ticket-card mt-6 p-6 sm:p-8">
               <div className="flex items-center justify-between">
-                <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+                <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
                   COMPANY PROFILE · {selectedCompany.category}
                 </div>
                 <button
@@ -311,36 +311,36 @@ export default function CompanyPrep() {
                     setSelectedCompany(null);
                     setPhase("company-select");
                   }}
-                  className="font-mono text-xs text-stamp-navy/70 hover:underline"
+                  className="font-mono text-xs text-text-primary/70 hover:underline"
                 >
                   Change Company
                 </button>
               </div>
 
-              <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+              <h1 className="mt-3 font-heading text-2xl text-text-primary">
                 {selectedCompany.name}
               </h1>
 
               {/* Typical Rounds Box */}
-              <div className="mt-5 rounded-lg border border-stamp-navy/15 bg-ticket/60 p-4">
+              <div className="mt-5 rounded-lg border border-white/10 bg-surface/60 p-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="font-heading text-xs uppercase tracking-wider text-stamp-navy/80">
+                  <h2 className="font-heading text-xs uppercase tracking-wider text-text-primary/80">
                     What to Expect — Typical Round Patterns
                   </h2>
-                  <span className="font-mono text-[10px] text-stamp-navy/50">
+                  <span className="font-mono text-[10px] text-text-primary/50">
                     For practice purposes
                   </span>
                 </div>
-                <p className="mt-1 text-[11px] text-ink/60">
+                <p className="mt-1 text-[11px] text-text-secondary/60">
                   Commonly reported hiring patterns. Individual recruitment drives may vary.
                 </p>
                 <div className="mt-3 space-y-2">
                   {selectedCompany.typicalRounds?.map((round, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-2.5 text-xs text-ink/80"
+                      className="flex items-start gap-2.5 text-xs text-text-secondary/80"
                     >
-                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-stamp-navy/15 font-mono text-[10px] font-bold text-stamp-navy">
+                      <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-stamp-navy/15 font-mono text-[10px] font-bold text-text-primary">
                         {idx + 1}
                       </span>
                       <span>{round}</span>
@@ -352,10 +352,10 @@ export default function CompanyPrep() {
 
             {/* Role Selection for Selected Company */}
             <div className="ticket-card p-6 sm:p-8">
-              <h2 className="font-heading text-xl text-stamp-navy">
+              <h2 className="font-heading text-xl text-text-primary">
                 Select your target role at {selectedCompany.name}.
               </h2>
-              <p className="mt-1 text-xs text-ink/60">
+              <p className="mt-1 text-xs text-text-secondary/60">
                 Questions will be tailored to {selectedCompany.name}'s interview style.
               </p>
 
@@ -366,7 +366,7 @@ export default function CompanyPrep() {
                   placeholder="Search roles (e.g. Software Engineer, Frontend Developer, Data Analyst)…"
                   value={roleSearch}
                   onChange={(e) => setRoleSearch(e.target.value)}
-                  className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink placeholder-ink/40 focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
+                  className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30"
                 />
               </div>
 
@@ -380,7 +380,7 @@ export default function CompanyPrep() {
                     className={`rounded-full px-3 py-1 font-mono text-[11px] tracking-wide transition ${
                       roleCategory === cat
                         ? "bg-stamp-navy text-white"
-                        : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                        : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                     }`}
                   >
                     {cat}
@@ -390,11 +390,11 @@ export default function CompanyPrep() {
 
               {/* Roles Grid */}
               {rolesLoading ? (
-                <p className="mt-6 text-center text-sm text-ink/50">
+                <p className="mt-6 text-center text-sm text-text-secondary/50">
                   Loading roles…
                 </p>
               ) : filteredRoles.length === 0 ? (
-                <p className="mt-6 text-center text-sm text-ink/50">
+                <p className="mt-6 text-center text-sm text-text-secondary/50">
                   No roles found matching your search.
                 </p>
               ) : (
@@ -405,12 +405,12 @@ export default function CompanyPrep() {
                       type="button"
                       onClick={() => start(r.label)}
                       disabled={busy}
-                      className="ticket-card px-4 py-4 text-left transition hover:border-stamp-navy/50 disabled:opacity-60"
+                      className="ticket-card px-4 py-4 text-left transition hover:border-white/10 disabled:opacity-60"
                     >
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/50">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
                         {r.category}
                       </span>
-                      <span className="mt-1 block font-heading text-sm text-stamp-navy">
+                      <span className="mt-1 block font-heading text-sm text-text-primary">
                         {r.label}
                       </span>
                     </button>

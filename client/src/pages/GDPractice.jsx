@@ -105,12 +105,12 @@ export default function GDPractice() {
   };
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-3xl">
         <div className="flex items-center justify-between">
           <Link
             to="/dashboard"
-            className="font-mono text-xs text-stamp-navy/70 hover:underline"
+            className="font-mono text-xs text-text-primary/70 hover:underline"
           >
             ← Back to Dashboard
           </Link>
@@ -118,7 +118,7 @@ export default function GDPractice() {
             <button
               type="button"
               onClick={handleBackToTopics}
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               Browse All Topics
             </button>
@@ -134,13 +134,13 @@ export default function GDPractice() {
         {/* Phase 1: Topic Selection */}
         {phase === "select" && (
           <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
               PREPPASS — GROUP DISCUSSION
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+            <h1 className="mt-3 font-heading text-2xl text-text-primary">
               Select a topic for GD practice.
             </h1>
-            <p className="mt-1 text-sm text-ink/60">
+            <p className="mt-1 text-sm text-text-secondary/60">
               Formulate your opening statement, receive expert scoring, and prepare for tough panel rebuttals.
             </p>
 
@@ -154,7 +154,7 @@ export default function GDPractice() {
                   className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
                     selectedCategory === cat
                       ? "bg-stamp-navy text-white"
-                      : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                      : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                   }`}
                 >
                   {cat}
@@ -164,12 +164,12 @@ export default function GDPractice() {
 
             {/* Topics Grid */}
             {loading ? (
-              <p className="mt-8 text-center text-sm text-ink/50">
+              <p className="mt-8 text-center text-sm text-text-secondary/50">
                 Loading group discussion topics…
               </p>
             ) : filteredTopics.length === 0 ? (
-              <div className="mt-8 rounded-lg border border-dashed border-stamp-navy/20 p-8 text-center">
-                <p className="text-sm text-ink/60">
+              <div className="mt-8 rounded-lg border border-dashed border-white/10 p-8 text-center">
+                <p className="text-sm text-text-secondary/60">
                   No topics found in this category yet. Run the seed script or select "All".
                 </p>
               </div>
@@ -180,17 +180,17 @@ export default function GDPractice() {
                     key={t._id}
                     type="button"
                     onClick={() => handleSelectTopic(t)}
-                    className="ticket-card group block w-full p-5 text-left transition hover:border-stamp-navy/50"
+                    className="ticket-card group block w-full p-5 text-left transition hover:border-white/10"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
                         {t.category}
                       </span>
                       <span className="font-mono text-xs text-gold opacity-0 transition group-hover:opacity-100">
                         Start Practice →
                       </span>
                     </div>
-                    <p className="mt-1.5 font-heading text-base text-stamp-navy">
+                    <p className="mt-1.5 font-heading text-base text-text-primary">
                       {t.topicText}
                     </p>
                   </button>
@@ -204,18 +204,18 @@ export default function GDPractice() {
         {phase === "write" && selectedTopic && (
           <div className="ticket-card mt-6 p-6 sm:p-8">
             <div className="flex items-center justify-between">
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
                 GD PRACTICE · {selectedTopic.category}
               </div>
-              <span className="font-mono text-xs text-ink/40">
+              <span className="font-mono text-xs text-text-secondary/40">
                 20–2000 characters
               </span>
             </div>
 
-            <h1 className="mt-3 font-heading text-xl text-stamp-navy sm:text-2xl">
+            <h1 className="mt-3 font-heading text-xl text-text-primary sm:text-2xl">
               {selectedTopic.topicText}
             </h1>
-            <p className="mt-1.5 text-xs text-ink/60">
+            <p className="mt-1.5 text-xs text-text-secondary/60">
               State your initial position clearly. Include a strong opening hook, 2–3 supporting points or real-world examples, and a conclusive closing stance.
             </p>
 
@@ -227,9 +227,9 @@ export default function GDPractice() {
                   value={userArgument}
                   onChange={(e) => setUserArgument(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-ink/20 bg-white p-4 font-sans text-sm text-ink placeholder-ink/40 focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 disabled:opacity-60"
+                  className="w-full rounded-lg border border-white/10 bg-surface p-4 font-sans text-sm text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 disabled:opacity-60"
                 />
-                <div className="mt-1.5 flex justify-between font-mono text-[11px] text-ink/50">
+                <div className="mt-1.5 flex justify-between font-mono text-[11px] text-text-secondary/50">
                   <span>Minimum 20 characters</span>
                   <span
                     className={
@@ -248,7 +248,7 @@ export default function GDPractice() {
                   type="button"
                   onClick={handleBackToTopics}
                   disabled={busy}
-                  className="rounded-lg border border-stamp-navy/30 px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-60"
+                  className="rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-60"
                 >
                   Choose Different Topic
                 </button>
@@ -267,13 +267,13 @@ export default function GDPractice() {
         {/* Phase 3: Results & Counterpoints */}
         {phase === "result" && result && (
           <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
               PREPPASS — EVALUATION REPORT
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+            <h1 className="mt-3 font-heading text-2xl text-text-primary">
               Argument Evaluated.
             </h1>
-            <p className="mt-1 font-mono text-xs text-stamp-navy/60">
+            <p className="mt-1 font-mono text-xs text-text-primary/60">
               Topic: {result.topicText}
             </p>
 
@@ -289,7 +289,7 @@ export default function GDPractice() {
 
             {/* Score Breakdown */}
             <div className="mt-8 space-y-3">
-              <h2 className="font-heading text-xs uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-xs uppercase tracking-wider text-text-primary/70">
                 Performance Dimensions
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -299,13 +299,13 @@ export default function GDPractice() {
                   return (
                     <div
                       key={key}
-                      className="rounded-lg border border-stamp-navy/12 bg-ticket/60 p-3.5"
+                      className="rounded-lg border border-white/10 bg-surface/60 p-3.5"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/70">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/70">
                           {label}
                         </span>
-                        <span className="font-mono text-sm font-semibold text-stamp-navy">
+                        <span className="font-mono text-sm font-semibold text-text-primary">
                           {Math.round(val * 10) / 10} / 10
                         </span>
                       </div>
@@ -325,10 +325,10 @@ export default function GDPractice() {
 
             {/* Panel Feedback */}
             <div>
-              <h2 className="font-heading text-xs uppercase tracking-wider text-stamp-navy/70">
+              <h2 className="font-heading text-xs uppercase tracking-wider text-text-primary/70">
                 Evaluator Feedback
               </h2>
-              <div className="mt-2.5 rounded-lg border border-stamp-navy/12 bg-white/80 p-4 text-sm text-ink/80 leading-relaxed">
+              <div className="mt-2.5 rounded-lg border border-white/10 bg-surface/80 p-4 text-sm text-text-secondary/80 leading-relaxed">
                 {result.feedback || "No specific feedback provided."}
               </div>
             </div>
@@ -342,14 +342,14 @@ export default function GDPractice() {
                     Be ready to rebut these counterpoints:
                   </h2>
                 </div>
-                <p className="mt-1 text-xs text-ink/60">
+                <p className="mt-1 text-xs text-text-secondary/60">
                   In a real placement GD, other participants or the moderator will challenge your stance with these arguments:
                 </p>
                 <div className="mt-3 space-y-2.5">
                   {result.counterpoints.map((cp, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 rounded-lg border border-stamp-maroon/20 bg-stamp-maroon/5 p-3.5 text-sm text-ink/85"
+                      className="flex items-start gap-3 rounded-lg border border-stamp-maroon/20 bg-stamp-maroon/5 p-3.5 text-sm text-text-secondary/85"
                     >
                       <span className="font-mono text-xs font-bold text-stamp-maroon shrink-0">
                         #{idx + 1}
@@ -363,11 +363,11 @@ export default function GDPractice() {
 
             {/* User Argument Reference */}
             <div className="mt-6">
-              <details className="group rounded-lg border border-stamp-navy/10 bg-ticket/40 p-3 text-xs text-ink/70">
-                <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-wider text-stamp-navy/70 hover:text-stamp-navy">
+              <details className="group rounded-lg border border-white/10 bg-surface/40 p-3 text-xs text-text-secondary/70">
+                <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-wider text-text-primary/70 hover:text-text-primary">
                   View your submitted opening statement
                 </summary>
-                <p className="mt-2.5 whitespace-pre-wrap border-t border-dashed border-stamp-navy/10 pt-2 text-ink">
+                <p className="mt-2.5 whitespace-pre-wrap border-t border-dashed border-white/10 pt-2 text-text-secondary">
                   {result.userArgument}
                 </p>
               </details>
@@ -378,7 +378,7 @@ export default function GDPractice() {
               <button
                 type="button"
                 onClick={handleResetSameTopic}
-                className="rounded-lg border border-stamp-navy/30 px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                className="rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
               >
                 Retry This Topic
               </button>
@@ -386,7 +386,7 @@ export default function GDPractice() {
                 <button
                   type="button"
                   onClick={handleBackToTopics}
-                  className="rounded-lg bg-stamp-navy/10 px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/20"
+                  className="rounded-lg bg-stamp-navy/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/20"
                 >
                   Choose Another Topic
                 </button>

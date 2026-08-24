@@ -25,41 +25,41 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
   return (
     <div
       ref={ref}
-      className="resume-preview-root mx-auto w-full max-w-[800px] bg-white p-8 sm:p-12 text-gray-900 shadow-md font-sans text-sm leading-normal print:shadow-none print:p-0 print:m-0"
+      className="resume-preview-root mx-auto w-full max-w-[800px] bg-surface p-8 sm:p-12 text-text-secondary shadow-md font-sans text-sm leading-normal print:shadow-none print:p-0 print:m-0"
       style={{ minHeight: "1050px" }}
     >
       {/* Header / Personal Info */}
       <header className="border-b border-gray-800 pb-4 text-center">
-        <h1 className="text-2xl font-bold tracking-tight uppercase text-gray-900 sm:text-3xl">
+        <h1 className="text-2xl font-bold tracking-tight uppercase text-text-secondary sm:text-3xl">
           {personalInfo.name || "YOUR NAME"}
         </h1>
 
         {hasContact && (
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-gray-700">
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-text-secondary">
             {personalInfo.email && (
               <span>
-                <span className="font-semibold text-gray-900">Email:</span>{" "}
+                <span className="font-semibold text-text-secondary">Email:</span>{" "}
                 {personalInfo.email}
               </span>
             )}
             {personalInfo.phone && (
               <span>
                 <span className="text-gray-400">|</span>{" "}
-                <span className="font-semibold text-gray-900">Phone:</span>{" "}
+                <span className="font-semibold text-text-secondary">Phone:</span>{" "}
                 {personalInfo.phone}
               </span>
             )}
             {personalInfo.linkedin && (
               <span>
                 <span className="text-gray-400">|</span>{" "}
-                <span className="font-semibold text-gray-900">LinkedIn:</span>{" "}
+                <span className="font-semibold text-text-secondary">LinkedIn:</span>{" "}
                 {personalInfo.linkedin}
               </span>
             )}
             {personalInfo.github && (
               <span>
                 <span className="text-gray-400">|</span>{" "}
-                <span className="font-semibold text-gray-900">GitHub:</span>{" "}
+                <span className="font-semibold text-text-secondary">GitHub:</span>{" "}
                 {personalInfo.github}
               </span>
             )}
@@ -70,10 +70,10 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
       {/* Summary */}
       {summary && summary.trim() && (
         <section className="mt-5">
-          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-gray-900">
+          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-text-secondary">
             Professional Summary
           </h2>
-          <p className="mt-2 text-xs leading-relaxed text-gray-800 text-justify">
+          <p className="mt-2 text-xs leading-relaxed text-text-secondary text-justify">
             {summary}
           </p>
         </section>
@@ -82,14 +82,14 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
       {/* Experience */}
       {experience && experience.length > 0 && (
         <section className="mt-5">
-          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-gray-900">
+          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-text-secondary">
             Experience
           </h2>
           <div className="mt-3 space-y-4">
             {experience.map((exp, idx) => (
               <div key={idx} className="space-y-1">
                 <div className="flex flex-wrap items-baseline justify-between text-xs">
-                  <span className="font-bold text-gray-900">
+                  <span className="font-bold text-text-secondary">
                     {exp.role || "Role"} {exp.company ? `— ${exp.company}` : ""}
                   </span>
                   <span className="font-medium text-gray-600">
@@ -98,7 +98,7 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
                   </span>
                 </div>
                 {exp.description && (
-                  <div className="text-xs text-gray-800 leading-relaxed whitespace-pre-line pl-3">
+                  <div className="text-xs text-text-secondary leading-relaxed whitespace-pre-line pl-3">
                     {exp.description
                       .split("\n")
                       .filter((line) => line.trim())
@@ -118,14 +118,14 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
       {/* Projects */}
       {projects && projects.length > 0 && (
         <section className="mt-5">
-          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-gray-900">
+          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-text-secondary">
             Key Projects
           </h2>
           <div className="mt-3 space-y-4">
             {projects.map((proj, idx) => (
               <div key={idx} className="space-y-1">
                 <div className="flex flex-wrap items-baseline justify-between text-xs">
-                  <span className="font-bold text-gray-900">
+                  <span className="font-bold text-text-secondary">
                     {proj.title || "Project Title"}
                   </span>
                   {proj.techUsed && (
@@ -135,7 +135,7 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
                   )}
                 </div>
                 {proj.description && (
-                  <div className="text-xs text-gray-800 leading-relaxed whitespace-pre-line pl-3">
+                  <div className="text-xs text-text-secondary leading-relaxed whitespace-pre-line pl-3">
                     {proj.description
                       .split("\n")
                       .filter((line) => line.trim())
@@ -155,16 +155,16 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
       {/* Education */}
       {education && education.length > 0 && (
         <section className="mt-5">
-          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-gray-900">
+          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-text-secondary">
             Education
           </h2>
           <div className="mt-3 space-y-3">
             {education.map((edu, idx) => (
               <div key={idx} className="flex flex-wrap items-baseline justify-between text-xs">
                 <div>
-                  <span className="font-bold text-gray-900">{edu.school || "School / University"}</span>
+                  <span className="font-bold text-text-secondary">{edu.school || "School / University"}</span>
                   {edu.degree && (
-                    <span className="text-gray-700">, {edu.degree}</span>
+                    <span className="text-text-secondary">, {edu.degree}</span>
                   )}
                 </div>
                 <span className="font-medium text-gray-600">
@@ -180,10 +180,10 @@ const ResumePreview = forwardRef(({ draft }, ref) => {
       {/* Skills */}
       {skills && skills.length > 0 && (
         <section className="mt-5">
-          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-gray-900">
+          <h2 className="border-b border-gray-300 pb-1 text-xs font-bold uppercase tracking-wider text-text-secondary">
             Technical & Soft Skills
           </h2>
-          <p className="mt-2 text-xs leading-relaxed text-gray-800">
+          <p className="mt-2 text-xs leading-relaxed text-text-secondary">
             {skills.join(" • ")}
           </p>
         </section>

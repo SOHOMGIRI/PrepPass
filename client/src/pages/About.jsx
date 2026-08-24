@@ -6,19 +6,19 @@ export default function About() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col justify-between font-body text-ink">
+    <div className="min-h-screen bg-bg flex flex-col justify-between font-body text-text-secondary">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-stamp-navy hover:opacity-80"
+            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-stamp-navy hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
           >
             {accessToken ? "Dashboard →" : "Sign In →"}
           </Link>
@@ -26,17 +26,17 @@ export default function About() {
 
         {/* Main Content Ticket */}
         <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
             OUR MISSION & STORY
           </div>
 
-          <h1 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+          <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
             About PrepPass
           </h1>
 
           <div className="ticket-perf my-6" />
 
-          <div className="space-y-5 text-sm text-ink/80 leading-relaxed">
+          <div className="space-y-5 text-sm text-text-secondary/80 leading-relaxed">
             <p>
               We built PrepPass because we experienced firsthand how overwhelming and opaque campus recruitment can be. Every year, millions of engineering and management students spend hundreds of hours solving generic questions, yet walk into placement interviews unprepared for live technical follow-ups, strict ATS screening filters, and unstructured group discussions.
             </p>
@@ -53,21 +53,21 @@ export default function About() {
           <div className="ticket-perf my-6" />
 
           <div className="grid gap-4 sm:grid-cols-3 pt-2">
-            <div className="rounded-lg border border-stamp-navy/12 bg-ticket/50 p-4">
+            <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
               <span className="font-mono text-xs font-bold text-gold">01. FREE & ACCESSIBLE</span>
-              <p className="mt-1 text-xs text-ink/70">
+              <p className="mt-1 text-xs text-text-secondary/70">
                 Built specifically for university students with zero paywalls.
               </p>
             </div>
-            <div className="rounded-lg border border-stamp-navy/12 bg-ticket/50 p-4">
+            <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
               <span className="font-mono text-xs font-bold text-gold">02. ADAPTIVE AI</span>
-              <p className="mt-1 text-xs text-ink/70">
+              <p className="mt-1 text-xs text-text-secondary/70">
                 Live scoring, real-time follow-ups, and panel rebuttals.
               </p>
             </div>
-            <div className="rounded-lg border border-stamp-navy/12 bg-ticket/50 p-4">
+            <div className="rounded-lg border border-white/10 bg-surface/50 p-4">
               <span className="font-mono text-xs font-bold text-gold">03. PRIVACY FIRST</span>
-              <p className="mt-1 text-xs text-ink/70">
+              <p className="mt-1 text-xs text-text-secondary/70">
                 Your data is never sold or shared with external recruiters.
               </p>
             </div>
@@ -82,7 +82,7 @@ export default function About() {
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center rounded-lg border border-stamp-navy/30 px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+              className="inline-flex items-center justify-center rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
             >
               Get in Touch →
             </Link>

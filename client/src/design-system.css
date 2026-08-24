@@ -4,14 +4,22 @@
 
 /* ===== Exam admit-card / boarding-pass design system ===== */
 :root {
-  --ticket-bg: #0A061E;       /* warm cream page background */
-  --ticket-card: #130E2E;     /* ticket card fill */
-  --stamp-navy: #FFFFFF;      /* deep navy "official stamp" */
-  --stamp-maroon: #7a0c0c;    /* deep maroon stamp variant */
-  --gold: #d4a72c;            /* muted gold/amber for scores & CTAs */
-  --gold-dark: #b79103;
-  --ink: #2c2a33;             /* primary text */
-  --shadow: 0 10px 30px 0 rgba(26, 34, 126, 0.07);
+  --color-bg: #0B0A14;               /* deep charcoal-purple royal background */
+  --color-surface: #130E2E;          /* dark translucent surface */
+  --color-text-primary: #FFFFFF;     /* pure white for headings */
+  --color-text-secondary: #F5F0E6;   /* warm off-white/cream for body text */
+  --color-accent: #D4AF37;           /* true metallic gold */
+  --color-accent-light: #F0D878;     /* light gold highlight */
+  --color-accent-dark: #8B6F1F;      /* deep gold shade */
+
+  --ticket-bg: var(--color-bg);
+  --ticket-card: var(--color-surface);
+  --stamp-navy: var(--color-text-primary);
+  --stamp-maroon: #7a0c0c;
+  --gold: var(--color-accent);
+  --gold-dark: var(--color-accent-dark);
+  --ink: var(--color-text-secondary);
+  --shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
@@ -198,3 +206,12 @@ html.lenis, html.lenis body {
 }
 
 
+
+@keyframes sway {
+  0% { transform: rotate(-3deg) translateX(-4px); }
+  100% { transform: rotate(3deg) translateX(4px); }
+}
+@keyframes pulseGlow {
+  0% { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.15); }
+}

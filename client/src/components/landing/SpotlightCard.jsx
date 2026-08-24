@@ -40,7 +40,7 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden block rounded-2xl bg-white/5 backdrop-blur-md transition-all duration-300",
+        "relative overflow-hidden block rounded-2xl bg-surface/5 backdrop-blur-md transition-all duration-300",
         "border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.2)]",
         "hover:-translate-y-1 hover:shadow-[0_20px_40px_rgb(37,99,235,0.1)] hover:border-blue-500/30",
         className

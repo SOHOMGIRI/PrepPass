@@ -94,7 +94,7 @@ export default function HowItWorks() {
                       {step.num}
                     </div>
                     <div>
-                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white mb-2 border border-stamp-navy/10">
+                      <div className="ticket-stamp inline-block rounded px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white mb-2 border border-white/10">
                         {step.badge}
                       </div>
                       <h2 className="font-heading text-lg sm:text-xl text-white mb-1.5">
@@ -131,7 +131,7 @@ export default function HowItWorks() {
             </Link>
             <Link
               to="/company-prep"
-              className="inline-flex items-center justify-center rounded-lg border border-stamp-navy/30 bg-transparent px-5 py-3 font-mono text-xs text-white hover:bg-white/10"
+              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-transparent px-5 py-3 font-mono text-xs text-white hover:bg-surface/10"
             >
               Explore Company Tracks →
             </Link>

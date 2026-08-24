@@ -27,13 +27,13 @@ export default function SessionResults({ session }) {
 
   return (
     <div className="ticket-card w-full max-w-2xl p-6 sm:p-8">
-      <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+      <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
         PREPPASS — INTERVIEW COMPLETE
       </div>
-      <h1 className="mt-3 font-heading text-2xl text-stamp-navy">
+      <h1 className="mt-3 font-heading text-2xl text-text-primary">
         Session complete.
       </h1>
-      <p className="mt-1 font-mono text-xs text-stamp-navy/60">
+      <p className="mt-1 font-mono text-xs text-text-primary/60">
         {companyId ? `${companyId.toUpperCase()} · ` : ""}{role} · {fmtDate(startedAt)}
       </p>
 
@@ -48,31 +48,31 @@ export default function SessionResults({ session }) {
 
       <div className="ticket-perf my-8" />
 
-      <h2 className="font-heading text-sm uppercase tracking-wider text-stamp-navy/70">
+      <h2 className="font-heading text-sm uppercase tracking-wider text-text-primary/70">
         Per-question breakdown
       </h2>
       <div className="mt-4 space-y-4">
         {scored.map((q, i) => (
           <div
             key={i}
-            className="rounded-lg border border-stamp-navy/12 bg-ticket/60 p-4"
+            className="rounded-lg border border-white/10 bg-surface/60 p-4"
           >
-            <p className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/50">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
               Q{i + 1} · {q.category}
             </p>
-            <p className="mt-1 text-sm text-ink">{q.questionText}</p>
+            <p className="mt-1 text-sm text-text-secondary">{q.questionText}</p>
             <div className="mt-3 max-w-md">
               <ScoreBars score={q.score} />
             </div>
             {q.feedback && (
-              <p className="mt-3 border-t border-dashed border-stamp-navy/15 pt-3 text-sm text-ink/70">
+              <p className="mt-3 border-t border-dashed border-white/10 pt-3 text-sm text-text-secondary/70">
                 {q.feedback}
               </p>
             )}
           </div>
         ))}
         {scored.length === 0 && (
-          <p className="text-sm text-ink/60">No scored questions yet.</p>
+          <p className="text-sm text-text-secondary/60">No scored questions yet.</p>
         )}
       </div>
 

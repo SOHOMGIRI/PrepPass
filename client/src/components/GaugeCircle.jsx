@@ -70,20 +70,20 @@ export default function GaugeCircle({
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span
-            className="font-heading text-stamp-navy"
+            className="font-heading text-text-primary"
             style={{ fontSize: size / 4.6 }}
           >
             {main}
           </span>
           {!isPercent && (
-            <span className="font-mono text-[10px] text-stamp-navy/50">
+            <span className="font-mono text-[10px] text-text-primary/50">
               / {max}
             </span>
           )}
         </div>
       </div>
       {caption && (
-        <div className="ticket-stamp mt-3 inline-flex items-center rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+        <div className="ticket-stamp mt-3 inline-flex items-center rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
           {caption}
         </div>
       )}

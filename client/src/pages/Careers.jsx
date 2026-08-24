@@ -6,19 +6,19 @@ export default function Careers() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col justify-between font-body text-ink">
+    <div className="min-h-screen bg-bg flex flex-col justify-between font-body text-text-secondary">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-stamp-navy hover:opacity-80"
+            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-stamp-navy hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
           >
             {accessToken ? "Dashboard →" : "Sign In →"}
           </Link>
@@ -26,25 +26,25 @@ export default function Careers() {
 
         {/* Content Card */}
         <div className="ticket-card mt-8 p-6 sm:p-10 text-center space-y-6">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
             CAREERS AT PREPPASS
           </div>
 
-          <h1 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+          <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
             We are not actively hiring.
           </h1>
 
-          <p className="mx-auto max-w-xl text-sm text-ink/70 leading-relaxed">
+          <p className="mx-auto max-w-xl text-sm text-text-secondary/70 leading-relaxed">
             PrepPass is an independent engineering project built to empower students and graduates preparing for campus placements and technical interviews. Because this is a student project and educational platform, we do not have open employment positions at this time.
           </p>
 
           <div className="ticket-perf my-6" />
 
-          <div className="mx-auto max-w-md rounded-lg border border-stamp-navy/15 bg-ticket/60 p-6 text-left space-y-3">
-            <h2 className="font-heading text-base text-stamp-navy">
+          <div className="mx-auto max-w-md rounded-lg border border-white/10 bg-surface/60 p-6 text-left space-y-3">
+            <h2 className="font-heading text-base text-text-primary">
               Want to collaborate or share feedback?
             </h2>
-            <p className="text-xs text-ink/75 leading-relaxed">
+            <p className="text-xs text-text-secondary/75 leading-relaxed">
               If you have ideas for new interview tracks, feedback on AI question quality, or want to contribute suggestions, we would love to hear from you!
             </p>
             <div className="pt-2">

@@ -48,13 +48,13 @@ export default function NavBar({ accessToken }) {
     <header 
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-ticket/70 backdrop-blur-md border-b border-stamp-navy/10 py-2 shadow-sm" : "bg-transparent py-4"
+        scrolled ? "bg-surface/70 backdrop-blur-md border-b border-white/10 py-2 shadow-sm" : "bg-transparent py-4"
       )}
     >
       <div className="max-w-5xl mx-auto flex items-center justify-between px-6">
         <Link
           to="/"
-          className="font-heading text-stamp-navy text-xl font-bold mono hover:opacity-80"
+          className="font-heading text-text-primary text-xl font-bold mono hover:opacity-80"
         >
           PREPPASS
         </Link>
@@ -69,7 +69,7 @@ export default function NavBar({ accessToken }) {
                 href={location.pathname === "/" ? item.href : `/${item.href}`}
                 className={cn(
                   "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-stamp-navy font-bold" : "text-stamp-navy/60 hover:text-stamp-navy"
+                  isActive ? "text-text-primary font-bold" : "text-text-primary/60 hover:text-text-primary"
                 )}
               >
                 {item.label}
@@ -80,7 +80,7 @@ export default function NavBar({ accessToken }) {
                 to={item.to}
                 className={cn(
                   "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-stamp-navy font-bold" : "text-stamp-navy/60 hover:text-stamp-navy"
+                  isActive ? "text-text-primary font-bold" : "text-text-primary/60 hover:text-text-primary"
                 )}
               >
                 {item.label}
@@ -92,14 +92,14 @@ export default function NavBar({ accessToken }) {
         <div className="flex items-center gap-4">
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="hidden sm:block font-mono text-[11px] uppercase text-stamp-navy hover:underline tracking-wider"
+            className="hidden sm:block font-mono text-[11px] uppercase text-text-primary hover:underline tracking-wider"
           >
             {accessToken ? "DASHBOARD" : "SIGN IN"}
           </Link>
 
           {/* Hamburger Menu Button */}
           <button
-            className="sm:hidden text-stamp-navy"
+            className="sm:hidden text-text-primary"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -132,7 +132,7 @@ export default function NavBar({ accessToken }) {
 
       {/* Mobile Nav */}
       {menuOpen && (
-        <div className="sm:hidden absolute top-full left-0 w-full border-t border-stamp-navy/10 bg-ticket/95 backdrop-blur-xl shadow-lg">
+        <div className="sm:hidden absolute top-full left-0 w-full border-t border-white/10 bg-surface/95 backdrop-blur-xl shadow-lg">
           <nav className="flex flex-col px-6 py-4 space-y-4">
             {NAV_ITEMS.map((item) => {
               const isActive = item.isAnchor ? activeSection === item.href.substring(1) : location.pathname === item.to;
@@ -143,7 +143,7 @@ export default function NavBar({ accessToken }) {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-stamp-navy font-bold" : "text-stamp-navy/70 hover:text-stamp-navy"
+                    isActive ? "text-text-primary font-bold" : "text-text-primary/70 hover:text-text-primary"
                   )}
                 >
                   {item.label}
@@ -155,7 +155,7 @@ export default function NavBar({ accessToken }) {
                   onClick={() => setMenuOpen(false)}
                   className={cn(
                     "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-stamp-navy font-bold" : "text-stamp-navy/70 hover:text-stamp-navy"
+                    isActive ? "text-text-primary font-bold" : "text-text-primary/70 hover:text-text-primary"
                   )}
                 >
                   {item.label}
@@ -165,7 +165,7 @@ export default function NavBar({ accessToken }) {
             <Link
               to={accessToken ? "/dashboard" : "/login"}
               onClick={() => setMenuOpen(false)}
-              className="font-mono text-[11px] uppercase text-stamp-navy font-bold tracking-wider pt-2 border-t border-stamp-navy/10"
+              className="font-mono text-[11px] uppercase text-text-primary font-bold tracking-wider pt-2 border-t border-white/10"
             >
               {accessToken ? "DASHBOARD" : "SIGN IN"}
             </Link>

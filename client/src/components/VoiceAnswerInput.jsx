@@ -126,7 +126,7 @@ export default function VoiceAnswerInput({
       )}
 
       {/* Voice Control Action Banner */}
-      <div className="rounded-xl border border-stamp-navy/20 bg-ticket/60 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="rounded-xl border border-white/10 bg-surface/60 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -148,11 +148,11 @@ export default function VoiceAnswerInput({
                   isListening ? "bg-red-500 animate-ping" : "bg-green-500"
                 }`}
               />
-              <span className="font-heading text-sm text-stamp-navy font-bold">
+              <span className="font-heading text-sm text-text-primary font-bold">
                 {isListening ? "Listening… Speak your answer" : "Microphone Ready"}
               </span>
             </div>
-            <p className="mt-0.5 text-xs text-ink/60">
+            <p className="mt-0.5 text-xs text-text-secondary/60">
               {isListening
                 ? "Speak naturally. Your words will appear below in real-time."
                 : "Click the microphone button to start answering with voice."}
@@ -165,7 +165,7 @@ export default function VoiceAnswerInput({
             <button
               type="button"
               onClick={onSwitchToTyping}
-              className="rounded-lg border border-stamp-navy/30 bg-white px-3 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+              className="rounded-lg border border-white/10 bg-surface px-3 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
             >
               ⌨️ Type Instead
             </button>
@@ -175,7 +175,7 @@ export default function VoiceAnswerInput({
               type="button"
               onClick={() => setAnswer("")}
               disabled={busy || isListening}
-              className="rounded-lg border border-red-300 bg-white px-3 py-1.5 font-mono text-xs text-stamp-maroon hover:bg-red-50 disabled:opacity-40"
+              className="rounded-lg border border-red-300 bg-surface px-3 py-1.5 font-mono text-xs text-stamp-maroon hover:bg-red-50 disabled:opacity-40"
             >
               Clear
             </button>
@@ -185,7 +185,7 @@ export default function VoiceAnswerInput({
 
       {/* Editable Live Transcript Box */}
       <div className="space-y-1.5">
-        <div className="flex items-center justify-between text-xs font-mono text-stamp-navy/60">
+        <div className="flex items-center justify-between text-xs font-mono text-text-primary/60">
           <span>LIVE TRANSCRIPT & REVIEW:</span>
           <span>{isListening ? "🎙️ Recording in progress" : "✓ Editable before submission"}</span>
         </div>
@@ -200,7 +200,7 @@ export default function VoiceAnswerInput({
                 ? "Listening... your transcribed speech will appear here..."
                 : "Your transcribed answer will appear here. You can also edit or type manually..."
             }
-            className="w-full rounded-lg border border-ink/20 bg-white px-4 py-3 text-sm text-ink placeholder-ink/40 focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 leading-relaxed font-body"
+            className="w-full rounded-lg border border-white/10 bg-surface px-4 py-3 text-sm text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 leading-relaxed font-body"
           />
 
           {interimText && (

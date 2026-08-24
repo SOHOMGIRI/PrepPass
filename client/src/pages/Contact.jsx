@@ -55,19 +55,19 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col justify-between font-body text-ink">
+    <div className="min-h-screen bg-bg flex flex-col justify-between font-body text-text-secondary">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-stamp-navy hover:opacity-80"
+            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-stamp-navy hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
           >
             {accessToken ? "Dashboard →" : "Sign In →"}
           </Link>
@@ -75,19 +75,19 @@ export default function Contact() {
 
         <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
           <div className="flex items-center justify-between">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
               GET IN TOUCH · SUPPORT
             </div>
-            <span className="font-mono text-xs text-stamp-navy/50">
+            <span className="font-mono text-xs text-text-primary/50">
               contact@preppass.app
             </span>
           </div>
 
           <div>
-            <h1 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+            <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
               Contact PrepPass
             </h1>
-            <p className="mt-2 text-sm text-ink/70 leading-relaxed">
+            <p className="mt-2 text-sm text-text-secondary/70 leading-relaxed">
               Have questions, feedback about an interview question, or partnership ideas? Send us a message and our team will get back to you shortly.
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function Contact() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                <label className="block font-mono text-xs text-text-primary/70 mb-1">
                   Your Name *
                 </label>
                 <input
@@ -118,12 +118,12 @@ export default function Contact() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
+                  className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                <label className="block font-mono text-xs text-text-primary/70 mb-1">
                   Email Address *
                 </label>
                 <input
@@ -132,13 +132,13 @@ export default function Contact() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
+                  className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+              <label className="block font-mono text-xs text-text-primary/70 mb-1">
                 Your Message *
               </label>
               <textarea
@@ -147,12 +147,12 @@ export default function Contact() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 disabled={busy}
-                className="w-full rounded-lg border border-ink/20 bg-white p-4 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 leading-relaxed disabled:opacity-60"
+                className="w-full rounded-lg border border-white/10 bg-surface p-4 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 leading-relaxed disabled:opacity-60"
               />
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
-              <p className="text-xs text-ink/50 font-mono">
+              <p className="text-xs text-text-secondary/50 font-mono">
                 We typically respond within 24 hours.
               </p>
               <button

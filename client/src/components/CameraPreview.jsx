@@ -71,7 +71,7 @@ export default function CameraPreview({ enabled, onClose }) {
 
   return (
     <div
-      className={`fixed bottom-5 right-5 z-40 transition-all duration-300 rounded-xl overflow-hidden shadow-2xl border-2 border-stamp-navy/30 bg-stamp-navy ${
+      className={`fixed bottom-5 right-5 z-40 transition-all duration-300 rounded-xl overflow-hidden shadow-2xl border-2 border-white/10 bg-stamp-navy ${
         minimized ? "w-36 h-24" : "w-60 sm:w-72 h-44 sm:h-52"
       }`}
     >
@@ -87,7 +87,7 @@ export default function CameraPreview({ enabled, onClose }) {
           <button
             type="button"
             onClick={() => setMinimized(!minimized)}
-            className="px-1.5 py-0.5 rounded hover:bg-white/20 text-white/80"
+            className="px-1.5 py-0.5 rounded hover:bg-surface/20 text-white/80"
             title={minimized ? "Expand" : "Minimize"}
           >
             {minimized ? "◻" : "—"}
@@ -96,7 +96,7 @@ export default function CameraPreview({ enabled, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-1.5 py-0.5 rounded hover:bg-white/20 text-white/80"
+              className="px-1.5 py-0.5 rounded hover:bg-surface/20 text-white/80"
               title="Close camera"
             >
               ✕

@@ -4,9 +4,9 @@ import { useAuth } from "../context/AuthContext.jsx";
 import RippleButton from "../components/ui/RippleButton.jsx";
 
 const INPUT_CLASS =
-  "w-full rounded-t-md border-b-2 border-stamp-navy/20 bg-stamp-navy/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-stamp-navy/10 focus:border-stamp-navy disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-t-md border-b-2 border-white/10 bg-stamp-navy/5 px-4 py-3 text-text-secondary placeholder-white/40 transition-colors focus:outline-none focus:bg-stamp-navy/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
 const INPUT_ERROR_CLASS =
-  "w-full rounded-t-md border-b-2 border-gold bg-gold/5 px-4 py-3 text-ink placeholder-ink/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-t-md border-b-2 border-gold bg-gold/5 px-4 py-3 text-text-secondary placeholder-white/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
 
 export default function Login() {
   const { login } = useAuth();
@@ -51,21 +51,21 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cream px-4">
+    <div className="min-h-screen flex items-center justify-center bg-bg px-4">
       <div className="ticket-card w-full max-w-md p-8">
-        <div className="ticket-stamp inline-block px-3 py-1 rounded text-stamp-navy font-mono text-xs mb-6 border border-stamp-navy/20">
+        <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6 border border-white/10">
           PREPPASS — ADMIT CARD LOGIN
         </div>
-        <h1 className="text-2xl font-heading text-stamp-navy mb-1">
+        <h1 className="text-2xl font-heading text-text-primary mb-1">
           Welcome back.
         </h1>
-        <p className="text-ink/60 text-sm mb-6">
+        <p className="text-text-secondary/60 text-sm mb-6">
           Sign in to continue your prep.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-5">
           <div>
-            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-text-primary/70 mb-1.5 uppercase">
               Email
             </label>
             <input
@@ -83,7 +83,7 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="block font-mono text-xs font-semibold tracking-wider text-stamp-navy/70 mb-1.5 uppercase">
+            <label className="block font-mono text-xs font-semibold tracking-wider text-text-primary/70 mb-1.5 uppercase">
               Password
             </label>
             <input
@@ -113,11 +113,11 @@ export default function Login() {
           </RippleButton>
         </form>
 
-        <p className="mt-6 text-sm text-center text-ink/70">
+        <p className="mt-6 text-sm text-center text-text-secondary/70">
           No account?{" "}
           <Link
             to="/register"
-            className="text-stamp-navy font-semibold hover:underline"
+            className="text-text-primary font-semibold hover:underline"
           >
             Register
           </Link>

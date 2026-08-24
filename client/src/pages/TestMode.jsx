@@ -368,7 +368,7 @@ export default function TestMode() {
   return (
     <div
       ref={testContainerRef}
-      className="min-h-screen bg-cream px-4 py-10 font-body text-ink"
+      className="min-h-screen bg-bg px-4 py-10 font-body text-text-secondary"
     >
       <div className="mx-auto w-full max-w-3xl">
         {/* Top Header */}
@@ -376,13 +376,13 @@ export default function TestMode() {
           <div className="flex items-center justify-between">
             <Link
               to="/dashboard"
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               ← Back to Dashboard
             </Link>
             <Link
               to="/history"
-              className="font-mono text-xs text-stamp-navy/70 hover:underline"
+              className="font-mono text-xs text-text-primary/70 hover:underline"
             >
               Past Test Scores →
             </Link>
@@ -399,29 +399,29 @@ export default function TestMode() {
         {phase === "select" && (
           <div className="ticket-card mt-6 p-6 sm:p-10 space-y-6">
             <div className="flex items-center justify-between">
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
                 PREPPASS — PROCTORED TEST MODE
               </div>
-              <span className="font-mono text-xs text-stamp-navy/60">
+              <span className="font-mono text-xs text-text-primary/60">
                 15 MCQs · 10 Minutes
               </span>
             </div>
 
             <div>
-              <h1 className="font-heading text-2xl text-stamp-navy sm:text-3xl">
+              <h1 className="font-heading text-2xl text-text-primary sm:text-3xl">
                 Proctored Timed MCQ Assessment
               </h1>
-              <p className="mt-2 text-sm text-ink/70 leading-relaxed">
+              <p className="mt-2 text-sm text-text-secondary/70 leading-relaxed">
                 Test your knowledge in a strict, proctored environment. Select 1 to 3 subjects to assemble a tailored 15-question evaluation with automated trust and accuracy scoring.
               </p>
             </div>
 
             {/* Proctored Rules Notice */}
-            <div className="rounded-lg border border-stamp-navy/15 bg-ticket/60 p-4 space-y-2 text-xs text-ink/80">
-              <div className="font-heading text-stamp-navy uppercase tracking-wider text-[11px] font-bold">
+            <div className="rounded-lg border border-white/10 bg-surface/60 p-4 space-y-2 text-xs text-text-secondary/80">
+              <div className="font-heading text-text-primary uppercase tracking-wider text-[11px] font-bold">
                 ⚠️ Proctoring & Trust Score Rules
               </div>
-              <ul className="list-disc pl-4 space-y-1 text-ink/70">
+              <ul className="list-disc pl-4 space-y-1 text-text-secondary/70">
                 <li>The test requires <strong>Fullscreen Mode</strong> and active tab focus.</li>
                 <li>Switching tabs, minimizing the browser, or exiting fullscreen triggers a <strong>Proctoring Warning</strong>.</li>
                 <li>0 warnings = <strong>100% Trust Score</strong>. 1 warning = <strong>70%</strong>. 2 warnings = <strong>40%</strong>.</li>
@@ -432,7 +432,7 @@ export default function TestMode() {
             {/* Suggested Subjects from Resume */}
             {suggestedSubjects.length > 0 && (
               <div className="space-y-2">
-                <span className="font-mono text-xs font-semibold text-stamp-navy">
+                <span className="font-mono text-xs font-semibold text-text-primary">
                   Recommended for your Resume Profile:
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -446,7 +446,7 @@ export default function TestMode() {
                         className={`rounded-full px-3.5 py-1.5 font-mono text-xs tracking-wide transition ${
                           isSelected
                             ? "bg-gold text-white font-semibold shadow-sm"
-                            : "bg-gold/15 text-stamp-navy hover:bg-gold/25"
+                            : "bg-gold/15 text-text-primary hover:bg-gold/25"
                         }`}
                       >
                         {isSelected ? "✓ " : "+ "}
@@ -460,7 +460,7 @@ export default function TestMode() {
 
             {/* General Subjects List */}
             <div className="space-y-2">
-              <span className="font-mono text-xs font-semibold text-stamp-navy">
+              <span className="font-mono text-xs font-semibold text-text-primary">
                 All Core Placement Subjects (Pick 1–3):
               </span>
               <div className="grid gap-2.5 sm:grid-cols-2">
@@ -473,12 +473,12 @@ export default function TestMode() {
                       onClick={() => toggleSubject(sub)}
                       className={`ticket-card p-3.5 text-left transition ${
                         isSelected
-                          ? "border-stamp-navy bg-stamp-navy/5"
-                          : "hover:border-stamp-navy/40"
+                          ? "border-gold bg-stamp-navy/5"
+                          : "hover:border-white/10"
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-heading text-xs text-stamp-navy">
+                        <span className="font-heading text-xs text-text-primary">
                           {sub}
                         </span>
                         <span className="font-mono text-xs font-bold text-gold">
@@ -492,7 +492,7 @@ export default function TestMode() {
             </div>
 
             <div className="pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <span className="font-mono text-xs text-stamp-navy/60">
+              <span className="font-mono text-xs text-text-primary/60">
                 Selected: {selectedSubjects.length} of 3 subjects
               </span>
               <button
@@ -511,24 +511,24 @@ export default function TestMode() {
         {phase === "testing" && questions.length > 0 && (
           <div className="space-y-4">
             {/* Top Proctoring Bar */}
-            <div className="ticket-card p-4 flex flex-wrap items-center justify-between gap-3 bg-white">
+            <div className="ticket-card p-4 flex flex-wrap items-center justify-between gap-3 bg-surface">
               <div className="flex items-center gap-3">
-                <span className="ticket-stamp rounded px-2 py-0.5 font-mono text-[10px] uppercase text-stamp-navy">
+                <span className="ticket-stamp rounded px-2 py-0.5 font-mono text-[10px] uppercase text-text-primary">
                   PROCTORED EXAM
                 </span>
-                <span className="font-mono text-xs text-stamp-navy/70">
+                <span className="font-mono text-xs text-text-primary/70">
                   Question {currentIndex + 1} of {questions.length}
                 </span>
               </div>
 
               {/* Countdown Timer */}
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-stamp-navy/60">Time Left:</span>
+                <span className="font-mono text-xs text-text-primary/60">Time Left:</span>
                 <span
                   className={`font-mono text-base font-bold px-2.5 py-0.5 rounded ${
                     timeLeft < 120
                       ? "bg-red-100 text-stamp-maroon animate-pulse"
-                      : "bg-stamp-navy/10 text-stamp-navy"
+                      : "bg-stamp-navy/10 text-text-primary"
                   }`}
                 >
                   ⏱️ {formatTimer(timeLeft)}
@@ -546,7 +546,7 @@ export default function TestMode() {
                       : "bg-red-500"
                   }`}
                 />
-                <span className="font-mono text-[11px] text-stamp-navy/70">
+                <span className="font-mono text-[11px] text-text-primary/70">
                   {violationCount === 0
                     ? "100% Trust"
                     : `${violationCount} Warning(s)`}
@@ -555,9 +555,9 @@ export default function TestMode() {
             </div>
 
             {/* Question Card */}
-            <div className="ticket-card p-6 sm:p-8 space-y-6 bg-white">
+            <div className="ticket-card p-6 sm:p-8 space-y-6 bg-surface">
               <div>
-                <div className="flex items-center justify-between text-xs text-stamp-navy/50 font-mono mb-2">
+                <div className="flex items-center justify-between text-xs text-text-primary/50 font-mono mb-2">
                   <span>QUESTION #{currentIndex + 1}</span>
                   <span>
                     {questions[currentIndex]?.selectedIndex !== null
@@ -565,7 +565,7 @@ export default function TestMode() {
                       : "Unanswered"}
                   </span>
                 </div>
-                <h2 className="font-heading text-lg text-stamp-navy sm:text-xl leading-snug">
+                <h2 className="font-heading text-lg text-text-primary sm:text-xl leading-snug">
                   {questions[currentIndex]?.questionText}
                 </h2>
               </div>
@@ -583,20 +583,20 @@ export default function TestMode() {
                       onClick={() => selectOption(optIdx)}
                       className={`w-full rounded-lg border p-4 text-left transition flex items-start gap-3.5 ${
                         isSelected
-                          ? "border-stamp-navy bg-stamp-navy/10 shadow-sm"
-                          : "border-ink/20 bg-white hover:border-stamp-navy/50 hover:bg-ticket/40"
+                          ? "border-gold bg-stamp-navy/10 shadow-sm"
+                          : "border-white/10 bg-surface hover:border-white/10 hover:bg-surface/40"
                       }`}
                     >
                       <span
                         className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold ${
                           isSelected
                             ? "bg-stamp-navy text-white"
-                            : "bg-stamp-navy/10 text-stamp-navy"
+                            : "bg-stamp-navy/10 text-text-primary"
                         }`}
                       >
                         {labels[optIdx]}
                       </span>
-                      <span className="text-sm text-ink/90 leading-relaxed">
+                      <span className="text-sm text-text-secondary/90 leading-relaxed">
                         {opt}
                       </span>
                     </button>
@@ -605,12 +605,12 @@ export default function TestMode() {
               </div>
 
               {/* Navigation & Submit Bar */}
-              <div className="flex items-center justify-between pt-4 border-t border-dashed border-stamp-navy/15">
+              <div className="flex items-center justify-between pt-4 border-t border-dashed border-white/10">
                 <button
                   type="button"
                   onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
                   disabled={currentIndex === 0}
-                  className="rounded-lg border border-stamp-navy/30 px-4 py-2 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-40"
+                  className="rounded-lg border border-white/10 px-4 py-2 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-40"
                 >
                   ← Previous
                 </button>
@@ -638,7 +638,7 @@ export default function TestMode() {
 
             {/* Question Quick Jump Navigator */}
             <div className="ticket-card p-4">
-              <div className="text-[11px] font-mono text-stamp-navy/60 mb-2">
+              <div className="text-[11px] font-mono text-text-primary/60 mb-2">
                 QUESTION GRID NAVIGATOR:
               </div>
               <div className="flex flex-wrap gap-2">
@@ -655,7 +655,7 @@ export default function TestMode() {
                           ? "ring-2 ring-stamp-navy bg-stamp-navy text-white"
                           : isAnswered
                           ? "bg-gold text-white"
-                          : "bg-stamp-navy/10 text-stamp-navy hover:bg-stamp-navy/20"
+                          : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
                       }`}
                     >
                       {qIdx + 1}
@@ -671,10 +671,10 @@ export default function TestMode() {
         {phase === "result" && result && (
           <div className="ticket-card mt-6 p-6 sm:p-10 space-y-8">
             <div className="flex items-center justify-between">
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
                 PREPPASS — TEST REPORT
               </div>
-              <span className="font-mono text-xs text-stamp-navy/60">
+              <span className="font-mono text-xs text-text-primary/60">
                 {result.status === "auto-submitted"
                   ? "AUTO-SUBMITTED"
                   : "COMPLETED"}
@@ -682,10 +682,10 @@ export default function TestMode() {
             </div>
 
             <div className="text-center">
-              <h1 className="font-heading text-3xl text-stamp-navy">
+              <h1 className="font-heading text-3xl text-text-primary">
                 Assessment Graded
               </h1>
-              <p className="mt-1 text-xs text-ink/60">
+              <p className="mt-1 text-xs text-text-secondary/60">
                 Subjects: {result.subjects?.join(" • ") || "Core Technical"}
               </p>
             </div>
@@ -701,7 +701,7 @@ export default function TestMode() {
 
               {/* Trust Score Callout */}
               <div className="flex flex-col items-center text-center max-w-xs space-y-2">
-                <span className="font-mono text-xs uppercase tracking-wider text-stamp-navy/60">
+                <span className="font-mono text-xs uppercase tracking-wider text-text-primary/60">
                   Proctoring Trust Score
                 </span>
                 <span
@@ -717,7 +717,7 @@ export default function TestMode() {
                 >
                   {result.trustScore}% Trust Score
                 </span>
-                <p className="text-xs text-ink/70 leading-relaxed">
+                <p className="text-xs text-text-secondary/70 leading-relaxed">
                   {result.trustScore === 100
                     ? "Verified proctoring integrity with zero tab/fullscreen violations."
                     : result.trustScore === 70
@@ -731,16 +731,16 @@ export default function TestMode() {
 
             {/* Anonymized Peer Comparison Strip */}
             {percentileData && percentileData.subjectPercentiles && (
-              <div className="rounded-xl border border-stamp-navy/15 bg-white/80 p-5 space-y-3 shadow-sm">
+              <div className="rounded-xl border border-white/10 bg-surface/80 p-5 space-y-3 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="text-base">🏆</span>
-                    <span className="font-heading text-xs uppercase tracking-wider text-stamp-navy font-bold">
+                    <span className="font-heading text-xs uppercase tracking-wider text-text-primary font-bold">
                       Peer Percentile Ranking
                     </span>
                   </div>
                   {typeof percentileData.overallPercentile === "number" && (
-                    <span className="font-mono text-xs font-bold text-stamp-navy bg-gold/20 px-2.5 py-0.5 rounded">
+                    <span className="font-mono text-xs font-bold text-text-primary bg-gold/20 px-2.5 py-0.5 rounded">
                       Top {Math.max(1, 100 - percentileData.overallPercentile)}% ({percentileData.overallPercentile}th Percentile)
                     </span>
                   )}
@@ -750,21 +750,21 @@ export default function TestMode() {
                   {percentileData.subjectPercentiles.map((sp, idx) => (
                     <div
                       key={idx}
-                      className="rounded-lg border border-stamp-navy/10 bg-ticket/40 p-3 text-xs space-y-1.5"
+                      className="rounded-lg border border-white/10 bg-surface/40 p-3 text-xs space-y-1.5"
                     >
                       <div className="flex items-center justify-between font-mono">
-                        <span className="font-bold text-stamp-navy">{sp.subject}</span>
+                        <span className="font-bold text-text-primary">{sp.subject}</span>
                         {sp.percentile !== null ? (
-                          <span className="rounded bg-stamp-navy/10 px-2 py-0.5 font-bold text-stamp-navy">
+                          <span className="rounded bg-stamp-navy/10 px-2 py-0.5 font-bold text-text-primary">
                             {sp.percentile}th %ile
                           </span>
                         ) : (
-                          <span className="text-[10px] text-stamp-navy/50 font-medium">
+                          <span className="text-[10px] text-text-primary/50 font-medium">
                             Gathering stats
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-ink/75 leading-relaxed">
+                      <p className="text-[11px] text-text-secondary/75 leading-relaxed">
                         {sp.percentile !== null
                           ? `You scored better than ${sp.percentile}% of test-takers in ${sp.subject}.`
                           : `Not enough data yet for ${sp.subject} (minimum 5 test-takers needed).`}
@@ -777,15 +777,15 @@ export default function TestMode() {
 
             {/* Section: Unlock Detailed Report / UPI QR Payment */}
             {!detailedReport && !paymentOrder && (
-              <div className="rounded-xl border border-gold/40 bg-ticket/80 p-6 text-center space-y-4">
-                <div className="ticket-stamp inline-block rounded bg-gold/20 px-3 py-1 font-mono text-xs uppercase font-bold text-stamp-navy">
+              <div className="rounded-xl border border-gold/40 bg-surface/80 p-6 text-center space-y-4">
+                <div className="ticket-stamp inline-block rounded bg-gold/20 px-3 py-1 font-mono text-xs uppercase font-bold text-text-primary">
                   PREMIUM DIAGNOSTIC REPORT · ₹49
                 </div>
                 <div>
-                  <h3 className="font-heading text-xl text-stamp-navy">
+                  <h3 className="font-heading text-xl text-text-primary">
                     Unlock Subject-Wise Breakdown & Wrong Answers
                   </h3>
-                  <p className="mt-1 text-xs text-ink/70 max-w-md mx-auto">
+                  <p className="mt-1 text-xs text-text-secondary/70 max-w-md mx-auto">
                     Get in-depth analytics including subject accuracy bars, exact correct answers for all questions, and personalized revision recommendations.
                   </p>
                 </div>
@@ -802,32 +802,32 @@ export default function TestMode() {
 
             {/* Payment Modal / Card with UPI QR */}
             {paymentOrder && !detailedReport && (
-              <div className="rounded-xl border-2 border-stamp-navy/20 bg-white p-6 sm:p-8 space-y-6 shadow-sm">
+              <div className="rounded-xl border-2 border-white/10 bg-surface p-6 sm:p-8 space-y-6 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <div className="ticket-stamp inline-block rounded bg-stamp-navy/10 px-2.5 py-1 font-mono text-[10px] uppercase font-bold text-stamp-navy">
+                  <div className="ticket-stamp inline-block rounded bg-stamp-navy/10 px-2.5 py-1 font-mono text-[10px] uppercase font-bold text-text-primary">
                     UPI QR PAYMENT · ₹49
                   </div>
                   <button
                     type="button"
                     onClick={() => setPaymentOrder(null)}
-                    className="font-mono text-xs text-stamp-navy/60 hover:text-stamp-navy"
+                    className="font-mono text-xs text-text-primary/60 hover:text-text-primary"
                   >
                     ✕ Close
                   </button>
                 </div>
 
                 <div className="text-center">
-                  <h3 className="font-heading text-xl text-stamp-navy">
+                  <h3 className="font-heading text-xl text-text-primary">
                     Scan QR Code to Pay ₹49
                   </h3>
-                  <p className="mt-1 text-xs text-ink/70">
+                  <p className="mt-1 text-xs text-text-secondary/70">
                     Scan with any UPI app (GPay, PhonePe, Paytm, BHIM), then enter your transaction ID / UTR below.
                   </p>
                 </div>
 
                 {/* QR Code Container */}
-                <div className="flex flex-col items-center justify-center p-4 bg-cream/60 rounded-xl border border-stamp-navy/10">
-                  <div className="p-3 bg-white rounded-lg shadow-sm">
+                <div className="flex flex-col items-center justify-center p-4 bg-bg/60 rounded-xl border border-white/10">
+                  <div className="p-3 bg-surface rounded-lg shadow-sm">
                     <QRCodeSVG
                       value={paymentOrder.upiUri}
                       size={180}
@@ -836,7 +836,7 @@ export default function TestMode() {
                       level="Q"
                     />
                   </div>
-                  <div className="mt-3 text-center space-y-1 font-mono text-xs text-stamp-navy/80">
+                  <div className="mt-3 text-center space-y-1 font-mono text-xs text-text-primary/80">
                     <p>
                       <strong>Payee:</strong> {paymentOrder.payeeName}
                     </p>
@@ -847,7 +847,7 @@ export default function TestMode() {
                       <strong>Ref Code:</strong> {paymentOrder.referenceCode}
                     </p>
                   </div>
-                  <p className="mt-2 text-[10px] font-mono text-ink/50 italic">
+                  <p className="mt-2 text-[10px] font-mono text-text-secondary/50 italic">
                     Self-verified payment for demo purposes.
                   </p>
                 </div>
@@ -861,7 +861,7 @@ export default function TestMode() {
                   )}
 
                   <div>
-                    <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                    <label className="block font-mono text-xs text-text-primary/70 mb-1">
                       UPI Transaction ID / UTR Number *
                     </label>
                     <input
@@ -870,7 +870,7 @@ export default function TestMode() {
                       value={upiTxnInput}
                       onChange={(e) => setUpiTxnInput(e.target.value)}
                       disabled={paymentSubmitting}
-                      className="w-full rounded-lg border border-ink/20 bg-white px-4 py-2.5 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 font-mono"
+                      className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 font-mono"
                     />
                   </div>
 
@@ -878,7 +878,7 @@ export default function TestMode() {
                     <button
                       type="button"
                       onClick={() => setPaymentOrder(null)}
-                      className="font-mono text-xs text-stamp-navy/70 hover:underline"
+                      className="font-mono text-xs text-text-primary/70 hover:underline"
                     >
                       Cancel
                     </button>
@@ -896,29 +896,29 @@ export default function TestMode() {
 
             {/* UNLOCKED DETAILED REPORT VIEW */}
             {detailedReport && (
-              <div className="rounded-xl border-2 border-gold/40 bg-ticket/40 p-6 sm:p-8 space-y-6">
-                <div className="flex items-center justify-between border-b border-stamp-navy/10 pb-3">
+              <div className="rounded-xl border-2 border-gold/40 bg-surface/40 p-6 sm:p-8 space-y-6">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="ticket-stamp inline-block rounded bg-green-100 px-3 py-1 font-mono text-xs uppercase font-bold text-green-900">
                     ✓ DETAILED DIAGNOSTIC REPORT UNLOCKED
                   </div>
-                  <span className="font-mono text-xs text-stamp-navy/60">
+                  <span className="font-mono text-xs text-text-primary/60">
                     Ref: {detailedReport.referenceCode}
                   </span>
                 </div>
 
                 {/* Subject-Wise Accuracy Breakdown */}
                 <div>
-                  <h3 className="font-heading text-lg text-stamp-navy mb-3">
+                  <h3 className="font-heading text-lg text-text-primary mb-3">
                     Subject-Wise Accuracy Breakdown
                   </h3>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {detailedReport.subjectBreakdown?.map((sb, sbIdx) => (
                       <div
                         key={sbIdx}
-                        className="rounded-lg border border-stamp-navy/15 bg-white p-4 space-y-2"
+                        className="rounded-lg border border-white/10 bg-surface p-4 space-y-2"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-heading text-xs font-bold text-stamp-navy">
+                          <span className="font-heading text-xs font-bold text-text-primary">
                             {sb.subject}
                           </span>
                           <span className="font-mono text-xs font-bold text-gold">
@@ -931,7 +931,7 @@ export default function TestMode() {
                             style={{ width: `${sb.accuracyPercent}%` }}
                           />
                         </div>
-                        <p className="text-[11px] font-mono text-ink/60">
+                        <p className="text-[11px] font-mono text-text-secondary/60">
                           {sb.correct} of {sb.total} questions answered correctly
                         </p>
                       </div>
@@ -940,11 +940,11 @@ export default function TestMode() {
                 </div>
 
                 {/* Weak Areas & Focus Recommendations */}
-                <div className="rounded-lg border border-stamp-navy/15 bg-white p-4 space-y-2">
-                  <h4 className="font-heading text-xs uppercase tracking-wider text-stamp-navy/80">
+                <div className="rounded-lg border border-white/10 bg-surface p-4 space-y-2">
+                  <h4 className="font-heading text-xs uppercase tracking-wider text-text-primary/80">
                     🎯 Personalized Revision Focus
                   </h4>
-                  <ul className="list-disc pl-5 space-y-1 text-xs text-ink/80">
+                  <ul className="list-disc pl-5 space-y-1 text-xs text-text-secondary/80">
                     {detailedReport.weakAreas?.map((wa, waIdx) => (
                       <li key={waIdx}>{wa}</li>
                     ))}
@@ -953,7 +953,7 @@ export default function TestMode() {
 
                 {/* Wrong & Corrected Questions Review */}
                 <div className="space-y-4">
-                  <h3 className="font-heading text-lg text-stamp-navy">
+                  <h3 className="font-heading text-lg text-text-primary">
                     Comprehensive Question-by-Question Diagnostic
                   </h3>
                   <div className="space-y-3">
@@ -967,7 +967,7 @@ export default function TestMode() {
                         }`}
                       >
                         <div className="flex items-center justify-between font-mono">
-                          <span className="font-bold text-stamp-navy">
+                          <span className="font-bold text-text-primary">
                             Q{q.index}. [{q.subject}]
                           </span>
                           <span
@@ -981,7 +981,7 @@ export default function TestMode() {
                           </span>
                         </div>
 
-                        <p className="font-heading text-sm text-stamp-navy">
+                        <p className="font-heading text-sm text-text-primary">
                           {q.questionText}
                         </p>
 
@@ -998,7 +998,7 @@ export default function TestMode() {
                                     ? "bg-green-200 text-green-950 font-bold border border-green-400/50"
                                     : isUserPick && !q.isCorrect
                                     ? "bg-red-200/80 text-red-950 font-medium border border-red-300"
-                                    : "bg-white/70 text-ink/75"
+                                    : "bg-surface/70 text-text-secondary/75"
                                 }`}
                               >
                                 <span>
@@ -1024,8 +1024,8 @@ export default function TestMode() {
 
             {/* Standard Question Breakdown (when detailed report not yet unlocked) */}
             {!detailedReport && (
-              <div className="space-y-4 pt-4 border-t border-dashed border-stamp-navy/20">
-                <h3 className="font-heading text-lg text-stamp-navy">
+              <div className="space-y-4 pt-4 border-t border-dashed border-white/10">
+                <h3 className="font-heading text-lg text-text-primary">
                   Question Summary ({result.questions?.filter((q) => q.isCorrect).length || 0} of {result.questions?.length || 15} Correct)
                 </h3>
 
@@ -1040,7 +1040,7 @@ export default function TestMode() {
                       }`}
                     >
                       <div className="flex items-center justify-between font-mono">
-                        <span className="font-bold text-stamp-navy">
+                        <span className="font-bold text-text-primary">
                           Q{idx + 1}.
                         </span>
                         <span
@@ -1054,11 +1054,11 @@ export default function TestMode() {
                         </span>
                       </div>
 
-                      <p className="font-heading text-sm text-stamp-navy">
+                      <p className="font-heading text-sm text-text-primary">
                         {q.questionText}
                       </p>
 
-                      <div className="grid gap-1.5 sm:grid-cols-2 pt-1 text-ink/80">
+                      <div className="grid gap-1.5 sm:grid-cols-2 pt-1 text-text-secondary/80">
                         {q.options?.map((opt, oIdx) => (
                           <div
                             key={oIdx}
@@ -1067,7 +1067,7 @@ export default function TestMode() {
                                 ? q.isCorrect
                                   ? "bg-green-200/70 font-semibold"
                                   : "bg-red-200/70 font-semibold"
-                                : "bg-white/60"
+                                : "bg-surface/60"
                             }`}
                           >
                             <span className="font-mono font-bold mr-1">
@@ -1075,7 +1075,7 @@ export default function TestMode() {
                             </span>
                             {opt}
                             {q.selectedIndex === oIdx && (
-                              <span className="font-mono text-[10px] ml-1.5 text-stamp-navy">
+                              <span className="font-mono text-[10px] ml-1.5 text-text-primary">
                                 (Your Choice)
                               </span>
                             )}
@@ -1104,7 +1104,7 @@ export default function TestMode() {
               </button>
               <Link
                 to="/dashboard"
-                className="inline-flex items-center justify-center rounded-lg border border-stamp-navy/30 bg-white px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-surface px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
               >
                 Return to Dashboard →
               </Link>
@@ -1115,16 +1115,16 @@ export default function TestMode() {
         {/* Proctoring Warning Modal */}
         {warningModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-            <div className="ticket-card max-w-md w-full bg-cream p-6 sm:p-8 space-y-4 border-2 border-stamp-maroon/40 shadow-2xl">
+            <div className="ticket-card max-w-md w-full bg-bg p-6 sm:p-8 space-y-4 border-2 border-stamp-maroon/40 shadow-2xl">
               <div className="ticket-stamp inline-block rounded bg-red-100 px-2.5 py-1 font-mono text-[10px] uppercase font-bold text-stamp-maroon">
                 ⚠️ PROCTORING VIOLATION #{violationCount} OF 3
               </div>
 
-              <h3 className="font-heading text-xl text-stamp-navy">
+              <h3 className="font-heading text-xl text-text-primary">
                 Tab switch or fullscreen exit detected!
               </h3>
 
-              <p className="text-xs text-ink/80 leading-relaxed">
+              <p className="text-xs text-text-secondary/80 leading-relaxed">
                 You switched tabs, minimized your browser window, or exited fullscreen mode. PrepPass enforces proctoring standards.
               </p>
 

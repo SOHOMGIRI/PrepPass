@@ -52,12 +52,12 @@ export default function QuestionTimer() {
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span
           className={`font-mono text-sm ${
-            expiring ? "text-stamp-maroon" : "text-stamp-navy"
+            expiring ? "text-stamp-maroon" : "text-text-primary"
           }`}
         >
           {mmss}
         </span>
-        <span className="font-mono text-[9px] uppercase text-stamp-navy/50">
+        <span className="font-mono text-[9px] uppercase text-text-primary/50">
           time
         </span>
       </div>

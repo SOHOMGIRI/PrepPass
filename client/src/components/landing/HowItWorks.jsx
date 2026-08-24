@@ -41,12 +41,12 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" className="py-16 bg-ticket">
+    <section id="how-it-works" className="py-16 bg-surface">
       <div className="max-w-5xl mx-auto px-6">
-        <h2 className="font-heading text-stamp-navy text-center mb-3">
+        <h2 className="font-heading text-text-primary text-center mb-3">
           How PrepPass works
         </h2>
-        <p className="text-ink/55 text-center mb-12 max-w-xl mx-auto">
+        <p className="text-text-secondary/55 text-center mb-12 max-w-xl mx-auto">
           Three passes — practice, score, refine — then rehearse with confidence.
         </p>
         <div ref={stepsRef} className="grid md:grid-cols-3 gap-6">
@@ -55,11 +55,11 @@ export default function HowItWorks() {
               key={s.title}
               className="ticket-card h-full p-6"
             >
-              <div className="ticket-stamp inline-block px-2 py-1 rounded text-stamp-navy font-mono text-[10px] mb-3">
+              <div className="ticket-stamp inline-block px-2 py-1 rounded text-text-primary font-mono text-[10px] mb-3">
                 {s.stamp}
               </div>
-              <h3 className="font-heading text-stamp-navy mb-2">{s.title}</h3>
-              <p className="text-sm text-ink/60">{s.desc}</p>
+              <h3 className="font-heading text-text-primary mb-2">{s.title}</h3>
+              <p className="text-sm text-text-secondary/60">{s.desc}</p>
             </div>
           ))}
         </div>

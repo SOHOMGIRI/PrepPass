@@ -251,9 +251,9 @@ export default function ResumeBuilder() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream px-4 py-10">
+      <div className="min-h-screen bg-bg px-4 py-10">
         <div className="mx-auto max-w-4xl">
-          <div className="ticket-card flex items-center gap-3 p-8 text-stamp-navy/70">
+          <div className="ticket-card flex items-center gap-3 p-8 text-text-primary/70">
             <span className="font-mono">•••</span>
             <span>Loading resume builder…</span>
           </div>
@@ -263,19 +263,19 @@ export default function ResumeBuilder() {
   }
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto w-full max-w-4xl">
         {/* Top Header */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Link
             to="/dashboard"
-            className="font-mono text-xs text-stamp-navy/70 hover:underline"
+            className="font-mono text-xs text-text-primary/70 hover:underline"
           >
             ← Back to Dashboard
           </Link>
           <div className="flex items-center gap-3">
             {saveStatus && (
-              <span className="font-mono text-xs text-stamp-navy/60">
+              <span className="font-mono text-xs text-text-primary/60">
                 {saveStatus}
               </span>
             )}
@@ -283,7 +283,7 @@ export default function ResumeBuilder() {
               type="button"
               onClick={() => saveToServer(draft)}
               disabled={saving}
-              className="rounded border border-stamp-navy/30 px-3 py-1 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-50"
+              className="rounded border border-white/10 px-3 py-1 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-50"
             >
               {saving ? "Saving…" : "Save Draft"}
             </button>
@@ -301,10 +301,10 @@ export default function ResumeBuilder() {
           {/* Step Progress Bar */}
           <div className="ticket-card p-4 sm:p-6 mb-6">
             <div className="flex items-center justify-between">
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
                 PREPPASS — RESUME BUILDER
               </div>
-              <span className="font-mono text-xs text-stamp-navy/60">
+              <span className="font-mono text-xs text-text-primary/60">
                 Step {currentStep + 1} of {STEPS.length}
               </span>
             </div>
@@ -319,8 +319,8 @@ export default function ResumeBuilder() {
                     currentStep === idx
                       ? "bg-stamp-navy text-white font-semibold"
                       : idx < currentStep
-                      ? "bg-gold/20 text-stamp-navy hover:bg-gold/30"
-                      : "bg-stamp-navy/10 text-stamp-navy/70 hover:bg-stamp-navy/15"
+                      ? "bg-gold/20 text-text-primary hover:bg-gold/30"
+                      : "bg-stamp-navy/10 text-text-primary/70 hover:bg-stamp-navy/15"
                   }`}
                 >
                   {idx + 1}. {s.label}
@@ -333,17 +333,17 @@ export default function ResumeBuilder() {
           {currentStep === 0 && (
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div>
-                <h2 className="font-heading text-xl text-stamp-navy">
+                <h2 className="font-heading text-xl text-text-primary">
                   Personal & Contact Information
                 </h2>
-                <p className="mt-1 text-xs text-ink/60">
+                <p className="mt-1 text-xs text-text-secondary/60">
                   Enter your full legal name, active email, phone number, and online profiles.
                 </p>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2">
-                  <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                  <label className="block font-mono text-xs text-text-primary/70 mb-1">
                     Full Name *
                   </label>
                   <input
@@ -351,12 +351,12 @@ export default function ResumeBuilder() {
                     placeholder="e.g. Sohom Giri"
                     value={draft.personalInfo.name}
                     onChange={(e) => handlePersonalInfoChange("name", e.target.value)}
-                    className="w-full rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
+                    className="w-full rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                  <label className="block font-mono text-xs text-text-primary/70 mb-1">
                     Email Address *
                   </label>
                   <input
@@ -364,12 +364,12 @@ export default function ResumeBuilder() {
                     placeholder="e.g. candidate@example.com"
                     value={draft.personalInfo.email}
                     onChange={(e) => handlePersonalInfoChange("email", e.target.value)}
-                    className="w-full rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
+                    className="w-full rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                  <label className="block font-mono text-xs text-text-primary/70 mb-1">
                     Phone Number
                   </label>
                   <input
@@ -377,12 +377,12 @@ export default function ResumeBuilder() {
                     placeholder="e.g. +91 9876543210"
                     value={draft.personalInfo.phone}
                     onChange={(e) => handlePersonalInfoChange("phone", e.target.value)}
-                    className="w-full rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
+                    className="w-full rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                  <label className="block font-mono text-xs text-text-primary/70 mb-1">
                     LinkedIn Profile
                   </label>
                   <input
@@ -390,12 +390,12 @@ export default function ResumeBuilder() {
                     placeholder="e.g. linkedin.com/in/username"
                     value={draft.personalInfo.linkedin}
                     onChange={(e) => handlePersonalInfoChange("linkedin", e.target.value)}
-                    className="w-full rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
+                    className="w-full rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs text-stamp-navy/70 mb-1">
+                  <label className="block font-mono text-xs text-text-primary/70 mb-1">
                     GitHub / Portfolio URL
                   </label>
                   <input
@@ -403,7 +403,7 @@ export default function ResumeBuilder() {
                     placeholder="e.g. github.com/username"
                     value={draft.personalInfo.github}
                     onChange={(e) => handlePersonalInfoChange("github", e.target.value)}
-                    className="w-full rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
+                    className="w-full rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20"
                   />
                 </div>
               </div>
@@ -415,29 +415,29 @@ export default function ResumeBuilder() {
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="font-heading text-xl text-stamp-navy">
+                  <h2 className="font-heading text-xl text-text-primary">
                     Education History
                   </h2>
-                  <p className="mt-1 text-xs text-ink/60">
+                  <p className="mt-1 text-xs text-text-secondary/60">
                     Add your university degrees, diplomas, or high school certifications.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={addEducation}
-                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/20"
+                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/20"
                 >
                   + Add Degree
                 </button>
               </div>
 
               {draft.education.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-stamp-navy/20 p-6 text-center">
-                  <p className="text-xs text-ink/60">No education entries yet.</p>
+                <div className="rounded-lg border border-dashed border-white/10 p-6 text-center">
+                  <p className="text-xs text-text-secondary/60">No education entries yet.</p>
                   <button
                     type="button"
                     onClick={addEducation}
-                    className="mt-2 text-xs font-semibold text-stamp-navy hover:underline"
+                    className="mt-2 text-xs font-semibold text-text-primary hover:underline"
                   >
                     + Add your college/degree
                   </button>
@@ -447,10 +447,10 @@ export default function ResumeBuilder() {
                   {draft.education.map((edu, idx) => (
                     <div
                       key={idx}
-                      className="rounded-lg border border-stamp-navy/15 bg-ticket/50 p-4 space-y-3"
+                      className="rounded-lg border border-white/10 bg-surface/50 p-4 space-y-3"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
                           Education #{idx + 1}
                         </span>
                         <button
@@ -464,7 +464,7 @@ export default function ResumeBuilder() {
 
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Institution / University
                           </label>
                           <input
@@ -472,11 +472,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. MAKAUT University"
                             value={edu.school}
                             onChange={(e) => updateEducation(idx, "school", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Degree & Major
                           </label>
                           <input
@@ -484,11 +484,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. B.Tech in Computer Science"
                             value={edu.degree}
                             onChange={(e) => updateEducation(idx, "degree", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Start Year
                           </label>
                           <input
@@ -496,11 +496,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. 2022"
                             value={edu.startYear}
                             onChange={(e) => updateEducation(idx, "startYear", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             End Year / Expected
                           </label>
                           <input
@@ -508,7 +508,7 @@ export default function ResumeBuilder() {
                             placeholder="e.g. 2026"
                             value={edu.endYear}
                             onChange={(e) => updateEducation(idx, "endYear", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                       </div>
@@ -524,29 +524,29 @@ export default function ResumeBuilder() {
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="font-heading text-xl text-stamp-navy">
+                  <h2 className="font-heading text-xl text-text-primary">
                     Work & Internship Experience
                   </h2>
-                  <p className="mt-1 text-xs text-ink/60">
+                  <p className="mt-1 text-xs text-text-secondary/60">
                     Detail your professional roles, internships, or freelance positions.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={addExperience}
-                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/20"
+                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/20"
                 >
                   + Add Experience
                 </button>
               </div>
 
               {draft.experience.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-stamp-navy/20 p-6 text-center">
-                  <p className="text-xs text-ink/60">No experience added yet.</p>
+                <div className="rounded-lg border border-dashed border-white/10 p-6 text-center">
+                  <p className="text-xs text-text-secondary/60">No experience added yet.</p>
                   <button
                     type="button"
                     onClick={addExperience}
-                    className="mt-2 text-xs font-semibold text-stamp-navy hover:underline"
+                    className="mt-2 text-xs font-semibold text-text-primary hover:underline"
                   >
                     + Add your first experience/internship
                   </button>
@@ -556,10 +556,10 @@ export default function ResumeBuilder() {
                   {draft.experience.map((exp, idx) => (
                     <div
                       key={idx}
-                      className="rounded-lg border border-stamp-navy/15 bg-ticket/50 p-4 space-y-3"
+                      className="rounded-lg border border-white/10 bg-surface/50 p-4 space-y-3"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
                           Experience #{idx + 1}
                         </span>
                         <button
@@ -573,7 +573,7 @@ export default function ResumeBuilder() {
 
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Company Name
                           </label>
                           <input
@@ -581,11 +581,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. Acme Tech Solutions"
                             value={exp.company}
                             onChange={(e) => updateExperience(idx, "company", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Job Title / Role
                           </label>
                           <input
@@ -593,11 +593,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. Full Stack Developer Intern"
                             value={exp.role}
                             onChange={(e) => updateExperience(idx, "role", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Start Date
                           </label>
                           <input
@@ -605,11 +605,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. Jun 2024"
                             value={exp.startDate}
                             onChange={(e) => updateExperience(idx, "startDate", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             End Date
                           </label>
                           <input
@@ -617,21 +617,21 @@ export default function ResumeBuilder() {
                             placeholder="e.g. Aug 2024 or Present"
                             value={exp.endDate}
                             onChange={(e) => updateExperience(idx, "endDate", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                       </div>
 
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="font-mono text-[11px] text-stamp-navy/70">
+                          <label className="font-mono text-[11px] text-text-primary/70">
                             Key Responsibilities & Quantified Achievements
                           </label>
                           <button
                             type="button"
                             onClick={() => handleAiAssist("experience", idx, exp.description)}
                             disabled={aiLoading}
-                            className="inline-flex items-center gap-1 rounded bg-gold/20 px-2 py-0.5 font-mono text-[10px] text-stamp-navy hover:bg-gold/30 disabled:opacity-50"
+                            className="inline-flex items-center gap-1 rounded bg-gold/20 px-2 py-0.5 font-mono text-[10px] text-text-primary hover:bg-gold/30 disabled:opacity-50"
                           >
                             ✨ {aiLoading ? "Improving…" : "AI Improve"}
                           </button>
@@ -641,7 +641,7 @@ export default function ResumeBuilder() {
                           placeholder="e.g. Developed REST APIs in Express.js handling 50k requests/day. Optimized database queries reducing latency by 25%."
                           value={exp.description}
                           onChange={(e) => updateExperience(idx, "description", e.target.value)}
-                          className="w-full rounded-lg border border-ink/20 bg-white p-3 text-sm text-ink focus:border-stamp-navy focus:outline-none leading-relaxed"
+                          className="w-full rounded-lg border border-white/10 bg-surface p-3 text-sm text-text-secondary focus:border-gold focus:outline-none leading-relaxed"
                         />
                       </div>
                     </div>
@@ -656,29 +656,29 @@ export default function ResumeBuilder() {
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="font-heading text-xl text-stamp-navy">
+                  <h2 className="font-heading text-xl text-text-primary">
                     Key Technical Projects
                   </h2>
-                  <p className="mt-1 text-xs text-ink/60">
+                  <p className="mt-1 text-xs text-text-secondary/60">
                     Highlight impactful projects showcasing your engineering or technical skills.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={addProject}
-                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/20"
+                  className="rounded-lg bg-stamp-navy/10 px-3.5 py-1.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/20"
                 >
                   + Add Project
                 </button>
               </div>
 
               {draft.projects.length === 0 ? (
-                <div className="rounded-lg border border-dashed border-stamp-navy/20 p-6 text-center">
-                  <p className="text-xs text-ink/60">No projects added yet.</p>
+                <div className="rounded-lg border border-dashed border-white/10 p-6 text-center">
+                  <p className="text-xs text-text-secondary/60">No projects added yet.</p>
                   <button
                     type="button"
                     onClick={addProject}
-                    className="mt-2 text-xs font-semibold text-stamp-navy hover:underline"
+                    className="mt-2 text-xs font-semibold text-text-primary hover:underline"
                   >
                     + Add your first key project
                   </button>
@@ -688,10 +688,10 @@ export default function ResumeBuilder() {
                   {draft.projects.map((proj, idx) => (
                     <div
                       key={idx}
-                      className="rounded-lg border border-stamp-navy/15 bg-ticket/50 p-4 space-y-3"
+                      className="rounded-lg border border-white/10 bg-surface/50 p-4 space-y-3"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-stamp-navy/60">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
                           Project #{idx + 1}
                         </span>
                         <button
@@ -705,7 +705,7 @@ export default function ResumeBuilder() {
 
                       <div className="grid gap-3 sm:grid-cols-2">
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Project Title
                           </label>
                           <input
@@ -713,11 +713,11 @@ export default function ResumeBuilder() {
                             placeholder="e.g. PrepPass AI Placement Platform"
                             value={proj.title}
                             onChange={(e) => updateProject(idx, "title", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                         <div>
-                          <label className="block font-mono text-[11px] text-stamp-navy/70 mb-1">
+                          <label className="block font-mono text-[11px] text-text-primary/70 mb-1">
                             Tech Stack Used
                           </label>
                           <input
@@ -725,21 +725,21 @@ export default function ResumeBuilder() {
                             placeholder="e.g. React, Node.js, MongoDB, Gemini API, Tailwind CSS"
                             value={proj.techUsed}
                             onChange={(e) => updateProject(idx, "techUsed", e.target.value)}
-                            className="w-full rounded-lg border border-ink/20 bg-white px-3 py-1.5 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                            className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"
                           />
                         </div>
                       </div>
 
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <label className="font-mono text-[11px] text-stamp-navy/70">
+                          <label className="font-mono text-[11px] text-text-primary/70">
                             Project Description & Highlights
                           </label>
                           <button
                             type="button"
                             onClick={() => handleAiAssist("projects", idx, proj.description)}
                             disabled={aiLoading}
-                            className="inline-flex items-center gap-1 rounded bg-gold/20 px-2 py-0.5 font-mono text-[10px] text-stamp-navy hover:bg-gold/30 disabled:opacity-50"
+                            className="inline-flex items-center gap-1 rounded bg-gold/20 px-2 py-0.5 font-mono text-[10px] text-text-primary hover:bg-gold/30 disabled:opacity-50"
                           >
                             ✨ {aiLoading ? "Improving…" : "AI Improve"}
                           </button>
@@ -749,7 +749,7 @@ export default function ResumeBuilder() {
                           placeholder="e.g. Built an adaptive mock interview engine evaluating user responses in real time with Gemini 3.1. Achieved <1.5s latency and supported 20+ roles."
                           value={proj.description}
                           onChange={(e) => updateProject(idx, "description", e.target.value)}
-                          className="w-full rounded-lg border border-ink/20 bg-white p-3 text-sm text-ink focus:border-stamp-navy focus:outline-none leading-relaxed"
+                          className="w-full rounded-lg border border-white/10 bg-surface p-3 text-sm text-text-secondary focus:border-gold focus:outline-none leading-relaxed"
                         />
                       </div>
                     </div>
@@ -763,10 +763,10 @@ export default function ResumeBuilder() {
           {currentStep === 4 && (
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div>
-                <h2 className="font-heading text-xl text-stamp-navy">
+                <h2 className="font-heading text-xl text-text-primary">
                   Skills & Competencies
                 </h2>
-                <p className="mt-1 text-xs text-ink/60">
+                <p className="mt-1 text-xs text-text-secondary/60">
                   Add technical skills, frameworks, tools, and languages (comma-separated or hit Add).
                 </p>
               </div>
@@ -783,7 +783,7 @@ export default function ResumeBuilder() {
                       addSkill();
                     }
                   }}
-                  className="flex-1 rounded-lg border border-ink/20 bg-white px-3.5 py-2 text-sm text-ink focus:border-stamp-navy focus:outline-none"
+                  className="flex-1 rounded-lg border border-white/10 bg-surface px-3.5 py-2 text-sm text-text-secondary focus:border-gold focus:outline-none"
                 />
                 <button
                   type="button"
@@ -798,20 +798,20 @@ export default function ResumeBuilder() {
                 {draft.skills.map((s) => (
                   <span
                     key={s}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-stamp-navy"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-text-primary"
                   >
                     {s}
                     <button
                       type="button"
                       onClick={() => removeSkill(s)}
-                      className="text-stamp-navy/60 hover:text-stamp-maroon"
+                      className="text-text-primary/60 hover:text-stamp-maroon"
                     >
                       ×
                     </button>
                   </span>
                 ))}
                 {draft.skills.length === 0 && (
-                  <p className="text-xs text-ink/50">No skills added yet.</p>
+                  <p className="text-xs text-text-secondary/50">No skills added yet.</p>
                 )}
               </div>
             </div>
@@ -821,10 +821,10 @@ export default function ResumeBuilder() {
           {currentStep === 5 && (
             <div className="ticket-card p-6 sm:p-8 space-y-5">
               <div>
-                <h2 className="font-heading text-xl text-stamp-navy">
+                <h2 className="font-heading text-xl text-text-primary">
                   Professional Summary
                 </h2>
-                <p className="mt-1 text-xs text-ink/60">
+                <p className="mt-1 text-xs text-text-secondary/60">
                   A concise 2–3 sentence overview of your background, key strengths, and target opportunity.
                 </p>
               </div>
@@ -837,7 +837,7 @@ export default function ResumeBuilder() {
                   onChange={(e) =>
                     setDraft((prev) => ({ ...prev, summary: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-ink/20 bg-white p-4 text-sm text-ink focus:border-stamp-navy focus:outline-none leading-relaxed"
+                  className="w-full rounded-lg border border-white/10 bg-surface p-4 text-sm text-text-secondary focus:border-gold focus:outline-none leading-relaxed"
                 />
               </div>
             </div>
@@ -849,10 +849,10 @@ export default function ResumeBuilder() {
               {/* Action Bar */}
               <div className="ticket-card p-4 sm:p-6 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <h2 className="font-heading text-lg text-stamp-navy">
+                  <h2 className="font-heading text-lg text-text-primary">
                     Resume Ready for Export
                   </h2>
-                  <p className="text-xs text-ink/60">
+                  <p className="text-xs text-text-secondary/60">
                     Clean, ATS-standard layout formatted for direct PDF download.
                   </p>
                 </div>
@@ -868,7 +868,7 @@ export default function ResumeBuilder() {
                   <button
                     type="button"
                     onClick={() => navigate("/resume-matcher")}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-stamp-navy/30 bg-white px-4 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-surface px-4 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
                   >
                     🎯 Match with Job Description
                   </button>
@@ -888,7 +888,7 @@ export default function ResumeBuilder() {
               type="button"
               onClick={() => handleStepChange(Math.max(0, currentStep - 1))}
               disabled={currentStep === 0}
-              className="rounded-lg border border-stamp-navy/30 px-5 py-2.5 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5 disabled:opacity-40"
+              className="rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-40"
             >
               ← Previous
             </button>
@@ -916,24 +916,24 @@ export default function ResumeBuilder() {
         {/* AI Rewrite Suggestions Modal */}
         {aiModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="ticket-card max-h-[85vh] w-full max-w-2xl overflow-y-auto bg-cream p-6 sm:p-8">
+            <div className="ticket-card max-h-[85vh] w-full max-w-2xl overflow-y-auto bg-bg p-6 sm:p-8">
               <div className="flex items-center justify-between">
-                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase text-stamp-navy">
+                <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase text-text-primary">
                   AI ASSISTANT SUGGESTIONS
                 </div>
                 <button
                   type="button"
                   onClick={() => setAiModal(null)}
-                  className="font-mono text-xs text-stamp-navy/60 hover:text-stamp-navy"
+                  className="font-mono text-xs text-text-primary/60 hover:text-text-primary"
                 >
                   ✕ Close
                 </button>
               </div>
 
-              <h3 className="mt-3 font-heading text-xl text-stamp-navy">
+              <h3 className="mt-3 font-heading text-xl text-text-primary">
                 Select an enhanced bullet point
               </h3>
-              <p className="mt-1 text-xs text-ink/60">
+              <p className="mt-1 text-xs text-text-secondary/60">
                 Click any suggestion to insert it into your resume entry, or close to keep your original draft.
               </p>
 
@@ -943,17 +943,17 @@ export default function ResumeBuilder() {
                     key={sIdx}
                     type="button"
                     onClick={() => applyAiSuggestion(sug)}
-                    className="group block w-full rounded-lg border border-stamp-navy/15 bg-white p-4 text-left transition hover:border-stamp-navy/50 hover:bg-ticket/40"
+                    className="group block w-full rounded-lg border border-white/10 bg-surface p-4 text-left transition hover:border-white/10 hover:bg-surface/40"
                   >
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-[10px] font-bold text-stamp-navy/60">
+                      <span className="font-mono text-[10px] font-bold text-text-primary/60">
                         Option #{sIdx + 1}
                       </span>
                       <span className="font-mono text-[11px] text-gold group-hover:underline">
                         Apply this suggestion →
                       </span>
                     </div>
-                    <p className="text-xs text-ink/85 leading-relaxed">{sug}</p>
+                    <p className="text-xs text-text-secondary/85 leading-relaxed">{sug}</p>
                   </button>
                 ))}
               </div>
@@ -962,7 +962,7 @@ export default function ResumeBuilder() {
                 <button
                   type="button"
                   onClick={() => setAiModal(null)}
-                  className="rounded-lg border border-stamp-navy/30 px-4 py-2 font-mono text-xs text-stamp-navy hover:bg-stamp-navy/5"
+                  className="rounded-lg border border-white/10 px-4 py-2 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
                 >
                   Dismiss
                 </button>

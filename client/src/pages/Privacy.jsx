@@ -6,19 +6,19 @@ export default function Privacy() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col justify-between font-body text-ink">
+    <div className="min-h-screen bg-bg flex flex-col justify-between font-body text-text-secondary">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
-            className="font-heading text-lg font-bold text-stamp-navy hover:opacity-80"
+            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
           >
             PREPPASS
           </Link>
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-stamp-navy hover:underline"
+            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
           >
             {accessToken ? "Dashboard →" : "Sign In →"}
           </Link>
@@ -26,22 +26,22 @@ export default function Privacy() {
 
         {/* Policy Document Ticket */}
         <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-stamp-navy">
+          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
             LEGAL · PRIVACY POLICY
           </div>
 
-          <h1 className="font-heading text-3xl text-stamp-navy sm:text-4xl">
+          <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
             Privacy Policy
           </h1>
-          <p className="font-mono text-xs text-stamp-navy/50">
+          <p className="font-mono text-xs text-text-primary/50">
             Last Updated: August 2026
           </p>
 
           <div className="ticket-perf my-6" />
 
-          <div className="space-y-6 text-sm text-ink/80 leading-relaxed">
+          <div className="space-y-6 text-sm text-text-secondary/80 leading-relaxed">
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-stamp-navy">
+              <h2 className="font-heading text-lg text-text-primary">
                 1. Information We Collect
               </h2>
               <p>
@@ -67,7 +67,7 @@ export default function Privacy() {
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-stamp-navy">
+              <h2 className="font-heading text-lg text-text-primary">
                 2. How We Use Your Information
               </h2>
               <p>
@@ -83,7 +83,7 @@ export default function Privacy() {
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-stamp-navy">
+              <h2 className="font-heading text-lg text-text-primary">
                 3. Third-Party Sharing & Data Security
               </h2>
               <p>
@@ -95,12 +95,12 @@ export default function Privacy() {
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-stamp-navy">
+              <h2 className="font-heading text-lg text-text-primary">
                 4. Data Retention & Deletion Requests
               </h2>
               <p>
                 You have full control over your data. You may request the deletion of your account, saved resume drafts, and interview session histories at any time by contacting us through our{" "}
-                <Link to="/contact" className="text-stamp-navy font-semibold underline">
+                <Link to="/contact" className="text-text-primary font-semibold underline">
                   Contact Form
                 </Link>{" "}
                 or emailing <code className="font-mono text-xs">contact@preppass.app</code>.

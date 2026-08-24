@@ -34,16 +34,16 @@ export default function InterviewSessionDetail() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-10">
+    <div className="min-h-screen bg-bg px-4 py-10">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center">
         <Link
           to="/history"
-          className="mb-5 self-start font-mono text-xs text-stamp-navy/70 hover:underline"
+          className="mb-5 self-start font-mono text-xs text-text-primary/70 hover:underline"
         >
           ← Back to History
         </Link>
         {loading && (
-          <div className="ticket-card flex w-full max-w-md items-center gap-3 px-6 py-8 text-stamp-navy/70">
+          <div className="ticket-card flex w-full max-w-md items-center gap-3 px-6 py-8 text-text-primary/70">
             <span className="font-mono">•••</span>
             <span>Loading session…</span>
           </div>
@@ -53,7 +53,7 @@ export default function InterviewSessionDetail() {
             <p className="font-mono text-xs text-stamp-maroon">{error}</p>
             <Link
               to="/dashboard"
-              className="mt-4 inline-block text-sm text-stamp-navy hover:underline"
+              className="mt-4 inline-block text-sm text-text-primary hover:underline"
             >
               Go to Dashboard
             </Link>

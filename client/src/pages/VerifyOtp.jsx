@@ -35,7 +35,7 @@ export default function VerifyOtp() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cream">
+      <div className="min-h-screen flex items-center justify-center bg-bg">
         <div className="ticket-card w-full max-w-sm p-8 text-center">
           <p className="text-gold font-mono mb-4">No email found.</p>
           <button
@@ -135,17 +135,17 @@ export default function VerifyOtp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cream px-4">
+    <div className="min-h-screen flex items-center justify-center bg-bg px-4">
       <div className="ticket-card w-full max-w-md p-8">
-        <div className="ticket-stamp inline-block px-3 py-1 rounded text-stamp-navy font-mono text-xs mb-6">
+        <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6">
           PREPPASS — OTP VERIFICATION
         </div>
-        <h1 className="text-2xl font-heading text-stamp-navy mb-1">
+        <h1 className="text-2xl font-heading text-text-primary mb-1">
           Enter your code.
         </h1>
-        <p className="text-ink/60 text-sm mb-6">
+        <p className="text-text-secondary/60 text-sm mb-6">
           We sent a 6-digit code to{" "}
-          <span className="font-mono text-stamp-navy">{email}</span>.
+          <span className="font-mono text-text-primary">{email}</span>.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-6">
@@ -164,7 +164,7 @@ export default function VerifyOtp() {
                 onPaste={handlePaste}
                 onFocus={(e) => e.target.select()}
                 disabled={submitting}
-                className="w-12 h-12 text-center text-xl font-mono font-semibold text-stamp-navy border-2 border-ink/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-stamp-navy"
+                className="w-12 h-12 text-center text-xl font-mono font-semibold text-text-primary border-2 border-white/10 rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-gold"
               />
             ))}
           </div>
@@ -173,7 +173,7 @@ export default function VerifyOtp() {
             <p className="text-gold text-xs font-mono text-center">{error}</p>
           )}
           {info && (
-            <p className="text-stamp-navy/70 text-xs font-mono text-center">
+            <p className="text-text-primary/70 text-xs font-mono text-center">
               {info}
             </p>
           )}
@@ -187,19 +187,19 @@ export default function VerifyOtp() {
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-ink/70">
+        <div className="mt-6 text-center text-sm text-text-secondary/70">
           Didn't get the code?{" "}
           {cooldown > 0 ? (
-            <span className="font-mono text-stamp-navy">
+            <span className="font-mono text-text-primary">
               Resend in {cooldown}s
             </span>
           ) : resending ? (
-            <span className="font-mono text-stamp-navy">Resending…</span>
+            <span className="font-mono text-text-primary">Resending…</span>
           ) : (
             <button
               type="button"
               onClick={onResend}
-              className="text-stamp-navy font-medium hover:underline"
+              className="text-text-primary font-medium hover:underline"
             >
               Resend code
             </button>
@@ -210,7 +210,7 @@ export default function VerifyOtp() {
           <button
             type="button"
             onClick={() => navigate("/login", { replace: true })}
-            className="text-xs text-ink/60 hover:text-stamp-navy"
+            className="text-xs text-text-secondary/60 hover:text-text-primary"
           >
             Back to Sign In
           </button>

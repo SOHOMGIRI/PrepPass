@@ -100,9 +100,10 @@ export default function Hero({ accessToken }) {
                   GET STARTED
                 </Link>
               </Magnetic>
-              <Link to="/login" onPointerDown={rippleDark} className={BTN_OUTLINE} data-cursor="pointer">
+              <Magnetic><Link to="/login" onPointerDown={rippleDark} className={BTN_OUTLINE} data-cursor="pointer">
                 LOG IN
-              </Link>
+                </Link>
+              </Magnetic>
             </>
          )}
         </div>
@@ -120,4 +121,6 @@ export default function Hero({ accessToken }) {
     </section>
   );
 }
+
+
 
