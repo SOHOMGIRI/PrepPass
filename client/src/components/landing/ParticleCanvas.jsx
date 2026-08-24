@@ -21,7 +21,7 @@ export default function ParticleCanvas() {
   const animRef = useRef(null);
   const mouse = useMouse();
   const mouseRef = useRef(mouse);
-  const [visible, setVisible] = useState(true);
+  
   const [reducedMotion, setReducedMotion] = useState(false);
 
   // Keep mouseRef in sync without re-running the animation effect.
@@ -38,17 +38,7 @@ export default function ParticleCanvas() {
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  // IntersectionObserver to pause when off-screen.
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.05 }
-    );
-    observer.observe(canvas);
-    return () => observer.disconnect();
-  }, []);
+  
 
   // Init + animation loop.
   useEffect(() => {
@@ -90,7 +80,7 @@ export default function ParticleCanvas() {
     }));
 
     const draw = () => {
-      if (!visible || reducedMotion) {
+      if (reducedMotion) {
         animRef.current = requestAnimationFrame(draw);
         return;
       }
@@ -153,7 +143,7 @@ export default function ParticleCanvas() {
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", resize);
     };
-  }, [visible, reducedMotion]);
+  }, [reducedMotion]);
 
   // If reduced motion, render static scattered dots via CSS instead.
   if (reducedMotion) {

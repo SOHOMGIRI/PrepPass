@@ -106,11 +106,10 @@ export default function HeroIllustration() {
   return (
     <div ref={containerRef} className="relative w-full h-full flex items-center justify-center overflow-visible">
       <svg
-        className="absolute inset-0 w-full h-full opacity-100 overflow-visible"
         viewBox="-100 0 1100 1000"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ transform: "scale(1.3) translateX(-5%)" }}
+        className="absolute inset-0 w-full h-full opacity-100 overflow-visible transform scale-110 sm:scale-[1.3] -translate-x-4 sm:-translate-x-[5%]"
       >
         <defs>
           <linearGradient id="branchGradient" x1="500" y1="900" x2="400" y2="100" gradientUnits="userSpaceOnUse">
@@ -210,7 +209,7 @@ export default function HeroIllustration() {
       </svg>
 
       {/* Highly Realistic 3D Student Character */}
-      <div className="absolute bottom-[2%] right-[5%] z-10 w-[450px] h-[450px] character-fade scale-125">
+      <div className="absolute -bottom-10 right-0 sm:right-[5%] z-10 w-[280px] h-[280px] sm:w-[450px] sm:h-[450px] character-fade sm:scale-125">
         <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="headGlow" cx="30%" cy="30%" r="60%">
@@ -271,3 +270,6 @@ export default function HeroIllustration() {
     </div>
   );
 }
+
+
+

@@ -16,6 +16,12 @@ export default function GlobalBackground() {
         setHasInteracted(true);
         audioRef.current.volume = 0.3;
         audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.pause();
+            setIsMuted(true);
+          }
+        }, 3500);
         setIsMuted(false);
       }
     };
@@ -36,32 +42,7 @@ export default function GlobalBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[#0A061E]">
-      {/* Rich Aurora Gradient Blobs */}
-      <div
-        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full opacity-30 mix-blend-screen"
-        style= {{
-          background: "radial-gradient(circle, rgba(79, 70, 229, 0.6) 0%, transparent 70%)",
-          animation: "aurora-drift-1 12s ease-in-out infinite alternate",
-        }}
-      />
-      <div
-        className="absolute -bottom-1/4 -right-1/4 w-[700px] h-[700px] rounded-full opacity-25 mix-blend-screen"
-        style= {{
-          background: "radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)",
-          animation: "aurora-drift-2 15s ease-in-out infinite alternate",
-        }}
-      />
-      <div
-        className="absolute top-1/4 left-1/3 w-[600px] h-[600px] rounded-full opacity-20 mix-blend-screen"
-        style={{
-          background: "radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, transparent 70%)",
-          animation: "aurora-drift-3 10s ease-in-out infinite alternate",
-        }}
-      />
-
-      
-      {/* Sitewide Background Audio */}
-      <audio ref={audioRef} loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
+      <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
       
       <button 
         onClick={toggleMute}
