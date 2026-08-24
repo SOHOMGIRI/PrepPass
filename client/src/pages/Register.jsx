@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import RippleButton from "../components/ui/RippleButton.jsx";
 
-const INPUT_CLASS = "w-full rounded-t-md border-b-2 border-white/10 bg-stamp-navy/5 px-4 py-3 text-text-secondary placeholder-white/40 transition-colors focus:outline-none focus:bg-stamp-navy/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
-const INPUT_ERR_CLASS = "w-full rounded-t-md border-b-2 border-gold bg-gold/5 px-4 py-3 text-text-secondary placeholder-white/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
+const INPUT_CLASS = "w-full rounded-t-md border-b-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 transition-colors focus:outline-none focus:bg-white/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
+const INPUT_ERR_CLASS = "w-full rounded-t-md border-b-2 border-gold bg-red-500/10 px-4 py-3 text-white placeholder-white/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
 
 const PASSWORD_REQS = [
   { label: "At least 8 characters", test: (p) => p.length >= 8 },
@@ -156,4 +156,5 @@ export default function Register() {
     </div>
   );
 }
+
 

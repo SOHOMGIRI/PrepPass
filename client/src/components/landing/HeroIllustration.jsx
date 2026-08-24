@@ -12,22 +12,22 @@ export default function HeroIllustration() {
     
     // Expand clusters heavily to the left to shade the text
     const clusters = [
-      { cx: 350, cy: 150, r: 180, count: 60 },
-      { cx: 200, cy: 250, r: 150, count: 50 },
-      { cx: 500, cy: 200, r: 140, count: 50 },
-      { cx: 650, cy: 300, r: 120, count: 40 },
-      { cx: 100, cy: 350, r: 120, count: 40 },
-      { cx: 400, cy: 50,  r: 140, count: 40 },
-      { cx: 800, cy: 350, r: 100, count: 30 },
+      { cx: 350, cy: 150, r: 180, count: 15 },
+      { cx: 200, cy: 250, r: 150, count: 12 },
+      { cx: 500, cy: 200, r: 140, count: 12 },
+      { cx: 650, cy: 300, r: 120, count: 10 },
+      { cx: 100, cy: 350, r: 120, count: 10 },
+      { cx: 400, cy: 50,  r: 140, count: 10 },
+      { cx: 800, cy: 350, r: 100, count: 7 },
       // NEW LEFT-EXTENDING CLUSTERS (Shading the text)
-      { cx: -100, cy: 180, r: 160, count: 50 },
-      { cx: -250, cy: 250, r: 140, count: 40 },
-      { cx: -400, cy: 150, r: 150, count: 40 },
-      { cx: -550, cy: 220, r: 120, count: 30 },
-      { cx: 0,    cy: 100, r: 150, count: 40 },
+      { cx: -100, cy: 180, r: 160, count: 12 },
+      { cx: -250, cy: 250, r: 140, count: 10 },
+      { cx: -400, cy: 150, r: 150, count: 10 },
+      { cx: -550, cy: 220, r: 120, count: 7 },
+      { cx: 0,    cy: 100, r: 150, count: 10 },
       // Extreme left clusters
-      { cx: -600, cy: 100, r: 150, count: 30 },
-      { cx: -700, cy: 250, r: 100, count: 20 }
+      { cx: -600, cy: 100, r: 150, count: 7 },
+      { cx: -700, cy: 250, r: 100, count: 5 }
     ];
 
     const gradients = ["url(#glowGold)", "url(#glowTeal)", "url(#glowPink)", "url(#glowAmber)"];
@@ -47,7 +47,7 @@ export default function HeroIllustration() {
           id: idCounter++,
           cx,
           cy,
-          r: Math.random() * 4 + 3, // slightly bigger
+          r: Math.random() * 12 + 6, // slightly bigger
           gradientId: gradients[gIdx],
           coreColor: cores[gIdx],
           delay: Math.random() * 2,
@@ -60,7 +60,7 @@ export default function HeroIllustration() {
 
     // Generate blowing embers
     const genEmbers = [];
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 15; i++) {
       genEmbers.push({
         id: i,
         cx: (Math.random() * 1800) - 800, // span entire extended width
@@ -73,7 +73,7 @@ export default function HeroIllustration() {
 
     // Generate glowing butterflies
     const genButterflies = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 6; i++) {
       genButterflies.push({
         id: i,
         cx: (Math.random() * 1500) - 600,
@@ -242,7 +242,7 @@ export default function HeroIllustration() {
               <path d={`M${b.cx} ${b.cy} Q${b.cx+15} ${b.cy-15}, ${b.cx+10} ${b.cy-20} Q${b.cx} ${b.cy-10}, ${b.cx} ${b.cy}`} fill={b.color} />
             </g>
             {/* Glowing core */}
-            <circle cx={b.cx} cy={b.cy} r={2} fill="#FFF" style={{ filter: "drop-shadow(0 0 5px white)" }} />
+            <circle cx={b.cx} cy={b.cy} r={2} fill="#FFF"  />
           </g>
         ))}
 
@@ -256,11 +256,11 @@ export default function HeroIllustration() {
                 animation: `leafFlutter ${leaf.swayDuration}s ease-in-out infinite alternate ${leaf.delay}s`,
               }}
             >
-              <circle cx={leaf.cx} cy={leaf.cy} r={leaf.r * 6} fill={leaf.gradientId} />
+              <circle cx={leaf.cx} cy={leaf.cy} r={leaf.r * 4} fill={leaf.gradientId} />
               <circle
                 cx={leaf.cx}
                 cy={leaf.cy}
-                r={leaf.r * 1.5}
+                r={leaf.r}
                 fill={leaf.coreColor}
                 style={{
                   animation: `pulseCore ${leaf.pulseDuration}s ease-in-out infinite alternate ${leaf.delay}s`
@@ -271,7 +271,7 @@ export default function HeroIllustration() {
         </g>
 
         {/* Requested Quote */}
-        <text x="350" y="850" fontFamily="Space Grotesk, sans-serif" fontSize="28" fontWeight="900" fill="url(#textGrad)" letterSpacing="5" style={{ animation: "pulseCore 4s infinite alternate", filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.8))" }}>
+        <text x="350" y="850" fontFamily="Space Grotesk, sans-serif" fontSize="28" fontWeight="900" fill="url(#textGrad)" letterSpacing="5" style={{ animation: "pulseCore 4s infinite alternate" }}>
           WISDOM WITH KNOWLEDGE AND TREE OF WISDOM
         </text>
       </svg>
@@ -370,4 +370,5 @@ export default function HeroIllustration() {
     </div>
   );
 }
+
 
