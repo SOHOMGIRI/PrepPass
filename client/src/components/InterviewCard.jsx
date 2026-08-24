@@ -74,7 +74,7 @@ export default function InterviewCard({
               type="button"
               onClick={onSubmit}
               disabled={busy || !answer.trim()}
-              className={`${BTN} bg-stamp-navy text-white hover:bg-stamp-navy/90 disabled:opacity-60`}
+              className={`${BTN} bg-gold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-60`}
             >
               {busy ? "Scoring Answer…" : "Submit Answer ✓"}
             </button>

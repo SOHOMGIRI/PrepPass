@@ -61,7 +61,7 @@ export default function GlobalBackground() {
 
       
       {/* Sitewide Background Audio */}
-      <audio ref={audioRef} loop src="https://upload.wikimedia.org/wikipedia/commons/2/29/A_Journey_Through_the_Universe.ogg" />
+      <audio ref={audioRef} loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
       
       <button 
         onClick={toggleMute}
@@ -76,4 +76,5 @@ export default function GlobalBackground() {
     </div>
   );
 }
+
 

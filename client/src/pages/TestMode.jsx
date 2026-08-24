@@ -499,7 +499,7 @@ export default function TestMode() {
                 type="button"
                 onClick={startTest}
                 disabled={loading || selectedSubjects.length === 0}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-lg bg-gold px-8 py-3.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
               >
                 {loading ? "Preparing Questions…" : "Enter Fullscreen & Start Test 🚀"}
               </button>
@@ -619,7 +619,7 @@ export default function TestMode() {
                   <button
                     type="button"
                     onClick={() => setCurrentIndex(currentIndex + 1)}
-                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                    className="rounded-lg bg-gold px-5 py-2 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
                   >
                     Next Question →
                   </button>
@@ -885,7 +885,7 @@ export default function TestMode() {
                     <button
                       type="submit"
                       disabled={paymentSubmitting || !upiTxnInput.trim()}
-                      className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
+                      className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
                     >
                       {paymentSubmitting ? "Verifying…" : "Submit & Unlock Report ✓"}
                     </button>
@@ -1098,7 +1098,7 @@ export default function TestMode() {
                   setDetailedReport(null);
                   setPaymentOrder(null);
                 }}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+                className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Take Another Test 🔄
               </button>
@@ -1137,7 +1137,7 @@ export default function TestMode() {
                 <button
                   type="button"
                   onClick={reEnterFullscreen}
-                  className="rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                  className="rounded-lg bg-gold px-5 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
                 >
                   Re-enter Fullscreen & Continue →
                 </button>

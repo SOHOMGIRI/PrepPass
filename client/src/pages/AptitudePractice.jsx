@@ -232,7 +232,7 @@ export default function AptitudePractice() {
                 type="button"
                 onClick={startPractice}
                 disabled={loading || selectedSubjects.length === 0}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-8 py-3 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-lg bg-gold px-8 py-3 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
               >
                 {loading ? "Preparing Questions…" : "Start Practice Session →"}
               </button>
@@ -326,7 +326,7 @@ export default function AptitudePractice() {
                   <button
                     type="button"
                     onClick={() => setCurrentIndex(currentIndex + 1)}
-                    className="rounded-lg bg-stamp-navy px-5 py-2 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                    className="rounded-lg bg-gold px-5 py-2 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
                   >
                     Next Question →
                   </button>
@@ -481,7 +481,7 @@ export default function AptitudePractice() {
                   setPhase("select");
                   setResult(null);
                 }}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+                className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Practice Another Set 🔄
               </button>

@@ -81,8 +81,8 @@ export default function ParticleCanvas() {
     particles.current = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: rand(0, w()),
       y: rand(0, h()),
-      vx: rand(-0.3, 0.3), // slight horizontal drift
-      vy: rand(0.5, 2.0), // falling down (snow)
+      vx: rand(1.0, 2.5), // Slanting to the right
+      vy: rand(1.5, 3.0), // falling down (snow)
       r: rand(0.8, 2.5),
       color: colors[Math.floor(rand(0, colors.length))],
       sway: rand(0, Math.PI * 2), // random starting phase
@@ -122,7 +122,7 @@ export default function ParticleCanvas() {
 
         // Snow sway
         p.sway += p.swaySpeed;
-        const currentVx = p.vx + Math.sin(p.sway) * 0.5;
+        const currentVx = p.vx + Math.sin(p.sway) * 0.8;
 
         p.x += currentVx;
         p.y += p.vy;
@@ -183,3 +183,4 @@ export default function ParticleCanvas() {
     />
   );
 }
+

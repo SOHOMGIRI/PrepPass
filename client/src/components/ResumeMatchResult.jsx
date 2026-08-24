@@ -74,7 +74,7 @@ export default function ResumeMatchResult({ result, onReset }) {
                   key={i}
                   className="ticket-card flex gap-3 rounded-lg p-3 text-sm text-text-secondary/80"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-stamp-navy font-mono text-xs text-white">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold font-mono text-xs text-[#0B0A14]">
                     {i + 1}
                   </span>
                   <span>{r}</span>
@@ -88,7 +88,7 @@ export default function ResumeMatchResult({ result, onReset }) {
           <button
             type="button"
             onClick={onReset}
-            className="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-stamp-navy px-6 py-3 font-heading font-semibold tracking-wider text-white hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 sm:w-auto"
+            className="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-gold px-6 py-3 font-heading font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2 sm:w-auto"
           >
             New Match
           </button>

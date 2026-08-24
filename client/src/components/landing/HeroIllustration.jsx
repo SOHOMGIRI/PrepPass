@@ -205,7 +205,7 @@ export default function HeroIllustration() {
 
         {/* Requested Quote: WISDOM WITH KNOWLEDGE AND TREE OF WISDOM */}
         <text x="350" y="800" fontFamily="Space Grotesk, sans-serif" fontSize="24" fontWeight="bold" fill="url(#textGrad)" letterSpacing="4" style={{ animation: "pulseGlow 4s infinite alternate" }}>
-          WISDOM WITH KNOWLEDGE ? TREE OF WISDOM
+          WISDOM WITH KNOWLEDGE AND TREE OF WISDOM
         </text>
       </svg>
 

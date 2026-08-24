@@ -255,7 +255,7 @@ export default function GDPractice() {
                 <button
                   type="submit"
                   disabled={busy || userArgument.trim().length < 20}
-                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-white hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 disabled:opacity-50"
+                  className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 disabled:opacity-50"
                 >
                   {busy ? "Evaluating with AI…" : "Submit Argument for Evaluation"}
                 </button>
@@ -392,7 +392,7 @@ export default function GDPractice() {
                 </button>
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-white hover:bg-stamp-navy/90"
+                  className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark"
                 >
                   Back to Dashboard
                 </Link>

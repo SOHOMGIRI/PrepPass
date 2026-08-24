@@ -107,7 +107,7 @@ export default function Login() {
           <RippleButton
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-stamp-navy text-white hover:bg-stamp-navy/90"
+            className="w-full py-3.5 bg-gold text-[#0B0A14] hover:bg-gold-dark"
           >
             {submitting ? "Signing in..." : "Sign In"}
           </RippleButton>

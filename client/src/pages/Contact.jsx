@@ -158,7 +158,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={busy}
-                className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90 disabled:opacity-50"
+                className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
               >
                 {busy ? "Sending Message…" : "Send Message"}
               </button>

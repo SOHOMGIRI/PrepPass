@@ -76,7 +76,7 @@ export default function About() {
           <div className="pt-4 flex flex-wrap items-center gap-3">
             <Link
               to={accessToken ? "/dashboard" : "/register"}
-              className="inline-flex items-center justify-center rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+              className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
             >
               {accessToken ? "Go to Dashboard" : "Start Practicing Now"}
             </Link>

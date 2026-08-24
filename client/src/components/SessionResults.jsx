@@ -78,7 +78,7 @@ export default function SessionResults({ session }) {
 
       <Link
         to="/dashboard"
-        className="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-stamp-navy px-6 py-3 font-heading font-semibold tracking-wider text-white hover:bg-stamp-navy/90 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2 sm:w-auto"
+        className="mt-8 inline-flex w-full items-center justify-center rounded-lg bg-gold px-6 py-3 font-heading font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2 sm:w-auto"
       >
         Back to Dashboard
       </Link>

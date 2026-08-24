@@ -788,7 +788,7 @@ export default function ResumeBuilder() {
                 <button
                   type="button"
                   onClick={addSkill}
-                  className="rounded-lg bg-stamp-navy px-4 py-2 font-mono text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                  className="rounded-lg bg-gold px-4 py-2 font-mono text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
                 >
                   Add Skills
                 </button>
@@ -861,7 +861,7 @@ export default function ResumeBuilder() {
                   <button
                     type="button"
                     onClick={() => handlePrint()}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-stamp-navy px-5 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-gold px-5 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
                   >
                     📄 Download PDF
                   </button>
@@ -897,7 +897,7 @@ export default function ResumeBuilder() {
               <button
                 type="button"
                 onClick={() => handleStepChange(currentStep + 1)}
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Next Step →
               </button>
@@ -905,7 +905,7 @@ export default function ResumeBuilder() {
               <button
                 type="button"
                 onClick={() => handlePrint()}
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-sm font-semibold text-white hover:bg-stamp-navy/90"
+                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Print / Download PDF
               </button>

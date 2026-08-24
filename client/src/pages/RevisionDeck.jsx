@@ -282,7 +282,7 @@ export default function RevisionDeck() {
             <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
               <Link
                 to="/test-mode"
-                className="rounded-lg bg-stamp-navy px-6 py-2.5 font-heading text-xs font-semibold text-white hover:bg-stamp-navy/90"
+                className="rounded-lg bg-gold px-6 py-2.5 font-heading text-xs font-semibold text-[#0B0A14] hover:bg-gold-dark"
               >
                 Take a Proctored Test ⏱️
               </Link>
