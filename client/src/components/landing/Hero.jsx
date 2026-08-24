@@ -1,9 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import FloatingElements from "./FloatingElements.jsx";
 import Magnetic from "../Magnetic.jsx";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 import useRipple from "../../hooks/useRipple.js";
 import HeroIllustration from "./HeroIllustration.jsx";
@@ -31,7 +31,36 @@ const StaggeredText = ({ text }) => {
 };
 
 export default function Hero({ accessToken }) {
+  
   const heroRef = useRef(null);
+  const audioRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  useEffect(() => {
+    const handleInteraction = () => {
+      if (!hasInteracted && audioRef.current) {
+        setHasInteracted(true);
+        audioRef.current.volume = 0.3;
+        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+        setIsMuted(false);
+      }
+    };
+    window.addEventListener('click', handleInteraction, { once: true });
+    return () => window.removeEventListener('click', handleInteraction);
+  }, [hasInteracted]);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      if (isMuted && !hasInteracted) {
+        audioRef.current.play().catch(e => console.log(e));
+        setHasInteracted(true);
+      }
+      setIsMuted(!isMuted);
+    }
+  };
+
   const ripple = useRipple("rgba(255, 255, 255, 0.3)");
   const rippleDark = useRipple("rgba(255, 255, 255, 0.1)");
 
@@ -69,7 +98,20 @@ export default function Hero({ accessToken }) {
       ref={heroRef}
       className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-visible"
     >
+      
+      <audio ref={audioRef} loop src="https://cdn.pixabay.com/audio/2022/10/25/audio_51c6c0a0c6.mp3" />
+      
+      {/* Sound Toggle */}
+      <button 
+        onClick={toggleMute}
+        className="absolute top-24 right-6 z-50 p-3 rounded-full bg-surface/20 backdrop-blur-md border border-gold/20 text-gold hover:bg-gold/10 transition-all hover:scale-110"
+        title="Toggle Background Music"
+      >
+        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+      </button>
+
       <FloatingElements />
+
 
       <div className="relative z-20 flex-1 max-w-2l px-6 lg:pl-16 pt-10 text-center lg:text-left">
         <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl text-gold mb-6 leading-[1.1] tracking-tight drop-shadow-md">
@@ -121,6 +163,7 @@ export default function Hero({ accessToken }) {
     </section>
   );
 }
+
 
 
 

@@ -1,4 +1,6 @@
-import { useRef, useState } from "react";
+const fs = require('fs');
+
+const content = import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "../../lib/utils";
 
@@ -59,32 +61,32 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden block rounded-2xl bg-gradient-to-br from-gold/10 via-[#0A061E]/80 to-gold/5 backdrop-blur-md transition-all duration-300",
+        "relative overflow-hidden block rounded-2xl bg-surface/5 backdrop-blur-md transition-all duration-300",
         "border border-gold/20 shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
         "hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)] hover:border-gold",
         className
       )}
       style={{
-        transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${opacity ? 1.02 : 1})`,
-        
+        transform: \\\perspective(1000px) rotateX(\\\deg) rotateY(\\\deg) scale(\\\)\\\,
+        transformStyle: "preserve-3d",
       }}
     >
       {/* Soft glass background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent pointer-events-none z-0" />
-
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none z-0" />
+      
       {/* The border glow effect */}
       <div
         className="pointer-events-none absolute inset-0 transition duration-500 z-0 mix-blend-overlay"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(212, 175, 55, 0.4), transparent 40%)`,
+          background: \\\adial-gradient(600px circle at \\\px \\\px, rgba(212, 175, 55, 0.4), transparent 40%)\\\,
         }}
       />
-
+      
       {/* Content wrapper */}
-      <div className="relative z-10 h-full" >{children}</div>
+      <div className="relative z-10 h-full" style={{ transform: "translateZ(30px)" }}>{children}</div>
     </Tag>
   );
 }
-
-
+;
+fs.writeFileSync('client/src/components/landing/SpotlightCard.jsx', content.replace(/\\\\\\\/g, '\'), 'utf8');

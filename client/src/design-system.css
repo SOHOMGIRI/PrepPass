@@ -59,9 +59,9 @@
 @layer components {
   /* Admit-card / boarding-pass "ticket" look */
   .ticket-card {
-    background-color: var(--ticket-card);
+    background: linear-gradient(to bottom right, rgba(212, 175, 55, 0.1), rgba(10, 6, 30, 0.8), rgba(212, 175, 55, 0.05)); border: 1px solid rgba(212, 175, 55, 0.3); backdrop-filter: blur(12px);
     box-shadow: var(--shadow);
-    border: 2px dashed rgba(26, 34, 126, 0.18);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 0.75rem;
   }
   .ticket-stamp {
@@ -69,11 +69,11 @@
     color: var(--stamp-navy);
   }
   .ticket-perf {
-    border-top: 2px dashed rgba(26, 34, 126, 0.18);
-    border-bottom: 2px dashed rgba(26, 34, 126, 0.18);
+    border-top: 2px dashed rgba(212, 175, 55, 0.25);
+    border-bottom: 2px dashed rgba(212, 175, 55, 0.25);
   }
   .ticket-divider {
-    border-top: 2px dashed rgba(26, 34, 126, 0.18);
+    border-top: 2px dashed rgba(212, 175, 55, 0.25);
   }
   .ticket-edge-left {
     border-top-left-radius: 0.75rem;
@@ -216,3 +216,17 @@ html.lenis, html.lenis body {
   100% { opacity: 1; transform: scale(1.15); }
 }
 
+
+
+
+
+@keyframes treeSway {
+  0% { transform: rotate(-2deg) skewX(1deg); }
+  100% { transform: rotate(4deg) skewX(-3deg); }
+}
+
+@keyframes stormSway {
+  0% { transform: rotate(-5deg) translateX(-10px); }
+  50% { transform: rotate(10deg) translateX(15px); }
+  100% { transform: rotate(-2deg) translateX(-5px); }
+}
