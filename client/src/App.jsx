@@ -12,6 +12,7 @@ import { MouseProvider } from "./context/MouseContext.jsx";
 import { ProtectedRoute } from "./components/ProtectedRoute.jsx";
 
 import GlobalBackground from "./components/GlobalBackground.jsx";
+import LiquidCursor from "./components/LiquidCursor.jsx";
 import PageTransition from "./components/PageTransition.jsx";
 import { initLenis, destroyLenis } from "./lib/lenis.js";
 
@@ -106,6 +107,7 @@ function App() {
         <MouseProvider>
           <LenisManager />
           <GlobalBackground />
+          <LiquidCursor />
           
           <AnimatedRoutes />
         </MouseProvider>
@@ -115,5 +117,7 @@ function App() {
 }
 
 export default App;
+
+
 
 

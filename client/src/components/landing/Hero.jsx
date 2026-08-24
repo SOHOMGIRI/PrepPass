@@ -9,9 +9,9 @@ import useRipple from "../../hooks/useRipple.js";
 import HeroIllustration from "./HeroIllustration.jsx";
 
 const BTN =
-  "inline-flex/items-center justify-center rounded-xl font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
-const BTN_PRIMARY = `${BTN} text-white bg-indigo-600 hover:bg-indigo-700 px-8 py-4 shine-sweep shadow-[0_10px_25px_rgba(79,70,229,0.3)] hover:shadow-[0_15px_35px_rgba(79,70,229,0.4)]`;
-const BTN_OUTLINE = `${BTN} text-indigo-100 border-2 border-indigo-400/30 hover:bg-indigo-900/40 px-8 py-4 backdrop-blur-md`;
+  "inline-flex items-center justify-center rounded-xl font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
+const BTN_PRIMARY = `${BTN} text-[#0B0A14] bg-gold hover:opacity-90 px-8 py-4 shine-sweep shadow-[0_10px_25px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_35px_rgba(212,175,55,0.4)]`;
+const BTN_OUTLINE = `${BTN} text-gold border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
 
 const StaggeredText = ({ text }) => {
   const words = text.split(" ");
@@ -72,11 +72,11 @@ export default function Hero({ accessToken }) {
       <FloatingElements />
 
       <div className="relative z-20 flex-1 max-w-2l px-6 lg:pl-16 pt-10 text-center lg:text-left">
-        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl text-white mb-6 leading-[1.1] tracking-tight drop-shadow-md">
+        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl text-gold mb-6 leading-[1.1] tracking-tight drop-shadow-md">
           <StaggeredText text="Your Placement, Rehearsed." />
         </h1>
         
-        <p className="hero-subtitle text-indigo-100/80 text-lg md:text-xl mb-10 max-w-xl mx-auto lg:mx-0 font-body drop-shadow-sm">
+        <p className="hero-subtitle text-text-secondary/80 text-lg md:text-xl mb-10 max-w-xl mx-auto lg:mx-0 font-body drop-shadow-sm">
           Mock interviews, readiness grades, and resume feedback — wrapped in an
           exam admit card you can rehearse, refine, and walk in with.
         </p>
@@ -121,6 +121,9 @@ export default function Hero({ accessToken }) {
     </section>
   );
 }
+
+
+
 
 
 

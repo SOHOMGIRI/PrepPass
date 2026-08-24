@@ -1,3 +1,4 @@
+import FloatingElements from './FloatingElements.jsx';
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -41,7 +42,8 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" className="py-16 bg-surface">
+    <section id="how-it-works" className="py-16 bg-surface relative overflow-hidden">
+      <FloatingElements />
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="font-heading text-text-primary text-center mb-3">
           How PrepPass works
@@ -67,3 +69,4 @@ export default function HowItWorks() {
     </section>
   );
 }
+

@@ -154,7 +154,7 @@ export default function History() {
                                 : t.trustScore === 70
                                 ? "bg-yellow-100 text-yellow-800"
                                 : t.trustScore === 40
-                                ? "bg-orange-100 text-orange-800"
+                                ? "bg-gold text-gold"
                                 : "bg-red-100 text-stamp-maroon"
                             }`}
                           >

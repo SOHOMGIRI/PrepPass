@@ -78,7 +78,7 @@ export default function HowItWorks() {
           <h1 className="mt-4 font-heading text-3xl text-white sm:text-4xl">
             How PrepPass Works
           </h1>
-          <p className="mt-2 text-sm text-indigo-100/80 leading-relaxed max-w-2xl">
+          <p className="mt-2 text-sm text-gold leading-relaxed max-w-2xl">
             A complete, step-by-step walkthrough of how PrepPass helps university students and job seekers prepare, practice, and succeed in competitive campus placements.
           </p>
           
@@ -100,7 +100,7 @@ export default function HowItWorks() {
                       <h2 className="font-heading text-lg sm:text-xl text-white mb-1.5">
                         {step.title}
                       </h2>
-                      <p className="text-sm text-indigo-100/80 leading-relaxed max-w-2xl">
+                      <p className="text-sm text-gold leading-relaxed max-w-2xl">
                         {step.desc}
                       </p>
                     </div>
@@ -119,7 +119,7 @@ export default function HowItWorks() {
           <h3 className="font-heading text-2xl text-white">
             Ready to test your interview readiness?
           </h3>
-          <p className="mt-2 text-xs text-indigo-100/80 max-w-md mx-auto">
+          <p className="mt-2 text-xs text-gold max-w-md mx-auto">
             Join candidates practicing with adaptive AI questions, proctored tests, and ATS-level feedback.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

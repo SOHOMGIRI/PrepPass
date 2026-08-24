@@ -711,7 +711,7 @@ export default function TestMode() {
                       : result.trustScore === 70
                       ? "bg-yellow-100 text-yellow-800"
                       : result.trustScore === 40
-                      ? "bg-orange-100 text-orange-800"
+                      ? "bg-gold text-gold"
                       : "bg-red-100 text-stamp-maroon"
                   }`}
                 >

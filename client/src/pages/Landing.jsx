@@ -21,7 +21,7 @@ const PricingSection = forwardRef((props, ref) => {
           <div className="ticket-perf mb-8" />
           <div className="text-center mb-8">
             <span className="font-heading text-5xl text-white">Free</span>
-            <p className="text-sm text-indigo-100/80 mt-2">No credit card required</p>
+            <p className="text-sm text-gold mt-2">No credit card required</p>
           </div>
           <ul className="space-y-3 text-sm text-white/80 font-mono mb-8 max-w-md mx-auto">
             <li className="flex items-center gap-3">
@@ -54,7 +54,7 @@ const PricingSection = forwardRef((props, ref) => {
             </Link>
           </div>
           <div className="mt-8 pt-6 border-t border-dashed border-white/10 text-center">
-            <p className="font-mono text-xs text-indigo-100/80">
+            <p className="font-mono text-xs text-gold">
               ⚡ <strong>Optional Add-On:</strong> Detailed Test Reports — ₹49 per report, pay via UPI, no subscription.
             </p>
           </div>
@@ -81,7 +81,7 @@ const ContactSection = forwardRef((props, ref) => {
             <h3 className="font-heading text-2xl text-white mb-3">
               Get in touch
             </h3>
-            <p className="text-sm text-indigo-100/80 mb-6">
+            <p className="text-sm text-gold mb-6">
               Questions, feedback, or partnership ideas — drop us a line and
               we&apos;ll get back to you.
             </p>

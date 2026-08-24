@@ -268,7 +268,7 @@ export default function Dashboard() {
             <h1 className="font-heading text-2xl text-white">
               Welcome back, {displayName}.
             </h1>
-            <p className="mt-1 text-indigo-100/80">
+            <p className="mt-1 text-gold">
               Your exam passport is ready. Follow your guided preparation path below.
             </p>
           </div>
@@ -282,7 +282,7 @@ export default function Dashboard() {
         </motion.div>
 
         {recommendation && (
-          <motion.div variants={itemVariants} className="ticket-card p-6 border-2 border-gold/40 bg-gradient-to-br from-indigo-900/40 via-[#0A061E]/80 to-indigo-900/20 shadow-sm">
+          <motion.div variants={itemVariants} className="ticket-card p-6 border-2 border-gold/40 bg-gradient-to-br from-gold via-[#0A061E]/80 to-gold shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
@@ -294,7 +294,7 @@ export default function Dashboard() {
                 <h2 className="font-heading text-lg text-white sm:text-xl">
                   {recommendation.title}
                 </h2>
-                <p className="text-xs text-indigo-100/80 max-w-xl leading-relaxed">
+                <p className="text-xs text-gold max-w-xl leading-relaxed">
                   {recommendation.desc}
                 </p>
               </div>
@@ -317,7 +317,7 @@ export default function Dashboard() {
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
                   YOUR AVERAGE
                 </div>
-                <p className="mt-2 max-w-xs text-sm text-indigo-100/80">
+                <p className="mt-2 max-w-xs text-sm text-gold">
                   Average readiness across <CountUp end={count} duration={1} /> completed interview session
                   {count === 1 ? "" : "s"}.
                 </p>
@@ -336,7 +336,7 @@ export default function Dashboard() {
               <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white">
                 FIRST TIME HERE?
               </div>
-              <p className="mt-3 text-sm text-indigo-100/80">
+              <p className="mt-3 text-sm text-gold">
                 No sessions yet — your readiness score will appear here once you
                 finish an interview. Go ahead, your auditor is waiting.
               </p>
@@ -362,7 +362,7 @@ export default function Dashboard() {
                 <h3 className="font-heading text-lg text-white">
                   {c.title}
                 </h3>
-                <p className="mt-1 text-sm text-indigo-100/80">{c.desc}</p>
+                <p className="mt-1 text-sm text-gold">{c.desc}</p>
               </SpotlightCard>
             ))}
           </div>
@@ -386,7 +386,7 @@ export default function Dashboard() {
                 <h3 className="font-heading text-lg text-white">
                   {c.title}
                 </h3>
-                <p className="mt-1 text-sm text-indigo-100/80">{c.desc}</p>
+                <p className="mt-1 text-sm text-gold">{c.desc}</p>
               </SpotlightCard>
             ))}
           </div>
@@ -410,7 +410,7 @@ export default function Dashboard() {
                 <h3 className="font-heading text-lg text-white">
                   {c.title}
                 </h3>
-                <p className="mt-1 text-sm text-indigo-100/80">{c.desc}</p>
+                <p className="mt-1 text-sm text-gold">{c.desc}</p>
               </SpotlightCard>
             ))}
           </div>
@@ -455,7 +455,7 @@ export default function Dashboard() {
               </div>
             ) : !hasAnyTrend ? (
               <div className="flex h-44 flex-col items-center justify-center text-center p-4">
-                <p className="font-mono text-xs text-indigo-100/80 max-w-sm">
+                <p className="font-mono text-xs text-gold max-w-sm">
                   No activity trend recorded yet. Complete an interview, proctored test, or GD session to visualize your progress over time!
                 </p>
               </div>
@@ -466,16 +466,16 @@ export default function Dashboard() {
                     data={trendData}
                     margin={{ top: 10, right: 20, left: -10, bottom: 5 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="#0a192f15" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(212, 175, 55, 0.15)" />
                     <XAxis
                       dataKey="displayDate"
-                      tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
-                      stroke="#0a192f30"
+                      tick={{ fontSize: 11, fill: "rgba(245, 240, 230, 0.6)", fontFamily: "monospace" }}
+                      stroke="rgba(212, 175, 55, 0.3)"
                     />
                     <YAxis
                       domain={[0, 100]}
-                      tick={{ fontSize: 11, fill: "#0a192f90", fontFamily: "monospace" }}
-                      stroke="#0a192f30"
+                      tick={{ fontSize: 11, fill: "rgba(245, 240, 230, 0.6)", fontFamily: "monospace" }}
+                      stroke="rgba(212, 175, 55, 0.3)"
                       unit="%"
                     />
                     <Tooltip content={<CustomTrendTooltip />} />
@@ -487,9 +487,9 @@ export default function Dashboard() {
                         type="monotone"
                         dataKey="interview"
                         name="Interview Readiness"
-                        stroke="#d97706"
+                        stroke="#D4AF37"
                         strokeWidth={2.5}
-                        dot={{ r: 4, fill: "#d97706" }}
+                        dot={{ r: 4, fill: "#D4AF37" }}
                         activeDot={{ r: 6 }}
                         connectNulls
                       />
@@ -499,9 +499,9 @@ export default function Dashboard() {
                         type="monotone"
                         dataKey="test"
                         name="Test Accuracy"
-                        stroke="#0a192f"
+                        stroke="#F0D878"
                         strokeWidth={2.5}
-                        dot={{ r: 4, fill: "#0a192f" }}
+                        dot={{ r: 4, fill: "#F0D878" }}
                         activeDot={{ r: 6 }}
                         connectNulls
                       />
@@ -511,9 +511,9 @@ export default function Dashboard() {
                         type="monotone"
                         dataKey="gd"
                         name="GD Performance"
-                        stroke="#881337"
+                        stroke="#8B6F1F"
                         strokeWidth={2.5}
-                        dot={{ r: 4, fill: "#881337" }}
+                        dot={{ r: 4, fill: "#8B6F1F" }}
                         activeDot={{ r: 6 }}
                         connectNulls
                       />
@@ -533,7 +533,7 @@ export default function Dashboard() {
                 <h3 className="font-heading text-lg text-white">
                   {c.title}
                 </h3>
-                <p className="mt-1 text-sm text-indigo-100/80">{c.desc}</p>
+                <p className="mt-1 text-sm text-gold">{c.desc}</p>
               </SpotlightCard>
             ))}
           </div>
@@ -542,6 +542,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 
 

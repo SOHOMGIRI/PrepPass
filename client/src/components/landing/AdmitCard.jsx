@@ -1,3 +1,4 @@
+import FloatingElements from './FloatingElements.jsx';
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -86,7 +87,8 @@ export default function AdmitCard() {
   }, []);
 
   return (
-    <section id="features" className="py-24 bg-transparent overflow-hidden">
+    <section id="features" className="py-24 bg-transparent relative overflow-hidden">
+      <FloatingElements />
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white mb-4 border border-white/10 bg-stamp-navy/5 backdrop-blur-sm">
@@ -95,7 +97,7 @@ export default function AdmitCard() {
           <h2 className="font-heading text-4xl text-white sm:text-5xl font-bold tracking-tight">
             Everything you need to crack placements.
           </h2>
-          <p className="mt-4 text-base text-indigo-100/80 max-w-2xl mx-auto font-body">
+          <p className="mt-4 text-base text-gold max-w-2xl mx-auto font-body">
             From ATS resume auditing to proctored MCQs and voice mock interviews — complete prep in one passport.
           </p>
         </div>
@@ -119,7 +121,7 @@ export default function AdmitCard() {
                 <h3 className="font-heading text-xl text-white mb-3 font-semibold">
                   {f.title}
                 </h3>
-                <p className="text-sm text-indigo-100/80 leading-relaxed font-body">{f.desc}</p>
+                <p className="text-sm text-gold leading-relaxed font-body">{f.desc}</p>
               </div>
             </SpotlightCard>
           ))}
@@ -137,4 +139,5 @@ export default function AdmitCard() {
     </section>
   );
 }
+
 
