@@ -172,7 +172,7 @@ export default function ResumeAnalysis() {
                 <div className="flex flex-col sm:flex-row gap-8 items-start">
                   <div className="flex-shrink-0 mx-auto sm:mx-0">
                     <GaugeCircle
-                      value={result.analysis.atsScore}
+                      value={result.atsScore}
                       max={100}
                       size={140}
                       caption="ATS Score"
@@ -183,11 +183,11 @@ export default function ResumeAnalysis() {
                       Overview
                     </h3>
                     
-                    {result.analysis.suggestedSubjects?.length > 0 && (
+                    {result.suggestedSubjects?.length > 0 && (
                       <div className="mb-4">
                         <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Suggested Subjects</h4>
                         <div className="flex flex-wrap gap-2">
-                          {result.analysis.suggestedSubjects.map((subject, idx) => (
+                          {result.suggestedSubjects.map((subject, idx) => (
                             <span key={idx} className="bg-gold/20 text-white-dark px-2.5 py-1 rounded-full font-mono text-xs">
                               {subject}
                             </span>
@@ -196,11 +196,11 @@ export default function ResumeAnalysis() {
                       </div>
                     )}
                     
-                    {result.analysis.missingSections?.length > 0 && (
+                    {result.missingSections?.length > 0 && (
                       <div className="mb-4">
                         <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Missing Sections</h4>
                         <ul className="list-disc pl-4 text-sm text-stamp-maroon space-y-1">
-                          {result.analysis.missingSections.map((sec, idx) => (
+                          {result.missingSections.map((sec, idx) => (
                             <li key={idx}>{sec}</li>
                           ))}
                         </ul>
@@ -209,26 +209,26 @@ export default function ResumeAnalysis() {
                   </div>
                 </div>
 
-                {result.analysis.formattingIssues?.length > 0 && (
+                {result.formattingIssues?.length > 0 && (
                   <div>
                     <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
                       Formatting Issues
                     </h4>
                     <ul className="list-disc pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
-                      {result.analysis.formattingIssues.map((issue, idx) => (
+                      {result.formattingIssues.map((issue, idx) => (
                         <li key={idx}>{issue}</li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {result.analysis.improvementTips?.length > 0 && (
+                {result.improvementTips?.length > 0 && (
                   <div>
                     <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
                       Improvement Tips
                     </h4>
                     <ol className="list-decimal pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
-                      {result.analysis.improvementTips.map((tip, idx) => (
+                      {result.improvementTips.map((tip, idx) => (
                         <li key={idx}>{tip}</li>
                       ))}
                     </ol>
@@ -251,3 +251,4 @@ export default function ResumeAnalysis() {
     </div>
   );
 }
+

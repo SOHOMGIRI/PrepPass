@@ -110,7 +110,7 @@ function CustomTrendTooltip({ active, payload, label }) {
             <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
             <span>{entry.name}:</span>
             <span className="font-bold">
-              <CountUp end={entry.value} duration={0.5} />%
+              {entry.value}%
             </span>
           </p>
         ))}
@@ -542,6 +542,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
 
 
 
