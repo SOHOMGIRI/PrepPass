@@ -4,20 +4,30 @@ export default function HeroIllustration() {
   const containerRef = useRef(null);
   const [leaves, setLeaves] = useState([]);
   const [embers, setEmbers] = useState([]);
+  const [butterflies, setButterflies] = useState([]);
 
   useEffect(() => {
     // Generate beautiful thick canopy
     const generatedLeaves = [];
-    // Tree center around (350, 250) due to new bend
-    // We'll create several clusters to form a dense canopy
+    
+    // Expand clusters heavily to the left to shade the text
     const clusters = [
-      { cx: 350, cy: 150, r: 180, count: 50 },
-      { cx: 200, cy: 250, r: 120, count: 40 },
-      { cx: 500, cy: 200, r: 140, count: 40 },
-      { cx: 650, cy: 300, r: 100, count: 30 },
-      { cx: 100, cy: 350, r: 100, count: 30 },
-      { cx: 400, cy: 50, r: 120, count: 30 },
-      { cx: 800, cy: 350, r: 80, count: 20 }
+      { cx: 350, cy: 150, r: 180, count: 60 },
+      { cx: 200, cy: 250, r: 150, count: 50 },
+      { cx: 500, cy: 200, r: 140, count: 50 },
+      { cx: 650, cy: 300, r: 120, count: 40 },
+      { cx: 100, cy: 350, r: 120, count: 40 },
+      { cx: 400, cy: 50,  r: 140, count: 40 },
+      { cx: 800, cy: 350, r: 100, count: 30 },
+      // NEW LEFT-EXTENDING CLUSTERS (Shading the text)
+      { cx: -100, cy: 180, r: 160, count: 50 },
+      { cx: -250, cy: 250, r: 140, count: 40 },
+      { cx: -400, cy: 150, r: 150, count: 40 },
+      { cx: -550, cy: 220, r: 120, count: 30 },
+      { cx: 0,    cy: 100, r: 150, count: 40 },
+      // Extreme left clusters
+      { cx: -600, cy: 100, r: 150, count: 30 },
+      { cx: -700, cy: 250, r: 100, count: 20 }
     ];
 
     const gradients = ["url(#glowGold)", "url(#glowTeal)", "url(#glowPink)", "url(#glowAmber)"];
@@ -37,7 +47,7 @@ export default function HeroIllustration() {
           id: idCounter++,
           cx,
           cy,
-          r: Math.random() * 4 + 2,
+          r: Math.random() * 4 + 3, // slightly bigger
           gradientId: gradients[gIdx],
           coreColor: cores[gIdx],
           delay: Math.random() * 2,
@@ -53,13 +63,28 @@ export default function HeroIllustration() {
     for (let i = 0; i < 40; i++) {
       genEmbers.push({
         id: i,
-        cx: Math.random() * 1000,
+        cx: (Math.random() * 1800) - 800, // span entire extended width
         cy: Math.random() * 1000,
         r: Math.random() * 2 + 1,
         color: Math.random() > 0.5 ? "#D4AF37" : "#F0D878",
       });
     }
     setEmbers(genEmbers);
+
+    // Generate glowing butterflies
+    const genButterflies = [];
+    for (let i = 0; i < 15; i++) {
+      genButterflies.push({
+        id: i,
+        cx: (Math.random() * 1500) - 600,
+        cy: Math.random() * 600,
+        delay: Math.random() * 5,
+        duration: Math.random() * 4 + 4,
+        scale: Math.random() * 0.5 + 0.5,
+        color: gradients[Math.floor(Math.random() * gradients.length)]
+      });
+    }
+    setButterflies(genButterflies);
   }, []);
 
   return (
@@ -84,6 +109,17 @@ export default function HeroIllustration() {
         @keyframes pulseCore {
           0% { opacity: 0.7; transform: scale(0.9); }
           100% { opacity: 1; transform: scale(1.4); }
+        }
+        @keyframes butterflyFlight {
+          0% { transform: translate(0, 0) rotate(0deg) scale(var(--s)); opacity: 0; }
+          10% { opacity: 1; }
+          50% { transform: translate(150px, -100px) rotate(15deg) scale(var(--s)); }
+          90% { opacity: 1; }
+          100% { transform: translate(300px, -200px) rotate(-10deg) scale(var(--s)); opacity: 0; }
+        }
+        @keyframes wingFlap {
+          0%, 100% { transform: scaleX(1); }
+          50% { transform: scaleX(0.1); }
         }
       `}} />
 
@@ -141,6 +177,14 @@ export default function HeroIllustration() {
             <path d="M480 500 Q 200 400, 100 250" strokeWidth="16" />
             <path d="M420 350 Q 600 250, 650 150" strokeWidth="14" />
             <path d="M380 200 Q 250 150, 200 50" strokeWidth="12" />
+
+            {/* Massive branches extending left to shade text */}
+            <path d="M280 400 Q 0 300, -200 250" strokeWidth="14" />
+            <path d="M-50 290 Q -250 200, -400 150" strokeWidth="12" />
+            <path d="M-150 240 Q -400 150, -550 200" strokeWidth="10" />
+            <path d="M120 260 Q -50 150, -100 100" strokeWidth="10" />
+            <path d="M-200 250 Q -300 350, -450 300" strokeWidth="8" />
+            <path d="M-400 150 Q -600 100, -750 120" strokeWidth="8" />
           </g>
 
           {/* Foreground Golden Trunk & Branches */}
@@ -159,6 +203,14 @@ export default function HeroIllustration() {
             <path d="M510 300 Q 550 200, 480 120" strokeWidth="6" />
             <path d="M750 425 Q 850 400, 950 300" strokeWidth="6" />
             <path d="M150 325 Q 50 250, 20 150" strokeWidth="6" />
+
+            {/* Massive branches extending left to shade text */}
+            <path d="M280 400 Q 0 300, -200 250" strokeWidth="12" />
+            <path d="M-50 290 Q -250 200, -400 150" strokeWidth="10" />
+            <path d="M-150 240 Q -400 150, -550 200" strokeWidth="8" />
+            <path d="M120 260 Q -50 150, -100 100" strokeWidth="8" />
+            <path d="M-200 250 Q -300 350, -450 300" strokeWidth="6" />
+            <path d="M-400 150 Q -600 100, -750 120" strokeWidth="6" />
           </g>
         </g>
         
@@ -172,6 +224,26 @@ export default function HeroIllustration() {
             fill={ember.color}
             style={{ animation: `pulseCore ${Math.random() * 2 + 1}s infinite alternate` }}
           />
+        ))}
+
+        {/* Glowing Butterflies */}
+        {butterflies.map(b => (
+          <g 
+            key={"bf-" + b.id} 
+            style={{ 
+              "--s": b.scale, 
+              animation: `butterflyFlight ${b.duration}s ease-in infinite ${b.delay}s`,
+              transformOrigin: `${b.cx}px ${b.cy}px`,
+              opacity: 0
+            }}
+          >
+            <g style={{ animation: `wingFlap 0.2s infinite alternate`, transformOrigin: `${b.cx}px ${b.cy}px` }}>
+              <path d={`M${b.cx} ${b.cy} Q${b.cx-15} ${b.cy-15}, ${b.cx-10} ${b.cy-20} Q${b.cx} ${b.cy-10}, ${b.cx} ${b.cy}`} fill={b.color} />
+              <path d={`M${b.cx} ${b.cy} Q${b.cx+15} ${b.cy-15}, ${b.cx+10} ${b.cy-20} Q${b.cx} ${b.cy-10}, ${b.cx} ${b.cy}`} fill={b.color} />
+            </g>
+            {/* Glowing core */}
+            <circle cx={b.cx} cy={b.cy} r={2} fill="#FFF" style={{ filter: "drop-shadow(0 0 5px white)" }} />
+          </g>
         ))}
 
         {/* Hyper-Dense Glowing Canopy */}
@@ -298,3 +370,4 @@ export default function HeroIllustration() {
     </div>
   );
 }
+
