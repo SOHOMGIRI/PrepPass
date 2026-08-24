@@ -22,21 +22,14 @@ export default function ParticleCanvas() {
   const mouse = useMouse();
   const mouseRef = useRef(mouse);
   
-  const [reducedMotion, setReducedMotion] = useState(false);
+  
 
   // Keep mouseRef in sync without re-running the animation effect.
   useEffect(() => {
     mouseRef.current = mouse;
   }, [mouse]);
 
-  // Check prefers-reduced-motion.
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mq.matches);
-    const onChange = (e) => setReducedMotion(e.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
+  
 
   
 
@@ -71,7 +64,7 @@ export default function ParticleCanvas() {
     particles.current = Array.from({ length: PARTICLE_COUNT }, () => ({
       x: rand(0, w()),
       y: rand(0, h()),
-      vx: rand(1.0, 2.5), // Slanting to the right
+      vx: rand(2.0, 4.0), // Slanting diagonally right
       vy: rand(1.5, 3.0), // falling down (snow)
       r: rand(0.8, 2.5),
       color: colors[Math.floor(rand(0, colors.length))],
@@ -80,10 +73,7 @@ export default function ParticleCanvas() {
     }));
 
     const draw = () => {
-      if (reducedMotion) {
-        animRef.current = requestAnimationFrame(draw);
-        return;
-      }
+      
 
       const cw = w();
       const ch = h();
@@ -143,27 +133,9 @@ export default function ParticleCanvas() {
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", resize);
     };
-  }, [reducedMotion]);
+  }, []);
 
-  // If reduced motion, render static scattered dots via CSS instead.
-  if (reducedMotion) {
-    return (
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-30">
-        {Array.from({ length: 20 }, (_, i) => (
-          <span
-            key={i}
-            className="absolute rounded-full bg-gold/30"
-            style={{
-              width: rand(2, 5),
-              height: rand(2, 5),
-              left: `${rand(5, 95)}%`,
-              top: `${rand(5, 95)}%`,
-            }}
-          />
-        ))}
-      </div>
-    );
-  }
+  
 
   return (
     <canvas
@@ -173,4 +145,5 @@ export default function ParticleCanvas() {
     />
   );
 }
+
 
