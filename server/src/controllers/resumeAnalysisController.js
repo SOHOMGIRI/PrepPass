@@ -3,6 +3,7 @@ import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
 import ResumeAnalysis from "../models/ResumeAnalysis.js";
 import { callGeminiJSON } from "../utils/gemini.js";
+import { uploadToS3 } from "../utils/s3.js";
 
 /**
  * POST /api/resume/analyze
@@ -68,6 +69,14 @@ Return ONLY JSON (no markdown fences) with these exact fields:
     const suggestedSubjects = Array.isArray(result.suggestedSubjects) ? result.suggestedSubjects : [];
     const improvementTips = Array.isArray(result.improvementTips) ? result.improvementTips : [];
 
+    // Upload the original file to S3 for persistent cloud storage (non-blocking)
+    const s3Url = await uploadToS3(
+      req.file.buffer,
+      req.file.originalname,
+      req.file.mimetype,
+      req.userId
+    );
+
     const analysis = new ResumeAnalysis({
       userId: req.userId,
       atsScore,
@@ -75,6 +84,7 @@ Return ONLY JSON (no markdown fences) with these exact fields:
       missingSections,
       suggestedSubjects,
       improvementTips,
+      ...(s3Url && { fileUrl: s3Url }),
     });
 
     await analysis.save();

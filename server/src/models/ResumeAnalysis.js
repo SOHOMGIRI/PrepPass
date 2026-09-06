@@ -27,6 +27,10 @@ const resumeAnalysisSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  fileUrl: {
+    type: String,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -3,6 +3,7 @@ import { PDFParse } from "pdf-parse";
 import mammoth from "mammoth";
 import ResumeMatch from "../models/ResumeMatch.js";
 import { callGeminiJSON } from "../utils/gemini.js";
+import { uploadToS3 } from "../utils/s3.js";
 
 /**
  * POST /api/resume/match
@@ -80,6 +81,14 @@ Based on the resume text and the job description above, return ONLY JSON (no mar
     const missingSkills = Array.isArray(result.missingSkills) ? result.missingSkills : [];
     const recommendations = Array.isArray(result.recommendations) ? result.recommendations : [];
 
+    // Upload the original file to S3 for persistent cloud storage (non-blocking)
+    const s3Url = await uploadToS3(
+      req.file.buffer,
+      req.file.originalname,
+      req.file.mimetype,
+      req.userId
+    );
+
     const resumeMatch = new ResumeMatch({
       userId: req.userId,
       jobDescription: cleanJobDescription,
@@ -87,6 +96,7 @@ Based on the resume text and the job description above, return ONLY JSON (no mar
       matchedSkills,
       missingSkills,
       recommendations,
+      ...(s3Url && { fileUrl: s3Url }),
     });
 
     await resumeMatch.save();
