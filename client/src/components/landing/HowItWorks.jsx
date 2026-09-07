@@ -42,7 +42,7 @@ export default function HowItWorks() {
   }, []);
 
   return (
-    <section id="how-it-works" className="py-16 bg-surface relative overflow-hidden">
+    <section id="how-it-works" className="py-16 bg-transparent relative overflow-hidden">
       <FloatingElements />
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="font-heading text-text-primary text-center mb-3">

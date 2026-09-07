@@ -70,7 +70,7 @@ const PricingSection = forwardRef((props, ref) => {
 
 const ContactSection = forwardRef((props, ref) => {
   return (
-    <section id="contact" className="py-16 bg-surface">
+    <section id="contact" className="py-16 bg-transparent">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="font-heading text-white text-center mb-10">
           Contact
