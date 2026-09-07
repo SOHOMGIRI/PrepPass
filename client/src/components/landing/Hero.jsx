@@ -68,10 +68,51 @@ export default function Hero({ accessToken }) {
   return (
     <section 
       ref={heroRef}
-      className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-visible"
+      className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden"
     >
       
-      
+      {/* Animated gradient orbs for visual depth */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.06]"
+             style={{
+               background: "radial-gradient(circle, #D4AF37 0%, transparent 70%)",
+               top: "-15%", left: "-10%",
+               filter: "blur(80px)",
+               animation: "heroOrb1 18s ease-in-out infinite",
+             }} />
+        <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.05]"
+             style={{
+               background: "radial-gradient(circle, #2DD4BF 0%, transparent 70%)",
+               bottom: "-10%", right: "-5%",
+               filter: "blur(70px)",
+               animation: "heroOrb2 22s ease-in-out infinite",
+             }} />
+        <div className="absolute w-[350px] h-[350px] rounded-full opacity-[0.04]"
+             style={{
+               background: "radial-gradient(circle, #A855F7 0%, transparent 70%)",
+               top: "30%", left: "50%",
+               filter: "blur(60px)",
+               animation: "heroOrb3 15s ease-in-out infinite",
+             }} />
+      </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes heroOrb1 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(80px, 50px) scale(1.15); }
+          66% { transform: translate(-40px, -30px) scale(0.9); }
+        }
+        @keyframes heroOrb2 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(-60px, -40px) scale(1.1); }
+          66% { transform: translate(50px, 30px) scale(0.85); }
+        }
+        @keyframes heroOrb3 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(40px, -50px) scale(1.2); }
+          66% { transform: translate(-30px, 40px) scale(0.9); }
+        }
+      `}} />
 
       <FloatingElements />
 
@@ -114,7 +155,7 @@ export default function Hero({ accessToken }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex-1 h-[400px] sm:h-[500px] lg:h-[700px] w-full flex items-center justify-center pointer-events-none drop-shadow-2xl">
+      <div className="relative z-10 flex-1 h-[400px] sm:h-[500px] lg:h-[700px] w-full flex items-center justify-center drop-shadow-2xl">
         <HeroIllustration />
       </div>
 
