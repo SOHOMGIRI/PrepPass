@@ -71,46 +71,74 @@ export default function Hero({ accessToken }) {
       className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden"
     >
       
-      {/* Animated gradient orbs for visual depth */}
+      {/* Animated gradient orbs — MUCH more visible */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.06]"
+        {/* Large gold orb — top left */}
+        <div className="absolute rounded-full"
              style={{
-               background: "radial-gradient(circle, #D4AF37 0%, transparent 70%)",
-               top: "-15%", left: "-10%",
+               width: "clamp(400px, 50vw, 700px)",
+               height: "clamp(400px, 50vw, 700px)",
+               background: "radial-gradient(circle, rgba(212,175,55,0.25) 0%, rgba(212,175,55,0.08) 40%, transparent 70%)",
+               top: "-20%", left: "-15%",
                filter: "blur(80px)",
                animation: "heroOrb1 18s ease-in-out infinite",
              }} />
-        <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.05]"
+        {/* Teal orb — bottom right */}
+        <div className="absolute rounded-full"
              style={{
-               background: "radial-gradient(circle, #2DD4BF 0%, transparent 70%)",
-               bottom: "-10%", right: "-5%",
+               width: "clamp(350px, 40vw, 600px)",
+               height: "clamp(350px, 40vw, 600px)",
+               background: "radial-gradient(circle, rgba(45,212,191,0.2) 0%, rgba(45,212,191,0.06) 40%, transparent 70%)",
+               bottom: "-15%", right: "-10%",
                filter: "blur(70px)",
                animation: "heroOrb2 22s ease-in-out infinite",
              }} />
-        <div className="absolute w-[350px] h-[350px] rounded-full opacity-[0.04]"
+        {/* Purple orb — center right */}
+        <div className="absolute rounded-full"
              style={{
-               background: "radial-gradient(circle, #A855F7 0%, transparent 70%)",
-               top: "30%", left: "50%",
+               width: "clamp(300px, 35vw, 500px)",
+               height: "clamp(300px, 35vw, 500px)",
+               background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, rgba(168,85,247,0.05) 40%, transparent 70%)",
+               top: "25%", right: "15%",
                filter: "blur(60px)",
                animation: "heroOrb3 15s ease-in-out infinite",
+             }} />
+        {/* Warm amber orb — center left */}
+        <div className="absolute rounded-full"
+             style={{
+               width: "clamp(250px, 30vw, 450px)",
+               height: "clamp(250px, 30vw, 450px)",
+               background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.04) 40%, transparent 70%)",
+               bottom: "20%", left: "20%",
+               filter: "blur(50px)",
+               animation: "heroOrb4 20s ease-in-out infinite",
              }} />
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes heroOrb1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(80px, 50px) scale(1.15); }
-          66% { transform: translate(-40px, -30px) scale(0.9); }
+          25% { transform: translate(100px, 60px) scale(1.2); }
+          50% { transform: translate(50px, -30px) scale(1.05); }
+          75% { transform: translate(-50px, 40px) scale(0.9); }
         }
         @keyframes heroOrb2 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(-60px, -40px) scale(1.1); }
-          66% { transform: translate(50px, 30px) scale(0.85); }
+          25% { transform: translate(-80px, -50px) scale(1.15); }
+          50% { transform: translate(-30px, 40px) scale(0.95); }
+          75% { transform: translate(60px, -20px) scale(1.1); }
         }
         @keyframes heroOrb3 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(40px, -50px) scale(1.2); }
-          66% { transform: translate(-30px, 40px) scale(0.9); }
+          25% { transform: translate(50px, -60px) scale(1.2); }
+          50% { transform: translate(-40px, 30px) scale(0.85); }
+          75% { transform: translate(30px, 50px) scale(1.1); }
+        }
+        @keyframes heroOrb4 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(40px, 40px) scale(1.15); }
+          50% { transform: translate(-60px, -20px) scale(0.9); }
+          75% { transform: translate(20px, -50px) scale(1.05); }
         }
       `}} />
 
