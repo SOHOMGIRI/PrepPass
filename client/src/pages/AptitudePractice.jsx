@@ -119,7 +119,7 @@ export default function AptitudePractice() {
   };
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10 font-body text-text-secondary">
+    <div className="min-h-screen bg-transparent px-4 py-10 font-body text-text-secondary">
       <div className="mx-auto w-full max-w-3xl">
         {/* Top Header */}
         <div className="flex items-center justify-between">

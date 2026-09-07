@@ -105,7 +105,7 @@ export default function GDPractice() {
   };
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10">
+    <div className="min-h-screen bg-transparent px-4 py-10">
       <div className="mx-auto w-full max-w-3xl">
         <div className="flex items-center justify-between">
           <Link

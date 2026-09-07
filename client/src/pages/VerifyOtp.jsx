@@ -35,7 +35,7 @@ export default function VerifyOtp() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg">
+      <div className="min-h-screen flex items-center justify-center bg-transparent">
         <div className="ticket-card w-full max-w-sm p-8 text-center">
           <p className="text-white font-mono mb-4">No email found.</p>
           <button
@@ -135,7 +135,7 @@ export default function VerifyOtp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg px-4">
+    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
       <div className="ticket-card w-full max-w-md p-8">
         <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6">
           PREPPASS — OTP VERIFICATION

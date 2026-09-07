@@ -133,7 +133,7 @@ export default function Interview() {
 
   if (phase === "complete") {
     return (
-      <div className="min-h-screen bg-bg px-4 py-10">
+      <div className="min-h-screen bg-transparent px-4 py-10">
         <div className="mx-auto flex max-w-2xl flex-col items-center">
           <SessionResults session={full} />
         </div>
@@ -142,7 +142,7 @@ export default function Interview() {
   }
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10">
+    <div className="min-h-screen bg-transparent px-4 py-10">
       <div className="mx-auto w-full max-w-4xl">
         <Link
           to="/dashboard"

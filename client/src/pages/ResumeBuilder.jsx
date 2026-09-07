@@ -251,7 +251,7 @@ export default function ResumeBuilder() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-bg px-4 py-10">
+      <div className="min-h-screen bg-transparent px-4 py-10">
         <div className="mx-auto max-w-4xl">
           <div className="ticket-card flex items-center gap-3 p-8 text-text-primary/70">
             <span className="font-mono">•••</span>
@@ -263,7 +263,7 @@ export default function ResumeBuilder() {
   }
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10">
+    <div className="min-h-screen bg-transparent px-4 py-10">
       <div className="mx-auto w-full max-w-4xl">
         {/* Top Header */}
         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -916,7 +916,7 @@ export default function ResumeBuilder() {
         {/* AI Rewrite Suggestions Modal */}
         {aiModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <div className="ticket-card max-h-[85vh] w-full max-w-2xl overflow-y-auto bg-bg p-6 sm:p-8">
+            <div className="ticket-card max-h-[85vh] w-full max-w-2xl overflow-y-auto bg-transparent p-6 sm:p-8">
               <div className="flex items-center justify-between">
                 <div className="ticket-stamp inline-block rounded px-2 py-1 font-mono text-[10px] uppercase text-text-primary">
                   AI ASSISTANT SUGGESTIONS

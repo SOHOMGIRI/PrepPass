@@ -83,7 +83,7 @@ export default function ResumeMatcher() {
   if (result) return <ResumeMatchResult result={result} onReset={reset} />;
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10">
+    <div className="min-h-screen bg-transparent px-4 py-10">
       <div className="mx-auto w-full max-w-2xl">
         <Link
           to="/dashboard"

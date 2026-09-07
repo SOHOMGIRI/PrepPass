@@ -56,7 +56,7 @@ export default function Register() {
     values.password.length >= 8 && rule.test(values.password);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg px-4">
+    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
       <div className="ticket-card w-full max-w-md p-8">
         <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6">
           PREPPASS — NEW ADMIT CARD

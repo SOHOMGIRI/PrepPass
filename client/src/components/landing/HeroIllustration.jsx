@@ -98,26 +98,12 @@ export default function HeroIllustration() {
           0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.6), 0 0 30px rgba(255,215,0,0.3); }
           50% { box-shadow: 0 0 25px rgba(255,215,0,0.9), 0 0 50px rgba(255,215,0,0.5); }
         }
-        @keyframes tagFadeIn {
-          0% { opacity: 0; transform: translateY(10px) scale(0.85); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
         @keyframes clickHint {
           0%, 100% { opacity: 0; transform: translateY(5px); }
           50% { opacity: 0.8; transform: translateY(0); }
         }
         .float-container {
           animation: cardFloat 6s ease-in-out infinite;
-        }
-        .flip-container {
-          transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-          transform-style: preserve-3d;
-          width: 100%;
-          height: 100%;
-          position: relative;
-        }
-        .flip-container.is-flipped {
-          transform: rotateY(180deg);
         }
         .card-face {
           position: absolute;
@@ -128,12 +114,6 @@ export default function HeroIllustration() {
           border-radius: 16px;
           overflow: hidden;
           animation: borderShift 8s ease-in-out infinite;
-        }
-        .card-face-back {
-          transform: rotateY(180deg);
-        }
-        .progress-bar-active {
-          animation: progressFill 2s ease-out 0.5s both, progressGlow 3s ease-in-out infinite;
         }
       `}} />
 
@@ -148,7 +128,7 @@ export default function HeroIllustration() {
       {/* 1. Float Container */}
       <div className="float-container pointer-events-auto cursor-pointer relative w-[320px] h-[430px] sm:w-[390px] sm:h-[510px]" onClick={handleClick}>
         
-        {/* 2. Tilt Container (JS transform) */}
+        {/* 2. Tilt Container (JS transform for mouse tracking) */}
         <div
           ref={tiltRef}
           className="w-full h-full"
@@ -158,14 +138,22 @@ export default function HeroIllustration() {
           style={{ transition: "transform 0.1s ease-out", transformStyle: "preserve-3d" }}
         >
           
-          {/* 3. Flip Container (CSS transform) */}
-          <div className={`flip-container ${isFlipped ? "is-flipped" : ""}`}>
+          {/* 3. Flip Container (Inline CSS transform for 180deg flip) */}
+          <div 
+            className="w-full h-full relative"
+            style={{ 
+              transition: "transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)", 
+              transformStyle: "preserve-3d",
+              transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+            }}
+          >
             
             {/* ═══════════ FRONT FACE ═══════════ */}
             <div className="card-face"
                  style={{
                    background: "linear-gradient(155deg, #180F3A 0%, #0F0922 40%, #120A2B 100%)",
                    border: "2.5px solid rgba(255, 215, 0, 0.8)",
+                   transform: "rotateY(0deg)" // explicitly ensure front is at 0
                  }}>
 
               {/* Internal Color Washes */}
@@ -245,7 +233,7 @@ export default function HeroIllustration() {
                        style={{ color: "#FFD700", textShadow: "0 0 10px rgba(255,215,0,0.6)" }}>87%</p>
                   </div>
                   <div className="w-full h-2.5 sm:h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                    <div className="progress-bar-active h-full rounded-full" style={{ background: "linear-gradient(90deg, #B8860B, #FFD700, #FFF)" }} />
+                    <div className="h-full rounded-full" style={{ width: "87%", background: "linear-gradient(90deg, #B8860B, #FFD700, #FFF)", boxShadow: "0 0 15px rgba(255,215,0,0.6)" }} />
                   </div>
                 </div>
 
@@ -256,13 +244,12 @@ export default function HeroIllustration() {
                     { name: "MongoDB", color: "168, 85, 247" },
                     { name: "REST API", color: "255, 215, 0" },
                   ].map((skill, i) => (
-                    <span key={i} className="skill-tag px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider"
+                    <span key={i} className="px-3 py-1.5 rounded-lg text-[10px] font-bold tracking-wider"
                           style={{
                             background: `rgba(${skill.color}, 0.15)`,
                             border: `1px solid rgba(${skill.color}, 0.6)`,
                             color: `rgba(${skill.color}, 1)`,
                             boxShadow: `0 0 15px rgba(${skill.color}, 0.2) inset`,
-                            animationDelay: `${1.2 + i * 0.15}s`,
                           }}>
                       {skill.name}
                     </span>
@@ -287,10 +274,11 @@ export default function HeroIllustration() {
             </div>
 
             {/* ═══════════ BACK FACE ═══════════ */}
-            <div className="card-face card-face-back"
+            <div className="card-face"
                  style={{
                    background: "linear-gradient(160deg, #1e1350 0%, #120d2e 35%, #0e0a22 60%, #150f30 100%)",
                    border: "2.5px solid rgba(255, 215, 0, 0.8)",
+                   transform: "rotateY(180deg)" // explicitly ensure back faces away
                  }}>
               
               {/* Internal Color Washes */}

@@ -50,7 +50,7 @@ export default function History() {
   }, [load]);
 
   return (
-    <div className="min-h-screen bg-bg px-4 py-10">
+    <div className="min-h-screen bg-transparent px-4 py-10">
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"

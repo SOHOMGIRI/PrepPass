@@ -55,7 +55,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-bg flex flex-col justify-between font-body text-text-secondary">
+    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-text-secondary">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between">
