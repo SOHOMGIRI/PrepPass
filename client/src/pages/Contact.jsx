@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
@@ -57,7 +57,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
+    <div className="min-h-screen bg-transparent relative z-10 flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">

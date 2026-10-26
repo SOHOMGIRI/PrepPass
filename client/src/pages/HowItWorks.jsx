@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import SpotlightCard from "../components/landing/SpotlightCard.jsx";
 import Footer from "../components/landing/Footer.jsx";
@@ -63,7 +63,7 @@ export default function HowItWorks() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
+    <div className="min-h-screen bg-transparent relative z-10 flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
@@ -141,7 +141,7 @@ export default function HowItWorks() {
             </Link>
             <Link
               to="/company-prep"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-[#FDFBF7] px-6 py-3 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-transparent relative z-10 px-6 py-3 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
             >
               Explore Enterprise Tracks →
             </Link>

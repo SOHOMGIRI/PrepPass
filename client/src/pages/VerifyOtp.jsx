@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+﻿import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
@@ -36,7 +36,7 @@ export default function VerifyOtp() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4">
+      <div className="min-h-screen flex items-center justify-center bg-transparent relative z-10 px-4">
         <div className="ticket-card w-full max-w-sm p-8 text-center border border-[#0A1128]/10 shadow-card">
           <p className="text-[#0A1128] font-mono text-sm mb-4">No verification target found.</p>
           <button
@@ -136,7 +136,7 @@ export default function VerifyOtp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4 py-16">
+    <div className="min-h-screen flex items-center justify-center bg-transparent relative z-10 px-4 py-16">
       <div className="ticket-card w-full max-w-md p-8 sm:p-10 border border-[#C5A059]/35 shadow-card">
         {/* Brand Header */}
         <div className="text-center pb-6 border-b border-[#0A1128]/8 mb-6">

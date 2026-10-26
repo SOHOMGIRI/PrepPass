@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import PraepPassLogo from "../PraepPassLogo.jsx";
 
 const FOOTER_LINKS = [
@@ -12,7 +12,7 @@ const FOOTER_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="py-14 border-t border-[#0A1128]/8 bg-[#FDFBF7]">
+    <footer className="py-14 border-t border-[#0A1128]/8 bg-transparent relative z-10">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col items-center md:items-start gap-1">
           <PraepPassLogo size="sm" showTagline={true} />

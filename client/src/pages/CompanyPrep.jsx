@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
@@ -171,7 +171,7 @@ export default function CompanyPrep() {
 
   if (phase === "complete") {
     return (
-      <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+      <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <SessionResults session={full} />
         </div>
@@ -180,7 +180,7 @@ export default function CompanyPrep() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+    <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
       <div className="mx-auto w-full max-w-4xl">
         <div className="flex items-center justify-between">
           <Link
@@ -321,7 +321,7 @@ export default function CompanyPrep() {
               </h1>
 
               {/* Typical Rounds Box */}
-              <div className="mt-5 rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5">
+              <div className="mt-5 rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5">
                 <div className="flex items-center justify-between">
                   <h2 className="font-heading text-xs uppercase tracking-wider font-bold text-[#0A1128]">
                     Hiring Pipeline Overview

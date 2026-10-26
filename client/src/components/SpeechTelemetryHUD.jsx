@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { Mic, Activity, AlertCircle, Zap, ShieldCheck } from "lucide-react";
 
 export default function SpeechTelemetryHUD({
@@ -36,14 +36,14 @@ export default function SpeechTelemetryHUD({
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
         {/* Pacing / WPM */}
-        <div className="p-2.5 rounded-lg bg-[#FDFBF7] border border-[#0A1128]/5">
+        <div className="p-2.5 rounded-lg bg-transparent relative z-10 border border-[#0A1128]/5">
           <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Cadence (WPM)</span>
           <div className="text-xl font-bold font-mono text-navy-900 mt-0.5">{wpm}</div>
           <span className={`text-[10px] font-medium ${status.color}`}>{status.label}</span>
         </div>
 
         {/* Vocal Amplitude */}
-        <div className="p-2.5 rounded-lg bg-[#FDFBF7] border border-[#0A1128]/5">
+        <div className="p-2.5 rounded-lg bg-transparent relative z-10 border border-[#0A1128]/5">
           <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Vocal Amplitude</span>
           <div className="flex items-center justify-center gap-1 mt-2">
             {[20, 40, 60, 80, 100].map((step, idx) => (
@@ -61,7 +61,7 @@ export default function SpeechTelemetryHUD({
         </div>
 
         {/* Fillers Tracked */}
-        <div className="p-2.5 rounded-lg bg-[#FDFBF7] border border-[#0A1128]/5">
+        <div className="p-2.5 rounded-lg bg-transparent relative z-10 border border-[#0A1128]/5">
           <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Filler Words</span>
           <div className={`text-xl font-bold font-mono mt-0.5 ${fillerCount > 3 ? "text-amber-600" : "text-navy-900"}`}>
             {fillerCount}
@@ -72,7 +72,7 @@ export default function SpeechTelemetryHUD({
         </div>
 
         {/* Real-time Fluency Score */}
-        <div className="p-2.5 rounded-lg bg-[#FDFBF7] border border-[#0A1128]/5">
+        <div className="p-2.5 rounded-lg bg-transparent relative z-10 border border-[#0A1128]/5">
           <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Fluency Index</span>
           <div className="text-xl font-bold font-mono text-emerald-700 mt-0.5">
             {fluencyScore}%

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Footer from "../components/landing/Footer.jsx";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
@@ -8,7 +8,7 @@ export default function Careers() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
+    <div className="min-h-screen bg-transparent relative z-10 flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
           <PraepPassLogo size="md" showTagline={false} />
@@ -36,7 +36,7 @@ export default function Careers() {
 
           <div className="ticket-perf my-6" />
 
-          <div className="mx-auto max-w-md rounded-2xl border border-[#0A1128]/8 bg-[#FDFBF7] p-6 text-left space-y-3 shadow-2xs">
+          <div className="mx-auto max-w-md rounded-2xl border border-[#0A1128]/8 bg-transparent relative z-10 p-6 text-left space-y-3 shadow-2xs">
             <h2 className="font-heading text-base font-bold text-[#0A1128]">
               Collaborate or Propose Research Tracks?
             </h2>

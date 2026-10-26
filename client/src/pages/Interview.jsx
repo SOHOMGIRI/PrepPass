@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
@@ -132,7 +132,7 @@ export default function Interview() {
 
   if (phase === "complete") {
     return (
-      <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+      <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
         <div className="mx-auto flex max-w-3xl flex-col items-center">
           <SessionResults session={full} />
         </div>
@@ -141,7 +141,7 @@ export default function Interview() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+    <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
       <div className="mx-auto w-full max-w-4xl">
         <Link
           to="/dashboard"
@@ -172,7 +172,7 @@ export default function Interview() {
             </div>
 
             {/* Assessment Preferences (Voice & Camera) */}
-            <div className="rounded-2xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 space-y-3">
+            <div className="rounded-2xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 space-y-3">
               <span className="font-mono text-xs uppercase tracking-wider text-[#0A1128] font-bold block">
                 Telemetry Sensors & Calibration
               </span>

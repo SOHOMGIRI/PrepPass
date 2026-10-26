@@ -1,4 +1,4 @@
-import QuestionTimer from "./QuestionTimer.jsx";
+﻿import QuestionTimer from "./QuestionTimer.jsx";
 import ScoreBars from "./ScoreBars.jsx";
 import VoiceAnswerInput from "./VoiceAnswerInput.jsx";
 import { Mic, ArrowRight, CheckCircle2, Award } from "lucide-react";
@@ -89,7 +89,7 @@ export default function InterviewCard({
           <div className="ticket-perf my-6" />
           <ScoreBars score={last?.score} />
           {last?.feedback && (
-            <div className="mt-5 rounded-xl bg-[#FDFBF7] border border-[#0A1128]/8 p-5 text-sm text-[#0A1128] leading-relaxed">
+            <div className="mt-5 rounded-xl bg-transparent relative z-10 border border-[#0A1128]/8 p-5 text-sm text-[#0A1128] leading-relaxed">
               <span className="font-mono text-xs uppercase tracking-wider font-bold text-[#9E7B35] block mb-1">
                 Examiner Assessment Feedback
               </span>

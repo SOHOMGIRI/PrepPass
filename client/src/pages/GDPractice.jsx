@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
@@ -105,7 +105,7 @@ export default function GDPractice() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+    <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
       <div className="mx-auto w-full max-w-4xl">
         <div className="flex items-center justify-between">
           <Link
@@ -294,7 +294,7 @@ export default function GDPractice() {
                   return (
                     <div
                       key={key}
-                      className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-4 shadow-2xs"
+                      className="rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-4 shadow-2xs"
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
@@ -323,7 +323,7 @@ export default function GDPractice() {
               <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128]">
                 Panel Moderator Feedback
               </h2>
-              <div className="mt-2.5 rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 text-sm text-slate-700 leading-relaxed shadow-2xs">
+              <div className="mt-2.5 rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 text-sm text-slate-700 leading-relaxed shadow-2xs">
                 {result.feedback || "Argument structure demonstrated clear thesis development."}
               </div>
             </div>

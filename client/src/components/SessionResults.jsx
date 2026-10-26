@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import GaugeCircle from "./GaugeCircle.jsx";
 import ScoreBars from "./ScoreBars.jsx";
 import { ArrowLeft, ShieldCheck, CheckCircle2 } from "lucide-react";
@@ -53,7 +53,7 @@ export default function SessionResults({ session }) {
         {scored.map((q, i) => (
           <div
             key={i}
-            className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 shadow-2xs"
+            className="rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 shadow-2xs"
           >
             <div className="flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2 py-0.5 rounded border border-[#C5A059]/20">

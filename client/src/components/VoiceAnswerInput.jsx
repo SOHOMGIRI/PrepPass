@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+﻿import { useEffect, useRef, useState, useCallback } from "react";
 import SpeechTelemetryHUD from "./SpeechTelemetryHUD.jsx";
 import { useSpeechProsody } from "../hooks/useSpeechProsody.js";
 import { Mic, MicOff, Keyboard, RotateCcw, AlertTriangle, Sparkles } from "lucide-react";
@@ -88,7 +88,7 @@ export default function VoiceAnswerInput({
             <button
               type="button"
               onClick={onSwitchToTyping}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/10 bg-[#FDFBF7] px-3.5 py-2 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/10 bg-transparent relative z-10 px-3.5 py-2 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
             >
               <Keyboard size={14} /> Type Response
             </button>

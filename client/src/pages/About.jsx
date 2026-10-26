@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Footer from "../components/landing/Footer.jsx";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
@@ -8,7 +8,7 @@ export default function About() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
+    <div className="min-h-screen bg-transparent relative z-10 flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
         <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
@@ -52,7 +52,7 @@ export default function About() {
           <div className="ticket-perf my-6" />
 
           <div className="grid gap-4 sm:grid-cols-3 pt-2">
-            <div className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 shadow-2xs">
+            <div className="rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 shadow-2xs">
               <span className="font-mono text-xs font-bold text-[#0A1128] block mb-1">
                 01. ZERO COMPROMISE
               </span>
@@ -60,7 +60,7 @@ export default function About() {
                 Full-tier candidate assessment suites unlocked without artificial paywalls.
               </p>
             </div>
-            <div className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 shadow-2xs">
+            <div className="rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 shadow-2xs">
               <span className="font-mono text-xs font-bold text-[#0A1128] block mb-1">
                 02. ACOUSTIC TELEMETRY
               </span>
@@ -68,7 +68,7 @@ export default function About() {
                 Real-time Web Audio prosody measuring WPM cadence, fillers, and hesitation dead air.
               </p>
             </div>
-            <div className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 shadow-2xs">
+            <div className="rounded-xl border border-[#0A1128]/8 bg-transparent relative z-10 p-5 shadow-2xs">
               <span className="font-mono text-xs font-bold text-[#0A1128] block mb-1">
                 03. ZERO RETENTION
               </span>

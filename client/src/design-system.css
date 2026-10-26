@@ -69,14 +69,18 @@
 @layer components {
   /* Imperial Editorial Admit-Card Ticket Container */
   .ticket-card {
-    background: #FFFFFF;
-    box-shadow: 0 10px 30px -4px rgba(10, 17, 40, 0.06), 0 0 0 1px rgba(10, 17, 40, 0.07);
+    background: linear-gradient(145deg, rgba(255, 251, 244, 0.95) 0%, rgba(253, 246, 233, 0.92) 50%, rgba(248, 238, 218, 0.95) 100%);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(245, 158, 11, 0.28);
+    box-shadow: 0 16px 45px -8px rgba(180, 140, 60, 0.12);
     border-radius: 1.5rem;
     position: relative;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
   }
   .ticket-card:hover {
-    box-shadow: 0 20px 45px -8px rgba(10, 17, 40, 0.1), 0 0 0 1px rgba(197, 160, 89, 0.35);
+    box-shadow: 0 24px 60px -8px rgba(180, 140, 60, 0.18);
+    border-color: rgba(245, 158, 11, 0.45);
+    transform: translateY(-2px);
   }
 
   .ticket-stamp {

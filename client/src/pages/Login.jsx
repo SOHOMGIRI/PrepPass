@@ -1,11 +1,11 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
 import { ArrowRight, ShieldCheck, Lock, Mail, AlertCircle } from "lucide-react";
 
 const INPUT_CLASS =
-  "w-full rounded-xl border border-[#0A1128]/12 bg-[#FDFBF7] px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:bg-white focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/20 disabled:cursor-not-allowed disabled:opacity-60 shadow-2xs";
+  "w-full rounded-xl border border-[#0A1128]/12 bg-transparent relative z-10 px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:bg-white focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/20 disabled:cursor-not-allowed disabled:opacity-60 shadow-2xs";
 const INPUT_ERROR_CLASS =
   "w-full rounded-xl border border-red-400 bg-red-50/50 px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 disabled:cursor-not-allowed disabled:opacity-60";
 
@@ -52,7 +52,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4 py-16">
+    <div className="min-h-screen flex items-center justify-center bg-transparent relative z-10 px-4 py-16">
       <div className="ticket-card w-full max-w-md p-8 sm:p-10 border border-[#C5A059]/35 shadow-card">
         {/* Brand Header */}
         <div className="text-center pb-6 border-b border-[#0A1128]/8 mb-6">

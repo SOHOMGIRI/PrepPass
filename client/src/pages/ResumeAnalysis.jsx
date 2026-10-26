@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axiosClient.js";
@@ -72,7 +72,7 @@ export default function ResumeAnalysis() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+    <div className="min-h-screen bg-transparent relative z-10 px-4 py-12">
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
@@ -126,7 +126,7 @@ export default function ResumeAnalysis() {
                   className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-all ${
                     drag
                       ? "border-[#C5A059] bg-[#C5A059]/10"
-                      : "border-[#0A1128]/15 bg-white hover:border-[#C5A059] hover:bg-[#FDFBF7]"
+                      : "border-amber-300/60 bg-amber-50/30 hover:border-amber-400 hover:bg-amber-100/30"
                   }`}
                 >
                   <input
@@ -156,7 +156,7 @@ export default function ResumeAnalysis() {
                   <button
                     type="submit"
                     disabled={busy || !file}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A1128] px-8 py-3.5 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B] shadow-sm transition disabled:opacity-50"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 font-heading text-xs font-bold uppercase tracking-wider text-white shadow-md hover:shadow-lg transition disabled:opacity-50" style={{ background: "linear-gradient(135deg, #2D241E 0%, #1A1410 100%)" }}
                   >
                     <span>{busy ? "Parsing ATS Document…" : "Analyze Candidate Resume"}</span>
                     <ArrowRight size={15} className="text-[#C5A059]" />

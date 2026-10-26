@@ -1,12 +1,13 @@
 const errorHandler = async (err, req, res, next) => {
   const statusCode = err.statusCode || err.status || 500;
-  const message = err.message || "Something went wrong";
+  const message = err.message || "An unexpected error occurred";
   const operation = err.operation ? ` during: ${err.operation}` : "";
 
-  // Log only non-sensitive operational message, never the raw error object
-  console.error(`Error ${statusCode}: ${message}${operation}`);
+  // Log non-sensitive operational message
+  console.error(`[SERVER ERROR] ${statusCode}: ${message}${operation}`);
 
-  res.status(statusCode).json({ message: "Something went wrong" });
+  // Return clean, transparent error message so users and clients know what happened
+  res.status(statusCode).json({ message });
 };
 
 // Check if MongoDB is connected before processing requests
