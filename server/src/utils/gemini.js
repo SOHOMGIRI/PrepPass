@@ -1,16 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY || "";
+const apiKey = (process.env.GEMINI_API_KEY || "").trim();
 const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
-// Primary and fallback models
-const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
-const FALLBACK_MODEL = "gemini-1.5-flash";
+// Modern Gemini model hierarchy compatible with @google/genai v2.16+
+const rawEnvModel = (process.env.GEMINI_MODEL || "").trim();
+// If env var was set to deprecated/unsupported 1.5-flash on v1beta, upgrade to 2.0-flash
+const envModel = rawEnvModel === "gemini-1.5-flash" || rawEnvModel === "models/gemini-1.5-flash" ? "gemini-2.0-flash" : rawEnvModel;
+
+const MODEL_HIERARCHY = [
+  envModel,
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-lite",
+  "gemini-1.5-pro",
+].filter(Boolean);
 
 /**
  * Calls Gemini API in JSON mode and parses the response.
  * Strips markdown code fences if present.
- * Retries once if anything fails (parsing or calling), and falls back gracefully.
+ * Iterates through modern model hierarchy if any model reports 404 or fails.
  * 
  * @param {string} prompt 
  * @returns {Promise<any>}
@@ -20,9 +29,12 @@ export async function callGeminiJSON(prompt) {
     throw new Error("GEMINI_API_KEY is not configured in server environment");
   }
 
-  const executeCallWithModel = async (modelName) => {
+  let lastError = null;
+
+  for (const modelName of MODEL_HIERARCHY) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000);
+    const timeoutId = setTimeout(() => controller.abort(), 18000);
+
     try {
       const response = await ai.models.generateContent({
         model: modelName,
@@ -50,24 +62,13 @@ export async function callGeminiJSON(prompt) {
       return JSON.parse(text);
     } catch (error) {
       clearTimeout(timeoutId);
-      if (error.name === "AbortError") {
-        const err = new Error(`Gemini request timed out after 20s on model ${modelName}`);
-        err.operation = "gemini-generateContent";
-        throw err;
-      }
-      throw error;
-    }
-  };
-
-  try {
-    return await executeCallWithModel(PRIMARY_MODEL);
-  } catch (primaryErr) {
-    console.warn(`[GEMINI] Primary model (${PRIMARY_MODEL}) failed: ${primaryErr.message}. Retrying with fallback model (${FALLBACK_MODEL})...`);
-    try {
-      return await executeCallWithModel(FALLBACK_MODEL);
-    } catch (fallbackErr) {
-      console.error("[GEMINI] Fallback model also failed:", fallbackErr.message);
-      throw new Error(`Gemini intelligence service unavailable: ${fallbackErr.message || "Unknown error"}`);
+      const isAbort = error.name === "AbortError";
+      const errMsg = isAbort ? `Timed out on model ${modelName}` : error.message;
+      console.warn(`[GEMINI] Model ${modelName} failed (${errMsg}). Trying next candidate...`);
+      lastError = error;
     }
   }
+
+  console.error("[GEMINI] All model candidates exhausted:", lastError?.message);
+  throw new Error(`Gemini intelligence service unavailable: ${lastError?.message || "Unknown error"}`);
 }

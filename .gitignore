@@ -35,3 +35,5 @@ Thumbs.db
 # Temporary deployment notes
 DEPLOYMENT_FIX.md
 backend_qa_results.json
+*.pdf
+generate_praeppass_dossier.py
