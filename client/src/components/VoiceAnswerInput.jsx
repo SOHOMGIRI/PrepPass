@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import SpeechTelemetryHUD from "./SpeechTelemetryHUD.jsx";
 import { useSpeechProsody } from "../hooks/useSpeechProsody.js";
 import { Mic, MicOff, Keyboard, RotateCcw, AlertTriangle, Sparkles, Volume2 } from "lucide-react";
@@ -10,6 +10,11 @@ export default function VoiceAnswerInput({
   onSwitchToTyping,
 }) {
   const [isListening, setIsListening] = useState(false);
+  const answerRef = useRef(answer);
+
+  useEffect(() => {
+    answerRef.current = answer;
+  }, [answer]);
 
   const handleTranscriptUpdate = useCallback(
     (newText) => {
@@ -24,12 +29,14 @@ export default function VoiceAnswerInput({
   });
 
   const toggleListening = useCallback(() => {
-    if (!isListening) {
-      // Sync starting text base so speaking appends to existing text
-      prosody.setManualBaseText(answer);
-    }
-    setIsListening((prev) => !prev);
-  }, [answer, isListening, prosody]);
+    setIsListening((prev) => {
+      const nextListening = !prev;
+      if (nextListening) {
+        prosody.setManualBaseText(answerRef.current);
+      }
+      return nextListening;
+    });
+  }, [prosody]);
 
   const displayedError = prosody.micError;
 

@@ -16,8 +16,8 @@ const COMMON_FILLERS = [
 ];
 
 /**
- * Real-time Speech Prosody & Continuous Speech-to-Text Telemetry Hook.
- * Uses Web Speech API (continuous SpeechRecognition with auto-restart) + Web Audio API (AnalyserNode).
+ * Real-time Speech Prosody & Persistent Continuous Speech-to-Text Telemetry Hook.
+ * Ensures previously spoken text is NEVER wiped out or replaced when browser speech pauses.
  */
 export function useSpeechProsody({ isListening = false, onTranscriptUpdate = null }) {
   const [transcript, setTranscript] = useState("");
@@ -31,9 +31,13 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
 
   const isListeningRef = useRef(isListening);
   const onTranscriptUpdateRef = useRef(onTranscriptUpdate);
-  const accumulatedTextRef = useRef("");
-  const sessionInterimRef = useRef("");
+  const shouldRestartRef = useRef(false);
 
+  // Permanent base text accumulator that survives browser speech-engine restarts
+  const baseTextRef = useRef("");
+  const sessionFinalRef = useRef("");
+
+  const wpmRef = useRef(0);
   const recognitionRef = useRef(null);
   const audioContextRef = useRef(null);
   const analyserRef = useRef(null);
@@ -45,7 +49,7 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
   const wordsSpokenRef = useRef(0);
   const pauseTriggeredRef = useRef(false);
 
-  // Keep refs synchronized without recreating effects
+  // Synchronize state into refs to avoid any effect re-creations
   useEffect(() => {
     isListeningRef.current = isListening;
   }, [isListening]);
@@ -59,10 +63,10 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
     try {
       if (!navigator.mediaDevices?.getUserMedia) return;
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-      
+
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return;
-      
+
       const ctx = new AudioCtx();
       audioContextRef.current = ctx;
 
@@ -127,14 +131,16 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
     setVocalEnergy(0);
   }, []);
 
-  // Compute metrics from text
+  // Compute metrics from text without any external state dependencies
   const processMetrics = useCallback((fullText) => {
+    if (!fullText) return;
     const words = fullText.split(/\s+/).filter(Boolean);
     wordsSpokenRef.current = words.length;
 
     const elapsedMinutes = (Date.now() - startTimeRef.current) / 60000;
     if (elapsedMinutes > 0.05) {
       const calculatedWpm = Math.round(words.length / elapsedMinutes);
+      wpmRef.current = calculatedWpm;
       setWpm(calculatedWpm);
     }
 
@@ -157,12 +163,13 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
 
     let score = 100;
     score -= totalFillers * 3;
-    if (wpm > 185) score -= 10;
-    if (wpm < 95 && wpm > 0) score -= 8;
+    const currentWpm = wpmRef.current;
+    if (currentWpm > 185) score -= 10;
+    if (currentWpm < 95 && currentWpm > 0) score -= 8;
     setFluencyScore(Math.max(45, Math.min(100, score)));
-  }, [wpm]);
+  }, []);
 
-  // Handle active speech recognition session
+  // Main SpeechRecognition lifecycle — ONLY triggered when isListening toggles
   useEffect(() => {
     const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRec) {
@@ -171,82 +178,91 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
     }
 
     let rec = null;
-    let shouldRestart = false;
 
-    const initRecognition = () => {
-      try {
-        rec = new SpeechRec();
-        rec.continuous = true;
-        rec.interimResults = true;
-        rec.lang = navigator.language || "en-US";
+    try {
+      rec = new SpeechRec();
+      rec.continuous = true;
+      rec.interimResults = true;
+      rec.lang = navigator.language || "en-US";
 
-        rec.onresult = (event) => {
-          let interim = "";
-          let finalDelta = "";
+      rec.onresult = (event) => {
+        let currentSessionFinal = "";
+        let currentInterim = "";
 
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            const resultItem = event.results[i];
-            if (resultItem.isFinal) {
-              finalDelta += resultItem[0].transcript + " ";
-            } else {
-              interim += resultItem[0].transcript;
-            }
+        // Collect all transcripts in the current recognition session
+        for (let i = 0; i < event.results.length; i++) {
+          const item = event.results[i];
+          if (item.isFinal) {
+            currentSessionFinal += item[0].transcript + " ";
+          } else {
+            currentInterim += item[0].transcript;
           }
+        }
 
-          if (finalDelta) {
-            accumulatedTextRef.current += finalDelta;
+        sessionFinalRef.current = currentSessionFinal;
+
+        // Combine permanent base text + finalized words + active interim speech
+        const combined = [
+          baseTextRef.current.trim(),
+          currentSessionFinal.trim(),
+          currentInterim.trim(),
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        setTranscript(combined);
+        processMetrics(combined);
+
+        if (onTranscriptUpdateRef.current) {
+          onTranscriptUpdateRef.current(combined);
+        }
+      };
+
+      rec.onerror = (event) => {
+        console.warn("[SPEECH RECOGNITION STATUS]", event.error);
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+          setMicError("Microphone access was denied. Please allow microphone permissions in your browser address bar.");
+          shouldRestartRef.current = false;
+        } else if (event.error === "audio-capture") {
+          setMicError("No microphone detected. Please verify your audio hardware.");
+          shouldRestartRef.current = false;
+        }
+      };
+
+      rec.onend = () => {
+        // Commit whatever was finalized in this session into the permanent base text
+        if (sessionFinalRef.current) {
+          baseTextRef.current = [baseTextRef.current.trim(), sessionFinalRef.current.trim()]
+            .filter(Boolean)
+            .join(" ") + " ";
+          sessionFinalRef.current = "";
+        }
+
+        // If listening is still active, restart immediately so old words are never lost
+        if (isListeningRef.current && shouldRestartRef.current) {
+          try {
+            rec.start();
+          } catch (restartErr) {
+            console.warn("[SPEECH RESTART QUIET RETRY]", restartErr);
           }
-          sessionInterimRef.current = interim;
+        }
+      };
 
-          const currentTotal = (accumulatedTextRef.current + " " + interim).replace(/\s+/g, " ").trim();
-          setTranscript(currentTotal);
-          processMetrics(currentTotal);
-
-          if (onTranscriptUpdateRef.current) {
-            onTranscriptUpdateRef.current(currentTotal);
-          }
-        };
-
-        rec.onerror = (event) => {
-          console.warn("[SPEECH RECOGNITION WARNING]", event.error);
-          if (event.error === "not-allowed" || event.error === "service-not-allowed") {
-            setMicError("Microphone access was denied. Please allow microphone permissions in your browser address bar.");
-            shouldRestart = false;
-          } else if (event.error === "audio-capture") {
-            setMicError("No microphone was detected. Please verify your audio input hardware.");
-            shouldRestart = false;
-          }
-          // "no-speech" is normal when candidate is thinking; onend will automatically keep listening
-        };
-
-        rec.onend = () => {
-          // Chrome stops recognition automatically after speech pauses; restart continuously if still listening
-          if (isListeningRef.current && shouldRestart) {
-            try {
-              rec.start();
-            } catch (startErr) {
-              console.warn("[SPEECH RESTART RETRY]", startErr);
-            }
-          }
-        };
-
-        recognitionRef.current = rec;
-      } catch (err) {
-        console.error("[SPEECH INIT ERROR]", err);
-      }
-    };
-
-    initRecognition();
+      recognitionRef.current = rec;
+    } catch (err) {
+      console.error("[SPEECH INIT ERROR]", err);
+    }
 
     if (isListening) {
       setMicError("");
-      shouldRestart = true;
+      shouldRestartRef.current = true;
       startTimeRef.current = Date.now();
       lastSoundTimeRef.current = Date.now();
       wordsSpokenRef.current = 0;
       setPauseCount(0);
       setFillerCount(0);
       setDetectedFillers([]);
+      wpmRef.current = 0;
       setWpm(0);
 
       startAudioMeter();
@@ -257,15 +273,24 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
         console.warn("[SPEECH START INITIAL]", startErr);
       }
     } else {
-      shouldRestart = false;
+      shouldRestartRef.current = false;
       stopAudioMeter();
+
+      // Commit finalized words into base text
+      if (sessionFinalRef.current) {
+        baseTextRef.current = [baseTextRef.current.trim(), sessionFinalRef.current.trim()]
+          .filter(Boolean)
+          .join(" ") + " ";
+        sessionFinalRef.current = "";
+      }
+
       try {
         rec?.stop();
       } catch {}
     }
 
     return () => {
-      shouldRestart = false;
+      shouldRestartRef.current = false;
       stopAudioMeter();
       try {
         rec?.abort();
@@ -274,9 +299,10 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
   }, [isListening, processMetrics, startAudioMeter, stopAudioMeter]);
 
   const resetProsody = useCallback(() => {
-    accumulatedTextRef.current = "";
-    sessionInterimRef.current = "";
+    baseTextRef.current = "";
+    sessionFinalRef.current = "";
     setTranscript("");
+    wpmRef.current = 0;
     setWpm(0);
     setFillerCount(0);
     setDetectedFillers([]);
@@ -285,7 +311,8 @@ export function useSpeechProsody({ isListening = false, onTranscriptUpdate = nul
   }, []);
 
   const setManualBaseText = useCallback((text) => {
-    accumulatedTextRef.current = text ? text.trim() + " " : "";
+    baseTextRef.current = text ? text.trim() + " " : "";
+    sessionFinalRef.current = "";
   }, []);
 
   return {
