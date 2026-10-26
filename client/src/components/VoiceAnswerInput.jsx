@@ -1,7 +1,7 @@
-﻿import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SpeechTelemetryHUD from "./SpeechTelemetryHUD.jsx";
 import { useSpeechProsody } from "../hooks/useSpeechProsody.js";
-import { Mic, MicOff, Keyboard, RotateCcw, AlertTriangle, Sparkles } from "lucide-react";
+import { Mic, MicOff, Keyboard, RotateCcw, AlertTriangle, Sparkles, Volume2 } from "lucide-react";
 
 export default function VoiceAnswerInput({
   answer,
@@ -10,8 +10,6 @@ export default function VoiceAnswerInput({
   onSwitchToTyping,
 }) {
   const [isListening, setIsListening] = useState(false);
-  const [interimText, setInterimText] = useState("");
-  const [micError, setMicError] = useState("");
 
   const handleTranscriptUpdate = useCallback(
     (newText) => {
@@ -26,73 +24,92 @@ export default function VoiceAnswerInput({
   });
 
   const toggleListening = useCallback(() => {
-    setMicError("");
+    if (!isListening) {
+      // Sync starting text base so speaking appends to existing text
+      prosody.setManualBaseText(answer);
+    }
     setIsListening((prev) => !prev);
-  }, []);
+  }, [answer, isListening, prosody]);
+
+  const displayedError = prosody.micError;
 
   return (
     <div className="space-y-4">
-      {micError && (
-        <div className="rounded-xl bg-amber-50 border border-amber-200 p-3 font-mono text-xs text-amber-800 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <AlertTriangle size={15} />
-            <span>{micError}</span>
+      {displayedError && (
+        <div className="rounded-2xl bg-amber-100/90 border border-amber-300 p-3.5 font-mono text-xs text-amber-950 flex items-center justify-between shadow-2xs">
+          <div className="flex items-center gap-2.5">
+            <AlertTriangle size={16} className="text-amber-700 shrink-0" />
+            <span>{displayedError}</span>
           </div>
           <button
             type="button"
-            onClick={() => setMicError("")}
-            className="text-amber-800 font-bold ml-2 hover:opacity-80"
+            onClick={() => prosody.setMicError("")}
+            className="text-amber-900 font-bold ml-2 hover:opacity-80 px-2 py-0.5 rounded bg-amber-200/50"
           >
-            ✕
+            ✕ Dismiss
           </button>
         </div>
       )}
 
-      {/* Voice Control Action Banner */}
-      <div className="rounded-2xl border border-[#0A1128]/8 bg-white p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
-        <div className="flex items-center gap-4">
+      {/* Voice Control Action Banner (Warm Champagne Glass) */}
+      <div 
+        className="rounded-2xl border border-amber-300/60 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm backdrop-blur-md transition-all"
+        style={{
+          background: isListening
+            ? "linear-gradient(135deg, rgba(254, 243, 235, 0.95) 0%, rgba(254, 230, 220, 0.9) 100%)"
+            : "linear-gradient(135deg, rgba(254, 250, 242, 0.92) 0%, rgba(246, 238, 224, 0.88) 100%)",
+        }}
+      >
+        <div className="flex items-center gap-4 w-full sm:w-auto">
           <button
             type="button"
             onClick={toggleListening}
             disabled={busy}
-            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-xl transition-all shadow-sm ${
+            className={`flex h-15 w-15 shrink-0 items-center justify-center rounded-2xl text-xl transition-all shadow-md active:scale-95 ${
               isListening
-                ? "bg-red-600 text-white ring-4 ring-red-200 animate-pulse"
-                : "bg-[#0A1128] text-[#FDFBF7] hover:bg-[#1E293B] hover:scale-105 active:scale-95"
+                ? "bg-rose-600 text-white ring-4 ring-rose-300/70 animate-pulse scale-105"
+                : "bg-slate-900 text-amber-300 hover:bg-slate-800 hover:scale-105"
             }`}
-            title={isListening ? "Stop vocal recording" : "Activate acoustic capture"}
+            style={
+              !isListening
+                ? { background: "linear-gradient(135deg, #2D241E 0%, #15110E 100%)" }
+                : undefined
+            }
+            title={isListening ? "Stop vocal capture" : "Click to activate acoustic capture"}
           >
-            {isListening ? <MicOff size={24} /> : <Mic size={24} className="text-[#C5A059]" />}
+            {isListening ? <MicOff size={26} /> : <Mic size={26} className="text-amber-400" />}
           </button>
+
           <div>
             <div className="flex items-center gap-2">
               <span
                 className={`inline-block h-2.5 w-2.5 rounded-full ${
-                  isListening ? "bg-red-500 animate-ping" : "bg-emerald-500"
+                  isListening ? "bg-rose-500 animate-ping" : "bg-emerald-500"
                 }`}
               />
-              <span className="font-heading text-sm text-[#0A1128] font-bold">
-                {isListening ? "Acoustic Telemetry Active — Articulate Response" : "Acoustic Sensor Ready"}
+              <span className="font-heading text-sm text-slate-900 font-bold">
+                {isListening ? "Recording Live Speech — Speak Clearly Now" : "Acoustic Sensor Ready (Click Mic to Speak)"}
               </span>
             </div>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-xs text-amber-950/70 font-medium">
               {isListening
-                ? "Live analysis active: WPM cadence, fillers, and prosody being computed."
-                : "Select the microphone to initiate real-time spoken assessment."}
+                ? "Transcribing voice in real time: WPM cadence, fillers, and prosody tracking active."
+                : "Click the microphone button to start speaking. Your speech will transcribe directly into the box."}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-end sm:self-center">
           {onSwitchToTyping && (
             <button
               type="button"
               onClick={onSwitchToTyping}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/10 bg-transparent relative z-10 px-3.5 py-2 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/60 bg-amber-100/70 px-3.5 py-2 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 shadow-2xs transition-colors"
             >
-              <Keyboard size={14} /> Type Response
+              <Keyboard size={14} className="text-amber-800" /> Type Response
             </button>
           )}
+
           {answer.trim() && (
             <button
               type="button"
@@ -101,7 +118,7 @@ export default function VoiceAnswerInput({
                 prosody.resetProsody();
               }}
               disabled={busy || isListening}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2 font-mono text-xs font-semibold text-red-700 hover:bg-red-100 disabled:opacity-40 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-rose-300 bg-rose-100/80 px-3.5 py-2 font-mono text-xs font-semibold text-rose-900 hover:bg-rose-200/90 disabled:opacity-40 transition-colors shadow-2xs"
             >
               <RotateCcw size={13} /> Reset
             </button>
@@ -122,24 +139,27 @@ export default function VoiceAnswerInput({
 
       {/* Editable Live Transcript Box */}
       <div className="space-y-1.5">
-        <div className="flex items-center justify-between text-xs font-mono text-slate-500">
+        <div className="flex items-center justify-between text-xs font-mono text-amber-950/80 font-semibold">
           <span>REAL-TIME TRANSCRIPT & CANDIDATE AUDIT:</span>
-          <span className="font-semibold text-navy-900">
-            {isListening ? "🎙️ Acoustic capture stream" : "✓ Candidate can polish text before commit"}
+          <span className="text-amber-800">
+            {isListening ? "🔴 Acoustic live stream active" : "✓ Candidate can polish or edit transcript anytime"}
           </span>
         </div>
 
         <div className="relative">
           <textarea
             value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
+            onChange={(e) => {
+              setAnswer(e.target.value);
+              prosody.setManualBaseText(e.target.value);
+            }}
             rows={5}
             placeholder={
               isListening
-                ? "Listening... spoken words will stream here in real-time..."
-                : "Candidate transcript will appear here. You can manually refine grammar, formatting, or code snippets before final evaluation..."
+                ? "Listening to speech... your spoken words are streaming here in real-time..."
+                : "Candidate transcript will appear here when speaking. You can also edit, format, or type code snippets directly..."
             }
-            className="w-full rounded-xl border border-[#0A1128]/10 bg-white px-4 py-3.5 text-sm text-[#0A1128] placeholder-slate-400 focus:border-[#C5A059] focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 leading-relaxed font-body shadow-2xs"
+            className="w-full rounded-2xl border border-amber-300/70 bg-amber-50/60 px-4 py-3.5 text-sm text-slate-900 placeholder-slate-500/80 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:bg-amber-50/90 leading-relaxed font-sans shadow-inner transition-all"
           />
         </div>
       </div>

@@ -1,12 +1,12 @@
-﻿import QuestionTimer from "./QuestionTimer.jsx";
+import QuestionTimer from "./QuestionTimer.jsx";
 import ScoreBars from "./ScoreBars.jsx";
 import VoiceAnswerInput from "./VoiceAnswerInput.jsx";
 import { Mic, ArrowRight, CheckCircle2, Award } from "lucide-react";
 
 const AREA =
-  "w-full rounded-xl border border-[#0A1128]/10 bg-white px-4 py-3.5 text-navy-900 placeholder-slate-400 focus:border-[#C5A059] focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 leading-relaxed font-body shadow-2xs";
+  "w-full rounded-2xl border border-amber-300/70 bg-amber-50/60 px-4 py-3.5 text-slate-900 placeholder-slate-500/80 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:bg-amber-50/90 leading-relaxed font-sans shadow-inner transition-all";
 const BTN =
-  "inline-flex w-full items-center justify-center gap-2 rounded-xl px-7 py-3.5 font-heading text-xs font-bold uppercase tracking-wider transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C5A059] sm:w-auto shadow-sm";
+  "inline-flex w-full items-center justify-center gap-2 rounded-xl px-7 py-3.5 font-heading text-xs font-bold uppercase tracking-wider transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-500 sm:w-auto shadow-md";
 
 export default function InterviewCard({
   phase,
@@ -24,14 +24,20 @@ export default function InterviewCard({
   isSpeechSupported,
 }) {
   return (
-    <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/30 shadow-card">
-      <div className="flex items-start justify-between gap-4 pb-6 border-b border-[#0A1128]/8">
+    <div 
+      className="ticket-card mt-6 p-6 sm:p-10 border border-amber-400/50 shadow-2xl relative overflow-hidden backdrop-blur-md"
+      style={{
+        background: "linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%)",
+        boxShadow: "0 24px 60px -12px rgba(180, 130, 60, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+      }}
+    >
+      <div className="flex items-start justify-between gap-4 pb-6 border-b border-amber-300/40">
         <div className="min-w-0">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
-            <Award size={12} className="text-[#C5A059]" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300/80 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold shadow-2xs">
+            <Award size={13} className="text-amber-700" />
             <span>{role} · QUESTION {step + 1} OF 4</span>
           </div>
-          <p className="mt-4 font-heading text-xl sm:text-2xl font-bold leading-snug text-[#0A1128]">
+          <p className="mt-4 font-heading text-xl sm:text-2xl font-bold leading-snug text-slate-900 tracking-tight">
             {question}
           </p>
         </div>
@@ -77,10 +83,11 @@ export default function InterviewCard({
               type="button"
               onClick={onSubmit}
               disabled={busy || !answer.trim()}
-              className={`${BTN} bg-[#0A1128] text-white hover:bg-[#1E293B] disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99]`}
+              className={`${BTN} text-white disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] shadow-lg`}
+              style={{ background: "linear-gradient(135deg, #2D241E 0%, #15110E 100%)" }}
             >
               <span>{busy ? "Evaluating Response Rigor…" : "Submit Answer for Assessment"}</span>
-              <CheckCircle2 size={16} className="text-[#C5A059]" />
+              <CheckCircle2 size={16} className="text-amber-400" />
             </button>
           </div>
         </div>
