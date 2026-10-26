@@ -1,48 +1,61 @@
 import React from "react";
 
 /**
- * GlobalBackground - Rich Warm Architectural Canvas
- * Provides warm champagne alabaster depth with subtle grid guidelines,
- * warm amber sunbeam glows, and celestial sapphire ambient highlights,
- * giving cards and navigation clear, crisp visual separation.
+ * GlobalBackground — Textured Warm Parchment with Vivid Color Nodes
+ * Distinct from ÆtherTransit's clean flat white — uses warm sandy parchment
+ * with visible dot-grid texture, bold color accent blobs, and a subtle
+ * diagonal grain pattern for premium editorial depth.
  */
 export default function GlobalBackground() {
   return (
-    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden bg-[#F6F3EB]">
-      {/* Architectural Blueprint Grid Guidelines */}
-      <div 
-        className="absolute inset-0 opacity-[0.06]"
+    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden" style={{ backgroundColor: "#F0EBE0" }}>
+      {/* Visible Dot Grid Texture */}
+      <div
+        className="absolute inset-0 opacity-[0.08]"
         style={{
-          backgroundImage: `
-            radial-gradient(#1E293B 1.2px, transparent 1.2px),
-            linear-gradient(to right, rgba(15, 23, 42, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(15, 23, 42, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: "32px 32px, 96px 96px, 96px 96px",
-          backgroundPosition: "0 0, 0 0, 0 0"
+          backgroundImage: `radial-gradient(circle, #1E293B 1px, transparent 1px)`,
+          backgroundSize: "24px 24px",
         }}
       />
 
-      {/* Warm Golden / Aurum Sunbeam Glow at Top-Right */}
-      <div 
-        className="absolute -top-[12%] -right-[8%] w-[55vw] h-[55vw] rounded-full blur-[140px] opacity-70 pointer-events-none"
+      {/* Diagonal Linen Grain Overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
         style={{
-          background: "radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.12) 45%, transparent 75%)"
-        }}
-      />
-      
-      {/* Electric Sapphire & Celestial Blue Ambient Glow on Left */}
-      <div 
-        className="absolute top-[25%] -left-[12%] w-[55vw] h-[55vw] rounded-full blur-[160px] opacity-45 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, rgba(37, 99, 235, 0.22) 0%, rgba(6, 182, 212, 0.14) 45%, transparent 75%)"
+          backgroundImage: `repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 8px,
+            rgba(15, 23, 42, 0.1) 8px,
+            rgba(15, 23, 42, 0.1) 9px
+          )`,
         }}
       />
 
-      {/* Gentle Warm Horizon at Bottom */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#EDE7DC]/70 to-transparent pointer-events-none"
+      {/* Bold Vivid Color Accent Blobs */}
+      {/* Top-right: Electric Blue */}
+      <div
+        className="absolute -top-[8%] right-[5%] w-[40vw] h-[40vw] rounded-full blur-[120px] opacity-40"
+        style={{ background: "radial-gradient(circle, rgba(37, 99, 235, 0.5) 0%, transparent 70%)" }}
       />
+      {/* Left-center: Vivid Violet */}
+      <div
+        className="absolute top-[30%] -left-[8%] w-[35vw] h-[35vw] rounded-full blur-[130px] opacity-30"
+        style={{ background: "radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%)" }}
+      />
+      {/* Bottom-right: Warm Amber */}
+      <div
+        className="absolute bottom-[5%] right-[15%] w-[30vw] h-[30vw] rounded-full blur-[110px] opacity-35"
+        style={{ background: "radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, transparent 70%)" }}
+      />
+      {/* Bottom-left: Cyan accent */}
+      <div
+        className="absolute bottom-[20%] -left-[5%] w-[25vw] h-[25vw] rounded-full blur-[100px] opacity-25"
+        style={{ background: "radial-gradient(circle, rgba(6, 182, 212, 0.35) 0%, transparent 70%)" }}
+      />
+
+      {/* Bottom warm edge vignette */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#E8E0D2]/50 to-transparent" />
     </div>
   );
 }
