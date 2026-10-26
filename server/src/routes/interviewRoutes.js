@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { verifyAccessToken } from "../middleware/auth.js";
 import { interviewLimiter } from "../middleware/featureLimiters.js";
 import { checkDbConnection } from "../middleware/errorHandler.js";
@@ -9,6 +9,7 @@ import {
   finishInterview,
   getSession,
   getHistory,
+  getAdaptiveQuestion,
 } from "../controllers/interviewController.js";
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.use(verifyAccessToken, interviewLimiter);
 router.post("/start", startInterview);
 router.post("/answer", answerQuestion);
 router.post("/finish", finishInterview);
+router.post("/adaptive-question", getAdaptiveQuestion);
 router.get("/session/:id", getSession);
 router.get("/history", getHistory);
 router.get("/roles", (req, res) => res.json({ roles }));

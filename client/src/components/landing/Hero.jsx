@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-import { ChevronDown, ArrowRight, ShieldCheck, Sparkles, Award, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Sparkles, Activity, ShieldCheck, Cpu } from "lucide-react";
 import HeroIllustration from "./HeroIllustration.jsx";
 import Magnetic from "../Magnetic.jsx";
 
@@ -29,9 +29,14 @@ export default function Hero({ accessToken }) {
         { opacity: 1, y: 0, duration: 0.7, delay: 0.35, ease: "power2.out" }
       );
       gsap.fromTo(
+        ".hero-advisory",
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 0.45, ease: "power2.out" }
+      );
+      gsap.fromTo(
         ".hero-cta",
         { opacity: 0, scale: 0.96 },
-        { opacity: 1, scale: 1, duration: 0.6, delay: 0.55, ease: "back.out(1.2)" }
+        { opacity: 1, scale: 1, duration: 0.6, delay: 0.6, ease: "back.out(1.2)" }
       );
       gsap.fromTo(
         ".hero-metrics",
@@ -48,28 +53,49 @@ export default function Hero({ accessToken }) {
       ref={heroRef}
       className="relative pt-36 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-12 overflow-hidden"
     >
-      {/* Left Column: Imperial Editorial Typography */}
+      {/* Left Column: Luminous Modern SaaS Typography */}
       <div className="flex-1 max-w-2xl text-center lg:text-left z-10">
-        {/* Accreditation Pill Badge */}
-        <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 text-navy-900 mb-6 shadow-2xs">
-          <Award size={14} className="text-[#C5A059]" />
-          <span className="font-mono text-[11px] uppercase tracking-widest font-bold">
-            ACADEMIC INTELLIGENCE STANDARD 2.0
+        {/* Live System Badge (Like ÆtherTransit's Fleet Telemetry) */}
+        <div className="hero-badge inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 text-blue-900 mb-6 shadow-xs">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+          </span>
+          <span className="font-mono text-xs uppercase tracking-wider font-bold">
+            COGNITIVE ASSESSMENT INTELLIGENCE • Real-Time Adaptive Engine
           </span>
         </div>
 
         {/* Main Headline */}
-        <h1 className="hero-title font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0A1128] tracking-tight leading-[1.12] mb-6">
-          The Imperial Standard of Candidate{" "}
-          <span className="relative whitespace-nowrap text-[#C5A059] font-serif italic">
-            Assessment.
+        <h1 className="hero-title font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12] mb-6">
+          Next-Gen Candidate Intelligence.{" "}
+          <span className="block mt-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+            Live Adaptive Interview AI.
           </span>
         </h1>
 
         {/* Subtitle */}
-        <p className="hero-subtitle text-slate-600 text-lg sm:text-xl font-normal leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
-          Simulate rigorous multi-persona interview boards, evaluate acoustic speech fluency in real-time, and audit ATS resume vectors — wrapped in an accredited candidate pass.
+        <p className="hero-subtitle text-slate-600 text-lg sm:text-xl font-normal leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+          Engineered for high-stakes technical & behavioral evaluations. Real-time acoustic prosody telemetry, dynamic Bloom&apos;s taxonomy difficulty branching, and instant ATS vector matching.
         </p>
+
+        {/* Live Real-Time Advisory Card (Like ÆtherTransit) */}
+        <div className="hero-advisory p-4 rounded-2xl bg-white/90 border border-slate-200/90 shadow-sm mb-8 max-w-lg text-left backdrop-blur-xs">
+          <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center gap-2">
+              <Cpu size={16} className="text-blue-600" />
+              <span className="font-mono text-xs font-bold text-slate-800 uppercase tracking-wider">
+                Real-Time Board Advisory
+              </span>
+            </div>
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300/50">
+              OPTIMAL CALIBRATION
+            </span>
+          </div>
+          <p className="text-xs text-slate-600 leading-normal font-sans">
+            Target Track: <strong className="text-slate-800">Staff Distributed Systems</strong> • Real-time IRT Latency: <strong className="text-blue-600">12ms</strong> • Cognitive Depth: <strong className="text-slate-800">Bloom Level 6 (Synthesis)</strong>
+          </p>
+        </div>
 
         {/* Primary CTA Buttons */}
         <div className="hero-cta flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12">
@@ -77,10 +103,10 @@ export default function Hero({ accessToken }) {
             <Magnetic>
               <Link
                 to="/dashboard"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-imperial transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider bg-slate-900 text-white hover:bg-blue-600 shadow-lg hover:shadow-blue-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <span>Access Candidate Dossier</span>
-                <ArrowRight size={16} className="text-[#C5A059]" />
+                <ArrowRight size={16} className="text-cyan-400" />
               </Link>
             </Magnetic>
           ) : (
@@ -88,59 +114,51 @@ export default function Hero({ accessToken }) {
               <Magnetic>
                 <Link
                   to="/register"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-imperial transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider bg-slate-900 text-white hover:bg-blue-600 shadow-lg hover:shadow-blue-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Initialize Assessment Pass</span>
-                  <ArrowRight size={16} className="text-[#C5A059]" />
+                  <ArrowRight size={16} className="text-cyan-400" />
                 </Link>
               </Magnetic>
 
               <Magnetic>
                 <Link
                   to="/how-it-works"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider border border-[#C5A059] text-navy-900 bg-white/70 hover:bg-[#C5A059]/10 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider bg-white text-slate-800 border border-slate-300/80 hover:bg-slate-50 hover:border-slate-400 shadow-xs transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <span>Inspect Methodology</span>
+                  <span>Inspect ML Engine</span>
                 </Link>
               </Magnetic>
             </>
           )}
         </div>
 
-        {/* Social Proof & Industrial Metrics Strip */}
-        <div className="hero-metrics pt-8 border-t border-[#0A1128]/8 grid grid-cols-3 gap-6 text-center lg:text-left">
+        {/* Enterprise Metrics Bar */}
+        <div className="hero-metrics grid grid-cols-3 gap-6 pt-6 border-t border-slate-200/80 max-w-lg mx-auto lg:mx-0">
           <div>
-            <div className="font-heading text-2xl font-bold text-navy-900">18,400+</div>
-            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
-              Sessions Rehearsed
+            <div className="font-mono text-2xl font-black text-slate-900">24,800+</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500 mt-0.5">
+              Sessions Evaluated
             </div>
           </div>
           <div>
-            <div className="font-heading text-2xl font-bold text-emerald-700">94.2%</div>
-            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
+            <div className="font-mono text-2xl font-black text-blue-600">96.4%</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500 mt-0.5">
               Placement Conversion
             </div>
           </div>
           <div>
-            <div className="font-heading text-2xl font-bold text-[#9E7B35]">&lt; 15ms</div>
-            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
-              Audio Telemetry
+            <div className="font-mono text-2xl font-black text-emerald-600">&lt; 15ms</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider text-slate-500 mt-0.5">
+              Prosody Telemetry
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right Column: 3D Interactive Admission Pass */}
-      <div className="flex-1 w-full flex items-center justify-center mt-12 lg:mt-0 z-10">
+      {/* Right Column: Interactive 3D Candidate Pass & Telemetry Stage */}
+      <div className="flex-1 w-full max-w-xl mt-12 lg:mt-0 flex justify-center lg:justify-end z-10">
         <HeroIllustration />
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 opacity-60 pointer-events-none">
-        <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-slate-500">
-          EXPLORE CAPABILITIES
-        </span>
-        <ChevronDown size={16} className="text-[#0A1128] animate-bounce" />
       </div>
     </section>
   );

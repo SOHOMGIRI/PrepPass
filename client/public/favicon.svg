@@ -1,8 +1,19 @@
-<svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="4" y="4" width="92" height="92" rx="22" fill="#0A1128" stroke="#C5A059" stroke-width="4"/>
-  <polygon points="50,14 84,50 50,86 16,50" fill="none" stroke="#C5A059" stroke-width="1.5" stroke-dasharray="4 3" stroke-opacity="0.5"/>
-  <path d="M34 74V28H50C57 28 62 31.5 62 38C62 44.5 57 48 50 48H34" stroke="#FDFBF7" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M52 48H68C74 48 78 52 78 58C78 64 74 68 68 68H54C48 68 46 64 46 58C46 52 50 48 56 48" stroke="#C5A059" stroke-width="5" stroke-linecap="round"/>
-  <path d="M50 58H77" stroke="#C5A059" stroke-width="3.5" stroke-linecap="round"/>
-  <circle cx="50" cy="48" r="3" fill="#C5A059"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#1E3A8A" />
+      <stop offset="50%" stopColor="#2563EB" />
+      <stop offset="100%" stopColor="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#F59E0B" />
+      <stop offset="100%" stopColor="#D97706" />
+    </linearGradient>
+  </defs>
+  <polygon points="50,6 88,27 88,73 50,94 12,73 12,27" fill="url(#shieldGrad)" stroke="#1E40AF" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="50" cy="50" r="32" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+  <path d="M36 72V30C36 30 46 26 56 26C64 26 69 31 69 37C69 44 63 48 54 48H45V72H36Z" fill="#FFFFFF"/>
+  <path d="M45 35V42H54C57 42 60 40 60 38C60 36 57 35 54 35H45Z" fill="#1E3A8A"/>
+  <path d="M50 48L68 72H60L51 58L42 72H34" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="14" r="3.5" fill="url(#goldGrad)"/>
 </svg>

@@ -13,15 +13,16 @@ import {
   Users,
   Layers,
   Sparkles,
+  Zap,
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
   {
-    stamp: "CORE ENGINE",
-    title: "AI Mock Interviews & Prosody HUD",
-    desc: "Adaptive technical & behavioral rounds with real-time acoustic speech telemetry (WPM cadence, dead-air pauses, and filler-word detection).",
+    stamp: "REAL-TIME ML ENGINE",
+    title: "AI Adaptive Interviews & Prosody HUD",
+    desc: "Item Response Theory (IRT) dynamic difficulty branching combined with real-time acoustic speech telemetry (decibel amplitude, WPM cadence, and filler-word detection).",
     icon: Mic,
     className: "md:col-span-2 md:row-span-2",
     highlight: true,
@@ -109,17 +110,18 @@ export default function AdmitCard() {
   }, []);
 
   return (
-    <section id="features" className="py-24 bg-transparent relative">
+    <section id="features" className="py-24 bg-transparent relative z-10">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/25 text-[#9E7B35] font-mono text-[10px] uppercase tracking-widest font-bold mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono text-[10px] uppercase tracking-widest font-bold mb-4 shadow-2xs">
+            <Zap size={12} className="text-blue-600" />
             CANDIDATE INTELLIGENCE SUITE
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A1128] tracking-tight">
+          <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             Complete Preparation, Certified Rigor.
           </h2>
           <p className="mt-4 text-slate-600 text-base max-w-2xl mx-auto">
-            From acoustic speech prosody to ATS compliance and proctored technical evaluations — an industrial assessment suite for serious candidates.
+            From acoustic speech prosody to ATS compliance and proctored technical evaluations — an industrial assessment suite for serious engineering candidates.
           </p>
         </div>
 
@@ -136,15 +138,15 @@ export default function AdmitCard() {
               >
                 <div>
                   <div className="flex items-start justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-[#0A1128]/5 border border-[#0A1128]/10 flex items-center justify-center text-[#0A1128] group-hover:bg-[#0A1128] group-hover:text-[#C5A059] transition-colors duration-200">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-2xs">
                       <Icon size={22} />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2.5 py-0.5 rounded border border-[#C5A059]/20">
+                    <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
                       {f.stamp}
                     </span>
                   </div>
 
-                  <h3 className="font-heading text-xl font-bold text-[#0A1128] mb-2.5">
+                  <h3 className="font-sans text-xl font-bold text-slate-900 mb-2.5 group-hover:text-blue-600 transition-colors">
                     {f.title}
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed font-normal">
@@ -153,7 +155,7 @@ export default function AdmitCard() {
                 </div>
 
                 {f.highlight && (
-                  <div className="mt-6 pt-5 border-t border-[#0A1128]/8 flex items-center gap-2 text-xs font-mono text-[#059669] font-bold">
+                  <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-2 text-xs font-mono text-emerald-600 font-bold">
                     <Sparkles size={14} /> Live Web Audio Engine Active
                   </div>
                 )}
@@ -163,13 +165,13 @@ export default function AdmitCard() {
         </div>
 
         {/* Industrial Competency Marquee Ticker */}
-        <div className="mt-20 overflow-hidden border-y border-[#0A1128]/10 py-5 relative bg-[#F7F4EB]/50 rounded-xl">
+        <div className="mt-20 overflow-hidden border border-slate-200/80 py-4 relative bg-white/70 backdrop-blur-md rounded-2xl shadow-xs">
           <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">
             <span>
-              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • MULTI-PERSONA INTERVIEW BOARD • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
+              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • DYNAMIC IRT DIFFICULTY • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <span>
-              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • MULTI-PERSONA INTERVIEW BOARD • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
+              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • DYNAMIC IRT DIFFICULTY • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
           </div>
         </div>

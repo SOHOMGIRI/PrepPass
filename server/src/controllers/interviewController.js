@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
+﻿import mongoose from "mongoose";
 import Question from "../models/Question.js";
 import InterviewSession from "../models/InterviewSession.js";
 import { callGeminiJSON } from "../utils/gemini.js";
+import { generateAdaptiveQuestion } from "../utils/mlEngine.js";
 import companies from "../config/companies.js";
 
 /**
@@ -389,6 +390,40 @@ export const getHistory = async (req, res, next) => {
       .lean();
 
     return res.json({ sessions });
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * POST /api/interview/adaptive-question
+ * Real-time dynamic ML generation using Item Response Theory (IRT) & Bloom Taxonomy
+ */
+export const getAdaptiveQuestion = async (req, res, next) => {
+  try {
+    const {
+      role = "Full Stack Engineer",
+      candidateName,
+      currentTheta = 0.0,
+      questionNumber = 1,
+      totalQuestions = 5,
+      conversationHistory = [],
+      lastResponse = "",
+      prosodyMetrics = null,
+    } = req.body;
+
+    const result = await generateAdaptiveQuestion({
+      role,
+      candidateName,
+      currentTheta: Number(currentTheta) || 0.0,
+      questionNumber: Number(questionNumber) || 1,
+      totalQuestions: Number(totalQuestions) || 5,
+      conversationHistory,
+      lastResponse,
+      prosodyMetrics,
+    });
+
+    return res.json(result);
   } catch (err) {
     next(err);
   }
