@@ -127,8 +127,8 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/interview", interviewRoutes);
-app.use("/api/resume", resumeRoutes);
 app.use("/api/resume/analyze", resumeAnalysisRoutes);
+app.use("/api/resume", resumeRoutes);
 app.use("/api/gd", gdRoutes);
 app.use("/api/companies", companyRoutes);
 app.use("/api/resume-builder", resumeBuilderRoutes);
