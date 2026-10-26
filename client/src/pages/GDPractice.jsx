@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
@@ -169,7 +169,7 @@ export default function GDPractice() {
                 Loading discussion motions…
               </p>
             ) : filteredTopics.length === 0 ? (
-              <div className="mt-8 rounded-xl border border-dashed border-[#0A1128]/15 p-8 text-center bg-white">
+              <div className="mt-8 rounded-xl border border-dashed border-amber-300/60 p-8 text-center bg-amber-50/50">
                 <p className="text-sm text-slate-600">
                   No discussion motions found in this category. Select "All" to browse the global repository.
                 </p>
@@ -228,7 +228,7 @@ export default function GDPractice() {
                   value={userArgument}
                   onChange={(e) => setUserArgument(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-xl border border-[#0A1128]/10 bg-white p-4 font-sans text-sm text-[#0A1128] placeholder-slate-400 focus:border-[#C5A059] focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 leading-relaxed shadow-2xs"
+                  className="w-full rounded-xl border border-amber-300/60 bg-amber-50/60 p-4 font-sans text-sm text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 leading-relaxed shadow-2xs"
                 />
                 <div className="mt-2 flex justify-between font-mono text-xs text-slate-400">
                   <span>Minimum 20 characters</span>
@@ -358,7 +358,7 @@ export default function GDPractice() {
               <button
                 type="button"
                 onClick={handleResetSameTopic}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-white px-5 py-2.5 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/60 bg-amber-100/70 px-5 py-2.5 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 transition-colors"
               >
                 <RotateCcw size={13} /> Retry Motion
               </button>
@@ -366,7 +366,7 @@ export default function GDPractice() {
                 <button
                   type="button"
                   onClick={handleBackToTopics}
-                  className="rounded-xl border border-[#0A1128]/15 bg-white px-5 py-2.5 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5"
+                  className="rounded-xl border border-amber-300/60 bg-amber-100/70 px-5 py-2.5 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 transition-colors"
                 >
                   Other Topics
                 </button>

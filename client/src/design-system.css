@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -6,11 +6,11 @@
 :root {
   /* Editorial Light Luxury Palette */
   --color-bg: #F0EBE0;               /* warm alabaster linen canvas */
-  --color-surface: #FFFFFF;          /* crisp ivory silk card */
-  --color-surface-muted: #EFE9DE;    /* subtle warm parchment */
-  --color-text-primary: #0A1128;     /* Oxford midnight navy */
-  --color-text-secondary: #475569;   /* refined slate cashmere */
-  --color-text-muted: #94A3B8;       /* subtle caption slate */
+  --color-surface: #FEFAF2;          /* warm champagne ivory silk card */
+  --color-surface-muted: #F3EBDD;    /* rich warm parchment */
+  --color-text-primary: #15110E;     /* deep espresso ink */
+  --color-text-secondary: #3D352E;   /* refined charcoal slate */
+  --color-text-muted: #7E7063;       /* warm caption bronze */
   
   --color-accent: #C5A059;           /* gilded aurum bronze */
   --color-accent-light: #F3E3B6;     /* soft aurum shimmer */
@@ -69,17 +69,17 @@
 @layer components {
   /* Imperial Editorial Admit-Card Ticket Container */
   .ticket-card {
-    background: linear-gradient(145deg, rgba(255, 251, 244, 0.95) 0%, rgba(253, 246, 233, 0.92) 50%, rgba(248, 238, 218, 0.95) 100%);
+    background: linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(245, 158, 11, 0.28);
-    box-shadow: 0 16px 45px -8px rgba(180, 140, 60, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    box-shadow: 0 20px 55px -10px rgba(180, 130, 60, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
     border-radius: 1.5rem;
     position: relative;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
   }
   .ticket-card:hover {
-    box-shadow: 0 24px 60px -8px rgba(180, 140, 60, 0.18);
-    border-color: rgba(245, 158, 11, 0.45);
+    box-shadow: 0 28px 70px -10px rgba(180, 130, 60, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    border-color: rgba(245, 158, 11, 0.55);
     transform: translateY(-2px);
   }
 

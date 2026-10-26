@@ -1,11 +1,11 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
 import { ArrowRight, ShieldCheck, Check, AlertCircle } from "lucide-react";
 
 const INPUT_CLASS =
-  "w-full rounded-xl border border-[#0A1128]/12 bg-transparent relative z-10 px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:bg-white focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/20 disabled:cursor-not-allowed disabled:opacity-60 shadow-2xs";
+  "w-full rounded-xl border border-amber-300/60 bg-amber-50/50 relative z-10 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 transition-all focus:outline-none focus:bg-amber-50/90 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 disabled:cursor-not-allowed disabled:opacity-60 shadow-2xs";
 const INPUT_ERR_CLASS =
   "w-full rounded-xl border border-red-400 bg-red-50/50 px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 disabled:cursor-not-allowed disabled:opacity-60";
 

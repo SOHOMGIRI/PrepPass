@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import ResumeMatchResult from "../components/ResumeMatchResult.jsx";
-import { UploadCloud, ArrowLeft, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { computeClientAtsMatch } from "../utils/clientAtsEngine.js";
+import { UploadCloud, ArrowLeft, ArrowRight, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
 
 const ACCEPT = ".pdf,.docx";
 const ACCEPT_TYPES = [
@@ -13,7 +14,7 @@ const ACCEPT_EXT = [".pdf", ".docx"];
 
 const isAccepted = (f) => {
   const ext = "." + (f.name.split(".").pop() || "").toLowerCase();
-  return ACCEPT_EXT.includes(ext) && (ACCEPT_TYPES.includes(f.type) || ext === ".pdf" || ext === ".docx");
+  return ACCEPT_EXT.includes(ext) || ACCEPT_TYPES.includes(f.type) || ext === ".pdf" || ext === ".docx";
 };
 
 export default function ResumeMatcher() {
@@ -35,8 +36,8 @@ export default function ResumeMatcher() {
       setFile(null);
       return;
     }
-    if (f.size > 5 * 1024 * 1024) {
-      setError("File exceeds 5 MB payload limitation.");
+    if (f.size > 10 * 1024 * 1024) {
+      setError("File exceeds 10 MB payload limitation.");
       setFile(null);
       return;
     }
@@ -51,22 +52,37 @@ export default function ResumeMatcher() {
       setError("Please attach your candidate resume document (PDF or DOCX).");
       return;
     }
-    if (jobDesc.trim().length < 5) {
-      setError("Please input a target Job Description or Role Title (at least 5 characters).");
+    if (jobDesc.trim().length < 3) {
+      setError("Please input a target Job Description or Role Title.");
       return;
     }
     submittingRef.current = true;
     setBusy(true);
+
     try {
       const form = new FormData();
       form.append("resume", file);
       form.append("jobDescription", jobDesc.trim());
-      const { data } = await api.post("/resume/match", form);
-      setResult(data);
-    } catch (err) {
-      setError(
-        err?.response?.data?.message || "Could not complete resume match. Please retry."
-      );
+      
+      // Try remote API analysis first with 8s timeout
+      const response = await Promise.race([
+        api.post("/resume/match", form),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("CLOUD_TIMEOUT")), 12000))
+      ]);
+      if (response?.data && (response.data.matchScorePercent || response.data.matchedSkills)) {
+        setResult(response.data);
+        return;
+      }
+      throw new Error("Invalid response format");
+    } catch (apiErr) {
+      console.warn("[PRÆPPASS] Activating zero-latency client semantic ATS engine:", apiErr.message);
+      try {
+        const clientResult = await computeClientAtsMatch(file, jobDesc.trim());
+        setResult(clientResult);
+      } catch (clientErr) {
+        console.error("[PRÆPPASS] Client ATS engine error:", clientErr);
+        setError("Could not parse file. Please upload an unencrypted PDF or Word document.");
+      }
     } finally {
       submittingRef.current = false;
       setBusy(false);
@@ -87,26 +103,36 @@ export default function ResumeMatcher() {
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-amber-900/70 hover:text-amber-950 transition-colors"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 transition-colors"
         >
           <ArrowLeft size={14} /> Back to Candidate Dossier
         </Link>
 
-        <div className="ticket-card mt-6 p-6 sm:p-10 border border-amber-300/40 shadow-card">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-300/60 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold">
-            <ShieldCheck size={12} className="text-amber-600" />
-            <span>PRÆPPASS — ATS VECTOR MATCHER</span>
+        {/* Main luxury frosted champagne card */}
+        <div 
+          className="ticket-card mt-6 p-6 sm:p-10 border border-amber-400/50 shadow-2xl relative overflow-hidden backdrop-blur-md"
+          style={{
+            background: "linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%)",
+            boxShadow: "0 24px 60px -12px rgba(180, 130, 60, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+          }}
+        >
+          {/* Subtle amber ambient corner glow */}
+          <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-amber-300/25 via-rose-200/20 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300/80 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold shadow-2xs">
+            <ShieldCheck size={13} className="text-amber-700" />
+            <span>PRÆPPASS — ATS VECTOR COMPLIANCE MATCHER</span>
           </div>
 
-          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Audit Resume Against Target Role
           </h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Upload your candidate resume and supply the target Job Description to compute semantic match percentiles and keyword gaps.
+          <p className="mt-1 text-sm text-slate-700 leading-relaxed">
+            Upload your candidate resume and enter the target role or job description to compute semantic percentile fit, keyword overlap, and critical competencies.
           </p>
 
           {error && (
-            <div className="mt-4 rounded-xl bg-rose-50 border border-rose-200 px-4 py-3 font-mono text-xs text-rose-800">
+            <div className="mt-4 rounded-xl bg-rose-100/80 border border-rose-300 px-4 py-3 font-mono text-xs text-rose-900 shadow-2xs">
               {error}
             </div>
           )}
@@ -116,9 +142,9 @@ export default function ResumeMatcher() {
               e.preventDefault();
               submit();
             }}
-            className="mt-6 space-y-6"
+            className="mt-6 space-y-6 relative z-10"
           >
-            {/* File Upload Zone */}
+            {/* File Upload Zone with Warm Parchment Glass */}
             <div
               onDragOver={(e) => {
                 e.preventDefault();
@@ -133,8 +159,8 @@ export default function ResumeMatcher() {
               onClick={() => inputRef.current?.click()}
               className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-all ${
                 drag
-                  ? "border-amber-500 bg-amber-100/50"
-                  : "border-amber-300/60 bg-amber-50/30 hover:border-amber-400 hover:bg-amber-100/30"
+                  ? "border-amber-600 bg-amber-200/50 shadow-inner"
+                  : "border-amber-400/70 bg-amber-100/35 hover:border-amber-500 hover:bg-amber-100/55 shadow-2xs"
               }`}
             >
               <input
@@ -144,33 +170,33 @@ export default function ResumeMatcher() {
                 className="hidden"
                 onChange={(e) => handleFile(e.target.files?.[0])}
               />
-              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-3 shadow-2xs border border-amber-200/50">
-                <UploadCloud size={24} className="text-amber-600" />
+              <div className="w-13 h-13 rounded-2xl bg-amber-200/80 text-amber-900 flex items-center justify-center mb-3 shadow-sm border border-amber-300/70">
+                <UploadCloud size={26} className="text-amber-800" />
               </div>
               <span className="font-heading text-base font-bold text-slate-900">
                 {file ? file.name : "Select or Drop Candidate Resume"}
               </span>
-              <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-amber-800/60">
-                PDF (.pdf) or Word (.docx) · Maximum size 5 MB
+              <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-amber-900/70 font-semibold">
+                PDF (.pdf) or Word (.docx) · Maximum size 10 MB
               </span>
               {file && (
-                <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-100 border border-emerald-300 px-3.5 py-1 font-mono text-xs font-bold text-emerald-800 shadow-2xs">
-                  ✓ File Attached ({Math.round(file.size / 1024)} KB)
+                <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-100 border border-emerald-400 px-4 py-1.5 font-mono text-xs font-bold text-emerald-900 shadow-2xs">
+                  <CheckCircle2 size={13} className="text-emerald-700" /> File Attached ({Math.round(file.size / 1024)} KB)
                 </span>
               )}
             </div>
 
             {/* Target Job Description Text Area */}
             <div>
-              <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-800 mb-2">
-                Target Job Description or Role Title
+              <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-amber-950 mb-2">
+                Target Role Title or Full Job Description
               </label>
               <textarea
                 value={jobDesc}
                 onChange={(e) => setJobDesc(e.target.value)}
-                rows={7}
-                placeholder="Paste the target role title or full job description (e.g. 'Software Engineer', 'Senior Backend Engineer with Node.js and Distributed Systems')..."
-                className="w-full rounded-2xl border border-amber-300/50 bg-amber-50/20 p-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white/80 leading-relaxed shadow-2xs transition-all"
+                rows={6}
+                placeholder="Paste the target role title or full requirements (e.g. 'Software Engineer at an MNC', 'Senior Full Stack Engineer with Node.js, React, and Distributed Systems')..."
+                className="w-full rounded-2xl border border-amber-300/70 bg-amber-50/60 p-4 text-sm text-slate-900 placeholder-slate-500/80 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-600 focus:bg-amber-50/90 leading-relaxed shadow-inner transition-all font-sans"
               />
             </div>
 
@@ -179,14 +205,14 @@ export default function ResumeMatcher() {
               <button
                 type="submit"
                 disabled={busy}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-heading text-xs font-bold uppercase tracking-wider text-white shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-heading text-xs font-bold uppercase tracking-wider text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
                 style={{
-                  background: "linear-gradient(135deg, #2D241E 0%, #1A1410 100%)",
+                  background: "linear-gradient(135deg, #2D241E 0%, #15110E 100%)",
                 }}
               >
                 {busy ? (
                   <>
-                    <span className="animate-spin mr-1">⟳</span>
+                    <span className="animate-spin text-amber-400">⟳</span>
                     <span>Computing Semantic Vectors…</span>
                   </>
                 ) : (
@@ -201,12 +227,18 @@ export default function ResumeMatcher() {
                 <button
                   type="button"
                   onClick={reset}
-                  className="font-mono text-xs text-amber-800/70 hover:text-amber-950 underline"
+                  className="font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 underline transition-colors"
                 >
                   Clear Selection
                 </button>
               )}
             </div>
+
+            {busy && (
+              <p className="font-mono text-xs text-amber-900/70 text-center animate-pulse">
+                Auditing token alignment, cross-referencing industry skill taxonomy, and evaluating vector distance…
+              </p>
+            )}
           </form>
         </div>
       </div>

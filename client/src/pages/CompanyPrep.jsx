@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
@@ -148,7 +148,7 @@ export default function CompanyPrep() {
       }
     } catch (err) {
       setError(
-        err?.response?.data?.message || "Something went wrong while evaluating."
+        err?.response?.data?.message || "Could not evaluate assessment round. Please retry in a moment."
       );
     } finally {
       setBusy(false);
@@ -231,7 +231,7 @@ export default function CompanyPrep() {
                 placeholder="Search recruiters (e.g. TCS, Amazon, Google, Infosys, Microsoft)…"
                 value={companySearch}
                 onChange={(e) => setCompanySearch(e.target.value)}
-                className="w-full rounded-xl border border-[#0A1128]/10 bg-white pl-11 pr-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs"
+                className="w-full rounded-xl border border-amber-300/60 bg-amber-50/60 pl-11 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 shadow-2xs"
               />
             </div>
 
@@ -362,7 +362,7 @@ export default function CompanyPrep() {
                   placeholder="Filter roles (e.g. Software Engineer, Frontend Developer, Data Analyst)…"
                   value={roleSearch}
                   onChange={(e) => setRoleSearch(e.target.value)}
-                  className="w-full rounded-xl border border-[#0A1128]/10 bg-white pl-11 pr-4 py-2.5 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059]"
+                  className="w-full rounded-xl border border-amber-300/60 bg-amber-50/60 pl-11 pr-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
                 />
               </div>
 

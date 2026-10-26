@@ -8,17 +8,26 @@ export default function ResumeMatchResult({ result, onReset }) {
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-amber-900/70 hover:text-amber-950 transition-colors"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 transition-colors"
         >
           <ArrowLeft size={14} /> Back to Candidate Dossier
         </Link>
-        <div className="ticket-card mt-6 p-6 sm:p-10 border border-amber-300/40 shadow-card">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100/80 border border-amber-300/60 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold">
-            <ShieldCheck size={12} className="text-amber-600" />
+        <div 
+          className="ticket-card mt-6 p-6 sm:p-10 border border-amber-400/50 shadow-2xl relative overflow-hidden backdrop-blur-md"
+          style={{
+            background: "linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%)",
+            boxShadow: "0 24px 60px -12px rgba(180, 130, 60, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+          }}
+        >
+          {/* Subtle amber ambient corner glow */}
+          <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-amber-300/25 via-rose-200/20 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300/80 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold shadow-2xs">
+            <ShieldCheck size={13} className="text-amber-700" />
             <span>PRÆPPASS — ATS VECTOR COMPLIANCE AUDIT</span>
           </div>
 
-          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Job Description Semantic Match
           </h1>
 
@@ -42,9 +51,9 @@ export default function ResumeMatchResult({ result, onReset }) {
                 result.matchedSkills.map((s) => (
                   <span
                     key={s}
-                    className="inline-flex items-center gap-1 rounded-xl bg-emerald-100/90 border border-emerald-300 px-3.5 py-1 text-xs font-mono font-semibold text-emerald-800 shadow-2xs"
+                    className="inline-flex items-center gap-1 rounded-xl bg-emerald-100/90 border border-emerald-300 px-3.5 py-1.5 text-xs font-mono font-bold text-emerald-900 shadow-2xs"
                   >
-                    <CheckCircle2 size={12} /> {s}
+                    <CheckCircle2 size={13} className="text-emerald-700" /> {s}
                   </span>
                 ))
               ) : (
@@ -63,13 +72,13 @@ export default function ResumeMatchResult({ result, onReset }) {
                 result.missingSkills.map((s) => (
                   <span
                     key={s}
-                    className="inline-flex items-center gap-1 rounded-xl bg-amber-100/90 border border-amber-300 px-3.5 py-1 text-xs font-mono font-semibold text-amber-900 shadow-2xs"
+                    className="inline-flex items-center gap-1 rounded-xl bg-amber-100/90 border border-amber-300 px-3.5 py-1.5 text-xs font-mono font-bold text-amber-950 shadow-2xs"
                   >
-                    <AlertTriangle size={12} className="text-amber-700" /> {s}
+                    <AlertTriangle size={13} className="text-amber-700" /> {s}
                   </span>
                 ))
               ) : (
-                <p className="text-sm text-emerald-700 font-medium">
+                <p className="text-sm text-emerald-800 font-medium">
                   Zero keyword gaps detected — excellent ATS keyword density.
                 </p>
               )}
@@ -86,8 +95,8 @@ export default function ResumeMatchResult({ result, onReset }) {
                 result.recommendations.map((r, i) => (
                   <li
                     key={i}
-                    className="rounded-2xl border border-amber-200/60 p-4 flex gap-3 text-sm text-slate-700 shadow-2xs"
-                    style={{ background: "rgba(255, 252, 246, 0.85)" }}
+                    className="rounded-2xl border border-amber-300/60 p-4 flex gap-3 text-sm text-slate-800 shadow-2xs"
+                    style={{ background: "rgba(255, 252, 246, 0.9)" }}
                   >
                     <span
                       className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full font-mono text-xs font-bold text-amber-300"
@@ -104,7 +113,7 @@ export default function ResumeMatchResult({ result, onReset }) {
             </ol>
           </div>
 
-          <div className="mt-10 pt-6 border-t border-amber-200/50 flex items-center justify-between">
+          <div className="mt-10 pt-6 border-t border-amber-300/50 flex items-center justify-between">
             <button
               type="button"
               onClick={onReset}
@@ -118,7 +127,7 @@ export default function ResumeMatchResult({ result, onReset }) {
             </button>
             <Link
               to="/dashboard"
-              className="font-mono text-xs font-semibold text-amber-900/70 hover:text-amber-950"
+              className="font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 underline"
             >
               Return to Dossier
             </Link>

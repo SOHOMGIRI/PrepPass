@@ -1,8 +1,9 @@
-﻿import { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
+import { computeClientAtsAnalysis } from "../utils/clientAtsEngine.js";
 import { UploadCloud, ArrowLeft, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, Sparkles, FileText } from "lucide-react";
 
 const ACCEPT = ".pdf,.docx";
@@ -14,7 +15,7 @@ const ACCEPT_EXT = [".pdf", ".docx"];
 
 const isAccepted = (f) => {
   const ext = "." + (f.name.split(".").pop() || "").toLowerCase();
-  return ACCEPT_EXT.includes(ext) && ACCEPT_TYPES.includes(f.type);
+  return ACCEPT_EXT.includes(ext) || ACCEPT_TYPES.includes(f.type) || ext === ".pdf" || ext === ".docx";
 };
 
 export default function ResumeAnalysis() {
@@ -34,8 +35,8 @@ export default function ResumeAnalysis() {
       setFile(null);
       return;
     }
-    if (f.size > 5 * 1024 * 1024) {
-      setError("File exceeds 5 MB payload limit.");
+    if (f.size > 10 * 1024 * 1024) {
+      setError("File exceeds 10 MB payload limit.");
       setFile(null);
       return;
     }
@@ -53,13 +54,25 @@ export default function ResumeAnalysis() {
     try {
       const form = new FormData();
       form.append("resume", file);
-      const { data } = await api.post("/resume/analyze", form);
-      setResult(data.analysis);
-    } catch (err) {
-      setError(
-        err?.response?.data?.message ||
-          "Could not analyze resume. Please retry in a moment."
-      );
+      const response = await Promise.race([
+        api.post("/resume/analyze", form),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("CLOUD_TIMEOUT")), 12000))
+      ]);
+      const resData = response?.data?.analysis || response?.data;
+      if (resData && typeof resData.atsScore === "number") {
+        setResult(resData);
+        return;
+      }
+      throw new Error("Invalid format");
+    } catch (apiErr) {
+      console.warn("[PRÆPPASS] Activating zero-latency client ATS audit engine:", apiErr.message);
+      try {
+        const clientResult = await computeClientAtsAnalysis(file);
+        setResult(clientResult);
+      } catch (clientErr) {
+        console.error("[PRÆPPASS] Client ATS analysis error:", clientErr);
+        setError("Could not parse file. Please upload an unencrypted PDF or Word document.");
+      }
     } finally {
       setBusy(false);
     }
@@ -76,24 +89,33 @@ export default function ResumeAnalysis() {
       <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
-          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-500 hover:text-navy-900 transition-colors"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 transition-colors"
         >
           <ArrowLeft size={14} /> Back to Candidate Dossier
         </Link>
-        <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/35 shadow-card">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
-            <ShieldCheck size={12} className="text-[#C5A059]" />
+        <div 
+          className="ticket-card mt-6 p-6 sm:p-10 border border-amber-400/50 shadow-2xl relative overflow-hidden backdrop-blur-md"
+          style={{
+            background: "linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%)",
+            boxShadow: "0 24px 60px -12px rgba(180, 130, 60, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+          }}
+        >
+          {/* Subtle amber ambient corner glow */}
+          <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-bl from-amber-300/25 via-rose-200/20 to-transparent rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 border border-amber-300/80 font-mono text-[10px] uppercase tracking-widest text-amber-950 font-bold shadow-2xs">
+            <ShieldCheck size={13} className="text-amber-700" />
             <span>PRÆPPASS — ATS PARSER AUDIT</span>
           </div>
-          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-[#0A1128]">
-            Automated Resume & ATS Compliance Analysis
+          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Automated Resume &amp; ATS Compliance Analysis
           </h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-slate-700 leading-relaxed">
             Upload your resume for an automated 0–100 ATS compliance score, section completeness check, and personalized subject recommendations.
           </p>
 
           {error && (
-            <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 font-mono text-xs text-red-700">
+            <div className="mt-4 rounded-xl bg-rose-100/80 border border-rose-300 px-4 py-3 font-mono text-xs text-rose-900 shadow-2xs">
               {error}
             </div>
           )}
@@ -109,7 +131,7 @@ export default function ResumeAnalysis() {
                   e.preventDefault();
                   submit();
                 }}
-                className="mt-6 space-y-6"
+                className="mt-6 space-y-6 relative z-10"
               >
                 <div
                   onDragOver={(e) => {
@@ -125,8 +147,8 @@ export default function ResumeAnalysis() {
                   onClick={() => inputRef.current?.click()}
                   className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-all ${
                     drag
-                      ? "border-[#C5A059] bg-[#C5A059]/10"
-                      : "border-amber-300/60 bg-amber-50/30 hover:border-amber-400 hover:bg-amber-100/30"
+                      ? "border-amber-600 bg-amber-200/50 shadow-inner"
+                      : "border-amber-400/70 bg-amber-100/35 hover:border-amber-500 hover:bg-amber-100/55 shadow-2xs"
                   }`}
                 >
                   <input
@@ -136,18 +158,18 @@ export default function ResumeAnalysis() {
                     className="hidden"
                     onChange={(e) => handleFile(e.target.files?.[0])}
                   />
-                  <div className="w-12 h-12 rounded-xl bg-[#0A1128]/5 flex items-center justify-center text-[#0A1128] mb-3">
-                    <UploadCloud size={24} className="text-[#C5A059]" />
+                  <div className="w-13 h-13 rounded-2xl bg-amber-200/80 text-amber-900 flex items-center justify-center mb-3 shadow-sm border border-amber-300/70">
+                    <UploadCloud size={26} className="text-amber-800" />
                   </div>
-                  <span className="font-heading text-base font-bold text-[#0A1128]">
+                  <span className="font-heading text-base font-bold text-slate-900">
                     {file ? file.name : "Select or Drop Candidate Resume"}
                   </span>
-                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-slate-400">
-                    PDF (.pdf) or Word (.docx) · Maximum size 5 MB
+                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-amber-900/70 font-semibold">
+                    PDF (.pdf) or Word (.docx) · Maximum size 10 MB
                   </span>
                   {file && (
-                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1 font-mono text-xs font-bold text-emerald-800">
-                      ✓ File Ready ({Math.round(file.size / 1024)} KB)
+                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-100 border border-emerald-400 px-4 py-1.5 font-mono text-xs font-bold text-emerald-900 shadow-2xs">
+                      <CheckCircle2 size={13} className="text-emerald-700" /> File Attached ({Math.round(file.size / 1024)} KB)
                     </span>
                   )}
                 </div>
@@ -156,15 +178,25 @@ export default function ResumeAnalysis() {
                   <button
                     type="submit"
                     disabled={busy || !file}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 font-heading text-xs font-bold uppercase tracking-wider text-white shadow-md hover:shadow-lg transition disabled:opacity-50" style={{ background: "linear-gradient(135deg, #2D241E 0%, #1A1410 100%)" }}
+                    className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-heading text-xs font-bold uppercase tracking-wider text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                    style={{ background: "linear-gradient(135deg, #2D241E 0%, #15110E 100%)" }}
                   >
-                    <span>{busy ? "Parsing ATS Document…" : "Analyze Candidate Resume"}</span>
-                    <ArrowRight size={15} className="text-[#C5A059]" />
+                    {busy ? (
+                      <>
+                        <span className="animate-spin text-amber-400">⟳</span>
+                        <span>Auditing ATS Tokens…</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Analyze Candidate Resume</span>
+                        <ArrowRight size={14} className="text-amber-400" />
+                      </>
+                    )}
                   </button>
                 </div>
                 {busy && (
-                  <p className="font-mono text-xs text-slate-400 text-center">
-                    Auditing formatting tokens and section completeness…
+                  <p className="font-mono text-xs text-amber-900/70 text-center animate-pulse">
+                    Auditing formatting tokens, verifying ATS single-column density, and computing section completeness…
                   </p>
                 )}
               </motion.form>
@@ -174,9 +206,9 @@ export default function ResumeAnalysis() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mt-8 space-y-6"
+                className="mt-8 space-y-6 relative z-10"
               >
-                <div className="flex flex-col sm:flex-row gap-8 items-start pb-6 border-b border-[#0A1128]/8">
+                <div className="flex flex-col sm:flex-row gap-8 items-start pb-6 border-b border-amber-300/40">
                   <div className="shrink-0 mx-auto sm:mx-0">
                     <GaugeCircle
                       value={result.atsScore}
@@ -186,20 +218,20 @@ export default function ResumeAnalysis() {
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-heading text-lg font-bold text-[#0A1128] mb-3">
+                    <h3 className="font-heading text-lg font-bold text-slate-900 mb-3">
                       ATS Compliance Summary
                     </h3>
 
                     {result.suggestedSubjects?.length > 0 && (
                       <div className="mb-4">
-                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-slate-500 block mb-2">
+                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-amber-950 block mb-2">
                           Suggested Preparation Subjects
                         </span>
                         <div className="flex flex-wrap gap-2">
                           {result.suggestedSubjects.map((subject, idx) => (
                             <span
                               key={idx}
-                              className="bg-[#C5A059]/10 border border-[#C5A059]/25 text-[#9E7B35] px-3 py-1 rounded-full font-mono text-xs font-bold"
+                              className="bg-amber-100/90 border border-amber-300 px-3.5 py-1 rounded-full font-mono text-xs font-bold text-amber-950 shadow-2xs"
                             >
                               {subject}
                             </span>
@@ -210,10 +242,10 @@ export default function ResumeAnalysis() {
 
                     {result.missingSections?.length > 0 && (
                       <div className="mb-2">
-                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-red-700 block mb-1">
+                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-rose-800 block mb-1">
                           Missing ATS Sections
                         </span>
-                        <ul className="list-disc pl-4 text-xs text-red-700 space-y-1">
+                        <ul className="list-disc pl-4 text-xs text-rose-800 space-y-1">
                           {result.missingSections.map((sec, idx) => (
                             <li key={idx}>{sec}</li>
                           ))}
@@ -225,10 +257,10 @@ export default function ResumeAnalysis() {
 
                 {result.formattingIssues?.length > 0 && (
                   <div>
-                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128] mb-2">
-                      Formatting & Parser Warnings
+                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
+                      Formatting &amp; Parser Warnings
                     </h4>
-                    <ul className="list-disc pl-5 mt-2 text-xs text-slate-600 space-y-1.5 leading-relaxed">
+                    <ul className="list-disc pl-5 mt-2 text-xs text-slate-700 space-y-1.5 leading-relaxed">
                       {result.formattingIssues.map((issue, idx) => (
                         <li key={idx}>{issue}</li>
                       ))}
@@ -238,10 +270,10 @@ export default function ResumeAnalysis() {
 
                 {result.improvementTips?.length > 0 && (
                   <div>
-                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128] mb-2">
+                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
                       Examiner Improvement Recommendations
                     </h4>
-                    <ol className="list-decimal pl-5 mt-2 text-xs text-slate-700 space-y-2 leading-relaxed">
+                    <ol className="list-decimal pl-5 mt-2 text-xs text-slate-800 space-y-2 leading-relaxed">
                       {result.improvementTips.map((tip, idx) => (
                         <li key={idx}>{tip}</li>
                       ))}
@@ -249,17 +281,18 @@ export default function ResumeAnalysis() {
                   </div>
                 )}
 
-                <div className="pt-6 border-t border-[#0A1128]/8 flex items-center justify-between">
+                <div className="pt-6 border-t border-amber-300/40 flex items-center justify-between">
                   <button
                     onClick={reset}
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#0A1128] px-6 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B]"
+                    className="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-white shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"
+                    style={{ background: "linear-gradient(135deg, #2D241E 0%, #15110E 100%)" }}
                   >
                     <span>Analyze Another Resume</span>
-                    <ArrowRight size={13} className="text-[#C5A059]" />
+                    <ArrowRight size={13} className="text-amber-400" />
                   </button>
                   <Link
                     to="/dashboard"
-                    className="font-mono text-xs font-semibold text-slate-500 hover:text-navy-900"
+                    className="font-mono text-xs font-semibold text-amber-900/80 hover:text-amber-950 underline"
                   >
                     Return to Dossier
                   </Link>

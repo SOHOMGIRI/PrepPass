@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
@@ -170,7 +170,7 @@ export default function VerifyOtp() {
                 onPaste={handlePaste}
                 onFocus={(e) => e.target.select()}
                 disabled={submitting}
-                className="w-12 h-14 text-center text-2xl font-mono font-bold text-[#0A1128] border-2 border-[#0A1128]/15 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs transition-all"
+                className="w-12 h-14 text-center text-2xl font-mono font-bold text-slate-900 border-2 border-amber-300/70 rounded-xl bg-amber-50/80 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 shadow-2xs transition-all"
               />
             ))}
           </div>

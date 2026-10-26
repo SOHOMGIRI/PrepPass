@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import SpotlightCard from "../components/landing/SpotlightCard.jsx";
 import Footer from "../components/landing/Footer.jsx";
@@ -124,7 +124,13 @@ export default function HowItWorks() {
         </div>
 
         {/* Call to Action Ticket */}
-        <div className="ticket-card mt-12 p-8 text-center bg-white border border-[#C5A059]/40 shadow-card">
+        <div 
+          className="ticket-card mt-12 p-8 text-center border border-amber-400/50 shadow-2xl relative overflow-hidden backdrop-blur-md"
+          style={{
+            background: "linear-gradient(145deg, rgba(254, 250, 242, 0.96) 0%, rgba(246, 238, 224, 0.93) 50%, rgba(239, 227, 208, 0.95) 100%)",
+            boxShadow: "0 20px 55px -10px rgba(180, 130, 60, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+          }}
+        >
           <h3 className="font-heading text-2xl font-extrabold text-[#0A1128]">
             Initialize Your Candidate Assessment Pass
           </h3>
@@ -141,7 +147,7 @@ export default function HowItWorks() {
             </Link>
             <Link
               to="/company-prep"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-transparent relative z-10 px-6 py-3 font-mono text-xs font-semibold text-[#0A1128] hover:bg-white shadow-2xs transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/60 bg-amber-100/70 px-6 py-3 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 shadow-2xs transition-colors"
             >
               Explore Enterprise Tracks →
             </Link>

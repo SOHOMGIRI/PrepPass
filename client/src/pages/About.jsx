@@ -1,4 +1,4 @@
-﻿import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Footer from "../components/landing/Footer.jsx";
 import PraepPassLogo from "../components/PraepPassLogo.jsx";
@@ -88,7 +88,7 @@ export default function About() {
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-white px-5 py-3 font-mono text-xs font-semibold text-[#0A1128] hover:bg-[#0A1128]/5 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/60 bg-amber-100/70 px-5 py-3 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 transition-colors shadow-2xs"
             >
               Direct Academic Inquiries →
             </Link>

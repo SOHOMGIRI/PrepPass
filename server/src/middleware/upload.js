@@ -4,20 +4,30 @@ import path from "path";
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  const mimeType = file.mimetype;
-  const extension = path.extname(file.originalname).toLowerCase();
+  const mimeType = (file.mimetype || "").toLowerCase();
+  const extension = path.extname(file.originalname || "").toLowerCase();
 
-  const isPdf = mimeType === "application/pdf" && extension === ".pdf";
+  const isPdf =
+    extension === ".pdf" &&
+    (mimeType.includes("pdf") ||
+      mimeType === "application/octet-stream" ||
+      mimeType === "binary/octet-stream" ||
+      !mimeType);
+
   const isDocx =
-    mimeType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" &&
-    extension === ".docx";
+    (extension === ".docx" || extension === ".doc") &&
+    (mimeType.includes("word") ||
+      mimeType.includes("officedocument") ||
+      mimeType === "application/zip" ||
+      mimeType === "application/octet-stream" ||
+      !mimeType);
 
   if (isPdf || isDocx) {
     cb(null, true);
   } else {
     cb(
       new Error(
-        "Invalid file type. Only PDF (.pdf) and DOCX (.docx) files are allowed, and file extension must match its type."
+        "Invalid file format. Please upload a standard PDF (.pdf) or Word document (.docx)."
       ),
       false
     );

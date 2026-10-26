@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
@@ -182,8 +182,8 @@ export default function Interview() {
                     !isSpeechSupported
                       ? "opacity-50 cursor-not-allowed bg-slate-50 border-slate-200"
                       : voiceEnabled
-                      ? "border-[#C5A059] bg-white shadow-xs cursor-pointer ring-1 ring-[#C5A059]/30"
-                      : "border-[#0A1128]/10 bg-white hover:border-[#0A1128]/20 cursor-pointer"
+                      ? "border-amber-500 bg-amber-100/70 shadow-xs cursor-pointer ring-1 ring-amber-500/30"
+                      : "border-amber-200/60 bg-amber-50/50 hover:border-amber-300/80 cursor-pointer"
                   }`}
                 >
                   <input
@@ -206,8 +206,8 @@ export default function Interview() {
                 <label
                   className={`flex items-start gap-3 rounded-xl border p-4 transition select-none cursor-pointer ${
                     cameraEnabled
-                      ? "border-[#C5A059] bg-white shadow-xs ring-1 ring-[#C5A059]/30"
-                      : "border-[#0A1128]/10 bg-white hover:border-[#0A1128]/20"
+                      ? "border-amber-500 bg-amber-100/70 shadow-xs ring-1 ring-amber-500/30"
+                      : "border-amber-200/60 bg-amber-50/50 hover:border-amber-300/80"
                   }`}
                 >
                   <input
@@ -236,7 +236,7 @@ export default function Interview() {
                 placeholder="Filter by engineering role or discipline (e.g., Full Stack, Backend, DevOps)…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-xl border border-[#0A1128]/10 bg-white pl-11 pr-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs"
+                className="w-full rounded-xl border border-amber-300/60 bg-amber-50/60 pl-11 pr-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 shadow-2xs"
               />
             </div>
 

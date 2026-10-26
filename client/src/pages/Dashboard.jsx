@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
@@ -131,7 +131,7 @@ function fmtDateShort(iso) {
 function CustomTrendTooltip({ active, payload, label }) {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl border border-[#0A1128]/10 bg-white text-[#0A1128] p-3.5 font-mono text-xs shadow-lg space-y-1.5">
+      <div className="rounded-xl border border-amber-300/60 bg-amber-50/95 text-slate-900 p-3.5 font-mono text-xs shadow-xl space-y-1.5 backdrop-blur-md">
         <p className="font-bold text-[#0A1128] pb-1 border-b border-[#0A1128]/8">{label}</p>
         {payload.map((entry, idx) => (
           <p key={idx} style={{ color: entry.color }} className="flex items-center gap-2">
@@ -320,7 +320,7 @@ export default function Dashboard() {
             <button
               type="button"
               onClick={logout}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-white px-4 py-2.5 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300/60 bg-amber-100/70 px-4 py-2.5 font-mono text-xs font-semibold text-amber-950 hover:bg-amber-200/80 transition-colors shadow-2xs"
             >
               <LogOut size={13} />
               <span>Sign Out</span>
