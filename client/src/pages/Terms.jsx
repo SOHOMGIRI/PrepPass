@@ -1,89 +1,66 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Footer from "../components/landing/Footer.jsx";
+import PraepPassLogo from "../components/PraepPassLogo.jsx";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function Terms() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-text-secondary">
+    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
-        {/* Navigation Header */}
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
-          >
-            PREPPASS
-          </Link>
+        <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
+          <PraepPassLogo size="md" showTagline={false} />
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-[#0A1128] hover:text-[#C5A059] transition-colors"
           >
-            {accessToken ? "Dashboard →" : "Sign In →"}
+            <span>{accessToken ? "Candidate Dossier" : "Sign In"}</span>
+            <ArrowRight size={13} className="text-[#C5A059]" />
           </Link>
         </div>
 
-        {/* Terms Document Ticket */}
-        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-            LEGAL · TERMS OF USE
+        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6 border border-[#C5A059]/35 shadow-card">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+            <ShieldCheck size={12} className="text-[#C5A059]" />
+            <span>TERMS OF CANDIDATE ASSESSMENT</span>
           </div>
 
-          <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
+          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#0A1128]">
             Terms of Service
           </h1>
-          <p className="font-mono text-xs text-text-primary/50">
-            Last Updated: August 2026
+          <p className="font-mono text-xs text-slate-400">
+            Certified Standard: {new Date().getFullYear()} Edition
           </p>
 
           <div className="ticket-perf my-6" />
 
-          <div className="space-y-6 text-sm text-text-secondary/80 leading-relaxed">
+          <div className="space-y-6 text-sm text-slate-700 leading-relaxed font-normal">
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                1. Educational & Practice Disclaimer
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
+                1. Acceptance of Assessment Terms
               </h2>
               <p>
-                PrepPass is an independent educational tool designed solely for mock interview rehearsal, resume auditing, and campus placement practice.
-              </p>
-              <p className="text-xs">
-                All AI-generated readiness ratings, feedback notes, ATS match percentages, and interview questions are automated simulation outputs intended for self-assessment. High scores or positive feedback within PrepPass do not guarantee job offers, interview selection, or employment outcomes with any company. Trust scores, violation counters, and proctoring flags in Test Mode are self-reported practice tools designed to encourage focused rehearsal, not a certified or legally binding assessment.
+                By accessing PræpPass or initializing a candidate assessment pass, you agree to abide by these terms. The platform is designed strictly for academic preparation, mock interviewing, and diagnostic assessment.
               </p>
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                2. Company Names & Third-Party Trademarks
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
+                2. Academic Integrity & Proctored Tests
               </h2>
               <p>
-                Company names, logos, and recruitment track identifiers referenced within PrepPass (including but not limited to TCS, Infosys, Wipro, Accenture, Cognizant, Capgemini, Amazon, Google, Microsoft, Flipkart, Adobe, and Swiggy) are the registered trademarks of their respective owners.
-              </p>
-              <p className="text-xs">
-                PrepPass is not affiliated with, sponsored by, or endorsed by any of these entities. Practice round patterns represent commonly reported historical frameworks compiled for preparation purposes only.
+                Proctored Test Mode incorporates browser fullscreen assertions and tab focus monitors to calculate trust ratings. Candidates agree not to tamper with client proctoring sensors or attempt automated script submissions.
               </p>
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                3. Acceptable Use Policy
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
+                3. Diagnostic Feedback Accuracy
               </h2>
               <p>
-                By using PrepPass, you agree to:
-              </p>
-              <ul className="list-disc pl-5 space-y-1 text-xs">
-                <li>Use the platform exclusively for lawful educational and career preparation purposes.</li>
-                <li>Respect all rate limiters and avoid automated scripting or scraping of interview question banks.</li>
-                <li>Refrain from uploading harmful code, malicious files, or offensive content in resumes or practice responses.</li>
-              </ul>
-            </section>
-
-            <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                4. Account Responsibilities
-              </h2>
-              <p className="text-xs">
-                You are responsible for maintaining the confidentiality of your account credentials. We reserve the right to limit access or terminate accounts that violate our acceptable use policy.
+                Acoustic prosody scores and AI examiner feedback represent diagnostic simulations intended to aid preparation. While modeled after leading corporate recruitment rubrics, they do not guarantee commercial employment outcomes.
               </p>
             </section>
           </div>

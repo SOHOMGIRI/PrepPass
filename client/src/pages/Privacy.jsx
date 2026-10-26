@@ -1,109 +1,66 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import Footer from "../components/landing/Footer.jsx";
+import PraepPassLogo from "../components/PraepPassLogo.jsx";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 export default function Privacy() {
   const { accessToken } = useAuth();
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-text-secondary">
+    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
-        {/* Navigation Header */}
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
-          >
-            PREPPASS
-          </Link>
+        <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
+          <PraepPassLogo size="md" showTagline={false} />
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-[#0A1128] hover:text-[#C5A059] transition-colors"
           >
-            {accessToken ? "Dashboard →" : "Sign In →"}
+            <span>{accessToken ? "Candidate Dossier" : "Sign In"}</span>
+            <ArrowRight size={13} className="text-[#C5A059]" />
           </Link>
         </div>
 
-        {/* Policy Document Ticket */}
-        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-            LEGAL · PRIVACY POLICY
+        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6 border border-[#C5A059]/35 shadow-card">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+            <ShieldCheck size={12} className="text-[#C5A059]" />
+            <span>DATA INTEGRITY & PRIVACY PROTOCOL</span>
           </div>
 
-          <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
-            Privacy Policy
+          <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#0A1128]">
+            Privacy Protocol
           </h1>
-          <p className="font-mono text-xs text-text-primary/50">
-            Last Updated: August 2026
+          <p className="font-mono text-xs text-slate-400">
+            Certified Standard: {new Date().getFullYear()} Edition
           </p>
 
           <div className="ticket-perf my-6" />
 
-          <div className="space-y-6 text-sm text-text-secondary/80 leading-relaxed">
+          <div className="space-y-6 text-sm text-slate-700 leading-relaxed font-normal">
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
                 1. Information We Collect
               </h2>
               <p>
-                When you use PrepPass, we collect information necessary to provide our placement preparation services:
-              </p>
-              <ul className="list-disc pl-5 space-y-1 text-xs">
-                <li>
-                  <strong>Account Information:</strong> Your name and email address when you register.
-                </li>
-                <li>
-                  <strong>Resume Data:</strong> Text extracted from uploaded PDF/DOCX resumes or resume builder drafts to compute ATS compliance, identify skill gaps, and suggest interview subjects.
-                </li>
-                <li>
-                  <strong>Practice Session Responses:</strong> User answers submitted during mock interviews, group discussion opening arguments, and job descriptions used for resume matching.
-                </li>
-                <li>
-                  <strong>Camera & Voice Feeds:</strong> The floating camera preview during voice interviews is rendered entirely in-browser and is never recorded, captured, or uploaded to any server.
-                </li>
-                <li>
-                  <strong>UPI Payment References:</strong> User-submitted UPI transaction references are stored solely to verify diagnostic report unlocks and are never shared with third parties.
-                </li>
-              </ul>
-            </section>
-
-            <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                2. How We Use Your Information
-              </h2>
-              <p>
-                Your data is used strictly for educational and preparation purposes:
-              </p>
-              <ul className="list-disc pl-5 space-y-1 text-xs">
-                <li>Generating real-time AI scoring, feedback, and follow-up questions.</li>
-                <li>Auditing resume formatting and computing ATS compatibility scores.</li>
-                <li>Saving your personal interview logs and readiness scores in your history.</li>
-                <li>Verifying optional ₹49 report unlock requests via self-attested UPI references.</li>
-                <li>Authenticating user sessions and preventing abusive rate limits.</li>
-              </ul>
-            </section>
-
-            <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                3. Third-Party Sharing & Data Security
-              </h2>
-              <p>
-                We do not sell, rent, or trade your personal data, resumes, or interview responses with third-party advertisers or recruitment agencies.
-              </p>
-              <p className="text-xs">
-                AI evaluation is conducted via secure API calls to Google Gemini models in stateless requests. Raw resume files and extracted text from the ATS analyzer are processed in memory and never permanently persisted to raw file storage. Camera video streams run strictly in local browser memory and all media tracks are explicitly terminated when your session concludes.
+                When registering for a PræpPass candidate passport, we collect your name and email address. When you engage with our simulation suites, we process your interview audio and answer texts solely for real-time acoustic scoring and feedback generation.
               </p>
             </section>
 
             <section className="space-y-2">
-              <h2 className="font-heading text-lg text-text-primary">
-                4. Data Retention & Deletion Requests
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
+                2. Ephemeral Media & Camera Feed
               </h2>
               <p>
-                You have full control over your data. You may request the deletion of your account, saved resume drafts, and interview session histories at any time by contacting us through our{" "}
-                <Link to="/contact" className="text-text-primary font-semibold underline">
-                  Contact Form
-                </Link>{" "}
-                or emailing <code className="font-mono text-xs">contact@preppass.app</code>.
+                Video posture preview feeds are rendered entirely locally within your client browser using HTML5 MediaStream APIs. Video frames are never recorded, transmitted, or stored on PræpPass servers.
+              </p>
+            </section>
+
+            <section className="space-y-2">
+              <h2 className="font-heading text-base font-bold text-[#0A1128]">
+                3. Zero Third-Party Monetization
+              </h2>
+              <p>
+                Your candidate resumes, transcripts, and evaluation percentiles are strictly private. PræpPass never sells candidate rosters or assessment profiles to external advertising brokers.
               </p>
             </section>
           </div>

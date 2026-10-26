@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import api from "../api/axiosClient.js";
 import Footer from "../components/landing/Footer.jsx";
+import PraepPassLogo from "../components/PraepPassLogo.jsx";
+import { Mail, ArrowRight, ArrowLeft, Send, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function Contact() {
   const { accessToken } = useAuth();
@@ -16,15 +18,15 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError("Please enter your name.");
+      setError("Please specify your name.");
       return;
     }
     if (!email.trim() || !email.includes("@")) {
-      setError("Please enter a valid email address.");
+      setError("Please specify a valid candidate email.");
       return;
     }
     if (message.trim().length < 10) {
-      setError("Please enter a message of at least 10 characters.");
+      setError("Your message must contain at least 10 characters.");
       return;
     }
 
@@ -39,7 +41,7 @@ export default function Contact() {
         message: message.trim(),
       });
       setSuccess(
-        data.message || "Thank you! Your message has been sent successfully."
+        data.message || "Your inquiry has been logged. Our admissions desk will respond shortly."
       );
       setName("");
       setEmail("");
@@ -47,7 +49,7 @@ export default function Contact() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Could not send your message. Please try again or email contact@preppass.app directly."
+          "Could not transmit message. Please contact admissions@praeppass.app directly."
       );
     } finally {
       setBusy(false);
@@ -55,112 +57,111 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col justify-between font-body text-text-secondary">
+    <div className="min-h-screen bg-[#FDFBF7] flex flex-col justify-between font-body text-slate-700">
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
         {/* Navigation Header */}
-        <div className="flex items-center justify-between">
-          <Link
-            to="/"
-            className="font-heading text-lg font-bold text-text-primary hover:opacity-80"
-          >
-            PREPPASS
-          </Link>
+        <div className="flex items-center justify-between pb-6 border-b border-[#0A1128]/8">
+          <PraepPassLogo size="md" showTagline={false} />
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="font-mono text-xs uppercase tracking-wider text-text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider font-bold text-[#0A1128] hover:text-[#C5A059] transition-colors"
           >
-            {accessToken ? "Dashboard →" : "Sign In →"}
+            <span>{accessToken ? "Candidate Dossier" : "Sign In"}</span>
+            <ArrowRight size={13} className="text-[#C5A059]" />
           </Link>
         </div>
 
-        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6">
+        <div className="ticket-card mt-8 p-6 sm:p-10 space-y-6 border border-[#C5A059]/35 shadow-card">
           <div className="flex items-center justify-between">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-              GET IN TOUCH · SUPPORT
-            </div>
-            <span className="font-mono text-xs text-text-primary/50">
-              contact@preppass.app
+            <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2.5 py-1 rounded border border-[#C5A059]/20">
+              DIRECT DISPATCH · INQUIRIES
+            </span>
+            <span className="font-mono text-xs text-slate-400">
+              admissions@praeppass.app
             </span>
           </div>
 
           <div>
-            <h1 className="font-heading text-3xl text-text-primary sm:text-4xl">
-              Contact PrepPass
+            <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-[#0A1128]">
+              Contact Pr<span className="text-[#C5A059] font-serif">æ</span>pPass
             </h1>
-            <p className="mt-2 text-sm text-text-secondary/70 leading-relaxed">
-              Have questions, feedback about an interview question, or partnership ideas? Send us a message and our team will get back to you shortly.
+            <p className="mt-2 text-sm text-slate-600 leading-relaxed font-normal">
+              Have inquiries regarding institutional campus accreditation, customized question sets, or platform integrity? Submit your message to the executive desk.
             </p>
           </div>
 
           <div className="ticket-perf my-6" />
 
           {success && (
-            <div className="rounded-lg bg-green-50 border border-green-200 p-4 font-mono text-xs text-green-800">
-              ✓ {success}
+            <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-4 font-mono text-xs text-emerald-800 flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-700" />
+              <span>{success}</span>
             </div>
           )}
 
           {error && (
-            <div className="rounded-lg bg-gold/10 border border-stamp-maroon/20 p-4 font-mono text-xs text-stamp-maroon">
-              {error}
+            <div className="rounded-xl bg-red-50 border border-red-200 p-4 font-mono text-xs text-red-700 flex items-center gap-2">
+              <AlertCircle size={16} className="text-red-700" />
+              <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="block font-mono text-xs text-text-primary/70 mb-1">
-                  Your Name *
+                <label className="block font-mono text-[11px] font-bold tracking-wider text-[#0A1128] mb-1.5 uppercase">
+                  Candidate Name *
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Sohom Giri"
+                  placeholder="e.g. SOHOM GIRI"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
+                  className="w-full rounded-xl border border-[#0A1128]/10 bg-white px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs"
                 />
               </div>
 
               <div>
-                <label className="block font-mono text-xs text-text-primary/70 mb-1">
+                <label className="block font-mono text-[11px] font-bold tracking-wider text-[#0A1128] mb-1.5 uppercase">
                   Email Address *
                 </label>
                 <input
                   type="email"
-                  placeholder="e.g. student@college.edu"
+                  placeholder="candidate@university.edu"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 disabled:opacity-60"
+                  className="w-full rounded-xl border border-[#0A1128]/10 bg-white px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block font-mono text-xs text-text-primary/70 mb-1">
-                Your Message *
+              <label className="block font-mono text-[11px] font-bold tracking-wider text-[#0A1128] mb-1.5 uppercase">
+                Inquiry Details *
               </label>
               <textarea
                 rows={5}
-                placeholder="How can we help you? Share your questions, feedback, or suggestions…"
+                placeholder="State your question, institutional inquiry, or curriculum feedback in detail…"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 disabled={busy}
-                className="w-full rounded-lg border border-white/10 bg-surface p-4 text-sm text-text-secondary focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/20 leading-relaxed disabled:opacity-60"
+                className="w-full rounded-xl border border-[#0A1128]/10 bg-white p-4 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] leading-relaxed shadow-2xs"
               />
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
-              <p className="text-xs text-text-secondary/50 font-mono">
-                We typically respond within 24 hours.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3">
+              <span className="text-xs text-slate-500 font-mono">
+                Average executive response latency: &lt; 24 hours.
+              </span>
               <button
                 type="submit"
                 disabled={busy}
-                className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold text-[#0B0A14] hover:bg-gold-dark disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A1128] px-7 py-3 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B] shadow-sm transition disabled:opacity-50"
               >
-                {busy ? "Sending Message…" : "Send Message"}
+                <span>{busy ? "Transmitting…" : "Transmit Inquiry"}</span>
+                <Send size={13} className="text-[#C5A059]" />
               </button>
             </div>
           </form>

@@ -17,14 +17,10 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
     const y = e.clientY - rect.top;
     setPosition({ x, y });
 
-    // Calculate 3D tilt
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
-    // Max rotation of 10 degrees
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-    
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
     setTilt({ rx: rotateX, ry: rotateY });
   };
 
@@ -45,9 +41,6 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
   const Tag = to ? Link : Component;
   const props = to ? { to } : {};
 
-  // For responsive touch devices, we don't want crazy tilt, so we apply perspective wrapper
-  // and use transition for smooth return.
-
   return (
     <Tag
       {...props}
@@ -59,33 +52,26 @@ export default function SpotlightCard({ children, className, to, onClick, as: Co
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
       className={cn(
-        "relative overflow-hidden block rounded-2xl bg-gradient-to-br from-gold via-[#0A061E]/90 to-gold backdrop-blur-md transition-all duration-300",
-        "border border-gold/20 shadow-[0_8px_30px_rgba(0,0,0,0.3)]",
-        "hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)] hover:border-gold",
+        "relative overflow-hidden block rounded-2xl bg-white backdrop-blur-md transition-all duration-300",
+        "border border-[#0A1128]/8 shadow-[0_4px_18px_rgba(10,17,40,0.04)]",
+        "hover:shadow-[0_16px_36px_rgba(10,17,40,0.08)] hover:border-[#C5A059]/50",
         className
       )}
       style={{
-        transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${opacity ? 1.02 : 1})`,
-        
+        transform: `perspective(1000px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg) scale(${opacity ? 1.015 : 1})`,
       }}
     >
-      {/* Soft glass background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent pointer-events-none z-0" />
-
-      {/* The border glow effect */}
+      {/* Aurum spotlight trace */}
       <div
-        className="pointer-events-none absolute inset-0 transition duration-500 z-0 mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 transition duration-300 z-0"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(212, 175, 55, 0.4), transparent 40%)`,
+          background: `radial-gradient(400px circle at ${position.x}px ${position.y}px, rgba(197, 160, 89, 0.12), transparent 70%)`,
         }}
       />
 
       {/* Content wrapper */}
-      <div className="relative z-10 h-full" >{children}</div>
+      <div className="relative z-10 h-full">{children}</div>
     </Tag>
   );
 }
-
-
-

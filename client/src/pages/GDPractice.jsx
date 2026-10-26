@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
+import { Users, ArrowLeft, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, RotateCcw } from "lucide-react";
 
 const CATEGORIES = [
   "All",
@@ -30,7 +31,6 @@ export default function GDPractice() {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
 
-  // Fetch topics on load
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -63,7 +63,7 @@ export default function GDPractice() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (userArgument.trim().length < 20) {
-      setError("Your argument must be at least 20 characters long.");
+      setError("Your argument must contain at least 20 characters.");
       return;
     }
     if (userArgument.trim().length > 2000) {
@@ -83,7 +83,7 @@ export default function GDPractice() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Could not submit your argument for evaluation. Please try again."
+          "Could not submit your argument for evaluation. Please retry."
       );
     } finally {
       setBusy(false);
@@ -105,56 +105,57 @@ export default function GDPractice() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent px-4 py-10">
-      <div className="mx-auto w-full max-w-3xl">
+    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+      <div className="mx-auto w-full max-w-4xl">
         <div className="flex items-center justify-between">
           <Link
             to="/dashboard"
-            className="font-mono text-xs text-text-primary/70 hover:underline"
+            className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-500 hover:text-navy-900 transition-colors"
           >
-            ← Back to Dashboard
+            <ArrowLeft size={14} /> Back to Candidate Dossier
           </Link>
           {phase !== "select" && (
             <button
               type="button"
               onClick={handleBackToTopics}
-              className="font-mono text-xs text-text-primary/70 hover:underline"
+              className="font-mono text-xs text-[#0A1128] hover:text-[#C5A059] font-bold"
             >
-              Browse All Topics
+              Browse All Topics →
             </button>
           )}
         </div>
 
         {error && (
-          <p className="mt-4 rounded-lg bg-gold/10 px-4 py-3 font-mono text-xs text-stamp-maroon">
+          <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 font-mono text-xs text-red-700">
             {error}
-          </p>
+          </div>
         )}
 
         {/* Phase 1: Topic Selection */}
         {phase === "select" && (
-          <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-              PREPPASS — GROUP DISCUSSION
+          <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/30 shadow-card">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+              <Users size={12} className="text-[#C5A059]" />
+              <span>PRÆPPASS — GROUP DISCUSSION ARENA</span>
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-text-primary">
-              Select a topic for GD practice.
+            <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-[#0A1128]">
+              Select Debate Motion for Round Rehearsal
             </h1>
-            <p className="mt-1 text-sm text-text-secondary/60">
-              Formulate your opening statement, receive expert scoring, and prepare for tough panel rebuttals.
+            <p className="mt-1 text-sm text-slate-600">
+              Formulate your opening thesis, receive multi-dimensional rubric scoring, and inspect AI-generated peer counterpoints.
             </p>
 
             {/* Category Pills */}
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
+                  className={`rounded-xl px-4 py-2 font-mono text-[11px] tracking-wide transition-all ${
                     selectedCategory === cat
-                      ? "bg-stamp-navy text-white"
-                      : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
+                      ? "bg-[#0A1128] text-white font-bold"
+                      : "bg-[#0A1128]/5 text-slate-600 hover:bg-[#0A1128]/10 font-medium"
                   }`}
                 >
                   {cat}
@@ -162,15 +163,15 @@ export default function GDPractice() {
               ))}
             </div>
 
-            {/* Topics Grid */}
+            {/* Topics List */}
             {loading ? (
-              <p className="mt-8 text-center text-sm text-text-secondary/50">
-                Loading group discussion topics…
+              <p className="mt-8 text-center text-sm font-mono text-slate-400">
+                Loading discussion motions…
               </p>
             ) : filteredTopics.length === 0 ? (
-              <div className="mt-8 rounded-lg border border-dashed border-white/10 p-8 text-center">
-                <p className="text-sm text-text-secondary/60">
-                  No topics found in this category yet. Run the seed script or select "All".
+              <div className="mt-8 rounded-xl border border-dashed border-[#0A1128]/15 p-8 text-center bg-white">
+                <p className="text-sm text-slate-600">
+                  No discussion motions found in this category. Select "All" to browse the global repository.
                 </p>
               </div>
             ) : (
@@ -180,17 +181,17 @@ export default function GDPractice() {
                     key={t._id}
                     type="button"
                     onClick={() => handleSelectTopic(t)}
-                    className="ticket-card group block w-full p-5 text-left transition hover:border-white/10"
+                    className="ticket-card group block w-full p-6 text-left transition hover:border-[#C5A059]/60 hover:shadow-xs"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/60">
+                      <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2 py-0.5 rounded border border-[#C5A059]/20">
                         {t.category}
                       </span>
-                      <span className="font-mono text-xs text-white opacity-0 transition group-hover:opacity-100">
-                        Start Practice →
+                      <span className="font-mono text-xs text-[#0A1128] font-bold opacity-0 transition group-hover:opacity-100 flex items-center gap-1">
+                        Take the Floor <ArrowRight size={13} className="text-[#C5A059]" />
                       </span>
                     </div>
-                    <p className="mt-1.5 font-heading text-base text-text-primary">
+                    <p className="mt-2.5 font-heading text-base font-bold text-[#0A1128]">
                       {t.topicText}
                     </p>
                   </button>
@@ -200,44 +201,38 @@ export default function GDPractice() {
           </div>
         )}
 
-        {/* Phase 2: Write Opening Argument */}
+        {/* Phase 2: Opening Argument */}
         {phase === "write" && selectedTopic && (
-          <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="flex items-center justify-between">
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-                GD PRACTICE · {selectedTopic.category}
-              </div>
-              <span className="font-mono text-xs text-text-secondary/40">
+          <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/30 shadow-card">
+            <div className="flex items-center justify-between pb-4 border-b border-[#0A1128]/8">
+              <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2.5 py-0.5 rounded border border-[#C5A059]/20">
+                GD MOTION · {selectedTopic.category}
+              </span>
+              <span className="font-mono text-xs text-slate-400">
                 20–2000 characters
               </span>
             </div>
 
-            <h1 className="mt-3 font-heading text-xl text-text-primary sm:text-2xl">
+            <h1 className="mt-4 font-heading text-xl sm:text-2xl font-bold text-[#0A1128]">
               {selectedTopic.topicText}
             </h1>
-            <p className="mt-1.5 text-xs text-text-secondary/60">
-              State your initial position clearly. Include a strong opening hook, 2–3 supporting points or real-world examples, and a conclusive closing stance.
+            <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+              Structure your opening statement: start with a hook, present 2–3 empirical premises or real-world precedents, and summarize your stance.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-5">
               <div>
                 <textarea
                   rows={7}
-                  placeholder="State your opening argument clearly. E.g., 'Good morning everyone. Today we are discussing whether AI will replace human software engineers. In my view, AI acts as a multiplier rather than a replacement for three reasons...'"
+                  placeholder="State your opening statement clearly. E.g., 'Good morning colleagues and honorable panel. Today we are deliberating whether artificial intelligence constitutes a net displacement or multiplier of engineering talent. In my view, historical precedents demonstrate...'"
                   value={userArgument}
                   onChange={(e) => setUserArgument(e.target.value)}
                   disabled={busy}
-                  className="w-full rounded-lg border border-white/10 bg-surface p-4 font-sans text-sm text-text-secondary placeholder-white/40 focus:border-gold focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 disabled:opacity-60"
+                  className="w-full rounded-xl border border-[#0A1128]/10 bg-white p-4 font-sans text-sm text-[#0A1128] placeholder-slate-400 focus:border-[#C5A059] focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 leading-relaxed shadow-2xs"
                 />
-                <div className="mt-1.5 flex justify-between font-mono text-[11px] text-text-secondary/50">
+                <div className="mt-2 flex justify-between font-mono text-xs text-slate-400">
                   <span>Minimum 20 characters</span>
-                  <span
-                    className={
-                      userArgument.length > 2000
-                        ? "text-stamp-maroon font-bold"
-                        : ""
-                    }
-                  >
+                  <span className={userArgument.length > 2000 ? "text-red-600 font-bold" : ""}>
                     {userArgument.length} / 2000
                   </span>
                 </div>
@@ -248,36 +243,37 @@ export default function GDPractice() {
                   type="button"
                   onClick={handleBackToTopics}
                   disabled={busy}
-                  className="rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5 disabled:opacity-60"
+                  className="rounded-xl border border-[#0A1128]/15 px-5 py-3 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5"
                 >
                   Choose Different Topic
                 </button>
                 <button
                   type="submit"
                   disabled={busy || userArgument.trim().length < 20}
-                  className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A1128] px-7 py-3 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B] shadow-sm disabled:opacity-50"
                 >
-                  {busy ? "Evaluating with AI…" : "Submit Argument for Evaluation"}
+                  <span>{busy ? "Evaluating Synthesis & Logic…" : "Submit Opening Argument"}</span>
+                  <ArrowRight size={14} className="text-[#C5A059]" />
                 </button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Phase 3: Results & Counterpoints */}
+        {/* Phase 3: Results & AI Counterpoints */}
         {phase === "result" && result && (
-          <div className="ticket-card mt-6 p-6 sm:p-8">
-            <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-              PREPPASS — EVALUATION REPORT
+          <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/40 shadow-card">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+              <ShieldCheck size={12} className="text-[#C5A059]" />
+              <span>PRÆPPASS — DEBATE EVALUATION DOSSIER</span>
             </div>
-            <h1 className="mt-3 font-heading text-2xl text-text-primary">
-              Argument Evaluated.
+            <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-[#0A1128]">
+              Argument Articulation Audit
             </h1>
-            <p className="mt-1 font-mono text-xs text-text-primary/60">
-              Topic: {result.topicText}
+            <p className="mt-1 font-mono text-xs text-slate-500">
+              Motion: {result.topicText}
             </p>
 
-            {/* Gauge Circle Score */}
             <div className="mt-8 flex flex-col items-center">
               <GaugeCircle
                 value={result.score?.overall ?? 0}
@@ -287,9 +283,8 @@ export default function GDPractice() {
               />
             </div>
 
-            {/* Score Breakdown */}
             <div className="mt-8 space-y-3">
-              <h2 className="font-heading text-xs uppercase tracking-wider text-text-primary/70">
+              <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128]">
                 Performance Dimensions
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -299,19 +294,19 @@ export default function GDPractice() {
                   return (
                     <div
                       key={key}
-                      className="rounded-lg border border-white/10 bg-surface/60 p-3.5"
+                      className="rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-4 shadow-2xs"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/70">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-slate-500">
                           {label}
                         </span>
-                        <span className="font-mono text-sm font-semibold text-text-primary">
+                        <span className="font-mono text-sm font-bold text-[#0A1128]">
                           {Math.round(val * 10) / 10} / 10
                         </span>
                       </div>
-                      <div className="mt-2 h-2 overflow-hidden rounded-full bg-stamp-navy/10">
+                      <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200">
                         <div
-                          className="h-full rounded-full bg-gold"
+                          className="h-full rounded-full bg-[#C5A059]"
                           style={{ width: `${pct}%`, transition: "width 0.7s ease" }}
                         />
                       </div>
@@ -323,13 +318,13 @@ export default function GDPractice() {
 
             <div className="ticket-perf my-8" />
 
-            {/* Panel Feedback */}
+            {/* Evaluator Feedback */}
             <div>
-              <h2 className="font-heading text-xs uppercase tracking-wider text-text-primary/70">
-                Evaluator Feedback
+              <h2 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128]">
+                Panel Moderator Feedback
               </h2>
-              <div className="mt-2.5 rounded-lg border border-white/10 bg-surface/80 p-4 text-sm text-text-secondary/80 leading-relaxed">
-                {result.feedback || "No specific feedback provided."}
+              <div className="mt-2.5 rounded-xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 text-sm text-slate-700 leading-relaxed shadow-2xs">
+                {result.feedback || "Argument structure demonstrated clear thesis development."}
               </div>
             </div>
 
@@ -337,64 +332,50 @@ export default function GDPractice() {
             {result.counterpoints && result.counterpoints.length > 0 && (
               <div className="mt-6">
                 <div className="flex items-center gap-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-stamp-maroon" />
-                  <h2 className="font-heading text-xs uppercase tracking-wider text-stamp-maroon">
-                    Be ready to rebut these counterpoints:
+                  <AlertTriangle size={15} className="text-amber-700" />
+                  <h2 className="font-heading text-xs uppercase tracking-wider font-bold text-amber-800">
+                    Prepare to Rebut These Peer Counterpoints:
                   </h2>
                 </div>
-                <p className="mt-1 text-xs text-text-secondary/60">
-                  In a real placement GD, other participants or the moderator will challenge your stance with these arguments:
-                </p>
                 <div className="mt-3 space-y-2.5">
                   {result.counterpoints.map((cp, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 rounded-lg border border-stamp-maroon/20 bg-stamp-maroon/5 p-3.5 text-sm text-text-secondary/85"
+                      className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50/70 p-4 text-sm text-amber-900 shadow-2xs"
                     >
-                      <span className="font-mono text-xs font-bold text-stamp-maroon shrink-0">
+                      <span className="font-mono text-xs font-bold text-amber-800 shrink-0">
                         #{idx + 1}
                       </span>
-                      <p className="leading-snug">{cp}</p>
+                      <p className="leading-relaxed">{cp}</p>
                     </div>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* User Argument Reference */}
-            <div className="mt-6">
-              <details className="group rounded-lg border border-white/10 bg-surface/40 p-3 text-xs text-text-secondary/70">
-                <summary className="cursor-pointer font-mono text-[11px] uppercase tracking-wider text-text-primary/70 hover:text-text-primary">
-                  View your submitted opening statement
-                </summary>
-                <p className="mt-2.5 whitespace-pre-wrap border-t border-dashed border-white/10 pt-2 text-text-secondary">
-                  {result.userArgument}
-                </p>
-              </details>
-            </div>
-
             {/* Actions */}
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div className="mt-8 pt-6 border-t border-[#0A1128]/8 flex flex-col sm:flex-row items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={handleResetSameTopic}
-                className="rounded-lg border border-white/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/5"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-[#0A1128]/15 bg-white px-5 py-2.5 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5"
               >
-                Retry This Topic
+                <RotateCcw size={13} /> Retry Motion
               </button>
-              <div className="flex flex-col gap-2 sm:flex-row">
+              <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={handleBackToTopics}
-                  className="rounded-lg bg-stamp-navy/10 px-5 py-2.5 font-mono text-xs text-text-primary hover:bg-stamp-navy/20"
+                  className="rounded-xl border border-[#0A1128]/15 bg-white px-5 py-2.5 font-mono text-xs font-semibold text-slate-700 hover:bg-[#0A1128]/5"
                 >
-                  Choose Another Topic
+                  Other Topics
                 </button>
                 <Link
                   to="/dashboard"
-                  className="inline-flex items-center justify-center rounded-lg bg-gold px-6 py-2.5 font-heading text-sm font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0A1128] px-6 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B]"
                 >
-                  Back to Dashboard
+                  <span>Dossier</span>
+                  <ArrowRight size={13} className="text-[#C5A059]" />
                 </Link>
               </div>
             </div>

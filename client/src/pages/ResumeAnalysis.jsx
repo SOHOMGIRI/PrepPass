@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axiosClient.js";
 import GaugeCircle from "../components/GaugeCircle.jsx";
-import { motion, AnimatePresence } from "framer-motion";
+import { UploadCloud, ArrowLeft, ArrowRight, ShieldCheck, CheckCircle2, AlertTriangle, Sparkles, FileText } from "lucide-react";
 
 const ACCEPT = ".pdf,.docx";
 const ACCEPT_TYPES = [
@@ -18,7 +19,6 @@ const isAccepted = (f) => {
 
 export default function ResumeAnalysis() {
   const inputRef = useRef(null);
-  const submittingRef = useRef(false);
   const [file, setFile] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -29,13 +29,13 @@ export default function ResumeAnalysis() {
     if (!f) return;
     if (!isAccepted(f)) {
       setError(
-        "Unsupported file type. Only PDF (.pdf) and DOCX (.docx) are accepted."
+        "Unsupported format. Only authentic PDF (.pdf) and Word (.docx) files are supported."
       );
       setFile(null);
       return;
     }
     if (f.size > 5 * 1024 * 1024) {
-      setError("File is larger than 5 MB.");
+      setError("File exceeds 5 MB payload limit.");
       setFile(null);
       return;
     }
@@ -44,25 +44,23 @@ export default function ResumeAnalysis() {
   };
 
   const submit = async () => {
-    if (submittingRef.current) return;
     setError("");
     if (!file) {
-      setError("Please upload a resume (PDF or DOCX) first.");
+      setError("Please attach your candidate resume document (PDF or DOCX).");
       return;
     }
-    submittingRef.current = true;
     setBusy(true);
     try {
       const form = new FormData();
       form.append("resume", file);
       const { data } = await api.post("/resume/analyze", form);
-      setResult(data);
+      setResult(data.analysis);
     } catch (err) {
       setError(
-        err?.response?.data?.message || "Could not analyze your resume. Try again."
+        err?.response?.data?.message ||
+          "Could not analyze resume. Please retry in a moment."
       );
     } finally {
-      submittingRef.current = false;
       setBusy(false);
     }
   };
@@ -74,29 +72,30 @@ export default function ResumeAnalysis() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent px-4 py-10">
-      <div className="mx-auto w-full max-w-2xl">
+    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+      <div className="mx-auto w-full max-w-3xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-text-primary/70 hover:underline"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-500 hover:text-navy-900 transition-colors"
         >
-          ← Back to Dashboard
+          <ArrowLeft size={14} /> Back to Candidate Dossier
         </Link>
-        <div className="ticket-card mt-6 p-6 sm:p-8">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-            PREPPASS • ATS AUDIT
+        <div className="ticket-card mt-6 p-6 sm:p-10 border border-[#C5A059]/35 shadow-card">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+            <ShieldCheck size={12} className="text-[#C5A059]" />
+            <span>PRÆPPASS — ATS PARSER AUDIT</span>
           </div>
-          <h1 className="mt-3 font-heading text-2xl text-text-primary">
-            Resume Analysis
+          <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-[#0A1128]">
+            Automated Resume & ATS Compliance Analysis
           </h1>
-          <p className="mt-1 text-sm text-text-secondary/60">
-            Upload your resume to get an instant ATS compatibility score, identify missing sections, and discover suggested preparation topics.
+          <p className="mt-1 text-sm text-slate-600">
+            Upload your resume for an automated 0–100 ATS compliance score, section completeness check, and personalized subject recommendations.
           </p>
 
           {error && (
-            <p className="mt-4 rounded-lg bg-gold/10 px-4 py-3 font-mono text-xs text-stamp-maroon">
+            <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 font-mono text-xs text-red-700">
               {error}
-            </p>
+            </div>
           )}
 
           <AnimatePresence mode="wait">
@@ -110,7 +109,7 @@ export default function ResumeAnalysis() {
                   e.preventDefault();
                   submit();
                 }}
-                className="mt-6"
+                className="mt-6 space-y-6"
               >
                 <div
                   onDragOver={(e) => {
@@ -124,8 +123,10 @@ export default function ResumeAnalysis() {
                     handleFile(e.dataTransfer?.files?.[0]);
                   }}
                   onClick={() => inputRef.current?.click()}
-                  className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white/10 px-6 py-10 text-center transition-colors ${
-                    drag ? "bg-stamp-navy/5" : ""
+                  className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-10 text-center transition-all ${
+                    drag
+                      ? "border-[#C5A059] bg-[#C5A059]/10"
+                      : "border-[#0A1128]/15 bg-white hover:border-[#C5A059] hover:bg-[#FDFBF7]"
                   }`}
                 >
                   <input
@@ -135,29 +136,35 @@ export default function ResumeAnalysis() {
                     className="hidden"
                     onChange={(e) => handleFile(e.target.files?.[0])}
                   />
-                  <span className="font-heading text-text-primary">
-                    Drop resume here
+                  <div className="w-12 h-12 rounded-xl bg-[#0A1128]/5 flex items-center justify-center text-[#0A1128] mb-3">
+                    <UploadCloud size={24} className="text-[#C5A059]" />
+                  </div>
+                  <span className="font-heading text-base font-bold text-[#0A1128]">
+                    {file ? file.name : "Select or Drop Candidate Resume"}
                   </span>
-                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
-                    click or drop • .pdf / .docx • ≤ 5 MB
+                  <span className="mt-1 font-mono text-[10px] uppercase tracking-wider text-slate-400">
+                    PDF (.pdf) or Word (.docx) · Maximum size 5 MB
                   </span>
                   {file && (
-                    <span className="mt-3 rounded-full bg-stamp-navy/10 px-3 py-1 font-mono text-xs text-text-primary">
-                      📄 {file.name}
+                    <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3.5 py-1 font-mono text-xs font-bold text-emerald-800">
+                      ✓ File Ready ({Math.round(file.size / 1024)} KB)
                     </span>
                   )}
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={busy}
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-lg bg-gold px-6 py-3 font-heading font-semibold tracking-wider text-[#0B0A14] hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2 disabled:opacity-60 sm:w-auto"
-                >
-                  {busy ? "Analyzing your resume..." : "Analyze Resume"}
-                </button>
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="submit"
+                    disabled={busy || !file}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0A1128] px-8 py-3.5 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B] shadow-sm transition disabled:opacity-50"
+                  >
+                    <span>{busy ? "Parsing ATS Document…" : "Analyze Candidate Resume"}</span>
+                    <ArrowRight size={15} className="text-[#C5A059]" />
+                  </button>
+                </div>
                 {busy && (
-                  <p className="mt-2 font-mono text-[10px] text-text-primary/50">
-                    This can take up to 20 seconds. We're parsing and scoring your document.
+                  <p className="font-mono text-xs text-slate-400 text-center">
+                    Auditing formatting tokens and section completeness…
                   </p>
                 )}
               </motion.form>
@@ -169,8 +176,8 @@ export default function ResumeAnalysis() {
                 exit={{ opacity: 0, y: -10 }}
                 className="mt-8 space-y-6"
               >
-                <div className="flex flex-col sm:flex-row gap-8 items-start">
-                  <div className="flex-shrink-0 mx-auto sm:mx-0">
+                <div className="flex flex-col sm:flex-row gap-8 items-start pb-6 border-b border-[#0A1128]/8">
+                  <div className="shrink-0 mx-auto sm:mx-0">
                     <GaugeCircle
                       value={result.atsScore}
                       max={100}
@@ -179,27 +186,34 @@ export default function ResumeAnalysis() {
                     />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-heading text-xl text-text-primary border-b border-white/10 pb-2 mb-4">
-                      Overview
+                    <h3 className="font-heading text-lg font-bold text-[#0A1128] mb-3">
+                      ATS Compliance Summary
                     </h3>
-                    
+
                     {result.suggestedSubjects?.length > 0 && (
                       <div className="mb-4">
-                        <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Suggested Subjects</h4>
+                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-slate-500 block mb-2">
+                          Suggested Preparation Subjects
+                        </span>
                         <div className="flex flex-wrap gap-2">
                           {result.suggestedSubjects.map((subject, idx) => (
-                            <span key={idx} className="bg-gold/20 text-white-dark px-2.5 py-1 rounded-full font-mono text-xs">
+                            <span
+                              key={idx}
+                              className="bg-[#C5A059]/10 border border-[#C5A059]/25 text-[#9E7B35] px-3 py-1 rounded-full font-mono text-xs font-bold"
+                            >
                               {subject}
                             </span>
                           ))}
                         </div>
                       </div>
                     )}
-                    
+
                     {result.missingSections?.length > 0 && (
-                      <div className="mb-4">
-                        <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2">Missing Sections</h4>
-                        <ul className="list-disc pl-4 text-sm text-stamp-maroon space-y-1">
+                      <div className="mb-2">
+                        <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-red-700 block mb-1">
+                          Missing ATS Sections
+                        </span>
+                        <ul className="list-disc pl-4 text-xs text-red-700 space-y-1">
                           {result.missingSections.map((sec, idx) => (
                             <li key={idx}>{sec}</li>
                           ))}
@@ -211,10 +225,10 @@ export default function ResumeAnalysis() {
 
                 {result.formattingIssues?.length > 0 && (
                   <div>
-                    <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
-                      Formatting Issues
+                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128] mb-2">
+                      Formatting & Parser Warnings
                     </h4>
-                    <ul className="list-disc pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
+                    <ul className="list-disc pl-5 mt-2 text-xs text-slate-600 space-y-1.5 leading-relaxed">
                       {result.formattingIssues.map((issue, idx) => (
                         <li key={idx}>{issue}</li>
                       ))}
@@ -224,10 +238,10 @@ export default function ResumeAnalysis() {
 
                 {result.improvementTips?.length > 0 && (
                   <div>
-                    <h4 className="font-mono text-xs uppercase tracking-wider text-text-primary/60 mb-2 border-b border-white/10 pb-2">
-                      Improvement Tips
+                    <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-[#0A1128] mb-2">
+                      Examiner Improvement Recommendations
                     </h4>
-                    <ol className="list-decimal pl-5 mt-3 text-sm text-text-secondary/80 space-y-2">
+                    <ol className="list-decimal pl-5 mt-2 text-xs text-slate-700 space-y-2 leading-relaxed">
                       {result.improvementTips.map((tip, idx) => (
                         <li key={idx}>{tip}</li>
                       ))}
@@ -235,13 +249,20 @@ export default function ResumeAnalysis() {
                   </div>
                 )}
 
-                <div className="pt-6">
+                <div className="pt-6 border-t border-[#0A1128]/8 flex items-center justify-between">
                   <button
                     onClick={reset}
-                    className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-white/10 px-6 py-2.5 font-heading font-semibold tracking-wider text-text-primary hover:bg-stamp-navy/10 focus:outline-none focus:ring-2 focus:ring-stamp-navy/50 focus:ring-offset-2"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#0A1128] px-6 py-2.5 font-heading text-xs font-bold uppercase tracking-wider text-white hover:bg-[#1E293B]"
                   >
-                    Analyze Another Resume
+                    <span>Analyze Another Resume</span>
+                    <ArrowRight size={13} className="text-[#C5A059]" />
                   </button>
+                  <Link
+                    to="/dashboard"
+                    className="font-mono text-xs font-semibold text-slate-500 hover:text-navy-900"
+                  >
+                    Return to Dossier
+                  </Link>
                 </div>
               </motion.div>
             )}
@@ -251,4 +272,3 @@ export default function ResumeAnalysis() {
     </div>
   );
 }
-

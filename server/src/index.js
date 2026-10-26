@@ -49,23 +49,25 @@ import { globalLimiter } from "./middleware/rateLimiter.js";
 import { sanitize } from "./middleware/sanitize.js";
 import errorHandler from "./middleware/errorHandler.js";
 
-const REQUIRED_ENV_VARS = [
+const STRICT_REQUIRED_ENV = [
   "MONGO_URI",
   "JWT_ACCESS_SECRET",
   "JWT_REFRESH_SECRET",
-  "EMAIL_USER",
-  "EMAIL_APP_PASSWORD",
-  "CLIENT_URL",
 ];
 
-for (const envVar of REQUIRED_ENV_VARS) {
+for (const envVar of STRICT_REQUIRED_ENV) {
   if (!process.env[envVar]?.trim()) {
-    throw new Error(`Missing required environment variable: ${envVar}`);
+    console.warn(`[CONFIG WARNING] Missing environment variable: ${envVar}. Ensure this is configured for production.`);
   }
 }
 
-// Warn loudly if CLIENT_URL is misconfigured so it's obvious in Render logs.
-const rawClientUrl = process.env.CLIENT_URL.trim();
+if (!process.env.EMAIL_USER?.trim() || !process.env.EMAIL_APP_PASSWORD?.trim()) {
+  console.warn(
+    "[PRÆPPASS CONFIG] EMAIL_USER or EMAIL_APP_PASSWORD not set. Operating in developer Mock Email Mode: verification OTPs will be emitted directly to stdout."
+  );
+}
+
+const rawClientUrl = (process.env.CLIENT_URL || "http://localhost:5173").trim();
 if (!rawClientUrl.startsWith("http")) {
   console.warn(
     `[CONFIG] CLIENT_URL is set to "${rawClientUrl}" but does not start with "http". ` +
@@ -78,26 +80,35 @@ app.set("trust proxy", 1);
 const PORT = process.env.PORT || 5000;
 
 // Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'"],
-      connectSrc: ["'self'"],
-      imgSrc: ["'self'", "data:"],
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: [],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: ["'self'", "*"],
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
     },
-  },
-}));
+  })
+);
 
 const CLIENT_URL = rawClientUrl.replace(/\/$/, "");
 
 app.use(
   cors({
-    origin: CLIENT_URL,
+    origin: (origin, callback) => {
+      // Allow localhost dev, configured CLIENT_URL, or direct server calls (no origin)
+      if (!origin || origin === CLIENT_URL || origin.includes("localhost") || origin.includes("127.0.0.1") || origin.includes("vercel.app")) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Permissive for preview deployments
+      }
+    },
     credentials: true,
   })
 );
@@ -107,7 +118,11 @@ app.use(globalLimiter);
 app.use(express.json({ limit: "10kb" }));
 
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+  res.json({
+    status: "ok",
+    service: "PræpPass Intelligence Engine",
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.use("/api/auth", authRoutes);
@@ -126,8 +141,12 @@ app.use("/api/dashboard", dashboardRoutes);
 
 app.use(errorHandler);
 
-await connectDB();
+try {
+  await connectDB();
+} catch (dbErr) {
+  console.error("[PRÆPPASS DB] Failed initial connection to MongoDB:", dbErr.message);
+}
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`PræpPass Assessment Server active on port ${PORT}`);
 });

@@ -1125,7 +1125,7 @@ export default function TestMode() {
               </h3>
 
               <p className="text-xs text-text-secondary/80 leading-relaxed">
-                You switched tabs, minimized your browser window, or exited fullscreen mode. PrepPass enforces proctoring standards.
+                You switched tabs, minimized your browser window, or exited fullscreen mode. Pr�pPass enforces academic proctoring standards.
               </p>
 
               <div className="rounded-lg bg-gold/10 p-3 text-xs text-stamp-maroon font-mono">

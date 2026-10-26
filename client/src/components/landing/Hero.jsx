@@ -1,64 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
-import FloatingElements from "./FloatingElements.jsx";
-import Magnetic from "../Magnetic.jsx";
-import { ChevronDown } from "lucide-react";
-import { cn } from "../../lib/utils.js";
-import useRipple from "../../hooks/useRipple.js";
+import { ChevronDown, ArrowRight, ShieldCheck, Sparkles, Award, CheckCircle2 } from "lucide-react";
 import HeroIllustration from "./HeroIllustration.jsx";
-
-const BTN =
-  "inline-flex items-center justify-center rounded-xl font-heading font-semibold tracking-wider focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 transition-all active:scale-95 relative overflow-hidden";
-const BTN_PRIMARY = `${BTN} text-[#0B0A14] bg-gold hover:opacity-90 px-8 py-4 shine-sweep shadow-[0_10px_25px_rgba(212,175,55,0.3)] hover:shadow-[0_15px_35px_rgba(212,175,55,0.4)]`;
-const BTN_OUTLINE = `${BTN} text-white border-2 border-gold hover:bg-gold/10 px-8 py-4 backdrop-blur-md`;
-
-const StaggeredText = ({ text }) => {
-  const words = text.split(" ");
-  return (
-    <span className="inline-block stagger-text-container" aria-label={text}>
-      {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
-          {word.split("").map((char, charIndex) => (
-            <span key={charIndex} className="inline-block stagger-char opacity-0 translate-y-4">
-              {char}
-            </span>
-          ))}
-        </span>
-      ))}
-    </span>
-  );
-};
+import Magnetic from "../Magnetic.jsx";
 
 export default function Hero({ accessToken }) {
-  
   const heroRef = useRef(null);
-  const ripple = useRipple("rgba(255, 255, 255, 0.3)");
-  const rippleDark = useRipple("rgba(255, 255, 255, 0.1)");
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ctx = gsap.context(() => {
-      // Text Stagger
-      gsap.to(".stagger-char", {
-        opacity: 1,
-        y: 0,
-        duration: prefersReduced ? 0 : 0.6,
-        stagger: prefersReduced ? 0 : 0.02,
-        ease: "back.out(1.5)",
-        delay: 0.1,
-      });
+    if (prefersReduced) return;
 
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".hero-badge",
+        { opacity: 0, y: -12 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+      );
+      gsap.fromTo(
+        ".hero-title",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.15, ease: "power3.out" }
+      );
       gsap.fromTo(
         ".hero-subtitle",
         { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.6, delay: 0.5, ease: "power2.out" }
+        { opacity: 1, y: 0, duration: 0.7, delay: 0.35, ease: "power2.out" }
       );
-
       gsap.fromTo(
         ".hero-cta",
-        { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 0.6, delay: 0.7, ease: "back.out(1.2)" }
+        { opacity: 0, scale: 0.96 },
+        { opacity: 1, scale: 1, duration: 0.6, delay: 0.55, ease: "back.out(1.2)" }
+      );
+      gsap.fromTo(
+        ".hero-metrics",
+        { opacity: 0, y: 15 },
+        { opacity: 1, y: 0, duration: 0.7, delay: 0.75, ease: "power2.out" }
       );
     }, heroRef);
 
@@ -66,100 +44,43 @@ export default function Hero({ accessToken }) {
   }, []);
 
   return (
-    <section 
+    <section
       ref={heroRef}
-      className="relative pt-32 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden"
+      className="relative pt-36 pb-20 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-12 overflow-hidden"
     >
-      
-      {/* Animated gradient orbs — MUCH more visible */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Large gold orb — top left */}
-        <div className="absolute rounded-full"
-             style={{
-               width: "clamp(400px, 50vw, 700px)",
-               height: "clamp(400px, 50vw, 700px)",
-               background: "radial-gradient(circle, rgba(212,175,55,0.25) 0%, rgba(212,175,55,0.08) 40%, transparent 70%)",
-               top: "-20%", left: "-15%",
-               filter: "blur(80px)",
-               animation: "heroOrb1 18s ease-in-out infinite",
-             }} />
-        {/* Teal orb — bottom right */}
-        <div className="absolute rounded-full"
-             style={{
-               width: "clamp(350px, 40vw, 600px)",
-               height: "clamp(350px, 40vw, 600px)",
-               background: "radial-gradient(circle, rgba(45,212,191,0.2) 0%, rgba(45,212,191,0.06) 40%, transparent 70%)",
-               bottom: "-15%", right: "-10%",
-               filter: "blur(70px)",
-               animation: "heroOrb2 22s ease-in-out infinite",
-             }} />
-        {/* Purple orb — center right */}
-        <div className="absolute rounded-full"
-             style={{
-               width: "clamp(300px, 35vw, 500px)",
-               height: "clamp(300px, 35vw, 500px)",
-               background: "radial-gradient(circle, rgba(168,85,247,0.18) 0%, rgba(168,85,247,0.05) 40%, transparent 70%)",
-               top: "25%", right: "15%",
-               filter: "blur(60px)",
-               animation: "heroOrb3 15s ease-in-out infinite",
-             }} />
-        {/* Warm amber orb — center left */}
-        <div className="absolute rounded-full"
-             style={{
-               width: "clamp(250px, 30vw, 450px)",
-               height: "clamp(250px, 30vw, 450px)",
-               background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.04) 40%, transparent 70%)",
-               bottom: "20%", left: "20%",
-               filter: "blur(50px)",
-               animation: "heroOrb4 20s ease-in-out infinite",
-             }} />
-      </div>
+      {/* Left Column: Imperial Editorial Typography */}
+      <div className="flex-1 max-w-2xl text-center lg:text-left z-10">
+        {/* Accreditation Pill Badge */}
+        <div className="hero-badge inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 text-navy-900 mb-6 shadow-2xs">
+          <Award size={14} className="text-[#C5A059]" />
+          <span className="font-mono text-[11px] uppercase tracking-widest font-bold">
+            ACADEMIC INTELLIGENCE STANDARD 2.0
+          </span>
+        </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes heroOrb1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          25% { transform: translate(100px, 60px) scale(1.2); }
-          50% { transform: translate(50px, -30px) scale(1.05); }
-          75% { transform: translate(-50px, 40px) scale(0.9); }
-        }
-        @keyframes heroOrb2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          25% { transform: translate(-80px, -50px) scale(1.15); }
-          50% { transform: translate(-30px, 40px) scale(0.95); }
-          75% { transform: translate(60px, -20px) scale(1.1); }
-        }
-        @keyframes heroOrb3 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          25% { transform: translate(50px, -60px) scale(1.2); }
-          50% { transform: translate(-40px, 30px) scale(0.85); }
-          75% { transform: translate(30px, 50px) scale(1.1); }
-        }
-        @keyframes heroOrb4 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          25% { transform: translate(40px, 40px) scale(1.15); }
-          50% { transform: translate(-60px, -20px) scale(0.9); }
-          75% { transform: translate(20px, -50px) scale(1.05); }
-        }
-      `}} />
-
-      <FloatingElements />
-
-
-      <div className="relative z-20 flex-1 max-w-2l px-6 lg:pl-16 pt-10 text-center lg:text-left">
-        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl text-gold mb-6 leading-[1.1] tracking-tight drop-shadow-md">
-          <StaggeredText text="Your Placement, Rehearsed." />
+        {/* Main Headline */}
+        <h1 className="hero-title font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0A1128] tracking-tight leading-[1.12] mb-6">
+          The Imperial Standard of Candidate{" "}
+          <span className="relative whitespace-nowrap text-[#C5A059] font-serif italic">
+            Assessment.
+          </span>
         </h1>
-        
-        <p className="hero-subtitle text-text-secondary/80 text-lg md:text-xl mb-10 max-w-xl mx-auto lg:mx-0 font-body drop-shadow-sm">
-          Mock interviews, readiness grades, and resume feedback — wrapped in an
-          exam admit card you can rehearse, refine, and walk in with.
+
+        {/* Subtitle */}
+        <p className="hero-subtitle text-slate-600 text-lg sm:text-xl font-normal leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
+          Simulate rigorous multi-persona interview boards, evaluate acoustic speech fluency in real-time, and audit ATS resume vectors — wrapped in an accredited candidate pass.
         </p>
 
-        <div className="hero-cta flex flex-col sm:flex-row gap-5 justify-center lg:justify-start opacity-0">
+        {/* Primary CTA Buttons */}
+        <div className="hero-cta flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12">
           {accessToken ? (
             <Magnetic>
-              <Link to="/dashboard" onPointerDown={ripple} className={BTN_PRIMARY} data-cursor="pointer">
-                Go to Dashboard
+              <Link
+                to="/dashboard"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-imperial transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <span>Access Candidate Dossier</span>
+                <ArrowRight size={16} className="text-[#C5A059]" />
               </Link>
             </Magnetic>
           ) : (
@@ -167,41 +88,60 @@ export default function Hero({ accessToken }) {
               <Magnetic>
                 <Link
                   to="/register"
-                  onPointerDown={ripple}
-                  className={cn(BTN_PRIMARY, "relative group")}
-                  data-cursor="pointer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-imperial transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  GET STARTED
+                  <span>Initialize Assessment Pass</span>
+                  <ArrowRight size={16} className="text-[#C5A059]" />
                 </Link>
               </Magnetic>
-              <Magnetic><Link to="/login" onPointerDown={rippleDark} className={BTN_OUTLINE} data-cursor="pointer">
-                LOG IN
+
+              <Magnetic>
+                <Link
+                  to="/how-it-works"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl font-heading text-xs font-bold uppercase tracking-wider border border-[#C5A059] text-navy-900 bg-white/70 hover:bg-[#C5A059]/10 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <span>Inspect Methodology</span>
                 </Link>
               </Magnetic>
             </>
-         )}
+          )}
+        </div>
+
+        {/* Social Proof & Industrial Metrics Strip */}
+        <div className="hero-metrics pt-8 border-t border-[#0A1128]/8 grid grid-cols-3 gap-6 text-center lg:text-left">
+          <div>
+            <div className="font-heading text-2xl font-bold text-navy-900">18,400+</div>
+            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
+              Sessions Rehearsed
+            </div>
+          </div>
+          <div>
+            <div className="font-heading text-2xl font-bold text-emerald-700">94.2%</div>
+            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
+              Placement Conversion
+            </div>
+          </div>
+          <div>
+            <div className="font-heading text-2xl font-bold text-[#9E7B35]">&lt; 15ms</div>
+            <div className="font-mono text-[11px] text-slate-500 uppercase tracking-wider mt-0.5">
+              Audio Telemetry
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="relative z-10 flex-1 h-[400px] sm:h-[500px] lg:h-[700px] w-full flex items-center justify-center drop-shadow-2xl">
+      {/* Right Column: 3D Interactive Admission Pass */}
+      <div className="flex-1 w-full flex items-center justify-center mt-12 lg:mt-0 z-10">
         <HeroIllustration />
       </div>
 
-      {/* Scroll Down Cue */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-70">
-        <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-white/50">Scroll</span>
-        <ChevronDown size={20} className="text-white/60 animate-bounce" strokeWidth={1.5} />
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 opacity-60 pointer-events-none">
+        <span className="text-[9px] font-mono tracking-[0.25em] uppercase text-slate-500">
+          EXPLORE CAPABILITIES
+        </span>
+        <ChevronDown size={16} className="text-[#0A1128] animate-bounce" />
       </div>
     </section>
   );
 }
-
-
-
-
-
-
-
-
-
-

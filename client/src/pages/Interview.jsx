@@ -4,6 +4,7 @@ import api from "../api/axiosClient.js";
 import InterviewCard from "../components/InterviewCard.jsx";
 import SessionResults from "../components/SessionResults.jsx";
 import CameraPreview from "../components/CameraPreview.jsx";
+import { Mic, Video, ArrowLeft, Search, ShieldCheck, Sparkles, Building } from "lucide-react";
 
 const CATEGORIES = [
   "All",
@@ -28,7 +29,7 @@ export default function Interview() {
   const [error, setError] = useState("");
 
   // Optional Voice & Camera Preferences
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const isSpeechSupported =
     typeof window !== "undefined" &&
@@ -77,7 +78,7 @@ export default function Interview() {
       setStep(0);
       setPhase("live");
     } catch (err) {
-      setError(err?.response?.data?.message || "Could not start the interview.");
+      setError(err?.response?.data?.message || "Could not start the assessment session.");
     } finally {
       setBusy(false);
     }
@@ -85,7 +86,7 @@ export default function Interview() {
 
   const submit = async () => {
     if (!answer.trim()) {
-      setError("Please enter or speak an answer.");
+      setError("Please articulate or type a response before submitting.");
       return;
     }
     setBusy(true);
@@ -98,7 +99,6 @@ export default function Interview() {
       setLast({ score: data.score, feedback: data.feedback || "" });
       setAnswer("");
       if (data.completed) {
-        // Pull the full session for the per-question breakdown.
         const { data: sd } = await api.get(`/interview/session/${sessionId}`);
         setFull(sd.session);
         setPhase("complete");
@@ -109,7 +109,7 @@ export default function Interview() {
       }
     } catch (err) {
       setError(
-        err?.response?.data?.message || "Something went wrong while submitting."
+        err?.response?.data?.message || "Evaluation service encountered a temporary error."
       );
     } finally {
       setBusy(false);
@@ -121,7 +121,6 @@ export default function Interview() {
     setPhase("live");
   };
 
-  // Auto-advance a few seconds after showing the score/feedback.
   useEffect(() => {
     if (phase !== "feedback") return;
     const t = setTimeout(() => {
@@ -133,8 +132,8 @@ export default function Interview() {
 
   if (phase === "complete") {
     return (
-      <div className="min-h-screen bg-transparent px-4 py-10">
-        <div className="mx-auto flex max-w-2xl flex-col items-center">
+      <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
+        <div className="mx-auto flex max-w-3xl flex-col items-center">
           <SessionResults session={full} />
         </div>
       </div>
@@ -142,47 +141,49 @@ export default function Interview() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent px-4 py-10">
+    <div className="min-h-screen bg-[#FDFBF7] px-4 py-12">
       <div className="mx-auto w-full max-w-4xl">
         <Link
           to="/dashboard"
-          className="font-mono text-xs text-text-primary/70 hover:underline"
+          className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-500 hover:text-navy-900 transition-colors"
         >
-          ← Back to Dashboard
+          <ArrowLeft size={14} /> Back to Candidate Dossier
         </Link>
+
         {error && (
-          <p className="mt-4 rounded-lg bg-gold/10 px-4 py-3 font-mono text-xs text-stamp-maroon">
+          <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 font-mono text-xs text-red-700">
             {error}
-          </p>
+          </div>
         )}
+
         {phase === "select" ? (
-          <div className="ticket-card mt-6 p-6 sm:p-8 space-y-6">
+          <div className="ticket-card mt-6 p-6 sm:p-10 space-y-7 border border-[#C5A059]/30">
             <div>
-              <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-primary">
-                PREPPASS — INTERVIEW
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A1128]/5 border border-[#0A1128]/10 font-mono text-[10px] uppercase tracking-widest text-[#0A1128] font-bold">
+                <ShieldCheck size={12} className="text-[#C5A059]" />
+                <span>PRÆPPASS ASSESSMENT BOARD</span>
               </div>
-              <h1 className="mt-3 font-heading text-2xl text-text-primary">
-                Select a role to rehearse.
+              <h1 className="mt-3 font-heading text-2xl sm:text-3xl font-extrabold text-[#0A1128]">
+                Select Professional Track to Rehearse
               </h1>
-              <p className="mt-1 text-sm text-text-secondary/60">
-                Four adaptive questions, scored in real time.
+              <p className="mt-1 text-sm text-slate-600">
+                Four adaptive algorithmic & behavioral questions with real-time acoustic prosody telemetry.
               </p>
             </div>
 
-            {/* Optional Preferences: Voice & Camera Toggles */}
-            <div className="rounded-xl border border-white/10 bg-surface/50 p-4 sm:p-5 space-y-3">
-              <div className="font-heading text-xs uppercase tracking-wider text-text-primary font-bold">
-                ⚙️ Interview Preferences (Optional)
-              </div>
+            {/* Assessment Preferences (Voice & Camera) */}
+            <div className="rounded-2xl border border-[#0A1128]/8 bg-[#FDFBF7] p-5 space-y-3">
+              <span className="font-mono text-xs uppercase tracking-wider text-[#0A1128] font-bold block">
+                Telemetry Sensors & Calibration
+              </span>
               <div className="grid gap-3 sm:grid-cols-2">
-                {/* Voice Toggle */}
                 <label
-                  className={`flex items-start gap-3 rounded-lg border p-3.5 transition select-none ${
+                  className={`flex items-start gap-3 rounded-xl border p-4 transition select-none ${
                     !isSpeechSupported
-                      ? "opacity-50 cursor-not-allowed bg-ink/5 border-white/10"
+                      ? "opacity-50 cursor-not-allowed bg-slate-50 border-slate-200"
                       : voiceEnabled
-                      ? "border-gold bg-surface shadow-xs cursor-pointer"
-                      : "border-white/10 bg-surface/60 hover:bg-surface cursor-pointer"
+                      ? "border-[#C5A059] bg-white shadow-xs cursor-pointer ring-1 ring-[#C5A059]/30"
+                      : "border-[#0A1128]/10 bg-white hover:border-[#0A1128]/20 cursor-pointer"
                   }`}
                 >
                   <input
@@ -190,68 +191,66 @@ export default function Interview() {
                     checked={voiceEnabled}
                     onChange={(e) => isSpeechSupported && setVoiceEnabled(e.target.checked)}
                     disabled={!isSpeechSupported}
-                    className="mt-0.5 h-4 w-4 rounded border-white/10 text-text-primary focus:ring-stamp-navy"
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-navy-900 focus:ring-[#C5A059]"
                   />
                   <div>
-                    <span className="font-heading text-xs font-bold text-text-primary flex items-center gap-1.5">
-                      <span>🎙️</span> Answer by voice
+                    <span className="font-heading text-xs font-bold text-[#0A1128] flex items-center gap-1.5">
+                      <Mic size={14} className="text-[#C5A059]" /> Live Acoustic Prosody (Web Audio)
                     </span>
-                    <p className="mt-0.5 text-[11px] text-text-secondary/70 leading-relaxed">
-                      {isSpeechSupported
-                        ? "Speak your answers naturally using Speech-to-Text."
-                        : "Voice input isn't supported in this browser — use Chrome or Edge, or just type your answer."}
+                    <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+                      Measures words-per-minute cadence, silence pauses, and detects filler words in real time.
                     </p>
                   </div>
                 </label>
 
-                {/* Camera Toggle */}
                 <label
-                  className={`flex items-start gap-3 rounded-lg border p-3.5 transition select-none cursor-pointer ${
+                  className={`flex items-start gap-3 rounded-xl border p-4 transition select-none cursor-pointer ${
                     cameraEnabled
-                      ? "border-gold bg-surface shadow-xs"
-                      : "border-white/10 bg-surface/60 hover:bg-surface"
+                      ? "border-[#C5A059] bg-white shadow-xs ring-1 ring-[#C5A059]/30"
+                      : "border-[#0A1128]/10 bg-white hover:border-[#0A1128]/20"
                   }`}
                 >
                   <input
                     type="checkbox"
                     checked={cameraEnabled}
                     onChange={(e) => setCameraEnabled(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 rounded border-white/10 text-text-primary focus:ring-stamp-navy"
+                    className="mt-1 h-4 w-4 rounded border-slate-300 text-navy-900 focus:ring-[#C5A059]"
                   />
                   <div>
-                    <span className="font-heading text-xs font-bold text-text-primary flex items-center gap-1.5">
-                      <span>📹</span> Show my camera
+                    <span className="font-heading text-xs font-bold text-[#0A1128] flex items-center gap-1.5">
+                      <Video size={14} className="text-[#C5A059]" /> Visual Posture Preview
                     </span>
-                    <p className="mt-0.5 text-[11px] text-text-secondary/70 leading-relaxed">
-                      Mirrored video preview box. Never recorded or uploaded.
+                    <p className="mt-1 text-[11px] text-slate-500 leading-relaxed">
+                      Mirrored browser-only video feed. Zero streaming to server; runs strictly local.
                     </p>
                   </div>
                 </label>
               </div>
             </div>
 
-            {/* Search */}
-            <div>
+            {/* Search Input */}
+            <div className="relative">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search roles…"
+                placeholder="Filter by engineering role or discipline (e.g., Full Stack, Backend, DevOps)…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-surface px-4 py-2.5 text-sm text-text-secondary placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-gold"
+                className="w-full rounded-xl border border-[#0A1128]/10 bg-white pl-11 pr-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs"
               />
             </div>
 
-            {/* Category pills */}
+            {/* Category Pills */}
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
                   type="button"
                   onClick={() => setCategory(cat)}
-                  className={`rounded-full px-3.5 py-1.5 font-mono text-[11px] tracking-wide transition ${
+                  className={`rounded-xl px-4 py-2 font-mono text-[11px] tracking-wide transition-all ${
                     category === cat
-                      ? "bg-stamp-navy text-white"
-                      : "bg-stamp-navy/10 text-text-primary hover:bg-stamp-navy/20"
+                      ? "bg-[#0A1128] text-white font-bold shadow-xs"
+                      : "bg-[#0A1128]/5 text-slate-600 hover:bg-[#0A1128]/10 font-medium"
                   }`}
                 >
                   {cat}
@@ -259,11 +258,11 @@ export default function Interview() {
               ))}
             </div>
 
-            {/* Role grid */}
+            {/* Roles Grid */}
             {rolesLoading ? (
-              <p className="mt-6 text-center text-sm text-text-secondary/50">Loading roles…</p>
+              <p className="mt-6 text-center text-sm font-mono text-slate-400">Loading accredited roles…</p>
             ) : filteredRoles.length === 0 ? (
-              <p className="mt-6 text-center text-sm text-text-secondary/50">No roles found.</p>
+              <p className="mt-6 text-center text-sm font-mono text-slate-400">No matching tracks located.</p>
             ) : (
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredRoles.map((r) => (
@@ -272,12 +271,12 @@ export default function Interview() {
                     type="button"
                     onClick={() => start(r.label)}
                     disabled={busy}
-                    className="ticket-card px-4 py-5 text-left transition hover:border-white/10 disabled:opacity-60"
+                    className="ticket-card p-5 text-left transition hover:border-[#C5A059]/60 hover:shadow-sm disabled:opacity-60 group"
                   >
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-text-primary/50">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400 block group-hover:text-[#9E7B35]">
                       {r.category}
                     </span>
-                    <span className="mt-1 block font-heading text-sm text-text-primary">
+                    <span className="mt-1 block font-heading text-sm font-bold text-[#0A1128]">
                       {r.label}
                     </span>
                   </button>
@@ -303,7 +302,6 @@ export default function Interview() {
               isSpeechSupported={isSpeechSupported}
             />
 
-            {/* Floating Camera Preview (if enabled) */}
             <CameraPreview
               enabled={cameraEnabled && (phase === "live" || phase === "feedback")}
               onClose={() => setCameraEnabled(false)}

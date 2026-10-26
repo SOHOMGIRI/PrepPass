@@ -1,7 +1,13 @@
 import nodemailer from "nodemailer";
 import { lookup } from "node:dns/promises";
 
+const isEmailConfigured = Boolean(
+  process.env.EMAIL_USER?.trim() && process.env.EMAIL_APP_PASSWORD?.trim()
+);
+
 const getGmailTransporter = async () => {
+  if (!isEmailConfigured) return null;
+
   let host = "smtp.gmail.com";
   try {
     const res = await lookup("smtp.gmail.com", { family: 4 });
@@ -20,8 +26,8 @@ const getGmailTransporter = async () => {
       servername: "smtp.gmail.com",
     },
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_APP_PASSWORD,
+      user: process.env.EMAIL_USER.trim(),
+      pass: process.env.EMAIL_APP_PASSWORD.trim(),
     },
     connectionTimeout: 10000,
     greetingTimeout: 10000,
@@ -30,31 +36,40 @@ const getGmailTransporter = async () => {
 };
 
 export const sendOtpEmail = async (to, otp) => {
+  if (!isEmailConfigured) {
+    console.log("=================================================");
+    console.log(`[PRÆPPASS MOCK EMAIL] Verification OTP for ${to}: [ ${otp} ]`);
+    console.log("=================================================");
+    return { mock: true, message: "OTP logged to server console (mock mode)" };
+  }
+
   const html = `
     <!DOCTYPE html>
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PrepPass Verification Code</title>
+        <title>PræpPass Verification Code</title>
       </head>
-      <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Arial,Helvetica,sans-serif;">
+      <body style="margin:0;padding:0;background-color:#FDFBF7;font-family:'Plus Jakarta Sans',Arial,Helvetica,sans-serif;">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="padding:40px 16px;">
           <tr>
             <td align="center">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:480px;background:#ffffff;border-radius:8px;padding:32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:480px;background:#ffffff;border-radius:12px;padding:36px;border:1px solid rgba(10,17,40,0.08);box-shadow:0 12px 30px rgba(10,17,40,0.04);">
                 <tr>
                   <td>
-                    <h1 style="margin:0 0 8px;font-size:24px;color:#111827;">PrepPass</h1>
-                    <p style="margin:0 0 24px;color:#6b7280;font-size:14px;">Your email verification code</p>
-                    <p style="margin:0 0 16px;color:#374151;font-size:15px;line-height:1.5;">
-                      Use the code below to verify your email address. It expires in 5 minutes.
-                    </p>
-                    <div style="background:#f3f4f6;border-radius:6px;padding:16px;text-align:center;margin:0 0 24px;">
-                      <span style="font-size:32px;font-weight:700;letter-spacing:8px;color:#111827;">${otp}</span>
+                    <div style="display:flex;align-items:center;margin-bottom:16px;">
+                      <h1 style="margin:0;font-size:26px;color:#0A1128;font-weight:800;letter-spacing:-0.5px;">Pr<span style="color:#C5A059;">æ</span>pPass</h1>
                     </div>
-                    <p style="margin:0;color:#9ca3af;font-size:12px;line-height:1.5;">
-                      If you did not request this code, you can safely ignore this email.
+                    <p style="margin:0 0 20px;color:#64748B;font-size:13px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Candidate Authentication Code</p>
+                    <p style="margin:0 0 16px;color:#1E293B;font-size:15px;line-height:1.6;">
+                      Enter the single-use verification code below to authorize your assessment session. This security token expires in <strong>5 minutes</strong>.
+                    </p>
+                    <div style="background:#0A1128;border-radius:8px;padding:20px;text-align:center;margin:24px 0;border:1px solid #C5A059;">
+                      <span style="font-size:36px;font-weight:800;letter-spacing:10px;color:#FDFBF7;font-family:monospace;">${otp}</span>
+                    </div>
+                    <p style="margin:0;color:#94A3B8;font-size:12px;line-height:1.5;">
+                      If you did not initiate this candidate verification request on PræpPass, please disregard this transmission.
                     </p>
                   </td>
                 </tr>
@@ -67,56 +82,27 @@ export const sendOtpEmail = async (to, otp) => {
   `;
 
   const transporter = await getGmailTransporter();
-
   await transporter.sendMail({
-    from: `"PrepPass" <${process.env.EMAIL_USER}>`,
+    from: `"PræpPass Intelligence" <${process.env.EMAIL_USER}>`,
     to,
-    subject: "Your PrepPass verification code",
+    subject: `PræpPass Verification Token: ${otp}`,
     html,
   });
 };
 
-export const sendContactEmail = async ({ name, email, message }) => {
-  const html = `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <title>New Contact Message - PrepPass</title>
-      </head>
-      <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Arial,Helvetica,sans-serif;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="padding:40px 16px;">
-          <tr>
-            <td align="center">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background:#ffffff;border-radius:8px;padding:32px;">
-                <tr>
-                  <td>
-                    <h1 style="margin:0 0 8px;font-size:22px;color:#111827;">New Contact Message</h1>
-                    <p style="margin:0 0 16px;color:#6b7280;font-size:14px;">Received from the PrepPass contact form</p>
-                    <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0;" />
-                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Name:</strong> ${name}</p>
-                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Email:</strong> ${email}</p>
-                    <p style="margin:8px 0;font-size:14px;color:#374151;"><strong>Message:</strong></p>
-                    <div style="background:#f9fafb;border-left:4px solid #1e3a8a;padding:12px 16px;margin:8px 0 16px;font-size:14px;color:#1f2937;white-space:pre-wrap;">${message}</div>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </body>
-    </html>
-  `;
+export const sendContactEmail = async ({ name, email, subject, message }) => {
+  if (!isEmailConfigured) {
+    console.log(`[PRÆPPASS MOCK CONTACT] From: ${name} <${email}> | Subject: ${subject}`);
+    console.log(`Message: ${message}`);
+    return { mock: true };
+  }
 
   const transporter = await getGmailTransporter();
-
   await transporter.sendMail({
-    from: `"PrepPass Contact" <${process.env.EMAIL_USER}>`,
+    from: `"PræpPass Dispatch" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
     replyTo: email,
-    subject: `PrepPass Contact: ${name} (${email})`,
-    html,
-    text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+    subject: `[Candidate Inquiry] ${subject} — ${name}`,
+    text: `From: ${name} (${email})\n\n${message}`,
   });
 };
-

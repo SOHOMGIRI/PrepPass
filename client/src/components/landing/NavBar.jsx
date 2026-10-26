@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../lib/utils.js";
+import PraepPassLogo from "../PraepPassLogo.jsx";
+import { ArrowRight, Menu, X, Sparkles } from "lucide-react";
 
 const NAV_ITEMS = [
-  { label: "Features", href: "#features", isAnchor: true },
-  { label: "How It Works", to: "/how-it-works" },
-  { label: "About", to: "/about" },
-  { label: "Careers", to: "/careers" },
-  { label: "Pricing", href: "#pricing", isAnchor: true },
-  { label: "Contact", to: "/contact" },
+  { label: "Capabilities", href: "#features", isAnchor: true },
+  { label: "Evaluation System", to: "/how-it-works" },
+  { label: "Scholastic Charter", to: "/about" },
+  { label: "Company Suites", to: "/company-prep" },
+  { label: "Imperial Pass", href: "#pricing", isAnchor: true },
+  { label: "Direct Inquiries", to: "/contact" },
 ];
 
 export default function NavBar({ accessToken }) {
@@ -21,16 +23,14 @@ export default function NavBar({ accessToken }) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Simple intersection check for anchor links if on landing page
       if (location.pathname === "/") {
-        const sections = NAV_ITEMS.filter(i => i.isAnchor).map(i => i.href.substring(1));
+        const sections = NAV_ITEMS.filter((i) => i.isAnchor).map((i) => i.href.substring(1));
         let current = "";
         for (const sec of sections) {
           const el = document.getElementById(sec);
           if (el) {
             const rect = el.getBoundingClientRect();
-            // If the top of the section is within the top 30% of viewport
-            if (rect.top <= window.innerHeight * 0.3 && rect.bottom >= window.innerHeight * 0.3) {
+            if (rect.top <= window.innerHeight * 0.35 && rect.bottom >= window.innerHeight * 0.35) {
               current = sec;
             }
           }
@@ -40,36 +40,36 @@ export default function NavBar({ accessToken }) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // init
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [location.pathname]);
 
   return (
-    <header 
+    <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-surface/70 backdrop-blur-md border-b border-white/10 py-2 shadow-sm" : "bg-transparent py-4"
+        scrolled
+          ? "bg-[#FDFBF7]/90 backdrop-blur-md border-b border-[#0A1128]/8 py-3 shadow-[0_4px_20px_rgba(10,17,40,0.04)]"
+          : "bg-transparent py-5"
       )}
     >
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-6">
-        <Link
-          to="/"
-          className="font-heading text-gold text-xl font-bold mono hover:opacity-80"
-        >
-          PREPPASS
-        </Link>
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6">
+        {/* Brand Logo with Typographic Ligature */}
+        <PraepPassLogo size="md" showTagline={false} />
 
-        {/* Desktop Nav */}
-        <nav className="hidden sm:flex items-center gap-5 md:gap-6 text-sm">
+        {/* Desktop Nav Items */}
+        <nav className="hidden lg:flex items-center gap-7">
           {NAV_ITEMS.map((item) => {
-            const isActive = item.isAnchor ? activeSection === item.href.substring(1) : location.pathname === item.to;
+            const isActive = item.isAnchor
+              ? activeSection === item.href.substring(1)
+              : location.pathname === item.to;
             return item.isAnchor ? (
               <a
                 key={item.label}
                 href={location.pathname === "/" ? item.href : `/${item.href}`}
                 className={cn(
-                  "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-white font-bold" : "text-white/60 hover:text-white"
+                  "animated-underline font-mono text-[11px] uppercase tracking-wider font-semibold transition-colors duration-200",
+                  isActive ? "text-[#0A1128] font-bold" : "text-slate-500 hover:text-[#0A1128]"
                 )}
               >
                 {item.label}
@@ -79,71 +79,53 @@ export default function NavBar({ accessToken }) {
                 key={item.label}
                 to={item.to}
                 className={cn(
-                  "animated-underline font-mono text-[11px] uppercase tracking-wider transition-colors",
-                  isActive ? "text-white font-bold" : "text-white/60 hover:text-white"
+                  "animated-underline font-mono text-[11px] uppercase tracking-wider font-semibold transition-colors duration-200",
+                  isActive ? "text-[#0A1128] font-bold" : "text-slate-500 hover:text-[#0A1128]"
                 )}
               >
                 {item.label}
               </Link>
-            )
+            );
           })}
         </nav>
 
-        <div className="flex items-center gap-4">
+        {/* Action Controls */}
+        <div className="flex items-center gap-3">
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="hidden sm:block font-mono text-[11px] uppercase text-white hover:underline tracking-wider"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-heading text-xs font-bold tracking-wider uppercase bg-[#0A1128] text-[#FDFBF7] hover:bg-[#1E293B] shadow-sm transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           >
-            {accessToken ? "DASHBOARD" : "SIGN IN"}
+            <span>{accessToken ? "Candidate Portal" : "Sign In"}</span>
+            <ArrowRight size={14} className="text-[#C5A059]" />
           </Link>
 
-          {/* Hamburger Menu Button */}
+          {/* Mobile Menu Button */}
           <button
-            className="sm:hidden text-white"
+            className="lg:hidden p-2 rounded-lg text-[#0A1128] hover:bg-[#0A1128]/5 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Toggle navigation menu"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {menuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Dropdown Menu */}
       {menuOpen && (
-        <div className="sm:hidden absolute top-full left-0 w-full border-t border-white/10 bg-surface/95 backdrop-blur-xl shadow-lg">
-          <nav className="flex flex-col px-6 py-4 space-y-4">
+        <div className="lg:hidden absolute top-full left-0 w-full border-b border-[#0A1128]/10 bg-[#FDFBF7]/98 backdrop-blur-2xl shadow-xl animate-in slide-in-from-top-2">
+          <nav className="flex flex-col px-6 py-5 space-y-3.5">
             {NAV_ITEMS.map((item) => {
-              const isActive = item.isAnchor ? activeSection === item.href.substring(1) : location.pathname === item.to;
+              const isActive = item.isAnchor
+                ? activeSection === item.href.substring(1)
+                : location.pathname === item.to;
               return item.isAnchor ? (
                 <a
                   key={item.label}
                   href={location.pathname === "/" ? item.href : `/${item.href}`}
                   onClick={() => setMenuOpen(false)}
                   className={cn(
-                    "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-white font-bold" : "text-white/70 hover:text-white"
+                    "font-mono text-xs uppercase tracking-wider py-1.5 transition-colors",
+                    isActive ? "text-[#0A1128] font-bold" : "text-slate-600 hover:text-[#0A1128]"
                   )}
                 >
                   {item.label}
@@ -154,27 +136,27 @@ export default function NavBar({ accessToken }) {
                   to={item.to}
                   onClick={() => setMenuOpen(false)}
                   className={cn(
-                    "font-mono text-[11px] uppercase tracking-wider",
-                    isActive ? "text-white font-bold" : "text-white/70 hover:text-white"
+                    "font-mono text-xs uppercase tracking-wider py-1.5 transition-colors",
+                    isActive ? "text-[#0A1128] font-bold" : "text-slate-600 hover:text-[#0A1128]"
                   )}
                 >
                   {item.label}
                 </Link>
-              )
+              );
             })}
-            <Link
-              to={accessToken ? "/dashboard" : "/login"}
-              onClick={() => setMenuOpen(false)}
-              className="font-mono text-[11px] uppercase text-white font-bold tracking-wider pt-2 border-t border-white/10"
-            >
-              {accessToken ? "DASHBOARD" : "SIGN IN"}
-            </Link>
+            <div className="pt-3 border-t border-[#0A1128]/10">
+              <Link
+                to={accessToken ? "/dashboard" : "/login"}
+                onClick={() => setMenuOpen(false)}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-heading text-xs font-bold tracking-wider uppercase bg-[#0A1128] text-white"
+              >
+                <span>{accessToken ? "Access Candidate Dossier" : "Sign In to Portal"}</span>
+                <ArrowRight size={14} className="text-[#C5A059]" />
+              </Link>
+            </div>
           </nav>
         </div>
       )}
     </header>
   );
 }
-
-
-

@@ -710,7 +710,7 @@ export default function ResumeBuilder() {
                           </label>
                           <input
                             type="text"
-                            placeholder="e.g. PrepPass AI Placement Platform"
+                            placeholder="e.g. Pr�pPass Candidate Assessment Suite"
                             value={proj.title}
                             onChange={(e) => updateProject(idx, "title", e.target.value)}
                             className="w-full rounded-lg border border-white/10 bg-surface px-3 py-1.5 text-sm text-text-secondary focus:border-gold focus:outline-none"

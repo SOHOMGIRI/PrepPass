@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "../api/axiosClient.js";
+import PraepPassLogo from "../components/PraepPassLogo.jsx";
+import { ArrowLeft, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle } from "lucide-react";
 
 const OTP_LENGTH = 6;
 const COOLDOWN = 30;
@@ -18,7 +20,6 @@ export default function VerifyOtp() {
   const [error, setError] = useState("");
   const [info, setInfo] = useState("");
 
-  // Assume an OTP was just sent during registration -> start cooldown.
   useEffect(() => {
     setCooldown(COOLDOWN);
   }, []);
@@ -35,15 +36,15 @@ export default function VerifyOtp() {
 
   if (!email) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-transparent">
-        <div className="ticket-card w-full max-w-sm p-8 text-center">
-          <p className="text-white font-mono mb-4">No email found.</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4">
+        <div className="ticket-card w-full max-w-sm p-8 text-center border border-[#0A1128]/10 shadow-card">
+          <p className="text-[#0A1128] font-mono text-sm mb-4">No verification target found.</p>
           <button
             type="button"
             onClick={() => navigate("/register")}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-[#0B0A14] bg-gold hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2 py-2 px-4"
+            className="inline-flex items-center justify-center rounded-xl font-heading text-xs font-bold uppercase tracking-wider text-white bg-[#0A1128] hover:bg-[#1E293B] py-3 px-6 shadow-sm"
           >
-            Go to Register
+            Register Candidate Pass
           </button>
         </div>
       </div>
@@ -54,7 +55,7 @@ export default function VerifyOtp() {
 
   const handleChange = (i) => (ev) => {
     const val = ev.target.value;
-    if (!/^\d*$/.test(val)) return; // digits only
+    if (!/^\d*$/.test(val)) return;
     const digit = val.slice(-1);
     const next = [...values];
     next[i] = digit;
@@ -100,7 +101,7 @@ export default function VerifyOtp() {
     ev.preventDefault();
     setError("");
     if (!isComplete) {
-      setError("Please enter the 6-digit code.");
+      setError("Please input the full 6-digit security token.");
       return;
     }
     setSubmitting(true);
@@ -110,46 +111,51 @@ export default function VerifyOtp() {
         { email, otp: values.join("") },
         { skipAuthRefresh: true }
       );
-      navigate("/login", { replace: true });
+      navigate("/login", { replace: true, state: { verified: true } });
     } catch (err) {
       setError(
-        err?.response?.data?.message || "Verification failed. Please try again."
+        err?.response?.data?.message || "Verification token invalid or expired."
       );
     } finally {
       setSubmitting(false);
     }
   };
 
-    const onResend = async () => {
+  const onResend = async () => {
     setResending(true);
     setError("");
     try {
       await api.post("/auth/resend-otp", { email }, { skipAuthRefresh: true });
-      setInfo("A new code has been sent.");
+      setInfo("A new single-use token has been dispatched.");
       setCooldown(COOLDOWN);
     } catch (err) {
-      setError(err?.response?.data?.message || "Could not resend the code.");
+      setError(err?.response?.data?.message || "Could not re-issue verification code.");
     } finally {
       setResending(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
-      <div className="ticket-card w-full max-w-md p-8">
-        <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6">
-          PREPPASS — OTP VERIFICATION
+    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4 py-16">
+      <div className="ticket-card w-full max-w-md p-8 sm:p-10 border border-[#C5A059]/35 shadow-card">
+        {/* Brand Header */}
+        <div className="text-center pb-6 border-b border-[#0A1128]/8 mb-6">
+          <PraepPassLogo size="md" showTagline={true} className="justify-center" />
+          <p className="font-mono text-xs text-slate-500 uppercase tracking-widest mt-3 font-semibold">
+            Single-Use Token Verification
+          </p>
         </div>
-        <h1 className="text-2xl font-heading text-text-primary mb-1">
-          Enter your code.
+
+        <h1 className="text-2xl font-heading font-extrabold text-[#0A1128] mb-1">
+          Verify Identity
         </h1>
-        <p className="text-text-secondary/60 text-sm mb-6">
-          We sent a 6-digit code to{" "}
-          <span className="font-mono text-text-primary">{email}</span>.
+        <p className="text-slate-600 text-sm mb-6">
+          Enter the 6-digit credential dispatched to{" "}
+          <strong className="text-[#0A1128] font-mono">{email}</strong>.
         </p>
 
         <form onSubmit={onSubmit} className="space-y-6">
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-2.5">
             {values.map((_, i) => (
               <input
                 key={i}
@@ -164,56 +170,60 @@ export default function VerifyOtp() {
                 onPaste={handlePaste}
                 onFocus={(e) => e.target.select()}
                 disabled={submitting}
-                className="w-12 h-12 text-center text-xl font-mono font-semibold text-text-primary border-2 border-white/10 rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-stamp-navy/30 focus:border-gold"
+                className="w-12 h-14 text-center text-2xl font-mono font-bold text-[#0A1128] border-2 border-[#0A1128]/15 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[#C5A059]/20 focus:border-[#C5A059] shadow-2xs transition-all"
               />
             ))}
           </div>
 
           {error && (
-            <p className="text-white text-xs font-mono text-center">{error}</p>
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 font-mono text-xs text-red-700 flex items-center justify-center gap-2">
+              <AlertCircle size={14} />
+              <span>{error}</span>
+            </div>
           )}
           {info && (
-            <p className="text-text-primary/70 text-xs font-mono text-center">
-              {info}
-            </p>
+            <div className="rounded-xl bg-emerald-50 border border-emerald-200 p-3 font-mono text-xs text-emerald-800 flex items-center justify-center gap-2">
+              <CheckCircle2 size={14} />
+              <span>{info}</span>
+            </div>
           )}
 
           <button
             type="submit"
             disabled={submitting || !isComplete}
-            className="inline-flex items-center justify-center rounded-lg font-semibold text-[#0B0A14] bg-gold hover:bg-gold-dark focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-offset-2 w-full py-3"
+            className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
           >
-            {submitting ? "Verifying…" : "Verify & Continue"}
+            <span>{submitting ? "Validating Token…" : "Confirm Candidate Admission"}</span>
+            <ArrowRight size={15} className="text-[#C5A059]" />
           </button>
         </form>
 
-        <div className="mt-6 text-center text-sm text-text-secondary/70">
-          Didn't get the code?{" "}
+        <div className="mt-6 text-center text-xs text-slate-500">
+          Did not receive token?{" "}
           {cooldown > 0 ? (
-            <span className="font-mono text-text-primary">
-              Resend in {cooldown}s
+            <span className="font-mono text-[#0A1128] font-bold">
+              Resend available in {cooldown}s
             </span>
           ) : resending ? (
-            <span className="font-mono text-text-primary">Resending…</span>
+            <span className="font-mono text-[#0A1128]">Transmitting…</span>
           ) : (
             <button
               type="button"
               onClick={onResend}
-              className="text-text-primary font-medium hover:underline"
+              className="text-[#0A1128] font-bold hover:text-[#C5A059] underline ml-1"
             >
-              Resend code
+              Re-issue token
             </button>
           )}
         </div>
 
-        <div className="mt-4 text-center">
-          <button
-            type="button"
-            onClick={() => navigate("/login", { replace: true })}
-            className="text-xs text-text-secondary/60 hover:text-text-primary"
+        <div className="mt-4 pt-4 border-t border-[#0A1128]/8 text-center">
+          <Link
+            to="/login"
+            className="text-xs font-mono text-slate-500 hover:text-[#0A1128] font-semibold"
           >
-            Back to Sign In
-          </button>
+            ← Back to Candidate Sign In
+          </Link>
         </div>
       </div>
     </div>

@@ -1,27 +1,32 @@
 import { Link } from "react-router-dom";
+import PraepPassLogo from "../PraepPassLogo.jsx";
 
 const FOOTER_LINKS = [
-  { label: "How It Works", to: "/how-it-works" },
-  { label: "About", to: "/about" },
+  { label: "Evaluation System", to: "/how-it-works" },
+  { label: "Scholastic Charter", to: "/about" },
   { label: "Careers", to: "/careers" },
-  { label: "Privacy", to: "/privacy" },
-  { label: "Terms", to: "/terms" },
-  { label: "Contact", to: "/contact" },
+  { label: "Privacy Protocol", to: "/privacy" },
+  { label: "Terms of Assessment", to: "/terms" },
+  { label: "Direct Inquiries", to: "/contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="py-10 border-t border-white/10 bg-bg/50">
-      <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-        <div className="font-mono text-[11px] text-text-primary/50">
-          © 2026 PREPPASS
+    <footer className="py-14 border-t border-[#0A1128]/8 bg-[#FDFBF7]">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col items-center md:items-start gap-1">
+          <PraepPassLogo size="sm" showTagline={true} />
+          <p className="font-mono text-[11px] text-slate-400 mt-2">
+            © {new Date().getFullYear()} PræpPass Intelligence Ltd. All candidate rights reserved.
+          </p>
         </div>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
+
+        <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center md:justify-end">
           {FOOTER_LINKS.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className="font-mono text-[11px] uppercase text-text-primary/60 hover:text-text-primary tracking-wider transition"
+              className="font-mono text-[11px] uppercase text-slate-500 hover:text-[#0A1128] tracking-wider transition-colors duration-150"
             >
               {link.label}
             </Link>

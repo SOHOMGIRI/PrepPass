@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import RippleButton from "../components/ui/RippleButton.jsx";
+import PraepPassLogo from "../components/PraepPassLogo.jsx";
+import { ArrowRight, ShieldCheck, Lock, Mail, AlertCircle } from "lucide-react";
 
 const INPUT_CLASS =
-  "w-full rounded-t-md border-b-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/40 transition-colors focus:outline-none focus:bg-white/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-xl border border-[#0A1128]/12 bg-[#FDFBF7] px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:bg-white focus:border-[#C5A059] focus:ring-2 focus:ring-[#C5A059]/20 disabled:cursor-not-allowed disabled:opacity-60 shadow-2xs";
 const INPUT_ERROR_CLASS =
-  "w-full rounded-t-md border-b-2 border-gold bg-red-500/10 px-4 py-3 text-white placeholder-white/40 transition-colors focus:outline-none focus:bg-gold/10 focus:border-gold disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-xl border border-red-400 bg-red-50/50 px-4 py-3 text-sm text-[#0A1128] placeholder-slate-400 transition-all focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200 disabled:cursor-not-allowed disabled:opacity-60";
 
 export default function Login() {
   const { login } = useAuth();
@@ -43,7 +44,7 @@ export default function Login() {
       navigate(from, { replace: true });
     } catch (err) {
       setServerError(
-        err?.response?.data?.message || "Invalid email or password"
+        err?.response?.data?.message || "Invalid authentication credentials"
       );
     } finally {
       setSubmitting(false);
@@ -51,79 +52,93 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
-      <div className="ticket-card w-full max-w-md p-8">
-        <div className="ticket-stamp inline-block px-3 py-1 rounded text-text-primary font-mono text-xs mb-6 border border-white/10">
-          PREPPASS — ADMIT CARD LOGIN
+    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] px-4 py-16">
+      <div className="ticket-card w-full max-w-md p-8 sm:p-10 border border-[#C5A059]/35 shadow-card">
+        {/* Brand Header */}
+        <div className="text-center pb-6 border-b border-[#0A1128]/8 mb-6">
+          <PraepPassLogo size="md" showTagline={true} className="justify-center" />
+          <p className="font-mono text-xs text-slate-500 uppercase tracking-widest mt-3 font-semibold">
+            Candidate Assessment Portal
+          </p>
         </div>
-        <h1 className="text-2xl font-heading text-text-primary mb-1">
-          Welcome back.
+
+        <h1 className="text-2xl font-heading font-extrabold text-[#0A1128] mb-1">
+          Candidate Sign In
         </h1>
-        <p className="text-text-secondary/60 text-sm mb-6">
-          Sign in to continue your prep.
+        <p className="text-slate-600 text-sm mb-6">
+          Enter your authorized credentials to access your assessment dossier.
         </p>
 
-        <form onSubmit={onSubmit} className="space-y-5">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block font-mono text-xs font-semibold tracking-wider text-text-primary/70 mb-1.5 uppercase">
-              Email
+            <label className="block font-mono text-[11px] font-bold tracking-wider text-[#0A1128] mb-1.5 uppercase">
+              Email Address
             </label>
-            <input
-              type="email"
-              autoComplete="email"
-              placeholder="you@example.com"
-              value={values.email}
-              onChange={onChange("email")}
-              disabled={submitting}
-              className={errors.email ? INPUT_ERROR_CLASS : INPUT_CLASS}
-            />
+            <div className="relative">
+              <input
+                type="email"
+                autoComplete="email"
+                placeholder="candidate@university.edu"
+                value={values.email}
+                onChange={onChange("email")}
+                disabled={submitting}
+                className={errors.email ? INPUT_ERROR_CLASS : INPUT_CLASS}
+              />
+            </div>
             {errors.email && (
-              <p className="text-white text-xs mt-1 font-mono">{errors.email}</p>
+              <p className="text-red-600 text-xs mt-1 font-mono">{errors.email}</p>
             )}
           </div>
 
           <div>
-            <label className="block font-mono text-xs font-semibold tracking-wider text-text-primary/70 mb-1.5 uppercase">
-              Password
+            <label className="block font-mono text-[11px] font-bold tracking-wider text-[#0A1128] mb-1.5 uppercase">
+              Security Password
             </label>
-            <input
-              type="password"
-              autoComplete="current-password"
-              placeholder="••••••••"
-              value={values.password}
-              onChange={onChange("password")}
-              disabled={submitting}
-              className={errors.password ? INPUT_ERROR_CLASS : INPUT_CLASS}
-            />
+            <div className="relative">
+              <input
+                type="password"
+                autoComplete="current-password"
+                placeholder="••••••••"
+                value={values.password}
+                onChange={onChange("password")}
+                disabled={submitting}
+                className={errors.password ? INPUT_ERROR_CLASS : INPUT_CLASS}
+              />
+            </div>
             {errors.password && (
-              <p className="text-white text-xs mt-1 font-mono">{errors.password}</p>
+              <p className="text-red-600 text-xs mt-1 font-mono">{errors.password}</p>
             )}
           </div>
 
           {serverError && (
-            <p className="text-white text-xs font-mono">{serverError}</p>
+            <div className="rounded-xl bg-red-50 border border-red-200 p-3 font-mono text-xs text-red-700 flex items-center gap-2">
+              <AlertCircle size={14} className="shrink-0" />
+              <span>{serverError}</span>
+            </div>
           )}
 
-          <RippleButton
+          <button
             type="submit"
             disabled={submitting}
-            className="w-full py-3.5 bg-gold text-[#0B0A14] hover:bg-gold-dark"
+            className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-heading text-xs font-bold uppercase tracking-wider bg-[#0A1128] text-white hover:bg-[#1E293B] shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 mt-2"
           >
-            {submitting ? "Signing in..." : "Sign In"}
-          </RippleButton>
+            <span>{submitting ? "Authenticating Session…" : "Sign In to Candidate Dossier"}</span>
+            <ArrowRight size={15} className="text-[#C5A059]" />
+          </button>
         </form>
 
-        <p className="mt-6 text-sm text-center text-text-secondary/70">
-          No account?{" "}
-          <Link
-            to="/register"
-            className="text-text-primary font-semibold hover:underline"
-          >
-            Register
-          </Link>
-        </p>
+        <div className="mt-8 pt-6 border-t border-[#0A1128]/8 text-center">
+          <p className="text-xs text-slate-500">
+            Unregistered candidate?{" "}
+            <Link
+              to="/register"
+              className="text-[#0A1128] font-bold hover:text-[#C5A059] transition-colors"
+            >
+              Initialize Assessment Pass →
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
 }
-

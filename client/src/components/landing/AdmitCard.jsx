@@ -1,145 +1,179 @@
-import FloatingElements from './FloatingElements.jsx';
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SpotlightCard from "./SpotlightCard.jsx";
+import {
+  Mic,
+  FileCheck,
+  FileText,
+  Clock,
+  Brain,
+  BarChart3,
+  Building2,
+  Users,
+  Layers,
+  Sparkles,
+} from "lucide-react";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
   {
-    stamp: "INTERVIEWS",
-    title: "AI Mock Interviews",
-    desc: "Adaptive technical & HR questions, instant scoring, and optional voice-answer mode with camera preview. Get real-time feedback on your pacing, confidence, and keyword usage.",
-    icon: "🗣️",
+    stamp: "CORE ENGINE",
+    title: "AI Mock Interviews & Prosody HUD",
+    desc: "Adaptive technical & behavioral rounds with real-time acoustic speech telemetry (WPM cadence, dead-air pauses, and filler-word detection).",
+    icon: Mic,
     className: "md:col-span-2 md:row-span-2",
+    highlight: true,
   },
   {
     stamp: "ATS AUDIT",
     title: "Resume ATS Match",
-    desc: "Instant compliance audit and job description match feedback.",
-    icon: "📄",
+    desc: "Cosine similarity scoring against target job descriptions with keyword gap detection.",
+    icon: FileCheck,
     className: "md:col-span-1",
   },
   {
-    stamp: "BUILDER",
-    title: "AI Resume Builder",
-    desc: "Multi-step builder with AI bullet-point enhancement.",
-    icon: "🛠",
+    stamp: "OPTIMIZER",
+    title: "AI Resume Architect",
+    desc: "One-click bullet optimization converting weak descriptions into Google's X-Y-Z formula.",
+    icon: FileText,
     className: "md:col-span-1",
   },
   {
-    stamp: "TEST MODE",
-    title: "Proctored Test Mode",
-    desc: "Timed 10-minute MCQ assessments with proctoring violation tracking and trust scoring.",
-    icon: "⏱️",
+    stamp: "PROCTORED",
+    title: "Full-Screen Test Mode",
+    desc: "Timed MCQ assessments with focus violation tracking, tab-switch detection, and integrity scoring.",
+    icon: Clock,
     className: "md:col-span-2",
   },
   {
-    stamp: "APTITUDE",
+    stamp: "DRILLS",
     title: "Aptitude Practice",
-    desc: "Untimed, focused drills for Quantitative & Logical reasoning.",
-    icon: "🧠",
+    desc: "Targeted quantitative and algorithmic problem sets with step-by-step logic proofs.",
+    icon: Brain,
     className: "md:col-span-1",
   },
   {
-    stamp: "ANALYTICS",
+    stamp: "TELEMETRY",
     title: "Readiness Analytics",
-    desc: "Multi-series performance trend charts & peer rankings.",
-    icon: "📊",
+    desc: "Cohort percentile rankings, historical growth curves, and competence radar charts.",
+    icon: BarChart3,
     className: "md:col-span-2",
   },
   {
-    stamp: "COMPANY PREP",
+    stamp: "ENTERPRISE",
     title: "Company Tracks",
-    desc: "Targeted recruitment patterns for TCS, Amazon, Google & more.",
-    icon: "🏢",
+    desc: "Curated interview patterns modeled after Google, Amazon, Microsoft, and TCS recruitment patterns.",
+    icon: Building2,
     className: "md:col-span-1",
   },
   {
-    stamp: "GD PRACTICE",
-    title: "Group Discussion",
-    desc: "Rehearse GD rounds with AI counter-arguments.",
-    icon: "👥",
+    stamp: "COLLABORATIVE",
+    title: "GD Arena & Debate",
+    desc: "Practice group discussions with live AI counter-arguments and synthesis scoring.",
+    icon: Users,
     className: "md:col-span-1",
   },
   {
-    stamp: "REVISION DECK",
+    stamp: "SPACED REPETITION",
     title: "Revision Deck",
-    desc: "Interactive flashcards generated from missed test MCQs.",
-    icon: "🃏",
+    desc: "Adaptive flashcards generated automatically from your missed test questions and weak areas.",
+    icon: Layers,
     className: "md:col-span-1",
   },
 ];
 
 export default function AdmitCard() {
   const gridRef = useRef(null);
+
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || !gridRef.current) return;
     const cards = gridRef.current.children;
-    gsap.fromTo(cards, 
-      { opacity: 0, y: 40, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)',
-        scrollTrigger: { trigger: gridRef.current, start: 'top 85%', once: true }
+
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 35 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power2.out",
+        scrollTrigger: { trigger: gridRef.current, start: "top 85%", once: true },
       }
     );
-    return () => ScrollTrigger.getAll().forEach(st => st.kill());
+
+    return () => ScrollTrigger.getAll().forEach((st) => st.kill());
   }, []);
 
   return (
-    <section id="features" className="py-24 bg-transparent relative overflow-hidden">
-      <FloatingElements />
+    <section id="features" className="py-24 bg-transparent relative">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <div className="ticket-stamp inline-block rounded px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-white mb-4 border border-white/10 bg-stamp-navy/5 backdrop-blur-sm">
-            ALL-IN-ONE PLACEMENT TOOLKIT
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/25 text-[#9E7B35] font-mono text-[10px] uppercase tracking-widest font-bold mb-4">
+            CANDIDATE INTELLIGENCE SUITE
           </div>
-          <h2 className="font-heading text-4xl text-white sm:text-5xl font-bold tracking-tight">
-            Everything you need to crack placements.
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A1128] tracking-tight">
+            Complete Preparation, Certified Rigor.
           </h2>
-          <p className="mt-4 text-base text-white max-w-2xl mx-auto font-body">
-            From ATS resume auditing to proctored MCQs and voice mock interviews — complete prep in one passport.
+          <p className="mt-4 text-slate-600 text-base max-w-2xl mx-auto">
+            From acoustic speech prosody to ATS compliance and proctored technical evaluations — an industrial assessment suite for serious candidates.
           </p>
         </div>
 
-        <div 
+        <div
           ref={gridRef}
           className="grid gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 grid-flow-row-dense"
         >
-          {FEATURES.map((f) => (
-            <SpotlightCard
-              key={f.title}
-              className={`p-8 flex flex-col justify-between group ${f.className || ""}`}
-            >
-              <div>
-                <div className="flex items-start justify-between mb-6">
-                  <span className="text-4xl filter drop-shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3">{f.icon}</span>
-                  <div className="ticket-stamp px-2 py-1 rounded text-white font-mono text-[9px] uppercase border border-white/10 bg-surface/10 text-white border-white/20">
-                    {f.stamp}
+          {FEATURES.map((f) => {
+            const Icon = f.icon;
+            return (
+              <SpotlightCard
+                key={f.title}
+                className={`p-7 sm:p-8 flex flex-col justify-between group ${f.className || ""}`}
+              >
+                <div>
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-[#0A1128]/5 border border-[#0A1128]/10 flex items-center justify-center text-[#0A1128] group-hover:bg-[#0A1128] group-hover:text-[#C5A059] transition-colors duration-200">
+                      <Icon size={22} />
+                    </div>
+                    <span className="font-mono text-[10px] uppercase tracking-wider font-bold text-[#9E7B35] bg-[#C5A059]/10 px-2.5 py-0.5 rounded border border-[#C5A059]/20">
+                      {f.stamp}
+                    </span>
                   </div>
+
+                  <h3 className="font-heading text-xl font-bold text-[#0A1128] mb-2.5">
+                    {f.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                    {f.desc}
+                  </p>
                 </div>
-                <h3 className="font-heading text-xl text-white mb-3 font-semibold">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-white leading-relaxed font-body">{f.desc}</p>
-              </div>
-            </SpotlightCard>
-          ))}
+
+                {f.highlight && (
+                  <div className="mt-6 pt-5 border-t border-[#0A1128]/8 flex items-center gap-2 text-xs font-mono text-[#059669] font-bold">
+                    <Sparkles size={14} /> Live Web Audio Engine Active
+                  </div>
+                )}
+              </SpotlightCard>
+            );
+          })}
         </div>
-        
-        <div className="mt-16 overflow-hidden border-y border-white/10 py-4 relative">
-          <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#0A061E] to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#0A061E] to-transparent z-10" />
-          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.3em] text-white/30">
-            <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
-            <span>ATS READY • PROCTORED • AI-POWERED • PEER RANKINGS • RESUME BUILDER • VOICE MODE • COMPANY TRACKS • REVISION DECK • </span>
+
+        {/* Industrial Competency Marquee Ticker */}
+        <div className="mt-20 overflow-hidden border-y border-[#0A1128]/10 py-5 relative bg-[#F7F4EB]/50 rounded-xl">
+          <div className="marquee whitespace-nowrap font-mono text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold">
+            <span>
+              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • MULTI-PERSONA INTERVIEW BOARD • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <span>
+              ACOUSTIC FLUENCY TELEMETRY • WEBAUDIO PROSODY • ATS VECTOR ALIGNMENT • PROCTORED INTEGRITY • PEER PERCENTILE MAPPING • MULTI-PERSONA INTERVIEW BOARD • REVISION FLASHCARDS • &nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-
-
-

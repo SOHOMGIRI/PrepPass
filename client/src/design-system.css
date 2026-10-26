@@ -2,37 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Exam admit-card / boarding-pass design system ===== */
+/* ===== PræpPass Imperial Editorial Design System ===== */
 :root {
-  --color-bg: #0B0A14;               /* deep charcoal-purple royal background */
-  --color-surface: #130E2E;          /* dark translucent surface */
-  --color-text-primary: #FFFFFF;     /* pure white for headings */
-  --color-text-secondary: #F5F0E6;   /* warm off-white/cream for body text */
-  --color-accent: #D4AF37;           /* true metallic gold */
-  --color-accent-light: #F0D878;     /* light gold highlight */
-  --color-accent-dark: #8B6F1F;      /* deep gold shade */
+  /* Editorial Light Luxury Palette */
+  --color-bg: #FDFBF7;               /* warm alabaster linen canvas */
+  --color-surface: #FFFFFF;          /* crisp ivory silk card */
+  --color-surface-muted: #F7F4EB;    /* subtle warm parchment */
+  --color-text-primary: #0A1128;     /* Oxford midnight navy */
+  --color-text-secondary: #475569;   /* refined slate cashmere */
+  --color-text-muted: #94A3B8;       /* subtle caption slate */
+  
+  --color-accent: #C5A059;           /* gilded aurum bronze */
+  --color-accent-light: #F3E3B6;     /* soft aurum shimmer */
+  --color-accent-dark: #9E7B35;      /* deep burnished bronze */
 
   --ticket-bg: var(--color-bg);
   --ticket-card: var(--color-surface);
-  --stamp-navy: var(--color-text-primary);
-  --stamp-maroon: #7a0c0c;
+  --stamp-navy: #0A1128;
+  --stamp-maroon: #991B1B;
+  --stamp-emerald: #059669;
   --gold: var(--color-accent);
   --gold-dark: var(--color-accent-dark);
-  --ink: var(--color-text-secondary);
-  --shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.5);
+  --ink: var(--color-text-primary);
+  
+  --shadow: 0 12px 32px -4px rgba(10, 17, 40, 0.05), 0 4px 12px -2px rgba(10, 17, 40, 0.03);
+  --shadow-hover: 0 20px 45px -8px rgba(10, 17, 40, 0.08), 0 8px 16px -4px rgba(10, 17, 40, 0.04);
 }
 
 @layer base {
   html,
   body,
   #root {
-    background-color: var(--ticket-bg);
+    background-color: var(--color-bg);
     min-height: 100svh;
   }
   body {
     margin: 0;
-    font-family: "Space Grotesk", system-ui, sans-serif;
-    color: #E2E8F0;
+    font-family: "Plus Jakarta Sans", "Space Grotesk", system-ui, sans-serif;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -41,8 +49,10 @@
   h3,
   h4,
   h5 {
-    font-family: "Space Grotesk", system-ui, sans-serif;
-    letter-spacing: -0.01em;
+    font-family: "Plus Jakarta Sans", "Cinzel", "Space Grotesk", system-ui, sans-serif;
+    color: var(--color-text-primary);
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
   code,
   pre,
@@ -57,47 +67,58 @@
 }
 
 @layer components {
-  /* Admit-card / boarding-pass "ticket" look */
-  .ticket-card { background: linear-gradient(to bottom right, #D4AF37, rgba(10, 6, 30, 0.9) 30%, rgba(10, 6, 30, 0.9) 70%, #D4AF37); box-shadow: var(--shadow); border: 2px solid rgba(212, 175, 55, 0.5); border-radius: 0.75rem; }
+  /* Imperial Editorial Admit-Card Ticket Container */
+  .ticket-card {
+    background: #FFFFFF;
+    box-shadow: 0 10px 30px -4px rgba(10, 17, 40, 0.06), 0 0 0 1px rgba(10, 17, 40, 0.07);
+    border-radius: 1rem;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .ticket-card:hover {
+    box-shadow: 0 20px 45px -8px rgba(10, 17, 40, 0.1), 0 0 0 1px rgba(197, 160, 89, 0.35);
+  }
+
   .ticket-stamp {
-    background-color: rgba(26, 34, 126, 0.06);
+    background-color: rgba(10, 17, 40, 0.04);
+    border: 1px solid rgba(10, 17, 40, 0.1);
     color: var(--stamp-navy);
   }
+
+  .ticket-stamp-gold {
+    background-color: rgba(197, 160, 89, 0.08);
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    color: #9E7B35;
+  }
+
   .ticket-perf {
-    border-top: 2px dashed rgba(212, 175, 55, 0.25);
-    border-bottom: 2px dashed rgba(212, 175, 55, 0.25);
+    border-top: 2px dashed rgba(10, 17, 40, 0.12);
+    border-bottom: 2px dashed rgba(10, 17, 40, 0.12);
   }
+
   .ticket-divider {
-    border-top: 2px dashed rgba(212, 175, 55, 0.25);
+    border-top: 1.5px dashed rgba(10, 17, 40, 0.12);
   }
+
   .ticket-edge-left {
-    border-top-left-radius: 0.75rem;
-    border-bottom-left-radius: 0.75rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
   }
+
   .ticket-edge-right {
-    border-top-right-radius: 0.75rem;
-    border-bottom-right-radius: 0.75rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
   }
-}
 
-@layer utilities {
-  /* Official stamp-gold emphasis for scores / highlights */
-  .score {
-    color: var(--gold);
-  }
-}
-
-/* ===== Micro-interaction utilities ===== */
-@layer components {
-  /* Glassmorphism navbar — NOT used on test-mode violation modal */
+  /* Imperial Glass Navigation Bar */
   .glass-nav {
-    background: rgba(251, 248, 240, 0.6);
+    background: rgba(253, 251, 247, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(26, 34, 126, 0.08);
+    border-bottom: 1px solid rgba(10, 17, 40, 0.07);
   }
 
-  /* Animated underline that grows from center on hover */
+  /* Animated underline that expands on hover */
   .animated-underline {
     position: relative;
   }
@@ -131,13 +152,41 @@
     background: linear-gradient(
       120deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.35) 50%,
       transparent 100%
     );
-    transition: left 0.5s ease;
+    transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .shine-sweep:hover::before {
     left: 100%;
+  }
+
+  /* Editorial Card Badge */
+  .imperial-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: rgba(197, 160, 89, 0.1);
+    color: #9E7B35;
+    border: 1px solid rgba(197, 160, 89, 0.25);
+  }
+}
+
+@layer utilities {
+  .score {
+    color: var(--gold);
+  }
+  .text-navy {
+    color: var(--color-text-primary);
+  }
+  .bg-navy {
+    background-color: var(--color-text-primary);
   }
 }
 
@@ -148,29 +197,13 @@
 }
 .marquee {
   display: flex;
-  animation: marquee-scroll 30s linear infinite;
+  animation: marquee-scroll 32s linear infinite;
 }
 
-/* Ripple effect for useRipple hook */
-@keyframes ripple-expand {
-  to {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
-
-/* Aurora gradient blob drift for Hero section */
-@keyframes aurora-drift-1 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(60px, -40px) scale(1.1); }
-}
-@keyframes aurora-drift-2 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-50px, 30px) scale(1.05); }
-}
-@keyframes aurora-drift-3 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, 50px) scale(0.95); }
+/* Subtle atmosphere pulse */
+@keyframes ambientGleam {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.08); }
 }
 
 /* Lenis smooth-scroll integration */
@@ -184,7 +217,17 @@ html.lenis, html.lenis body {
   overscroll-behavior: contain;
 }
 
-/* ===== Accessibility: disable all custom animations ===== */
+/* Chrome Autofill fix for light luxury inputs */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
+  -webkit-text-fill-color: #0A1128 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Accessibility: disable all custom animations */
 @media (prefers-reduced-motion: reduce) {
   .marquee {
     animation: none;
@@ -195,56 +238,4 @@ html.lenis, html.lenis body {
   .animated-underline::after {
     transition: none;
   }
-  [style*="aurora-drift"] {
-    animation: none !important;
-  }
-}
-
-
-
-@keyframes sway {
-  0% { transform: rotate(-3deg) translateX(-4px); }
-  100% { transform: rotate(3deg) translateX(4px); }
-}
-@keyframes pulseGlow {
-  0% { opacity: 0.6; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1.15); }
-}
-
-
-
-
-
-@keyframes treeSway {
-  0% { transform: rotate(-2deg) skewX(1deg); }
-  100% { transform: rotate(4deg) skewX(-3deg); }
-}
-
-@keyframes stormSway {
-  0% { transform: rotate(-5deg) translateX(-10px); }
-  50% { transform: rotate(10deg) translateX(15px); }
-  100% { transform: rotate(-2deg) translateX(-5px); }
-}
-
-
-@keyframes flipPage {
-  0%, 20% { transform: scaleX(1) skewY(0deg); opacity: 1; }
-  50% { transform: scaleX(0) skewY(10deg); opacity: 0.8; }
-  51% { opacity: 0; }
-  100% { transform: scaleX(1) skewY(0deg); opacity: 0; }
-}
-@keyframes turnHand {
-  0%, 10% { transform: translate(30px, 30px) rotate(15deg); }
-  40%, 50% { transform: translate(-30px, -10px) rotate(-10deg); }
-  100% { transform: translate(30px, 30px) rotate(15deg); }
-}
-
-/* Fix Chrome Autofill */
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #130E2E inset !important;
-    -webkit-text-fill-color: white !important;
-    transition: background-color 5000s ease-in-out 0s;
 }
