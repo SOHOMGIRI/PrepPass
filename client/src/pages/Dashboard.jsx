@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
@@ -284,7 +284,7 @@ export default function Dashboard() {
   const recommendation = getRecommendation(summary);
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] px-6 py-12">
+    <div className="min-h-screen bg-transparent px-4 sm:px-6 py-10 relative z-10">
       <motion.div
         className="mx-auto max-w-5xl space-y-9"
         variants={containerVariants}
@@ -332,7 +332,7 @@ export default function Dashboard() {
         {recommendation && (
           <motion.div
             variants={itemVariants}
-            className="ticket-card p-6 sm:p-7 border border-[#C5A059]/40 bg-gradient-to-r from-white via-white to-[#F7F4EB] shadow-card"
+            className="p-6 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-amber-200/80 shadow-[0_10px_35px_rgba(15,23,42,0.05)]"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
               <div className="space-y-1.5">
@@ -362,7 +362,7 @@ export default function Dashboard() {
         {/* Readiness Score Card */}
         <motion.div
           variants={itemVariants}
-          className="ticket-card flex flex-col items-center gap-6 p-7 sm:flex-row sm:justify-between border border-[#0A1128]/8 shadow-card"
+          className="p-7 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_10px_35px_rgba(15,23,42,0.04)] flex flex-col items-center gap-6 sm:flex-row sm:justify-between"
         >
           {avg != null ? (
             <>

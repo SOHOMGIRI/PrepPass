@@ -1,13 +1,13 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ===== PræpPass Imperial Editorial Design System ===== */
 :root {
   /* Editorial Light Luxury Palette */
-  --color-bg: #FDFBF7;               /* warm alabaster linen canvas */
+  --color-bg: #F6F3EB;               /* warm alabaster linen canvas */
   --color-surface: #FFFFFF;          /* crisp ivory silk card */
-  --color-surface-muted: #F7F4EB;    /* subtle warm parchment */
+  --color-surface-muted: #EFE9DE;    /* subtle warm parchment */
   --color-text-primary: #0A1128;     /* Oxford midnight navy */
   --color-text-secondary: #475569;   /* refined slate cashmere */
   --color-text-muted: #94A3B8;       /* subtle caption slate */
@@ -71,7 +71,7 @@
   .ticket-card {
     background: #FFFFFF;
     box-shadow: 0 10px 30px -4px rgba(10, 17, 40, 0.06), 0 0 0 1px rgba(10, 17, 40, 0.07);
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     position: relative;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }

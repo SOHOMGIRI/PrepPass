@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "../../lib/utils.js";
 import PraepPassLogo from "../PraepPassLogo.jsx";
-import { ArrowRight, Menu, X, Activity } from "lucide-react";
+import { ArrowRight, Menu, X, Activity, Cpu } from "lucide-react";
 
 const NAV_ITEMS = [
   { label: "Capabilities", href: "#features", isAnchor: true },
@@ -21,7 +21,7 @@ export default function NavBar({ accessToken }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
 
       if (location.pathname === "/") {
         const sections = NAV_ITEMS.filter((i) => i.isAnchor).map((i) => i.href.substring(1));
@@ -45,31 +45,31 @@ export default function NavBar({ accessToken }) {
   }, [location.pathname]);
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-[#FAF8F5]/90 backdrop-blur-md border-b border-slate-900/10 py-3 shadow-[0_4px_24px_rgba(15,23,42,0.06)]"
-          : "bg-transparent py-5"
-      )}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 px-4 sm:px-6">
+      <div
+        className={cn(
+          "max-w-7xl mx-auto flex items-center justify-between px-5 py-3 rounded-2xl transition-all duration-300",
+          scrolled
+            ? "bg-white/95 backdrop-blur-xl border border-slate-300/80 shadow-[0_10px_35px_rgba(15,23,42,0.08)]"
+            : "bg-white/85 backdrop-blur-md border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.04)]"
+        )}
+      >
         {/* Brand Logo with Modern Typographic Ligature */}
         <Link to="/" className="transition-transform duration-200 hover:scale-[1.02]">
           <PraepPassLogo size="md" />
         </Link>
 
-        {/* Live ML Telemetry Status Pill (Like ÆtherTransit) */}
-        <div className="hidden xl:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-[11px] font-mono font-medium shadow-xs">
+        {/* Live ML Telemetry Status Pill (Like ÆtherTransit's Live GPS Status) */}
+        <div className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50/90 border border-emerald-200/90 text-emerald-800 text-[11px] font-mono font-bold shadow-2xs">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span>AI Telemetry Active • Latency &lt; 15ms</span>
+          <span>AI TELEMETRY ACTIVE • Latency &lt; 15ms</span>
         </div>
 
         {/* Desktop Nav Items */}
-        <nav className="hidden lg:flex items-center gap-7">
+        <nav className="hidden lg:flex items-center gap-6">
           {NAV_ITEMS.map((item) => {
             const isActive = item.isAnchor
               ? activeSection === item.href.substring(1)
@@ -79,9 +79,9 @@ export default function NavBar({ accessToken }) {
                 key={item.label}
                 href={location.pathname === "/" ? item.href : `/${item.href}`}
                 className={cn(
-                  "font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-200",
+                  "font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-200 py-1",
                   isActive
-                    ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-0.5"
+                    ? "text-blue-600 font-bold border-b-2 border-blue-600"
                     : "text-slate-600 hover:text-blue-600"
                 )}
               >
@@ -92,9 +92,9 @@ export default function NavBar({ accessToken }) {
                 key={item.label}
                 to={item.to}
                 className={cn(
-                  "font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-200",
+                  "font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-200 py-1",
                   isActive
-                    ? "text-blue-600 font-bold border-b-2 border-blue-600 pb-0.5"
+                    ? "text-blue-600 font-bold border-b-2 border-blue-600"
                     : "text-slate-600 hover:text-blue-600"
                 )}
               >
@@ -108,7 +108,7 @@ export default function NavBar({ accessToken }) {
         <div className="flex items-center gap-3">
           <Link
             to={accessToken ? "/dashboard" : "/login"}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-xs font-bold tracking-wider uppercase bg-slate-900 text-white hover:bg-blue-600 shadow-md hover:shadow-blue-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-sans text-xs font-bold tracking-wider uppercase bg-slate-900 text-white hover:bg-blue-600 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
           >
             <span>{accessToken ? "Candidate Portal" : "Sign In"}</span>
             <ArrowRight size={14} className="text-cyan-400" />
@@ -127,14 +127,14 @@ export default function NavBar({ accessToken }) {
 
       {/* Mobile Drawer */}
       {menuOpen && (
-        <div className="lg:hidden bg-[#FAF8F5] border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl">
+        <div className="lg:hidden max-w-7xl mx-auto mt-2 bg-white/98 backdrop-blur-xl border border-slate-200 rounded-2xl px-6 py-6 space-y-4 shadow-xl">
           {NAV_ITEMS.map((item) => (
             <div key={item.label}>
               {item.isAnchor ? (
                 <a
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block font-mono text-xs uppercase tracking-wider text-slate-800 hover:text-blue-600 py-1"
+                  className="block font-mono text-xs uppercase tracking-wider text-slate-800 hover:text-blue-600 py-1.5"
                 >
                   {item.label}
                 </a>
@@ -142,7 +142,7 @@ export default function NavBar({ accessToken }) {
                 <Link
                   to={item.to}
                   onClick={() => setMenuOpen(false)}
-                  className="block font-mono text-xs uppercase tracking-wider text-slate-800 hover:text-blue-600 py-1"
+                  className="block font-mono text-xs uppercase tracking-wider text-slate-800 hover:text-blue-600 py-1.5"
                 >
                   {item.label}
                 </Link>
