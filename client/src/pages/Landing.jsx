@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, forwardRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Check, ShieldCheck, Mail, ArrowRight, Sparkles, Zap, Award } from "lucide-react";
+import { Check, Mail, ArrowRight, Sparkles, Zap, Award } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,11 +17,17 @@ const PricingSection = forwardRef((props, ref) => {
     <section id="pricing" className="py-24 bg-transparent relative z-10">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono text-[10px] uppercase tracking-widest font-bold mb-3 shadow-2xs">
-            <Zap size={12} className="text-blue-600" />
+          <div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[10px] uppercase tracking-widest font-bold mb-3 shadow-2xs border border-amber-300/50"
+            style={{
+              background: "rgba(245, 158, 11, 0.12)",
+              color: "#92400E",
+            }}
+          >
+            <Zap size={12} className="text-amber-600" />
             COMPLIMENTARY ACCESS
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h2 className="font-sans text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
             Accredited Candidate Pass
           </h2>
           <p className="mt-2 text-slate-600 text-sm max-w-lg mx-auto">
@@ -31,27 +37,34 @@ const PricingSection = forwardRef((props, ref) => {
 
         <div
           ref={ref}
-          className="relative p-8 sm:p-12 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_20px_50px_rgba(15,23,42,0.06),0_0_0_1px_rgba(37,99,235,0.08)] overflow-hidden"
+          className="relative p-8 sm:p-12 rounded-3xl border border-amber-300/50 shadow-[0_24px_60px_rgba(180,140,60,0.12)] overflow-hidden transition-all duration-300 hover:shadow-[0_30px_70px_rgba(180,140,60,0.18)] hover:-translate-y-1"
+          style={{
+            background: "linear-gradient(145deg, rgba(255,251,244,0.95) 0%, rgba(253,245,230,0.92) 50%, rgba(248,238,218,0.95) 100%)",
+            backdropFilter: "blur(16px)",
+          }}
         >
           {/* Top Decorative Banner */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-slate-100">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 border-b border-amber-200/50">
             <div>
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-blue-600 flex items-center gap-1.5">
-                <Award size={14} />
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-amber-800 flex items-center gap-1.5">
+                <Award size={14} className="text-amber-600" />
                 FULL SCHOLASTIC TIER
               </span>
               <div className="flex items-baseline gap-2 mt-1">
                 <span className="font-sans text-5xl font-black text-slate-900">₹0</span>
-                <span className="text-sm font-mono text-slate-500">/ 100% Free &amp; Open Access</span>
+                <span className="text-sm font-mono text-amber-800/70">/ 100% Free &amp; Open Access</span>
               </div>
             </div>
 
             <Link
               to="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-sans text-xs font-bold uppercase tracking-wider bg-slate-900 text-white hover:bg-blue-600 shadow-md hover:shadow-blue-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-sans text-xs font-bold uppercase tracking-wider text-white shadow-md hover:shadow-lg transition-all hover:scale-[1.03] active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #2D241E 0%, #1A1410 100%)",
+              }}
             >
               <span>Initialize Candidate Pass</span>
-              <ArrowRight size={15} className="text-cyan-400" />
+              <ArrowRight size={15} className="text-amber-400" />
             </Link>
           </div>
 
@@ -67,24 +80,29 @@ const PricingSection = forwardRef((props, ref) => {
               "Peer Percentile Rankings & Readiness Growth Curves",
             ].map((feat, idx) => (
               <div key={idx} className="flex items-center gap-3 text-sm text-slate-700">
-                <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-300/40">
                   <Check size={12} strokeWidth={3} />
                 </div>
-                <span className="font-medium">{feat}</span>
+                <span className="font-medium text-amber-950/90">{feat}</span>
               </div>
             ))}
           </div>
 
-          <div className="pt-6 border-t border-slate-100 bg-slate-50/70 -mx-8 -mb-12 p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div
+            className="pt-6 border-t border-amber-200/40 -mx-8 -mb-12 p-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+            style={{
+              background: "linear-gradient(135deg, rgba(250,242,226,0.7) 0%, rgba(246,236,218,0.7) 100%)",
+            }}
+          >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-amber-200/70 text-amber-800 flex items-center justify-center shrink-0 border border-amber-300/50">
                 <Sparkles size={18} />
               </div>
-              <div className="text-xs text-slate-600">
+              <div className="text-xs text-amber-950/80">
                 <strong className="text-slate-900">Comprehensive Placement Dossier:</strong> In-depth diagnostic report generation with vector similarity score breakdown and peer ranking ledger.
               </div>
             </div>
-            <div className="font-mono text-xs font-bold text-slate-800 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs shrink-0">
+            <div className="font-mono text-xs font-bold text-amber-900 bg-amber-100/90 px-3 py-1.5 rounded-xl border border-amber-300/60 shadow-2xs shrink-0">
               SECURE LEDGER
             </div>
           </div>
@@ -100,8 +118,15 @@ const ContactSection = forwardRef((props, ref) => {
   return (
     <section id="contact" className="py-20 bg-transparent relative z-10">
       <div className="max-w-3xl mx-auto px-6">
-        <div ref={ref} className="p-8 sm:p-10 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_20px_50px_rgba(15,23,42,0.06)] text-center">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4 shadow-xs">
+        <div
+          ref={ref}
+          className="p-8 sm:p-10 rounded-3xl border border-amber-300/50 shadow-[0_20px_60px_rgba(180,140,60,0.1)] text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(180,140,60,0.15)]"
+          style={{
+            background: "linear-gradient(145deg, rgba(255,251,244,0.95) 0%, rgba(253,245,230,0.92) 100%)",
+            backdropFilter: "blur(16px)",
+          }}
+        >
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-4 shadow-xs border border-amber-300/50">
             <Mail size={22} />
           </div>
           <h3 className="font-sans text-2xl font-bold text-slate-900 mb-2">
@@ -113,14 +138,17 @@ const ContactSection = forwardRef((props, ref) => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-sans text-xs font-bold uppercase tracking-wider bg-slate-900 text-white hover:bg-blue-600 shadow-md hover:shadow-blue-500/25 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-2xl font-sans text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:scale-[1.03]"
+              style={{
+                background: "linear-gradient(135deg, #2D241E 0%, #1A1410 100%)",
+              }}
             >
               <span>Submit Inquiry Form</span>
-              <ArrowRight size={14} className="text-cyan-400" />
+              <ArrowRight size={14} className="text-amber-400" />
             </Link>
             <a
               href="mailto:admissions@praeppass.app"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-mono text-xs font-semibold border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-mono text-xs font-semibold border border-amber-300/70 text-amber-950 hover:bg-amber-100/60 transition-colors"
             >
               admissions@praeppass.app
             </a>
@@ -174,7 +202,7 @@ export default function Landing() {
   }, []);
 
   return (
-    <main className="w-full bg-transparent text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <main className="w-full bg-transparent text-slate-900 font-sans selection:bg-amber-200 selection:text-amber-950">
       <NavBar accessToken={accessToken} />
       <Hero accessToken={accessToken} />
       <HowItWorks />

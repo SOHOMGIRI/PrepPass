@@ -332,7 +332,7 @@ export default function Dashboard() {
         {recommendation && (
           <motion.div
             variants={itemVariants}
-            className="p-6 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-amber-200/80 shadow-[0_10px_35px_rgba(15,23,42,0.05)]"
+            className="p-6 sm:p-8 rounded-3xl border border-amber-300/40 shadow-[0_12px_40px_rgba(180,140,60,0.08)] backdrop-blur-md" style={{ background: "linear-gradient(145deg, rgba(255,251,244,0.95) 0%, rgba(253,246,233,0.92) 50%, rgba(248,238,218,0.95) 100%)" }}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
               <div className="space-y-1.5">
@@ -362,7 +362,7 @@ export default function Dashboard() {
         {/* Readiness Score Card */}
         <motion.div
           variants={itemVariants}
-          className="p-7 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_10px_35px_rgba(15,23,42,0.04)] flex flex-col items-center gap-6 sm:flex-row sm:justify-between"
+          className="p-7 sm:p-8 rounded-3xl border border-amber-300/40 shadow-[0_12px_40px_rgba(180,140,60,0.08)] backdrop-blur-md flex flex-col items-center gap-6 sm:flex-row sm:justify-between" style={{ background: "linear-gradient(145deg, rgba(255,251,244,0.95) 0%, rgba(253,246,233,0.92) 50%, rgba(248,238,218,0.95) 100%)" }}
         >
           {avg != null ? (
             <>
